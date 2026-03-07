@@ -50,13 +50,13 @@ export default function Contact() {
                         transition={{ duration: 0.6 }}
                         className="flex flex-col gap-6 justify-center"
                     >
-                        <a href="mailto:kumbharkshitij2003@gmail.com" className="group flex items-center gap-4 p-4 rounded-xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/10">
+                        <a href="mailto:kshitijkumbhar007@gmail.com" className="group flex items-center gap-4 p-4 rounded-xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/10">
                             <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
                                 <FiMail size={20} />
                             </div>
                             <div>
                                 <h4 className="font-bold text-white mb-1">Email</h4>
-                                <p className="text-sm text-neutral-400 font-mono">kumbharkshitij2003@gmail.com</p>
+                                <p className="text-sm text-neutral-400 font-mono">kshitijkumbhar007@gmail.com</p>
                             </div>
                         </a>
 

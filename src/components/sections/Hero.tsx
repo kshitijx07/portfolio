@@ -65,13 +65,13 @@ export default function Hero() {
                         transition={{ duration: 0.8, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
                         className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-12 pointer-events-auto"
                     >
-                        <button suppressHydrationWarning className="group relative px-8 py-4 bg-white text-black font-medium tracking-wide rounded-full overflow-hidden transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3 w-full sm:w-auto">
+                        <button onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })} suppressHydrationWarning className="group relative px-8 py-4 bg-white text-black font-medium tracking-wide rounded-full overflow-hidden transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3 w-full sm:w-auto">
                             <span className="relative z-10">Explore Work</span>
                             <FiArrowDown className="relative z-10 group-hover:translate-y-1 transition-transform" />
                             <div className="absolute inset-0 bg-neutral-200 transform scale-y-0 origin-bottom transition-transform duration-300 group-hover:scale-y-100 z-0" />
                         </button>
 
-                        <button suppressHydrationWarning className="glass-card group px-8 py-4 text-white font-medium tracking-wide rounded-full transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3 w-full sm:w-auto backdrop-blur-md">
+                        <button onClick={() => alert("Resume PDF requires hosting link. Please add your drive link here.")} suppressHydrationWarning className="glass-card group px-8 py-4 text-white font-medium tracking-wide rounded-full transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3 w-full sm:w-auto backdrop-blur-md">
                             <span>Resume</span>
                             <FiDownload className="group-hover:-translate-y-1 transition-transform" />
                         </button>

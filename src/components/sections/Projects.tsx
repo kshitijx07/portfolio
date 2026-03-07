@@ -18,15 +18,15 @@ const projects = [
         title: "Grocito",
         description: "Full-fleged online grocery delivery platform featuring real-time inventory management, secure payments, and an intuitive user interface.",
         tech: ["React.js", "Spring Boot", "MySQL", "TailwindCSS"],
-        github: "https://github.com/kshitijx07",
-        demo: "#",
+        github: "https://github.com/kshitijx07/Grocito-Copy",
+        demo: "https://grocito-user.vercel.app/",
         image: "https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1974&auto=format&fit=crop"
     },
     {
         title: "Pet Management Platform",
         description: "An interactive platform for pet owners and services, providing community features, vet appointment scheduling, and automated reminders.",
         tech: ["React.js", "Node.js", "Docker", "MongoDB"],
-        github: "https://github.com/kshitijx07/pet-platform",
+        github: "https://github.com/kshitijx07/pet-managment.git",
         demo: "#",
         image: "https://images.unsplash.com/photo-1544568100-847a948585b9?q=80&w=1974&auto=format&fit=crop"
     },
@@ -34,8 +34,8 @@ const projects = [
         title: "MechItEasy",
         description: "Automotive service booking system that connects vehicle owners with nearby verified mechanics, complete with live tracking.",
         tech: ["Next.js", "Express", "PostgreSQL", "Google Maps API"],
-        github: "https://github.com/kshitijx07",
-        demo: "#",
+        github: "#",
+        demo: "https://mechiteasy.vercel.app/",
         image: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?q=80&w=2066&auto=format&fit=crop"
     }
 ];
