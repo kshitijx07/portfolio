@@ -6,20 +6,26 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 export default function CustomCursor() {
     const [isHovering, setIsHovering] = useState(false);
 
-    // Use MotionValues instead of React State to avoid re-rendering the component 144 times a second!
+    // Primary Cursor Dot (Fast)
     const cursorX = useMotionValue(-100);
     const cursorY = useMotionValue(-100);
+    const springConfigDot = { damping: 25, stiffness: 700, mass: 0.1 };
+    const cursorXSpring = useSpring(cursorX, springConfigDot);
+    const cursorYSpring = useSpring(cursorY, springConfigDot);
 
-    // Smooth out the motion using Framer Motion springs
-    const springConfig = { damping: 25, stiffness: 700, mass: 0.1 };
-    const cursorXSpring = useSpring(cursorX, springConfig);
-    const cursorYSpring = useSpring(cursorY, springConfig);
+    // Secondary Aura Ring (Slower/Trailing)
+    const auraX = useMotionValue(-100);
+    const auraY = useMotionValue(-100);
+    const springConfigAura = { damping: 20, stiffness: 300, mass: 0.5 };
+    const auraXSpring = useSpring(auraX, springConfigAura);
+    const auraYSpring = useSpring(auraY, springConfigAura);
 
     useEffect(() => {
         const updateMousePosition = (e: MouseEvent) => {
-            // Offset by half the width/height depending on hover state
             cursorX.set(e.clientX);
             cursorY.set(e.clientY);
+            auraX.set(e.clientX);
+            auraY.set(e.clientY);
         };
 
         const handleMouseOver = (e: MouseEvent) => {
@@ -44,25 +50,44 @@ export default function CustomCursor() {
             window.removeEventListener("mousemove", updateMousePosition);
             window.removeEventListener("mouseover", handleMouseOver);
         };
-    }, [cursorX, cursorY]);
+    }, [cursorX, cursorY, auraX, auraY]);
 
     return (
-        <motion.div
-            className="fixed top-0 left-0 bg-white rounded-full pointer-events-none z-[9999]"
-            style={({
-                x: cursorXSpring,
-                y: cursorYSpring,
-                // Center the cursor
-                translateX: "-50%",
-                translateY: "-50%",
-                width: isHovering ? 48 : 16,
-                height: isHovering ? 48 : 16,
-                willChange: "transform, width, height"
-            }) as any}
-            animate={{
-                scale: isHovering ? 1.5 : 1,
-            }}
-            transition={{ type: "spring", stiffness: 500, damping: 28 }}
-        />
+        <>
+            {/* Trailing Aura Ring */}
+            <motion.div
+                className="fixed top-0 left-0 rounded-full pointer-events-none z-[9998] border border-white/30"
+                style={{
+                    x: auraXSpring,
+                    y: auraYSpring,
+                    translateX: "-50%",
+                    translateY: "-50%",
+                    width: isHovering ? 64 : 32,
+                    height: isHovering ? 64 : 32,
+                    willChange: "transform, width, height",
+                    opacity: isHovering ? 0 : 1
+                } as any}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            />
+            {/* Fast Primary Dot */}
+            <motion.div
+                className="fixed top-0 left-0 bg-white rounded-full pointer-events-none z-[9999]"
+                style={({
+                    x: cursorXSpring,
+                    y: cursorYSpring,
+                    translateX: "-50%",
+                    translateY: "-50%",
+                    width: isHovering ? 48 : 8,
+                    height: isHovering ? 48 : 8,
+                    willChange: "transform, width, height"
+                }) as any}
+                animate={{
+                    scale: isHovering ? 1.5 : 1,
+                    backgroundColor: isHovering ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,1)",
+                    backdropFilter: isHovering ? "blur(4px)" : "blur(0px)"
+                }}
+                transition={{ type: "spring", stiffness: 500, damping: 28 }}
+            />
+        </>
     );
 }

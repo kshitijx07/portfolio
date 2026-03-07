@@ -10,6 +10,8 @@ import {
 import { FaAws } from "react-icons/fa";
 import KineticText from "@/components/ui/KineticText";
 import VelocitySkew from "@/components/ui/VelocitySkew";
+import SpotlightCard from "@/components/ui/SpotlightCard";
+import TextReveal from "@/components/ui/TextReveal";
 
 const skillCategories = [
     {
@@ -63,7 +65,7 @@ export default function Skills() {
                     </div>
 
                     <h2 className="text-4xl md:text-6xl font-bold tracking-tighter">
-                        Technology <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-500 to-white">Stack</span>
+                        <TextReveal text="Technology Stack" className="inline-block relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-neutral-500 to-white" />
                     </h2>
                 </motion.div>
 
@@ -85,13 +87,14 @@ export default function Skills() {
                                         whileInView={{ opacity: 1, scale: 1 }}
                                         viewport={{ once: true }}
                                         transition={{ duration: 0.4, delay: idx * 0.1 }}
-                                        className="group relative h-32 glass-card rounded-2xl flex flex-col items-center justify-center gap-4 hover:-translate-y-2 transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] hover:border-white/20 overflow-hidden"
                                     >
-                                        <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                                        <skill.icon size={36} className={`text-neutral-500 transition-colors duration-300 relative z-10 ${skill.color}`} />
-                                        <span className="text-sm font-medium text-neutral-400 group-hover:text-white transition-colors duration-300 relative z-10 font-mono">
-                                            {skill.name}
-                                        </span>
+                                        <SpotlightCard className="group relative h-32 glass-card rounded-2xl flex flex-col items-center justify-center gap-4 hover:-translate-y-2 transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] hover:border-white/20 overflow-hidden w-full">
+                                            <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                                            <skill.icon size={36} className={`text-neutral-500 transition-colors duration-300 relative z-10 ${skill.color}`} />
+                                            <span className="text-sm font-medium text-neutral-400 group-hover:text-white transition-colors duration-300 relative z-10 font-mono">
+                                                {skill.name}
+                                            </span>
+                                        </SpotlightCard>
                                     </motion.div>
                                 ))}
                             </div>
