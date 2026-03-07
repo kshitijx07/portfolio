@@ -110,6 +110,8 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
     );
 }
 
+import ParallaxText from "@/components/ui/ParallaxText";
+
 export default function Projects() {
     return (
         <section className="py-32 px-6 relative z-10 bg-[#050505]" id="projects">
@@ -121,16 +123,18 @@ export default function Projects() {
                     transition={{ duration: 0.8 }}
                     className="mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8"
                 >
-                    <div>
-                        <div className="flex items-center gap-4 mb-4">
-                            <span className="text-neutral-500 font-mono">04.</span>
-                            <div className="h-[1px] w-12 bg-neutral-600" />
-                            <span className="uppercase tracking-[0.2em] text-xs text-neutral-400">Selected Work</span>
+                    <ParallaxText offset={40} direction="up">
+                        <div>
+                            <div className="flex items-center gap-4 mb-4">
+                                <span className="text-neutral-500 font-mono">04.</span>
+                                <div className="h-[1px] w-12 bg-neutral-600" />
+                                <span className="uppercase tracking-[0.2em] text-xs text-neutral-400">Selected Work</span>
+                            </div>
+                            <h2 className="text-5xl md:text-7xl font-bold tracking-tight">
+                                Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-500 to-white">Projects</span>
+                            </h2>
                         </div>
-                        <h2 className="text-5xl md:text-7xl font-bold tracking-tight">
-                            Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-500 to-white">Projects</span>
-                        </h2>
-                    </div>
+                    </ParallaxText>
                 </motion.div>
 
                 <div className="flex flex-col">

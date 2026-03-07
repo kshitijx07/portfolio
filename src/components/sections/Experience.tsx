@@ -16,6 +16,8 @@ const experiences = [
     }
 ];
 
+import ParallaxText from "@/components/ui/ParallaxText";
+
 export default function Experience() {
     const containerRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({
@@ -35,14 +37,16 @@ export default function Experience() {
                     transition={{ duration: 0.8 }}
                     className="mb-20"
                 >
-                    <div className="flex items-center gap-4 mb-4">
-                        <span className="text-neutral-500 font-mono">05.</span>
-                        <div className="h-[1px] w-12 bg-neutral-600" />
-                        <span className="uppercase tracking-[0.2em] text-xs text-neutral-400">Career</span>
-                    </div>
-                    <h2 className="text-4xl md:text-6xl font-bold tracking-tight">
-                        Professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-500 to-white">Experience</span>
-                    </h2>
+                    <ParallaxText offset={30} direction="up">
+                        <div className="flex items-center gap-4 mb-4">
+                            <span className="text-neutral-500 font-mono">05.</span>
+                            <div className="h-[1px] w-12 bg-neutral-600" />
+                            <span className="uppercase tracking-[0.2em] text-xs text-neutral-400">Career</span>
+                        </div>
+                        <h2 className="text-4xl md:text-6xl font-bold tracking-tight">
+                            Professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-500 to-white">Experience</span>
+                        </h2>
+                    </ParallaxText>
                 </motion.div>
 
                 <div className="relative pl-8 md:pl-12 ml-4">

@@ -46,6 +46,8 @@ function Counter({ from, to, suffix }: { from: number; to: number; suffix: strin
 
 import SpotlightCard from "@/components/ui/SpotlightCard";
 
+import ParallaxText from "@/components/ui/ParallaxText";
+
 export default function About() {
     return (
         <section className="py-32 px-6 relative z-10 bg-black/40 backdrop-blur-xl border-t border-white/5" id="about">
@@ -57,19 +59,26 @@ export default function About() {
                     transition={{ duration: 0.8 }}
                     className="mb-16 md:mb-24"
                 >
-                    <div className="flex items-center gap-4 mb-4">
-                        <span className="text-neutral-500 font-mono">01.</span>
-                        <div className="h-[1px] w-12 bg-neutral-600" />
-                        <span className="uppercase tracking-[0.2em] text-xs text-neutral-400">About Me</span>
-                    </div>
+                    <ParallaxText offset={20} direction="up">
+                        <div className="flex items-center gap-4 mb-4">
+                            <span className="text-neutral-500 font-mono">01.</span>
+                            <div className="h-[1px] w-12 bg-neutral-600" />
+                            <span className="uppercase tracking-[0.2em] text-xs text-neutral-400">About Me</span>
+                        </div>
+                    </ParallaxText>
 
-                    <h2 className="text-3xl md:text-5xl font-bold mb-8 tracking-tight">
-                        <TextReveal text="Engineering Digital Systems" className="inline-block relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-neutral-400 to-white" />
-                    </h2>
-                    <p className="text-neutral-400 text-lg md:text-xl max-w-3xl leading-relaxed relative z-10 pointer-events-none">
-                        I am a Computer Engineering Student based in Pune, India, driven by the challenge of designing robust, scalable architectures.
-                        My expertise bridges the gap between sophisticated frontend interfaces and rock-solid backend infrastructure, with a deep specialization in DevOps and Cloud Automation.
-                    </p>
+                    <ParallaxText offset={40} direction="up">
+                        <h2 className="text-3xl md:text-5xl font-bold mb-8 tracking-tight">
+                            <TextReveal text="Engineering Digital Systems" className="inline-block relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-neutral-400 to-white" />
+                        </h2>
+                    </ParallaxText>
+
+                    <ParallaxText offset={20} direction="down">
+                        <p className="text-neutral-400 text-lg md:text-xl max-w-3xl leading-relaxed relative z-10 pointer-events-none">
+                            I am a Computer Engineering Student based in Pune, India, driven by the challenge of designing robust, scalable architectures.
+                            My expertise bridges the gap between sophisticated frontend interfaces and rock-solid backend infrastructure, with a deep specialization in DevOps and Cloud Automation.
+                        </p>
+                    </ParallaxText>
                 </motion.div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">

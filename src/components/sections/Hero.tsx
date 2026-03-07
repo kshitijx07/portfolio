@@ -14,6 +14,8 @@ const Spline = dynamic(() => import("@splinetool/react-spline"), {
     ),
 });
 
+import ParallaxText from "@/components/ui/ParallaxText";
+
 export default function Hero() {
     // PERFORMANCE FIX: Only render Spline when at the top of the page
     const [isHeroVisible, setIsHeroVisible] = useState(true);
@@ -69,16 +71,18 @@ export default function Hero() {
                         </motion.h1>
                     </div>
 
-                    <div className="overflow-hidden py-2 mt-2">
-                        <motion.p
-                            initial={{ y: "100%" }}
-                            animate={{ y: 0 }}
-                            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.35 }}
-                            className="text-xl md:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-neutral-300 to-neutral-600 font-mono tracking-wide"
-                        >
-                            DevOps & Full Stack Engineer
-                        </motion.p>
-                    </div>
+                    <ParallaxText offset={30} direction="down">
+                        <div className="overflow-hidden py-2 mt-2">
+                            <motion.p
+                                initial={{ y: "100%" }}
+                                animate={{ y: 0 }}
+                                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.35 }}
+                                className="text-xl md:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-neutral-300 to-neutral-600 font-mono tracking-wide"
+                            >
+                                DevOps & Full Stack Engineer
+                            </motion.p>
+                        </div>
+                    </ParallaxText>
 
                     {/* CTA Buttons - Restore pointer events */}
                     <motion.div

@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { FiMail, FiGithub, FiLinkedin, FiSend, FiInstagram } from "react-icons/fi";
 import { useState } from "react";
 
+import ParallaxText from "@/components/ui/ParallaxText";
+
 export default function Contact() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSent, setIsSent] = useState(false);
@@ -29,16 +31,20 @@ export default function Contact() {
                     transition={{ duration: 0.8 }}
                     className="mb-16 text-center"
                 >
-                    <div className="flex justify-center items-center gap-4 mb-4">
-                        <span className="uppercase tracking-[0.2em] text-xs text-neutral-400">What&apos;s Next?</span>
-                    </div>
-                    <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
-                        Get In <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-500 to-white">Touch</span>
-                    </h2>
-                    <p className="text-neutral-400 text-lg max-w-2xl mx-auto">
-                        Although I&apos;m not currently looking for any new opportunities, my inbox is always open.
-                        Whether you have a question or just want to say hi, I&apos;ll try my best to get back to you!
-                    </p>
+                    <ParallaxText offset={30} direction="up">
+                        <div className="flex justify-center items-center gap-4 mb-4">
+                            <span className="uppercase tracking-[0.2em] text-xs text-neutral-400">What&apos;s Next?</span>
+                        </div>
+                        <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
+                            Get In <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-500 to-white">Touch</span>
+                        </h2>
+                    </ParallaxText>
+                    <ParallaxText offset={15} direction="down">
+                        <p className="text-neutral-400 text-lg max-w-2xl mx-auto">
+                            Although I&apos;m not currently looking for any new opportunities, my inbox is always open.
+                            Whether you have a question or just want to say hi, I&apos;ll try my best to get back to you!
+                        </p>
+                    </ParallaxText>
                 </motion.div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
