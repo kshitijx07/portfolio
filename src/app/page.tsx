@@ -7,10 +7,12 @@ import Experience from "@/components/sections/Experience";
 import Achievements from "@/components/sections/Achievements";
 import Interests from "@/components/sections/Interests";
 import Contact from "@/components/sections/Contact";
+import AntiGravityScene from "@/components/3d/AntiGravityScene";
 
 export default function Home() {
   return (
     <main className="relative min-h-screen">
+      <AntiGravityScene />
       <Hero />
       <About />
       <Skills />
