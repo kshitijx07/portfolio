@@ -31,8 +31,8 @@ export default function Interests() {
                         <div className="flex justify-center items-center gap-4 mb-4">
                             <span className="uppercase tracking-[0.2em] text-xs text-neutral-400">Beyond Code</span>
                         </div>
-                        <h2 className="text-3xl md:text-5xl font-bold tracking-tight">
-                            Personal <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-500 to-white">Interests</span>
+                        <h2 className="text-5xl md:text-7xl font-black italic tracking-tighter text-shadow-3d">
+                            Personal <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-400 to-white">Interests</span>
                         </h2>
                     </ParallaxText>
                 </motion.div>

@@ -46,8 +46,8 @@ export default function Achievements() {
                             <div className="h-[1px] w-12 bg-neutral-600" />
                             <span className="uppercase tracking-[0.2em] text-xs text-neutral-400">Coding Profiles</span>
                         </div>
-                        <h2 className="text-3xl md:text-5xl font-bold tracking-tight">
-                            Competitive <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-500 to-white">Programming</span>
+                        <h2 className="text-4xl md:text-6xl font-black italic tracking-tighter text-shadow-3d">
+                            Competitive <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-300 to-white">Programming</span>
                         </h2>
                     </ParallaxText>
                 </motion.div>

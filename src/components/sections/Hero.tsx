@@ -65,7 +65,7 @@ export default function Hero() {
                             initial={{ y: "100%" }}
                             animate={{ y: 0 }}
                             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-                            className="text-6xl md:text-8xl lg:text-[7rem] font-bold tracking-tighter leading-none text-white drop-shadow-2xl"
+                            className="text-6xl md:text-8xl lg:text-[7rem] font-black italic tracking-tighter leading-none text-white drop-shadow-2xl text-shadow-3d"
                         >
                             KSHITIJ KUMBHAR
                         </motion.h1>

@@ -68,8 +68,8 @@ export default function About() {
                     </ParallaxText>
 
                     <ParallaxText offset={40} direction="up">
-                        <h2 className="text-3xl md:text-5xl font-bold mb-8 tracking-tight">
-                            <TextReveal text="Engineering Digital Systems" className="inline-block relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-neutral-400 to-white" />
+                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold italic mb-8 tracking-tighter text-shadow-3d">
+                            <TextReveal text="Engineering Digital Systems" className="inline-block relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-neutral-300 to-white" />
                         </h2>
                     </ParallaxText>
 

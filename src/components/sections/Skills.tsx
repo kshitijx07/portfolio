@@ -65,8 +65,8 @@ export default function Skills() {
                             <span className="uppercase tracking-[0.2em] text-xs text-neutral-400">Arsenals</span>
                         </div>
 
-                        <h2 className="text-4xl md:text-6xl font-bold tracking-tighter">
-                            <TextReveal text="Technology Stack" className="inline-block relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-neutral-500 to-white" />
+                        <h2 className="text-5xl md:text-7xl font-black italic tracking-tighter text-shadow-3d">
+                            <TextReveal text="Technology Stack" className="inline-block relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-neutral-400 to-white" />
                         </h2>
                     </ParallaxText>
                 </motion.div>

@@ -130,8 +130,8 @@ export default function Projects() {
                                 <div className="h-[1px] w-12 bg-neutral-600" />
                                 <span className="uppercase tracking-[0.2em] text-xs text-neutral-400">Selected Work</span>
                             </div>
-                            <h2 className="text-5xl md:text-7xl font-bold tracking-tight">
-                                Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-500 to-white">Projects</span>
+                            <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter text-shadow-3d">
+                                Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-300 to-white">Projects</span>
                             </h2>
                         </div>
                     </ParallaxText>
