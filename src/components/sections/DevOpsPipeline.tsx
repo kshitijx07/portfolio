@@ -12,6 +12,8 @@ const pipelineSteps = [
     { id: 4, name: "Orchestration", icon: SiKubernetes, color: "text-neutral-300", desc: "K8s Deployment" }
 ];
 
+import ParallaxText from "@/components/ui/ParallaxText";
+
 export default function DevOpsPipeline() {
     const containerRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({
@@ -23,7 +25,7 @@ export default function DevOpsPipeline() {
     const lineWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
     return (
-        <section className="py-24 px-6 relative z-10" id="devops">
+        <section className="py-24 px-6 relative z-10 bg-black/40 backdrop-blur-xl border-t border-white/5" id="devops">
             <div className="max-w-6xl mx-auto" ref={containerRef}>
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -32,17 +34,21 @@ export default function DevOpsPipeline() {
                     transition={{ duration: 0.8 }}
                     className="mb-16"
                 >
-                    <div className="flex items-center gap-4 mb-4">
-                        <span className="text-neutral-500 font-mono">03.</span>
-                        <div className="h-[1px] w-12 bg-neutral-600" />
-                        <span className="uppercase tracking-[0.2em] text-xs text-neutral-400">Infrastructure</span>
-                    </div>
-                    <h2 className="text-3xl md:text-5xl font-bold tracking-tight">
-                        Automated <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-500 to-white">CI/CD Pipelines</span>
-                    </h2>
-                    <p className="text-neutral-400 mt-6 max-w-2xl text-lg">
-                        My philosophy revolves around automation. I design robust pipelines that ensure code goes from a local machine to a production cluster reliably, securely, and instantly.
-                    </p>
+                    <ParallaxText offset={30} direction="up">
+                        <div className="flex items-center gap-4 mb-4">
+                            <span className="text-neutral-500 font-mono">03.</span>
+                            <div className="h-[1px] w-12 bg-neutral-600" />
+                            <span className="uppercase tracking-[0.2em] text-xs text-neutral-400">Infrastructure</span>
+                        </div>
+                        <h2 className="text-3xl md:text-5xl font-bold tracking-tight">
+                            Automated <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-500 to-white">CI/CD Pipelines</span>
+                        </h2>
+                    </ParallaxText>
+                    <ParallaxText offset={20} direction="down">
+                        <p className="text-neutral-400 mt-6 max-w-2xl text-lg">
+                            My philosophy revolves around automation. I design robust pipelines that ensure code goes from a local machine to a production cluster reliably, securely, and instantly.
+                        </p>
+                    </ParallaxText>
                 </motion.div>
 
                 {/* Pipeline Visualizer */}

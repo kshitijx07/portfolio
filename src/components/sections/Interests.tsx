@@ -5,6 +5,7 @@ import { FiStar, FiCamera, FiCompass, FiCoffee } from "react-icons/fi";
 import { FaGlobeAsia } from "react-icons/fa";
 import { MdOutlineSportsCricket } from "react-icons/md";
 import Magnetic from "@/components/ui/Magnetic";
+import ParallaxText from "@/components/ui/ParallaxText";
 
 const interests = [
     { name: "Astrophysics", icon: FiStar },
@@ -17,7 +18,7 @@ const interests = [
 
 export default function Interests() {
     return (
-        <section className="py-24 px-6 relative z-10" id="interests">
+        <section className="py-24 px-6 relative z-10 bg-black/40 backdrop-blur-xl border-t border-white/5" id="interests">
             <div className="max-w-6xl mx-auto">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -26,12 +27,14 @@ export default function Interests() {
                     transition={{ duration: 0.8 }}
                     className="mb-16 text-center"
                 >
-                    <div className="flex justify-center items-center gap-4 mb-4">
-                        <span className="uppercase tracking-[0.2em] text-xs text-neutral-400">Beyond Code</span>
-                    </div>
-                    <h2 className="text-3xl md:text-5xl font-bold tracking-tight">
-                        Personal <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-500 to-white">Interests</span>
-                    </h2>
+                    <ParallaxText offset={20} direction="up">
+                        <div className="flex justify-center items-center gap-4 mb-4">
+                            <span className="uppercase tracking-[0.2em] text-xs text-neutral-400">Beyond Code</span>
+                        </div>
+                        <h2 className="text-3xl md:text-5xl font-bold tracking-tight">
+                            Personal <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-500 to-white">Interests</span>
+                        </h2>
+                    </ParallaxText>
                 </motion.div>
 
                 <div className="flex flex-wrap justify-center gap-4 max-w-4xl mx-auto">

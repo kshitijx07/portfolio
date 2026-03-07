@@ -11,6 +11,7 @@ import { FaAws } from "react-icons/fa";
 import KineticText from "@/components/ui/KineticText";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import TextReveal from "@/components/ui/TextReveal";
+import ParallaxText from "@/components/ui/ParallaxText";
 
 const skillCategories = [
     {
@@ -47,7 +48,7 @@ const skillCategories = [
 
 export default function Skills() {
     return (
-        <section className="py-32 px-6 relative z-10 overflow-hidden" id="skills">
+        <section className="py-32 px-6 relative z-10 overflow-hidden bg-[#050505]" id="skills">
             <KineticText text="TECHNOLOGIES" direction="right" speed={0.5} yOffset={200} />
             <div className="max-w-6xl mx-auto">
                 <motion.div
@@ -57,15 +58,17 @@ export default function Skills() {
                     transition={{ duration: 0.8 }}
                     className="mb-20"
                 >
-                    <div className="flex items-center gap-4 mb-4">
-                        <span className="text-neutral-500 font-mono">02.</span>
-                        <div className="h-[1px] w-12 bg-neutral-600" />
-                        <span className="uppercase tracking-[0.2em] text-xs text-neutral-400">Arsenals</span>
-                    </div>
+                    <ParallaxText offset={30} direction="up">
+                        <div className="flex items-center gap-4 mb-4">
+                            <span className="text-neutral-500 font-mono">02.</span>
+                            <div className="h-[1px] w-12 bg-neutral-600" />
+                            <span className="uppercase tracking-[0.2em] text-xs text-neutral-400">Arsenals</span>
+                        </div>
 
-                    <h2 className="text-4xl md:text-6xl font-bold tracking-tighter">
-                        <TextReveal text="Technology Stack" className="inline-block relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-neutral-500 to-white" />
-                    </h2>
+                        <h2 className="text-4xl md:text-6xl font-bold tracking-tighter">
+                            <TextReveal text="Technology Stack" className="inline-block relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-neutral-500 to-white" />
+                        </h2>
+                    </ParallaxText>
                 </motion.div>
 
                 <div className="flex flex-col gap-16">

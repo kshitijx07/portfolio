@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { SiGithub, SiLeetcode, SiCodeforces } from "react-icons/si";
 import TiltCard from "@/components/ui/TiltCard";
+import ParallaxText from "@/components/ui/ParallaxText";
 
 const profiles = [
     {
@@ -30,7 +31,7 @@ const profiles = [
 
 export default function Achievements() {
     return (
-        <section className="py-24 px-6 relative z-10" id="achievements">
+        <section className="py-24 px-6 relative z-10 bg-[#050505]" id="achievements">
             <div className="max-w-6xl mx-auto">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -39,19 +40,17 @@ export default function Achievements() {
                     transition={{ duration: 0.8 }}
                     className="mb-16"
                 >
-                    <div className="flex items-center gap-4 mb-4">
-                        <span className="text-neutral-500 font-mono">06.</span>
-                        <div className="h-[1px] w-12 bg-neutral-600" />
-                        <span className="uppercase tracking-[0.2em] text-xs text-neutral-400">Coding Profiles</span>
-                    </div>
-                    <h2 className="text-3xl md:text-5xl font-bold tracking-tight">
-                        Competitive <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-500 to-white">Programming</span>
-                    </h2>
+                    <ParallaxText offset={30} direction="up">
+                        <div className="flex items-center gap-4 mb-4">
+                            <span className="text-neutral-500 font-mono">06.</span>
+                            <div className="h-[1px] w-12 bg-neutral-600" />
+                            <span className="uppercase tracking-[0.2em] text-xs text-neutral-400">Coding Profiles</span>
+                        </div>
+                        <h2 className="text-3xl md:text-5xl font-bold tracking-tight">
+                            Competitive <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-500 to-white">Programming</span>
+                        </h2>
+                    </ParallaxText>
                 </motion.div>
-
-                import TiltCard from "@/components/ui/TiltCard";
-
-                // ... existing code ...
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {profiles.map((profile, idx) => (

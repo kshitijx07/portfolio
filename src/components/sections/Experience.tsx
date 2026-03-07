@@ -28,7 +28,7 @@ export default function Experience() {
     const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
     return (
-        <section className="py-32 px-6 relative z-10" id="experience">
+        <section className="py-32 px-6 relative z-10 bg-black/40 backdrop-blur-xl border-t border-white/5" id="experience">
             <div className="max-w-4xl mx-auto" ref={containerRef}>
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
