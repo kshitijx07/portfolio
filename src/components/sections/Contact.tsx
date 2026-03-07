@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FiMail, FiGithub, FiLinkedin, FiSend } from "react-icons/fi";
+import { FiMail, FiGithub, FiLinkedin, FiSend, FiInstagram } from "react-icons/fi";
 import { useState } from "react";
 
 export default function Contact() {
@@ -77,6 +77,16 @@ export default function Contact() {
                             <div>
                                 <h4 className="font-bold text-white mb-1">LinkedIn</h4>
                                 <p className="text-sm text-neutral-400 font-mono">Kshitij Kumbhar</p>
+                            </div>
+                        </a>
+
+                        <a href="https://www.instagram.com/kshitij__x07?igsh=NG11YW8xdjZvMDFr&utm_source=qr" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-4 p-4 rounded-xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/10">
+                            <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-gradient-to-tr group-hover:from-[#f09433] group-hover:via-[#e6683c] group-hover:to-[#bc1888] group-hover:text-white transition-all">
+                                <FiInstagram size={20} />
+                            </div>
+                            <div>
+                                <h4 className="font-bold text-white mb-1">Instagram</h4>
+                                <p className="text-sm text-neutral-400 font-mono">@kshitij__x07</p>
                             </div>
                         </a>
                     </motion.div>

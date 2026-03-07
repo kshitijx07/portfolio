@@ -9,9 +9,9 @@ const projects = [
     {
         title: "HostelHub",
         description: "A comprehensive scalable hostel management system built to handle large scale bookings, payments, and student records with robust architecture.",
-        tech: ["Next.js", "Node.js", "Express", "MongoDB", "AWS"],
+        tech: ["Next.js", "Node.js", "Express", "MongoDB", "AWS", "Docker", "Jenkins"],
         github: "https://github.com/kshitijx07/Hostelhub",
-        demo: "#",
+        demo: "https://hostelhub-ruby.vercel.app",
         image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop"
     },
     {
@@ -24,8 +24,8 @@ const projects = [
     },
     {
         title: "Pet Management Platform",
-        description: "An interactive platform for pet owners and services, providing community features, vet appointment scheduling, and automated reminders.",
-        tech: ["React.js", "Node.js", "Docker", "MongoDB"],
+        description: "A comprehensive, full-stack web application designed for pet lovers. This platform streamlines pet adoptions, daycare scheduling, and medical record tracking with integrated Razorpay payments.",
+        tech: ["React.js", "TailwindCSS", "Node.js", "Express", "MySQL", "JWT"],
         github: "https://github.com/kshitijx07/pet-managment.git",
         demo: "#",
         image: "https://images.unsplash.com/photo-1544568100-847a948585b9?q=80&w=1974&auto=format&fit=crop"
