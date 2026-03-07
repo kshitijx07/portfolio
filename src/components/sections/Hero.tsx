@@ -1,24 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import dynamic from "next/dynamic";
 import { FiArrowDown, FiDownload } from "react-icons/fi";
-
-const Spline = dynamic(() => import("@splinetool/react-spline"), {
-    ssr: false,
-    loading: () => (
-        <div className="absolute inset-0 flex items-center justify-center bg-[#050505] z-0">
-            <div className="w-8 h-8 border-2 border-white/10 border-t-white/80 rounded-full animate-spin"></div>
-        </div>
-    ),
-});
 
 export default function Hero() {
     return (
         <section className="relative w-full h-screen bg-[#050505] overflow-hidden">
-            <div className="absolute inset-0 z-0 pointer-events-none">
-                <Spline scene="https://prod.spline.design/ttqM0KOYQHfnmQwm/scene.splinecode" />
-            </div>
+            {/* Highly Performant CSS Static Glow instead of heavy WebGL */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-white/[0.03] rounded-full blur-[120px] pointer-events-none z-0" style={{ willChange: "transform" }} />
+            <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-[#050505] to-transparent z-0 pointer-events-none" />
 
             {/* Foreground Content - Pointer Events None to allow clicking Spline */}
             <div className="relative z-10 w-full h-full flex flex-col items-center justify-center px-6 pointer-events-none">

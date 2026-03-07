@@ -1,18 +1,16 @@
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 import Skills from "@/components/sections/Skills";
-import DevOpsPipeline from "@/components/sections/DevOpsPipeline";
 import Projects from "@/components/sections/Projects";
+import DevOpsPipeline from "@/components/sections/DevOpsPipeline";
 import Experience from "@/components/sections/Experience";
 import Achievements from "@/components/sections/Achievements";
 import Interests from "@/components/sections/Interests";
 import Contact from "@/components/sections/Contact";
-import AntiGravityScene from "@/components/3d/AntiGravityScene";
 
 export default function Home() {
   return (
     <main className="relative min-h-screen">
-      <AntiGravityScene />
       <Hero />
       <About />
       <Skills />

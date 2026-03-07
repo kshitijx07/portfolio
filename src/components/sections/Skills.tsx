@@ -9,7 +9,6 @@ import {
 } from "react-icons/si";
 import { FaAws } from "react-icons/fa";
 import KineticText from "@/components/ui/KineticText";
-import VelocitySkew from "@/components/ui/VelocitySkew";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import TextReveal from "@/components/ui/TextReveal";
 

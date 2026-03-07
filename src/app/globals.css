@@ -27,8 +27,6 @@ body {
   font-family: var(--font-sans), sans-serif;
   overflow-x: hidden;
   overscroll-behavior: none;
-  cursor: none;
-  /* Hide default cursor for custom cursor implementation */
 }
 
 h1,
