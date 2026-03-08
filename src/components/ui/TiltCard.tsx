@@ -1,12 +1,15 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 
 export default function TiltCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
     const ref = useRef<HTMLDivElement>(null);
-    const [rotationX, setRotationX] = useState(0);
-    const [rotationY, setRotationY] = useState(0);
+    const rotationX = useMotionValue(0);
+    const rotationY = useMotionValue(0);
+
+    const springX = useSpring(rotationX, { stiffness: 400, damping: 30, mass: 0.5 });
+    const springY = useSpring(rotationY, { stiffness: 400, damping: 30, mass: 0.5 });
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         if (!ref.current) return;
@@ -22,13 +25,13 @@ export default function TiltCard({ children, className = "" }: { children: React
         const xPct = (mouseX / width - 0.5);
         const yPct = (mouseY / height - 0.5);
 
-        setRotationX(-yPct * 20); // Invert Y axis tilt
-        setRotationY(xPct * 20);
+        rotationX.set(-yPct * 20); // Invert Y axis tilt
+        rotationY.set(xPct * 20);
     };
 
     const handleMouseLeave = () => {
-        setRotationX(0);
-        setRotationY(0);
+        rotationX.set(0);
+        rotationY.set(0);
     };
 
     return (
@@ -38,13 +41,10 @@ export default function TiltCard({ children, className = "" }: { children: React
             onMouseLeave={handleMouseLeave}
             style={{
                 transformStyle: "preserve-3d" as any,
-                perspective: 1000
+                perspective: 1000,
+                rotateX: springX,
+                rotateY: springY,
             }}
-            animate={{
-                rotateX: rotationX,
-                rotateY: rotationY,
-            }}
-            transition={{ type: "spring", stiffness: 400, damping: 30, mass: 0.5 }}
             className={`cursor-crosshair ${className}`}
         >
             <div style={{ transform: "translateZ(30px)", transformStyle: "preserve-3d" }} className="w-full h-full">
