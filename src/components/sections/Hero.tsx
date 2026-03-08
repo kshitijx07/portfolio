@@ -7,11 +7,6 @@ import { useState, useEffect } from "react";
 
 const Spline = dynamic(() => import("@splinetool/react-spline"), {
     ssr: false,
-    loading: () => (
-        <div className="absolute inset-0 flex items-center justify-center bg-[#050505] z-0">
-            <div className="w-8 h-8 border-2 border-white/10 border-t-white/80 rounded-full animate-spin"></div>
-        </div>
-    ),
 });
 
 import ParallaxText from "@/components/ui/ParallaxText";
