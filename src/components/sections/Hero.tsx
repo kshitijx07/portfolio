@@ -6,6 +6,7 @@ import { FiArrowDown, FiDownload } from "react-icons/fi";
 
 const Spline = dynamic(() => import("@splinetool/react-spline"), {
     ssr: false,
+    loading: () => <div className="absolute inset-0 flex items-center justify-center text-white/30 tracking-widest text-sm font-mono animate-pulse">Initializing WebGL Engine...</div>
 });
 
 import ParallaxText from "@/components/ui/ParallaxText";

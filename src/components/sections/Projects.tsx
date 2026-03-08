@@ -63,6 +63,8 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
                     <motion.img
                         src={project.image}
                         alt={project.title}
+                        loading="lazy"
+                        decoding="async"
                         style={{ scale: imageScale }}
                         className="w-full h-[400px] md:h-[600px] object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-700 grayscale hover:grayscale-0"
                     />
