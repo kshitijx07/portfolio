@@ -48,7 +48,7 @@ export default function TextReveal({ text, className = "", delay = 0 }: TextReve
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
-            className={`gap-x-2 gap-y-1 ${className}`}
+            className={`gap-x-2 gap-y-1 pb-4 md:pb-6 ${className}`}
         >
             {words.map((word, index) => (
                 <motion.span variants={child as any} style={{ display: "inline-block" } as any} key={index}>

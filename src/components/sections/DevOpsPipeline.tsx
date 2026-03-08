@@ -13,6 +13,7 @@ const pipelineSteps = [
 ];
 
 import ParallaxText from "@/components/ui/ParallaxText";
+import SlideText from "@/components/ui/SlideText";
 
 export default function DevOpsPipeline() {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -44,11 +45,11 @@ export default function DevOpsPipeline() {
                             Automated <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-300 to-white">CI/CD Pipelines</span>
                         </h2>
                     </ParallaxText>
-                    <ParallaxText offset={20} direction="down">
+                    <SlideText direction="left" offset={100}>
                         <p className="text-neutral-400 mt-6 max-w-2xl text-lg">
                             My philosophy revolves around automation. I design robust pipelines that ensure code goes from a local machine to a production cluster reliably, securely, and instantly.
                         </p>
-                    </ParallaxText>
+                    </SlideText>
                 </motion.div>
 
                 {/* Pipeline Visualizer */}

@@ -17,6 +17,7 @@ const experiences = [
 ];
 
 import ParallaxText from "@/components/ui/ParallaxText";
+import SlideText from "@/components/ui/SlideText";
 
 export default function Experience() {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -60,41 +61,42 @@ export default function Experience() {
                     />
 
                     {experiences.map((exp, idx) => (
-                        <motion.div
-                            key={idx}
-                            initial={{ opacity: 0, x: -30 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true, amount: 0.2 }}
-                            transition={{ duration: 0.6, delay: 0.2 }}
-                            className="relative mb-16 last:mb-0"
-                        >
-                            <div className="absolute -left-[41px] md:-left-[57px] top-1 w-4 h-4 rounded-full bg-white border-4 border-black box-content z-10" />
+                        <SlideText key={idx} direction={idx % 2 === 0 ? "left" : "right"} offset={80}>
+                            <motion.div
+                                initial={{ opacity: 0, x: -30 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true, amount: 0.2 }}
+                                transition={{ duration: 0.6, delay: 0.2 }}
+                                className="relative mb-16 last:mb-0"
+                            >
+                                <div className="absolute -left-[41px] md:-left-[57px] top-1 w-4 h-4 rounded-full bg-white border-4 border-black box-content z-10" />
 
-                            <div className="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-4 mb-4">
-                                <h3 className="text-2xl font-bold text-white">{exp.role}</h3>
-                                <span className="text-lg text-neutral-400 font-medium tracking-wide">@ {exp.company}</span>
-                            </div>
+                                <div className="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-4 mb-4">
+                                    <h3 className="text-2xl font-bold text-white">{exp.role}</h3>
+                                    <span className="text-lg text-neutral-400 font-medium tracking-wide">@ {exp.company}</span>
+                                </div>
 
-                            <div className="text-sm font-mono text-neutral-500 mb-6 uppercase tracking-widest bg-white/5 inline-block px-3 py-1 rounded">
-                                {exp.duration}
-                            </div>
+                                <div className="text-sm font-mono text-neutral-500 mb-6 uppercase tracking-widest bg-white/5 inline-block px-3 py-1 rounded">
+                                    {exp.duration}
+                                </div>
 
-                            <ul className="space-y-4">
-                                {exp.description.map((item, i) => (
-                                    <motion.li
-                                        key={i}
-                                        initial={{ opacity: 0, scale: 0.95 }}
-                                        whileInView={{ opacity: 1, scale: 1 }}
-                                        viewport={{ once: true }}
-                                        transition={{ duration: 0.4, delay: 0.4 + i * 0.1 }}
-                                        className="flex gap-4 text-neutral-300 leading-relaxed text-base md:text-lg"
-                                    >
-                                        <span className="text-neutral-600 mt-1">▹</span>
-                                        {item}
-                                    </motion.li>
-                                ))}
-                            </ul>
-                        </motion.div>
+                                <ul className="space-y-4">
+                                    {exp.description.map((item, i) => (
+                                        <motion.li
+                                            key={i}
+                                            initial={{ opacity: 0, scale: 0.95 }}
+                                            whileInView={{ opacity: 1, scale: 1 }}
+                                            viewport={{ once: true }}
+                                            transition={{ duration: 0.4, delay: 0.4 + i * 0.1 }}
+                                            className="flex gap-4 text-neutral-300 leading-relaxed text-base md:text-lg"
+                                        >
+                                            <span className="text-neutral-600 mt-1">▹</span>
+                                            {item}
+                                        </motion.li>
+                                    ))}
+                                </ul>
+                            </motion.div>
+                        </SlideText>
                     ))}
                 </div>
             </div>

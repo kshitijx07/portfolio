@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { SiGithub, SiLeetcode, SiCodeforces } from "react-icons/si";
 import TiltCard from "@/components/ui/TiltCard";
 import ParallaxText from "@/components/ui/ParallaxText";
+import SlideText from "@/components/ui/SlideText";
 
 const profiles = [
     {
@@ -54,33 +55,34 @@ export default function Achievements() {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {profiles.map((profile, idx) => (
-                        <motion.div
-                            key={profile.platform}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: idx * 0.15 }}
-                        >
-                            <TiltCard>
-                                <a
-                                    href={profile.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="glass-card group p-6 rounded-2xl flex items-center justify-between transition-all duration-300 border border-white/5 hover:border-white/20 w-full h-full"
-                                >
-                                    <div className="flex items-center gap-4">
-                                        <profile.icon size={32} className={`text-neutral-500 transition-colors duration-300 ${profile.color}`} />
-                                        <div>
-                                            <h4 className="font-bold text-lg">{profile.platform}</h4>
-                                            <p className="text-sm font-mono text-neutral-400">@{profile.handle}</p>
+                        <SlideText key={profile.platform} direction={idx % 2 === 0 ? "left" : "right"} offset={50} className="h-full">
+                            <motion.div
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: idx * 0.15 }}
+                            >
+                                <TiltCard>
+                                    <a
+                                        href={profile.link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="glass-card group p-6 rounded-2xl flex items-center justify-between transition-all duration-300 border border-white/5 hover:border-white/20 w-full h-full"
+                                    >
+                                        <div className="flex items-center gap-4">
+                                            <profile.icon size={32} className={`text-neutral-500 transition-colors duration-300 ${profile.color}`} />
+                                            <div>
+                                                <h4 className="font-bold text-lg">{profile.platform}</h4>
+                                                <p className="text-sm font-mono text-neutral-400">@{profile.handle}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
-                                        ↗
-                                    </div>
-                                </a>
-                            </TiltCard>
-                        </motion.div>
+                                        <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
+                                            ↗
+                                        </div>
+                                    </a>
+                                </TiltCard>
+                            </motion.div>
+                        </SlideText>
                     ))}
                 </div>
             </div>

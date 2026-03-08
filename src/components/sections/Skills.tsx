@@ -12,6 +12,7 @@ import KineticText from "@/components/ui/KineticText";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import TextReveal from "@/components/ui/TextReveal";
 import ParallaxText from "@/components/ui/ParallaxText";
+import SlideText from "@/components/ui/SlideText";
 
 const skillCategories = [
     {
@@ -73,34 +74,36 @@ export default function Skills() {
 
                 <div className="flex flex-col gap-16">
                     {skillCategories.map((category, catIdx) => (
-                        <motion.div
-                            key={category.title}
-                            initial={{ opacity: 0, x: -30 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true, amount: 0.2 }}
-                            transition={{ duration: 0.8 }}
-                        >
-                            <h3 className="text-2xl font-bold mb-8 text-neutral-300 tracking-tight">{category.title}</h3>
-                            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                                {category.skills.map((skill, idx) => (
-                                    <motion.div
-                                        key={skill.name}
-                                        initial={{ opacity: 0, scale: 0.8 }}
-                                        whileInView={{ opacity: 1, scale: 1 }}
-                                        viewport={{ once: true }}
-                                        transition={{ duration: 0.4, delay: idx * 0.1 }}
-                                    >
-                                        <SpotlightCard className="group relative h-32 glass-card rounded-2xl flex flex-col items-center justify-center gap-4 hover:-translate-y-2 transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] hover:border-white/20 overflow-hidden w-full">
-                                            <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-                                            <skill.icon size={36} className={`text-neutral-500 transition-colors duration-300 relative z-10 ${skill.color}`} />
-                                            <span className="text-sm font-medium text-neutral-400 group-hover:text-white transition-colors duration-300 relative z-10 font-mono">
-                                                {skill.name}
-                                            </span>
-                                        </SpotlightCard>
-                                    </motion.div>
-                                ))}
-                            </div>
-                        </motion.div>
+                        <SlideText key={category.title} direction={catIdx % 2 === 0 ? "left" : "right"} offset={80}>
+                            <motion.div
+                                initial={{ opacity: 0, x: -30 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true, amount: 0.2 }}
+                                transition={{ duration: 0.8 }}
+                            >
+                                <h3 className="text-2xl font-bold mb-8 text-neutral-300 tracking-tight">{category.title}</h3>
+                                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                                    {category.skills.map((skill, idx) => (
+                                        <motion.div
+                                            key={skill.name}
+                                            initial={{ opacity: 0, scale: 0.8 }}
+                                            whileInView={{ opacity: 1, scale: 1 }}
+                                            viewport={{ once: true }}
+                                            transition={{ duration: 0.4, delay: idx * 0.1 }}
+                                            className="w-full"
+                                        >
+                                            <SpotlightCard className="group relative h-32 glass-card rounded-2xl flex flex-col items-center justify-center gap-4 hover:-translate-y-2 transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] hover:border-white/20 overflow-hidden w-full">
+                                                <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                                                <skill.icon size={36} className={`text-neutral-500 transition-colors duration-300 relative z-10 ${skill.color}`} />
+                                                <span className="text-sm font-medium text-neutral-400 group-hover:text-white transition-colors duration-300 relative z-10 font-mono">
+                                                    {skill.name}
+                                                </span>
+                                            </SpotlightCard>
+                                        </motion.div>
+                                    ))}
+                                </div>
+                            </motion.div>
+                        </SlideText>
                     ))}
                 </div>
             </div>
