@@ -6,7 +6,10 @@ import { motion, useScroll, useVelocity, useSpring, useTransform } from "framer-
 export default function VelocitySkew({ children, className = "" }: { children: React.ReactNode, className?: string }) {
     const ref = useRef<HTMLDivElement>(null);
 
-    const { scrollY } = useScroll();
+    const { scrollY } = useScroll({
+        target: ref,
+        offset: ["start end", "end start"]
+    });
     const scrollVelocity = useVelocity(scrollY);
 
     // Smooth out the velocity reading
