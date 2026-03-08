@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState, useEffect } from "react";
+import { useMemo, useRef } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Physics, useSphere, useBox } from "@react-three/cannon";
@@ -72,35 +72,9 @@ export default function AntiGravityScene() {
         }));
     }, []);
 
-    const [isSceneVisible, setIsSceneVisible] = useState(true);
-
-    // PERFORMANCE FIX: Pause the physics and rendering if user scrolls past the Hero/About sections.
-    useEffect(() => {
-        // We only really see the Anti gravity scene well in the first 2-3vh of the site before the solid sections take over.
-        const handleScroll = () => {
-            if (window.scrollY > window.innerHeight * 2.5) {
-                if (isSceneVisible) setIsSceneVisible(false);
-            } else {
-                if (!isSceneVisible) setIsSceneVisible(true);
-            }
-        };
-
-        window.addEventListener("scroll", handleScroll, { passive: true });
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, [isSceneVisible]);
-
-    // Keep it mounted but freeze the frameloop when scrolled out of view!
-    if (!isSceneVisible) {
-        return (
-            <div className="fixed inset-0 -z-10 pointer-events-none">
-                {/* Canvas is frozen to save GPU, but remains in the DOM! */}
-            </div>
-        )
-    }
-
     return (
         <div className="fixed inset-0 -z-10 pointer-events-none">
-            <Canvas shadows dpr={[1, 1.5]} camera={{ position: [0, 0, 15], fov: 45 }} frameloop={isSceneVisible ? "always" : "demand"}>
+            <Canvas shadows dpr={[1, 1.5]} camera={{ position: [0, 0, 15], fov: 45 }}>
                 <Physics gravity={[0, 0, 0]}>
                     <MouseInteraction />
                     {objects.map((obj, i) => (
