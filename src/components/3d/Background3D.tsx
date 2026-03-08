@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Points, PointMaterial } from "@react-three/drei";
 import * as THREE from "three";
@@ -49,9 +49,30 @@ function ParticleNetwork() {
 }
 
 export default function Background3D() {
+    const [isVisible, setIsVisible] = useState(true);
+
+    // PERFORMANCE FIX: Pause particle spin if deep into a page
+    useEffect(() => {
+        const handleScroll = () => {
+            // Unmount/pause if scrolled more than 150vh, indicating we are deep in content where particles aren't needed
+            if (window.scrollY > window.innerHeight * 1.5) {
+                if (isVisible) setIsVisible(false);
+            } else {
+                if (!isVisible) setIsVisible(true);
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [isVisible]);
+
+    if (!isVisible) {
+        return <div className="fixed inset-0 z-[-1] pointer-events-none" />
+    }
+
     return (
         <div className="fixed inset-0 z-[-1] pointer-events-none">
-            <Canvas camera={{ position: [0, 0, 15], fov: 75 }} gl={{ alpha: true, antialias: true }}>
+            <Canvas camera={{ position: [0, 0, 15], fov: 75 }} gl={{ alpha: true, antialias: true }} frameloop={isVisible ? "always" : "demand"}>
                 <ParticleNetwork />
             </Canvas>
         </div>

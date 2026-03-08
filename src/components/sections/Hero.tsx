@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import { FiArrowDown, FiDownload } from "react-icons/fi";
-import { useState, useEffect } from "react";
 
 const Spline = dynamic(() => import("@splinetool/react-spline"), {
     ssr: false,
@@ -12,31 +11,10 @@ const Spline = dynamic(() => import("@splinetool/react-spline"), {
 import ParallaxText from "@/components/ui/ParallaxText";
 
 export default function Hero() {
-    // PERFORMANCE FIX: Only render Spline when at the top of the page
-    const [isHeroVisible, setIsHeroVisible] = useState(true);
-
-    useEffect(() => {
-        const handleScroll = () => {
-            // Unmount Spline if scrolled more than 100vh down
-            if (window.scrollY > window.innerHeight) {
-                if (isHeroVisible) setIsHeroVisible(false);
-            } else {
-                if (!isHeroVisible) setIsHeroVisible(true);
-            }
-        };
-
-        window.addEventListener("scroll", handleScroll, { passive: true });
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, [isHeroVisible]);
-
     return (
         <section className="relative w-full h-screen bg-[#050505] overflow-hidden">
             <div className="absolute inset-0 z-0 pointer-events-none">
-                {isHeroVisible ? (
-                    <Spline scene="https://prod.spline.design/ttqM0KOYQHfnmQwm/scene.splinecode" />
-                ) : (
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-white/[0.03] rounded-full blur-[120px] pointer-events-none z-0" />
-                )}
+                <Spline scene="https://prod.spline.design/ttqM0KOYQHfnmQwm/scene.splinecode" />
             </div>
 
             {/* Foreground Content - Pointer Events None to allow clicking Spline */}

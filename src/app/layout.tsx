@@ -18,6 +18,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 import PageTransition from "@/components/ui/PageTransition";
+import AntiGravityScene from "@/components/3d/AntiGravityScene";
+import Background3D from "@/components/3d/Background3D";
 
 export const metadata: Metadata = {
   title: "Kshitij Kumbhar | Creative Developer",
@@ -37,6 +39,8 @@ export default function RootLayout({
       </head>
       <body className={`${outfit.variable} ${syne.variable} ${jetbrainsMono.variable} antialiased bg-black text-white selection:bg-white selection:text-black`}>
         <PageTransition />
+        <AntiGravityScene />
+        <Background3D />
         {children}
       </body>
     </html>

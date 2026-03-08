@@ -89,11 +89,18 @@ export default function AntiGravityScene() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, [isSceneVisible]);
 
-    if (!isSceneVisible) return null; // Unmount completely when deep into the page!
+    // Keep it mounted but freeze the frameloop when scrolled out of view!
+    if (!isSceneVisible) {
+        return (
+            <div className="fixed inset-0 -z-10 pointer-events-none">
+                {/* Canvas is frozen to save GPU, but remains in the DOM! */}
+            </div>
+        )
+    }
 
     return (
         <div className="fixed inset-0 -z-10 pointer-events-none">
-            <Canvas shadows dpr={[1, 1.5]} camera={{ position: [0, 0, 15], fov: 45 }}>
+            <Canvas shadows dpr={[1, 1.5]} camera={{ position: [0, 0, 15], fov: 45 }} frameloop={isSceneVisible ? "always" : "demand"}>
                 <Physics gravity={[0, 0, 0]}>
                     <MouseInteraction />
                     {objects.map((obj, i) => (
