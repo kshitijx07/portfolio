@@ -29,8 +29,8 @@ export default function Experience() {
     const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
     return (
-        <section className="py-32 px-6 relative z-10 bg-black/40 backdrop-blur-xl border-t border-white/5" id="experience">
-            <div className="max-w-4xl mx-auto" ref={containerRef}>
+        <section className="py-32 px-6 relative z-10 bg-[#080808] border-t border-white/5" id="experience">
+            <div className="max-w-4xl mx-auto relative" ref={containerRef}>
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -56,8 +56,8 @@ export default function Experience() {
 
                     {/* Active dynamic scroll line */}
                     <motion.div
-                        style={{ height: lineHeight } as any}
-                        className="absolute top-0 left-0 w-[2px] -translate-x-[0.5px] bg-gradient-to-b from-transparent via-white to-white shadow-[0_0_15px_rgba(255,255,255,0.8)] origin-top"
+                        style={{ scaleY: scrollYProgress, transformOrigin: "top" } as any}
+                        className="absolute top-0 left-0 w-[2px] -translate-x-[0.5px] bg-gradient-to-b from-transparent via-white to-white shadow-[0_0_15px_rgba(255,255,255,0.8)] h-full"
                     />
 
                     {experiences.map((exp, idx) => (

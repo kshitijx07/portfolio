@@ -8,10 +8,11 @@ export default function SpotlightCard({ children, className = "" }: { children: 
     const mouseY = useMotionValue(0);
     const [isHovered, setIsHovered] = useState(false);
 
-    function handleMouseMove({ currentTarget, clientX, clientY }: MouseEvent) {
-        let { left, top } = currentTarget.getBoundingClientRect();
-        mouseX.set(clientX - left);
-        mouseY.set(clientY - top);
+    function handleMouseMove(e: MouseEvent) {
+        if (!e.currentTarget) return;
+        const rect = e.currentTarget.getBoundingClientRect();
+        mouseX.set(e.clientX - rect.left);
+        mouseY.set(e.clientY - rect.top);
     }
 
     return (

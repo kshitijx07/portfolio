@@ -12,13 +12,13 @@ export default function Magnetic({ children }: { children: React.ReactNode }) {
     const springY = useSpring(y, { stiffness: 150, damping: 15, mass: 0.1 });
 
     const handleMouse = (e: React.MouseEvent<HTMLDivElement>) => {
-        const { clientX, clientY } = e;
         if (!ref.current) return;
-        const { height, width, left, top } = ref.current.getBoundingClientRect();
-        const middleX = clientX - (left + width / 2);
-        const middleY = clientY - (top + height / 2);
+        const rect = ref.current.getBoundingClientRect();
+        const { clientX, clientY } = e;
         
-        // Push raw values directly into Framer Motion context
+        const middleX = clientX - (rect.left + rect.width / 2);
+        const middleY = clientY - (rect.top + rect.height / 2);
+        
         x.set(middleX * 0.2);
         y.set(middleY * 0.2);
     };

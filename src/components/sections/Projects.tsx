@@ -49,16 +49,16 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
         offset: ["start 90%", "center center"]
     });
 
-    const maskHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+    const clipPath = useTransform(scrollYProgress, [0, 1], ["inset(100% 0% 0% 0%)", "inset(0% 0% 0% 0%)"]);
     const imageScale = useTransform(scrollYProgress, [0, 1], [1.2, 1]);
 
     return (
-        <div ref={containerRef} className="w-full flex flex-col gap-6 group mb-24 last:mb-0" style={{ perspective: 1000 }}>
+        <div ref={containerRef} className="w-full flex flex-col gap-6 group mb-24 last:mb-0 relative" style={{ perspective: 1000 }}>
             {/* Image Reveal Container */}
-            <div className="w-full h-[400px] md:h-[600px] relative overflow-hidden rounded-2xl bg-[#050505] border border-white/5 transition-transform duration-700 group-hover:scale-[1.02]" style={{ willChange: "transform" }}>
+            <div className="w-full h-[400px] md:h-[600px] relative overflow-hidden rounded-2xl bg-[#050505] border border-white/5 transition-transform duration-700 group-hover:scale-[1.02]">
                 <motion.div
-                    className="absolute bottom-0 left-0 w-full overflow-hidden"
-                    style={{ height: maskHeight } as any}
+                    className="absolute inset-0 w-full h-full overflow-hidden"
+                    style={{ clipPath } as any}
                 >
                     <motion.img
                         src={project.image}

@@ -26,18 +26,22 @@ function Counter({ from, to, suffix }: { from: number; to: number; suffix: strin
 
     useEffect(() => {
         if (isInView) {
-            let current = from;
-            const step = Math.max(1, Math.floor((to - from) / 30));
-            const timer = setInterval(() => {
-                current += step;
-                if (current >= to) {
-                    setCount(to);
-                    clearInterval(timer);
-                } else {
-                    setCount(current);
+            let start: number | null = null;
+            const duration = 2000; // 2 seconds
+
+            const animate = (timestamp: number) => {
+                if (!start) start = timestamp;
+                const progress = Math.min((timestamp - start) / duration, 1);
+                const currentCount = Math.floor(progress * (to - from) + from);
+                
+                setCount(currentCount);
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
                 }
-            }, 40);
-            return () => clearInterval(timer);
+            };
+
+            requestAnimationFrame(animate);
         }
     }, [isInView, from, to]);
 
@@ -50,7 +54,7 @@ import ParallaxText from "@/components/ui/ParallaxText";
 
 export default function About() {
     return (
-        <section className="py-32 px-6 relative z-10 bg-black/40 backdrop-blur-xl border-t border-white/5" id="about">
+        <section className="py-32 px-6 relative z-10 bg-[#080808] border-t border-white/5" id="about">
             <div className="max-w-6xl mx-auto">
                 <motion.div
                     initial={{ opacity: 0, y: 50 }}
@@ -68,7 +72,7 @@ export default function About() {
                     </ParallaxText>
 
                     <ParallaxText offset={40} direction="up">
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold italic mb-8 tracking-tighter text-shadow-3d">
+                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-black italic mb-8 tracking-tighter text-shadow-3d">
                             <TextReveal text="Engineering Digital Systems" className="inline-block relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-neutral-300 to-white" />
                         </h2>
                     </ParallaxText>

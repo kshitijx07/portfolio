@@ -23,11 +23,11 @@ export default function DevOpsPipeline() {
     });
 
     // Scale the laser line width from 0% to 100% based on scroll
-    const lineWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
 
     return (
-        <section className="py-24 px-6 relative z-10 bg-black/40 backdrop-blur-xl border-t border-white/5" id="devops">
-            <div className="max-w-6xl mx-auto" ref={containerRef}>
+        <section className="py-24 px-6 relative z-10 bg-[#080808] border-t border-white/5" id="devops">
+            <div className="max-w-4xl mx-auto relative" ref={containerRef}>
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -57,8 +57,8 @@ export default function DevOpsPipeline() {
                     {/* Animated background laser line connecting nodes */}
                     <div className="absolute top-1/2 left-0 w-full h-[2px] bg-white/5 -translate-y-1/2 z-0 hidden md:block">
                         <motion.div
-                            style={{ width: lineWidth } as any}
-                            className="h-full bg-gradient-to-r from-white/10 via-white to-transparent shadow-[0_0_15px_rgba(255,255,255,0.8)] origin-left"
+                            style={{ scaleX: scrollYProgress, transformOrigin: "left" } as any}
+                            className="h-full bg-gradient-to-r from-white/10 via-white to-transparent shadow-[0_0_15px_rgba(255,255,255,0.8)] w-full"
                         />
                     </div>
 

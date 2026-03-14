@@ -22,7 +22,7 @@ export default function Contact() {
     };
 
     return (
-        <section className="py-32 px-6 relative z-10 bg-black/50 backdrop-blur-md border-t border-white/5" id="contact">
+        <section className="py-32 px-6 relative z-10 bg-[#080808] border-t border-white/5" id="contact">
             <div className="max-w-4xl mx-auto">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -112,6 +112,8 @@ export default function Contact() {
                             <input
                                 type="text"
                                 id="name"
+                                name="name"
+                                autoComplete="name"
                                 required
                                 suppressHydrationWarning
                                 className="bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-white/30 transition-colors"
@@ -123,6 +125,8 @@ export default function Contact() {
                             <input
                                 type="email"
                                 id="email"
+                                name="email"
+                                autoComplete="email"
                                 required
                                 suppressHydrationWarning
                                 className="bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-white/30 transition-colors"
@@ -133,6 +137,7 @@ export default function Contact() {
                             <label htmlFor="message" className="text-xs font-mono text-neutral-400 uppercase tracking-widest">Message</label>
                             <textarea
                                 id="message"
+                                name="message"
                                 rows={4}
                                 required
                                 suppressHydrationWarning

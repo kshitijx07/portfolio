@@ -18,7 +18,7 @@ const interests = [
 
 export default function Interests() {
     return (
-        <section className="py-24 px-6 relative z-10 bg-black/40 backdrop-blur-xl border-t border-white/5" id="interests">
+        <section className="py-24 px-6 relative z-10 bg-[#080808] border-t border-white/5" id="interests">
             <div className="max-w-6xl mx-auto">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}

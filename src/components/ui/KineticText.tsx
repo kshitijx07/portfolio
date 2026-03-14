@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { m, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
 interface KineticTextProps {
@@ -27,12 +27,12 @@ export default function KineticText({ text, direction = "left", speed = 1, class
 
     return (
         <div ref={container} className={`absolute w-full overflow-hidden pointer-events-none opacity-[0.03] select-none flex whitespace-nowrap ${className}`} style={{ top: yOffset }}>
-            <motion.h1
-                style={{ x: xTransform, willChange: "transform" } as any}
-                className="text-[15vw] font-black uppercase tracking-tighter leading-none"
+            <m.h1
+                style={{ x: xTransform } as any}
+                className="text-[10vw] font-black uppercase tracking-tighter leading-none"
             >
-                {text} &nbsp; {text} &nbsp; {text} &nbsp; {text}
-            </motion.h1>
+                {text} &nbsp; {text}
+            </m.h1>
         </div>
     );
 }

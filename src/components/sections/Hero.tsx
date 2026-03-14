@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m, useInView } from "framer-motion";
+import { useRef } from "react";
 import dynamic from "next/dynamic";
 import { FiArrowDown, FiDownload } from "react-icons/fi";
 
@@ -12,10 +13,16 @@ const Spline = dynamic(() => import("@splinetool/react-spline"), {
 import ParallaxText from "@/components/ui/ParallaxText";
 
 export default function Hero() {
+    const containerRef = useRef(null);
+    const isInView = useInView(containerRef, { amount: 0.1, margin: "-100px 0px -100px 0px" });
+
     return (
-        <section className="relative w-full h-screen bg-[#050505] overflow-hidden">
-            <div className="absolute inset-0 z-0 pointer-events-none">
-                <Spline scene="https://prod.spline.design/ttqM0KOYQHfnmQwm/scene.splinecode" />
+        <section ref={containerRef} className="relative w-full h-screen bg-[#050505] overflow-hidden">
+            <div 
+                className="absolute inset-0 z-0 pointer-events-none"
+                style={{ display: isInView ? "block" : "none" }}
+            >
+                {isInView && <Spline scene="https://prod.spline.design/ttqM0KOYQHfnmQwm/scene.splinecode" />}
             </div>
 
             {/* Foreground Content - Pointer Events None to allow clicking Spline */}
@@ -24,42 +31,42 @@ export default function Hero() {
                 {/* Masked Text Container */}
                 <div className="text-center max-w-5xl mx-auto flex flex-col items-center gap-1">
                     <div className="overflow-hidden mb-4 py-2">
-                        <motion.p
+                        <m.p
                             initial={{ y: "100%" }}
                             animate={{ y: 0 }}
                             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
                             className="text-neutral-400 tracking-[0.2em] uppercase text-sm font-medium"
                         >
                             Welcome to my universe
-                        </motion.p>
+                        </m.p>
                     </div>
 
                     <div className="overflow-hidden py-2">
-                        <motion.h1
+                        <m.h1
                             initial={{ y: "100%" }}
                             animate={{ y: 0 }}
                             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
                             className="text-6xl md:text-8xl lg:text-[7rem] font-black italic tracking-tighter leading-none text-white drop-shadow-2xl text-shadow-3d"
                         >
                             KSHITIJ KUMBHAR
-                        </motion.h1>
+                        </m.h1>
                     </div>
 
                     <ParallaxText offset={30} direction="down">
                         <div className="overflow-hidden py-2 mt-2">
-                            <motion.p
+                            <m.p
                                 initial={{ y: "100%" }}
                                 animate={{ y: 0 }}
                                 transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.35 }}
                                 className="text-xl md:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-neutral-300 to-neutral-600 font-mono tracking-wide"
                             >
                                 DevOps & Full Stack Engineer
-                            </motion.p>
+                            </m.p>
                         </div>
                     </ParallaxText>
 
                     {/* CTA Buttons - Restore pointer events */}
-                    <motion.div
+                    <m.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.8, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
@@ -75,12 +82,12 @@ export default function Hero() {
                             <span>Resume</span>
                             <FiDownload className="group-hover:-translate-y-1 transition-transform" />
                         </a>
-                    </motion.div>
+                    </m.div>
                 </div>
             </div>
 
             {/* Scroll indicator overlay */}
-            <motion.div
+            <m.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1, delay: 1.2 }}
@@ -88,7 +95,7 @@ export default function Hero() {
             >
                 <span className="text-[10px] tracking-[0.3em] uppercase">Scroll</span>
                 <div className="w-[1px] h-16 bg-neutral-800 overflow-hidden relative">
-                    <motion.div
+                    <m.div
                         animate={{
                             y: ["-100%", "100%"]
                         }}
@@ -100,7 +107,7 @@ export default function Hero() {
                         className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent via-white to-transparent"
                     />
                 </div>
-            </motion.div>
+            </m.div>
         </section>
     );
 }
