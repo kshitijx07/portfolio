@@ -52,13 +52,7 @@ export default function Skills() {
         <section className="py-32 px-6 relative z-10 overflow-hidden bg-[#050505]" id="skills">
             <KineticText text="TECHNOLOGIES" direction="right" speed={0.5} yOffset={200} />
             <div className="max-w-6xl mx-auto">
-                <motion.div
-                    initial={{ opacity: 0, y: 50 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{ duration: 0.8 }}
-                    className="mb-20"
-                >
+                <div className="mb-20">
                     <ParallaxText offset={30} direction="up">
                         <div className="flex items-center gap-4 mb-4">
                             <span className="text-neutral-500 font-mono">02.</span>
@@ -70,7 +64,7 @@ export default function Skills() {
                             <TextReveal text="Technology Stack" className="inline-block relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-neutral-400 to-white" />
                         </h2>
                     </ParallaxText>
-                </motion.div>
+                </div>
 
                 <div className="flex flex-col gap-16">
                     {skillCategories.map((category, catIdx) => (

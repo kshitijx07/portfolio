@@ -34,13 +34,7 @@ export default function Achievements() {
     return (
         <section className="py-24 px-6 relative z-10 bg-[#050505]" id="achievements">
             <div className="max-w-6xl mx-auto">
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{ duration: 0.8 }}
-                    className="mb-16"
-                >
+                <div className="mb-16">
                     <ParallaxText offset={30} direction="up">
                         <div className="flex items-center gap-4 mb-4">
                             <span className="text-neutral-500 font-mono">06.</span>
@@ -51,7 +45,7 @@ export default function Achievements() {
                             Competitive <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-300 to-white">Programming</span>
                         </h2>
                     </ParallaxText>
-                </motion.div>
+                </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {profiles.map((profile, idx) => (

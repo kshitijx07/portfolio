@@ -24,13 +24,7 @@ export default function Contact() {
     return (
         <section className="py-32 px-6 relative z-10 bg-[#080808] border-t border-white/5" id="contact">
             <div className="max-w-4xl mx-auto">
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{ duration: 0.8 }}
-                    className="mb-16 text-center"
-                >
+                <div className="mb-16 text-center">
                     <ParallaxText offset={30} direction="up">
                         <div className="flex justify-center items-center gap-4 mb-4">
                             <span className="uppercase tracking-[0.2em] text-xs text-neutral-400">What&apos;s Next?</span>
@@ -45,7 +39,7 @@ export default function Contact() {
                             Whether you have a question or just want to say hi, I&apos;ll try my best to get back to you!
                         </p>
                     </ParallaxText>
-                </motion.div>
+                </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                     {/* Contact Links */}

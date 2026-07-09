@@ -42,7 +42,7 @@ const projects = [
 
 function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
     return (
-        <div className="w-full flex flex-col gap-6 group mb-24 last:mb-0 relative" style={{ perspective: 1000 }}>
+        <div className="w-full flex flex-col gap-6 group mb-24 last:mb-0 relative">
             {/* Image Reveal Container */}
             <div className="w-full h-[400px] md:h-[600px] relative overflow-hidden rounded-2xl bg-[#050505] border border-white/5 transition-transform duration-700 group-hover:scale-[1.02]">
                 <motion.div
@@ -113,13 +113,7 @@ export default function Projects() {
     return (
         <section className="py-32 px-6 relative z-10 bg-[#050505]" id="projects">
             <div className="max-w-6xl mx-auto">
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{ duration: 0.8 }}
-                    className="mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8"
-                >
+                <div className="mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8">
                     <ParallaxText offset={40} direction="up">
                         <div>
                             <div className="flex items-center gap-4 mb-4">
@@ -132,7 +126,7 @@ export default function Projects() {
                             </h2>
                         </div>
                     </ParallaxText>
-                </motion.div>
+                </div>
 
                 <div className="flex flex-col">
                     {projects.map((project, idx) => (

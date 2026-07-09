@@ -56,13 +56,7 @@ export default function About() {
     return (
         <section className="py-32 px-6 relative z-10 bg-[#080808] border-t border-white/5" id="about">
             <div className="max-w-6xl mx-auto">
-                <motion.div
-                    initial={{ opacity: 0, y: 50 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{ duration: 0.8 }}
-                    className="mb-16 md:mb-24"
-                >
+                <div className="mb-16 md:mb-24">
                     <ParallaxText offset={20} direction="up">
                         <div className="flex items-center gap-4 mb-4">
                             <span className="text-neutral-500 font-mono">01.</span>
@@ -71,11 +65,9 @@ export default function About() {
                         </div>
                     </ParallaxText>
 
-                    <ParallaxText offset={40} direction="up">
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-black italic mb-8 tracking-tighter text-shadow-3d">
-                            <TextReveal text="Engineering Digital Systems" className="inline-block relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-neutral-300 to-white" />
-                        </h2>
-                    </ParallaxText>
+                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-black italic mb-8 tracking-tighter text-shadow-3d">
+                        <TextReveal text="Engineering Digital Systems" className="inline-block relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-neutral-300 to-white" />
+                    </h2>
 
                     <ParallaxText offset={20} direction="down">
                         <p className="text-neutral-400 text-lg md:text-xl max-w-3xl leading-relaxed relative z-10 pointer-events-none">
@@ -83,7 +75,7 @@ export default function About() {
                             My expertise bridges the gap between sophisticated frontend interfaces and rock-solid backend infrastructure, with a deep specialization in DevOps and Cloud Automation.
                         </p>
                     </ParallaxText>
-                </motion.div>
+                </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">
                     {focusAreas.map((area, idx) => (

@@ -31,13 +31,7 @@ export default function Experience() {
     return (
         <section className="py-32 px-6 relative z-10 bg-[#080808] border-t border-white/5" id="experience">
             <div className="max-w-4xl mx-auto relative" ref={containerRef}>
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{ duration: 0.8 }}
-                    className="mb-20"
-                >
+                <div className="mb-20">
                     <ParallaxText offset={30} direction="up">
                         <div className="flex items-center gap-4 mb-4">
                             <span className="text-neutral-500 font-mono">05.</span>
@@ -48,7 +42,7 @@ export default function Experience() {
                             Professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-300 to-white">Experience</span>
                         </h2>
                     </ParallaxText>
-                </motion.div>
+                </div>
 
                 <div className="relative pl-8 md:pl-12 ml-4">
                     {/* Background faint line */}

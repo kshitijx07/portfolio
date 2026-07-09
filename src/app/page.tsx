@@ -23,7 +23,7 @@ export default function Home() {
       <Interests />
       <Contact />
 
-      <footer className="py-8 text-center border-t border-white/10 bg-black/50 backdrop-blur-md relative z-10">
+      <footer className="py-8 text-center border-t border-white/10 bg-black relative z-10">
         <p className="text-neutral-500 text-sm font-mono flex items-center justify-center gap-2">
           Designed & Built by Kshitij Kumbhar
         </p>

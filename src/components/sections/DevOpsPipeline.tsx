@@ -28,13 +28,7 @@ export default function DevOpsPipeline() {
     return (
         <section className="py-24 px-6 relative z-10 bg-[#080808] border-t border-white/5" id="devops">
             <div className="max-w-4xl mx-auto relative" ref={containerRef}>
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{ duration: 0.8 }}
-                    className="mb-16"
-                >
+                <div className="mb-16">
                     <ParallaxText offset={30} direction="up">
                         <div className="flex items-center gap-4 mb-4">
                             <span className="text-neutral-500 font-mono">03.</span>
@@ -50,7 +44,7 @@ export default function DevOpsPipeline() {
                             My philosophy revolves around automation. I design robust pipelines that ensure code goes from a local machine to a production cluster reliably, securely, and instantly.
                         </p>
                     </SlideText>
-                </motion.div>
+                </div>
 
                 {/* Pipeline Visualizer */}
                 <div className="relative mt-20 py-10 glass-card rounded-3xl px-4 overflow-hidden border border-white/10">
