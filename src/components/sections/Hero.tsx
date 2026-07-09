@@ -13,17 +13,41 @@ export default function Hero() {
     const [SplineComponent, setSplineComponent] = useState<any>(null);
 
     useEffect(() => {
-        // Defer WebGL Spline initialization by 1.5s to let the main layout and fonts load first
-        const timer = setTimeout(async () => {
-            setLoadSpline(true);
-            try {
-                const module = await import("@splinetool/react-spline");
-                setSplineComponent(() => module.default);
-            } catch (e) {
-                console.error("Error loading Spline:", e);
-            }
-        }, 1500);
-        return () => clearTimeout(timer);
+        const loadAsset = () => {
+            // Defer WebGL Spline initialization by 1.5s after the window load event to let the main layout and fonts render first
+            const timer = setTimeout(async () => {
+                setLoadSpline(true);
+                try {
+                    const module = await import(
+                        /* webpackPrefetch: false, webpackPreload: false */
+                        "@splinetool/react-spline"
+                    );
+                    setSplineComponent(() => module.default);
+                } catch (e) {
+                    console.error("Error loading Spline:", e);
+                }
+            }, 1500);
+            return timer;
+        };
+
+        let timerId: NodeJS.Timeout;
+
+        if (document.readyState === "complete") {
+            timerId = loadAsset();
+        } else {
+            const handleLoad = () => {
+                timerId = loadAsset();
+            };
+            window.addEventListener("load", handleLoad);
+            return () => {
+                window.removeEventListener("load", handleLoad);
+                if (timerId) clearTimeout(timerId);
+            };
+        }
+
+        return () => {
+            if (timerId) clearTimeout(timerId);
+        };
     }, []);
 
     return (
