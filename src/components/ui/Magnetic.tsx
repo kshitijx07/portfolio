@@ -5,15 +5,24 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 
 export default function Magnetic({ children }: { children: React.ReactNode }) {
     const ref = useRef<HTMLDivElement>(null);
+    const rectRef = useRef<DOMRect | null>(null);
     const x = useMotionValue(0);
     const y = useMotionValue(0);
 
     const springX = useSpring(x, { stiffness: 150, damping: 15, mass: 0.1 });
     const springY = useSpring(y, { stiffness: 150, damping: 15, mass: 0.1 });
 
+    const handleMouseEnter = () => {
+        if (!ref.current) return;
+        rectRef.current = ref.current.getBoundingClientRect();
+    };
+
     const handleMouse = (e: React.MouseEvent<HTMLDivElement>) => {
         if (!ref.current) return;
-        const rect = ref.current.getBoundingClientRect();
+        if (!rectRef.current) {
+            rectRef.current = ref.current.getBoundingClientRect();
+        }
+        const rect = rectRef.current;
         const { clientX, clientY } = e;
         
         const middleX = clientX - (rect.left + rect.width / 2);
@@ -24,6 +33,7 @@ export default function Magnetic({ children }: { children: React.ReactNode }) {
     };
 
     const reset = () => {
+        rectRef.current = null;
         x.set(0);
         y.set(0);
     };
@@ -31,6 +41,7 @@ export default function Magnetic({ children }: { children: React.ReactNode }) {
     return (
         <motion.div
             ref={ref}
+            onMouseEnter={handleMouseEnter}
             onMouseMove={handleMouse}
             onMouseLeave={reset}
             style={{ x: springX, y: springY }}

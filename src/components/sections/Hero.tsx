@@ -1,7 +1,7 @@
 "use client";
 
 import { m, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { FiArrowDown, FiDownload } from "react-icons/fi";
 
@@ -15,14 +15,23 @@ import ParallaxText from "@/components/ui/ParallaxText";
 export default function Hero() {
     const containerRef = useRef(null);
     const isInView = useInView(containerRef, { amount: 0.1, margin: "-100px 0px -100px 0px" });
+    const [loadSpline, setLoadSpline] = useState(false);
+
+    useEffect(() => {
+        // Defer WebGL Spline initialization by 1.5s to let the main layout and fonts load first
+        const timer = setTimeout(() => {
+            setLoadSpline(true);
+        }, 1500);
+        return () => clearTimeout(timer);
+    }, []);
 
     return (
         <section ref={containerRef} className="relative w-full h-screen bg-[#050505] overflow-hidden">
             <div 
                 className="absolute inset-0 z-0 pointer-events-none"
-                style={{ display: isInView ? "block" : "none" }}
+                style={{ display: isInView && loadSpline ? "block" : "none" }}
             >
-                {isInView && <Spline scene="https://prod.spline.design/ttqM0KOYQHfnmQwm/scene.splinecode" />}
+                {isInView && loadSpline && <Spline scene="https://prod.spline.design/ttqM0KOYQHfnmQwm/scene.splinecode" />}
             </div>
 
             {/* Foreground Content - Pointer Events None to allow clicking Spline */}

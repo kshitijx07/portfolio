@@ -5,15 +5,24 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 
 export default function TiltCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
     const ref = useRef<HTMLDivElement>(null);
+    const rectRef = useRef<DOMRect | null>(null);
     const rotationX = useMotionValue(0);
     const rotationY = useMotionValue(0);
 
     const springX = useSpring(rotationX, { stiffness: 400, damping: 30, mass: 0.5 });
     const springY = useSpring(rotationY, { stiffness: 400, damping: 30, mass: 0.5 });
 
+    const handleMouseEnter = () => {
+        if (!ref.current) return;
+        rectRef.current = ref.current.getBoundingClientRect();
+    };
+
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         if (!ref.current) return;
-        const rect = ref.current.getBoundingClientRect();
+        if (!rectRef.current) {
+            rectRef.current = ref.current.getBoundingClientRect();
+        }
+        const rect = rectRef.current;
 
         const width = rect.width;
         const height = rect.height;
@@ -30,6 +39,7 @@ export default function TiltCard({ children, className = "" }: { children: React
     };
 
     const handleMouseLeave = () => {
+        rectRef.current = null;
         rotationX.set(0);
         rotationY.set(0);
     };
@@ -37,6 +47,7 @@ export default function TiltCard({ children, className = "" }: { children: React
     return (
         <motion.div
             ref={ref}
+            onMouseEnter={handleMouseEnter}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
             style={{

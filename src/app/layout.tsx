@@ -5,7 +5,7 @@ import "./globals.css";
 const syne = Syne({
   variable: "--font-space-grotesk",
   subsets: ["latin"],
-  display: 'block', // Prevents blurry FOUT - hides text until font is ready
+  display: 'swap',
 });
 
 const outfit = Outfit({
@@ -36,6 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <link rel="preconnect" href="https://prod.spline.design" crossOrigin="anonymous" />
         <script
           dangerouslySetInnerHTML={{
             __html: `

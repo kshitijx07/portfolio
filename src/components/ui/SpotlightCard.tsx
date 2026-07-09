@@ -7,20 +7,33 @@ export default function SpotlightCard({ children, className = "" }: { children: 
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
     const [isHovered, setIsHovered] = useState(false);
+    const rectRef = useRef<DOMRect | null>(null);
 
-    function handleMouseMove(e: MouseEvent) {
-        if (!e.currentTarget) return;
-        const rect = e.currentTarget.getBoundingClientRect();
+    function handleMouseEnter(e: MouseEvent<HTMLDivElement>) {
+        rectRef.current = e.currentTarget.getBoundingClientRect();
+        setIsHovered(true);
+    }
+
+    function handleMouseMove(e: MouseEvent<HTMLDivElement>) {
+        if (!rectRef.current) {
+            rectRef.current = e.currentTarget.getBoundingClientRect();
+        }
+        const rect = rectRef.current;
         mouseX.set(e.clientX - rect.left);
         mouseY.set(e.clientY - rect.top);
+    }
+
+    function handleMouseLeave() {
+        rectRef.current = null;
+        setIsHovered(false);
     }
 
     return (
         <div
             className={`group relative overflow-hidden ${className}`}
             onMouseMove={handleMouseMove}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
         >
             <motion.div
                 className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition duration-300 group-hover:opacity-100"

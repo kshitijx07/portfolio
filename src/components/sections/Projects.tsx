@@ -1,8 +1,8 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { FiExternalLink, FiGithub } from "react-icons/fi";
-import React, { useRef } from "react";
+import React from "react";
 import Magnetic from "@/components/ui/Magnetic";
 
 const projects = [
@@ -41,31 +41,26 @@ const projects = [
 ];
 
 function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
-    const containerRef = useRef<HTMLDivElement>(null);
-
-    // Parallax / Masking Reveal Logic
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ["start 90%", "center center"]
-    });
-
-    const clipPath = useTransform(scrollYProgress, [0, 1], ["inset(100% 0% 0% 0%)", "inset(0% 0% 0% 0%)"]);
-    const imageScale = useTransform(scrollYProgress, [0, 1], [1.2, 1]);
-
     return (
-        <div ref={containerRef} className="w-full flex flex-col gap-6 group mb-24 last:mb-0 relative" style={{ perspective: 1000 }}>
+        <div className="w-full flex flex-col gap-6 group mb-24 last:mb-0 relative" style={{ perspective: 1000 }}>
             {/* Image Reveal Container */}
             <div className="w-full h-[400px] md:h-[600px] relative overflow-hidden rounded-2xl bg-[#050505] border border-white/5 transition-transform duration-700 group-hover:scale-[1.02]">
                 <motion.div
                     className="absolute inset-0 w-full h-full overflow-hidden"
-                    style={{ clipPath } as any}
+                    initial={{ clipPath: "inset(100% 0% 0% 0%)" }}
+                    whileInView={{ clipPath: "inset(0% 0% 0% 0%)" }}
+                    viewport={{ once: true, amount: 0.2 }}
+                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                 >
                     <motion.img
                         src={project.image}
                         alt={project.title}
                         loading="lazy"
                         decoding="async"
-                        style={{ scale: imageScale }}
+                        initial={{ scale: 1.2 }}
+                        whileInView={{ scale: 1 }}
+                        viewport={{ once: true, amount: 0.2 }}
+                        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                         className="w-full h-[400px] md:h-[600px] object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-700 grayscale hover:grayscale-0"
                     />
                     {/* Overlay gradient */}
