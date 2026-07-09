@@ -4,28 +4,23 @@ import { m, useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { FiArrowDown, FiDownload } from "react-icons/fi";
 
-import ParallaxText from "@/components/ui/ParallaxText";
-
 export default function Hero() {
     const containerRef = useRef(null);
     const isInView = useInView(containerRef, { amount: 0.1, margin: "-100px 0px -100px 0px" });
     const [loadSpline, setLoadSpline] = useState(false);
-    const [SplineComponent, setSplineComponent] = useState<any>(null);
 
     useEffect(() => {
         const loadAsset = () => {
             // Defer WebGL Spline initialization by 1.5s after the window load event to let the main layout and fonts render first
-            const timer = setTimeout(async () => {
-                setLoadSpline(true);
-                try {
-                    const module = await import(
-                        /* webpackPrefetch: false, webpackPreload: false */
-                        "@splinetool/react-spline"
-                    );
-                    setSplineComponent(() => module.default);
-                } catch (e) {
-                    console.error("Error loading Spline:", e);
-                }
+            const timer = setTimeout(() => {
+                const script = document.createElement("script");
+                script.type = "module";
+                script.src = "https://unpkg.com/@splinetool/viewer@1.9.54/build/spline-viewer.js";
+                script.async = true;
+                script.onload = () => {
+                    setLoadSpline(true);
+                };
+                document.head.appendChild(script);
             }, 1500);
             return timer;
         };
@@ -57,11 +52,11 @@ export default function Hero() {
                 style={{ display: isInView && loadSpline ? "block" : "none" }}
             >
                 {isInView && loadSpline && (
-                    SplineComponent ? (
-                        <SplineComponent scene="https://prod.spline.design/ttqM0KOYQHfnmQwm/scene.splinecode" />
-                    ) : (
-                        <div className="absolute inset-0 flex items-center justify-center text-white/30 tracking-widest text-sm font-mono animate-pulse">Initializing WebGL Engine...</div>
-                    )
+                    <spline-viewer 
+                        url="https://prod.spline.design/ttqM0KOYQHfnmQwm/scene.splinecode"
+                        loading="lazy"
+                        class="w-full h-full"
+                    />
                 )}
             </div>
 
@@ -92,18 +87,16 @@ export default function Hero() {
                         </m.h1>
                     </div>
 
-                    <ParallaxText offset={30} direction="down">
-                        <div className="overflow-hidden py-2 mt-2">
-                            <m.p
-                                initial={{ y: "100%" }}
-                                animate={{ y: 0 }}
-                                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.35 }}
-                                className="text-xl md:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-neutral-300 to-neutral-600 font-mono tracking-wide"
-                            >
-                                DevOps & Full Stack Engineer
-                            </m.p>
-                        </div>
-                    </ParallaxText>
+                    <div className="overflow-hidden py-2 mt-2">
+                        <m.p
+                            initial={{ y: "100%" }}
+                            animate={{ y: 0 }}
+                            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.35 }}
+                            className="text-xl md:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-neutral-300 to-neutral-600 font-mono tracking-wide"
+                        >
+                            DevOps & Full Stack Engineer
+                        </m.p>
+                    </div>
 
                     {/* CTA Buttons - Restore pointer events */}
                     <m.div
