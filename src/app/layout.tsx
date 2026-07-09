@@ -5,18 +5,21 @@ import "./globals.css";
 const syne = Syne({
   variable: "--font-space-grotesk",
   subsets: ["latin"],
+  weight: ["700", "800"],
   display: 'swap',
 });
 
 const outfit = Outfit({
   variable: "--font-inter",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "700"],
   display: 'swap',
 });
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
   subsets: ["latin"],
+  weight: ["400"],
   display: 'swap',
 });
 

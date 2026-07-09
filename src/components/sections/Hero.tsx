@@ -2,13 +2,7 @@
 
 import { m, useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
-import dynamic from "next/dynamic";
 import { FiArrowDown, FiDownload } from "react-icons/fi";
-
-const Spline = dynamic(() => import("@splinetool/react-spline"), {
-    ssr: false,
-    loading: () => <div className="absolute inset-0 flex items-center justify-center text-white/30 tracking-widest text-sm font-mono animate-pulse">Initializing WebGL Engine...</div>
-});
 
 import ParallaxText from "@/components/ui/ParallaxText";
 
@@ -16,11 +10,18 @@ export default function Hero() {
     const containerRef = useRef(null);
     const isInView = useInView(containerRef, { amount: 0.1, margin: "-100px 0px -100px 0px" });
     const [loadSpline, setLoadSpline] = useState(false);
+    const [SplineComponent, setSplineComponent] = useState<any>(null);
 
     useEffect(() => {
         // Defer WebGL Spline initialization by 1.5s to let the main layout and fonts load first
-        const timer = setTimeout(() => {
+        const timer = setTimeout(async () => {
             setLoadSpline(true);
+            try {
+                const module = await import("@splinetool/react-spline");
+                setSplineComponent(() => module.default);
+            } catch (e) {
+                console.error("Error loading Spline:", e);
+            }
         }, 1500);
         return () => clearTimeout(timer);
     }, []);
@@ -31,7 +32,13 @@ export default function Hero() {
                 className="absolute inset-0 z-0 pointer-events-none"
                 style={{ display: isInView && loadSpline ? "block" : "none" }}
             >
-                {isInView && loadSpline && <Spline scene="https://prod.spline.design/ttqM0KOYQHfnmQwm/scene.splinecode" />}
+                {isInView && loadSpline && (
+                    SplineComponent ? (
+                        <SplineComponent scene="https://prod.spline.design/ttqM0KOYQHfnmQwm/scene.splinecode" />
+                    ) : (
+                        <div className="absolute inset-0 flex items-center justify-center text-white/30 tracking-widest text-sm font-mono animate-pulse">Initializing WebGL Engine...</div>
+                    )
+                )}
             </div>
 
             {/* Foreground Content - Pointer Events None to allow clicking Spline */}
