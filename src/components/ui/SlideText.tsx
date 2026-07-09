@@ -1,7 +1,6 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
 
 interface SlideTextProps {
     children: React.ReactNode;
@@ -11,22 +10,14 @@ interface SlideTextProps {
 }
 
 export default function SlideText({ children, direction = "left", offset = 200, className = "" }: SlideTextProps) {
-    const ref = useRef<HTMLDivElement>(null);
-
-    const { scrollYProgress } = useScroll({
-        target: ref,
-        offset: ["start end", "end start"]
-    });
-
-    // Map scroll progress to horizontal translation
-    const xParams = direction === "left" ? [-offset, offset] : [offset, -offset];
-    const x = useTransform(scrollYProgress, [0, 1], xParams);
-    const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+    const xStart = direction === "left" ? -offset : offset;
 
     return (
         <motion.div
-            ref={ref}
-            style={{ x, opacity } as any}
+            initial={{ opacity: 0, x: xStart }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.8, ease: [0.215, 0.61, 0.355, 1] }}
             className={`w-full relative ${className}`}
         >
             {children}

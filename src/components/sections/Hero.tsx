@@ -95,28 +95,6 @@ export default function Hero() {
                 </div>
             </div>
 
-            {/* Scroll indicator overlay */}
-            <m.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1, delay: 1.2 }}
-                className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 text-neutral-500 pointer-events-none z-10"
-            >
-                <span className="text-[10px] tracking-[0.3em] uppercase">Scroll</span>
-                <div className="w-[1px] h-16 bg-neutral-800 overflow-hidden relative">
-                    <m.div
-                        animate={{
-                            y: ["-100%", "100%"]
-                        }}
-                        transition={{
-                            repeat: Infinity,
-                            duration: 2,
-                            ease: "easeInOut"
-                        }}
-                        className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent via-white to-transparent"
-                    />
-                </div>
-            </m.div>
         </section>
     );
 }

@@ -1,7 +1,6 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 
 interface ParallaxTextProps {
     children: React.ReactNode;
@@ -11,19 +10,16 @@ interface ParallaxTextProps {
 }
 
 export default function ParallaxText({ children, offset = 50, direction = "up", className = "" }: ParallaxTextProps) {
-    const ref = useRef<HTMLDivElement>(null);
-
-    const { scrollYProgress } = useScroll({
-        target: ref,
-        offset: ["start end", "end start"]
-    });
-
-    const yParams = direction === "up" ? [offset, -offset] : [-offset, offset];
-    const y = useTransform(scrollYProgress, [0, 1], yParams);
-    const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+    const yStart = direction === "up" ? offset : -offset;
 
     return (
-        <motion.div ref={ref} style={{ y, opacity } as any} className={`relative ${className}`}>
+        <motion.div
+            initial={{ opacity: 0, y: yStart }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.8, ease: [0.215, 0.61, 0.355, 1] }}
+            className={`relative ${className}`}
+        >
             {children}
         </motion.div>
     );
