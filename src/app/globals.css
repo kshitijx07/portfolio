@@ -25,6 +25,28 @@
   text-shadow: 0 4px 20px rgba(255, 255, 255, 0.4), 0 0 40px rgba(255, 255, 255, 0.1);
 }
 
+@utility text-gradient-3d {
+  color: #ffffff;
+}
+
+.fonts-loaded .text-gradient-3d {
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  background-image: linear-gradient(to right, #d4d4d4, #ffffff);
+}
+
+@utility text-gradient-3d-medium {
+  color: #ffffff;
+}
+
+.fonts-loaded .text-gradient-3d-medium {
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  background-image: linear-gradient(to right, #a3a3a3, #ffffff);
+}
+
 @utility text-glow {
   text-shadow: 0 0 20px rgba(255, 255, 255, 0.5), 0 0 10px rgba(255, 255, 255, 0.2);
 }

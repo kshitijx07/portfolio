@@ -122,7 +122,7 @@ export default function Projects() {
                                 <span className="uppercase tracking-[0.2em] text-xs text-neutral-400">Selected Work</span>
                             </div>
                             <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter text-shadow-3d">
-                                Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-300 to-white">Projects</span>
+                                Featured <span className="text-gradient-3d">Projects</span>
                             </h2>
                         </div>
                     </ParallaxText>

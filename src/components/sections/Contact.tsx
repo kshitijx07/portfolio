@@ -30,7 +30,7 @@ export default function Contact() {
                             <span className="uppercase tracking-[0.2em] text-xs text-neutral-400">What&apos;s Next?</span>
                         </div>
                         <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter mb-6 text-shadow-3d">
-                            Get In <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-300 to-white">Touch</span>
+                            Get In <span className="text-gradient-3d">Touch</span>
                         </h2>
                     </ParallaxText>
                     <ParallaxText offset={15} direction="down">

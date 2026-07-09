@@ -69,7 +69,7 @@ export default function Hero() {
                         <m.p
                             initial={{ y: "100%" }}
                             animate={{ y: 0 }}
-                            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+                            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
                             className="text-neutral-400 tracking-[0.2em] uppercase text-sm font-medium"
                         >
                             Welcome to my universe
@@ -80,7 +80,7 @@ export default function Hero() {
                         <m.h1
                             initial={{ y: "100%" }}
                             animate={{ y: 0 }}
-                            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+                            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
                             className="text-6xl md:text-8xl lg:text-[7rem] font-black italic tracking-tighter leading-none text-white drop-shadow-2xl text-shadow-3d"
                         >
                             KSHITIJ KUMBHAR
@@ -91,7 +91,7 @@ export default function Hero() {
                         <m.p
                             initial={{ y: "100%" }}
                             animate={{ y: 0 }}
-                            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.35 }}
+                            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.45 }}
                             className="text-xl md:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-neutral-300 to-neutral-600 font-mono tracking-wide"
                         >
                             DevOps & Full Stack Engineer
@@ -102,7 +102,7 @@ export default function Hero() {
                     <m.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.8, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                        transition={{ duration: 0.8, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
                         className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-12 pointer-events-auto"
                     >
                         <button onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })} suppressHydrationWarning className="group relative px-8 py-4 bg-white text-black font-medium tracking-wide rounded-full overflow-hidden transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3 w-full sm:w-auto">

@@ -36,7 +36,7 @@ export default function DevOpsPipeline() {
                             <span className="uppercase tracking-[0.2em] text-xs text-neutral-400">Infrastructure</span>
                         </div>
                         <h2 className="text-4xl md:text-6xl font-black italic tracking-tighter text-shadow-3d">
-                            Automated <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-300 to-white">CI/CD Pipelines</span>
+                            Automated <span className="text-gradient-3d">CI/CD Pipelines</span>
                         </h2>
                     </ParallaxText>
                     <SlideText direction="left" offset={100}>

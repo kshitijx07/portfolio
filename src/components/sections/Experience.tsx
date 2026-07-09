@@ -39,7 +39,7 @@ export default function Experience() {
                             <span className="uppercase tracking-[0.2em] text-xs text-neutral-400">Career</span>
                         </div>
                         <h2 className="text-5xl md:text-7xl font-black italic tracking-tighter text-shadow-3d">
-                            Professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-300 to-white">Experience</span>
+                            Professional <span className="text-gradient-3d">Experience</span>
                         </h2>
                     </ParallaxText>
                 </div>

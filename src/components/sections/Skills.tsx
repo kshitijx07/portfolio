@@ -61,7 +61,7 @@ export default function Skills() {
                         </div>
 
                         <h2 className="text-5xl md:text-7xl font-black italic tracking-tighter text-shadow-3d">
-                            <TextReveal text="Technology Stack" className="inline-block relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-neutral-400 to-white" />
+                            <TextReveal text="Technology Stack" className="inline-block relative z-10 text-gradient-3d-medium" />
                         </h2>
                     </ParallaxText>
                 </div>
