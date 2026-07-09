@@ -25,6 +25,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 import PageTransition from "@/components/ui/PageTransition";
 import { LazyMotion, domMax } from "framer-motion";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   title: "Kshitij Kumbhar | Creative Developer",
@@ -60,6 +61,7 @@ export default function RootLayout({
         <LazyMotion features={domMax}>
           <PageTransition />
           {children}
+          <Analytics />
         </LazyMotion>
       </body>
     </html>
