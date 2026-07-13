@@ -12,7 +12,7 @@ const projects = [
         tech: ["AWS EKS", "Kubernetes", "CloudFront", "S3", "ALB", "Jenkins", "Docker", "React.js", "Node.js", "MongoDB Atlas"],
         github: "https://github.com/kshitijx07/Hostelhub",
         demo: "https://hostelhub-ruby.vercel.app",
-        image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop"
+        image: "/hostelhub_ui.png"
     },
     {
         title: "Grocito",
@@ -20,7 +20,7 @@ const projects = [
         tech: ["Spring Boot", "React.js", "MySQL", "REST APIs", "Real-Time Tracking"],
         github: "https://github.com/kshitijx07/Grocito-Copy",
         demo: "https://grocito-user.vercel.app/",
-        image: "https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1974&auto=format&fit=crop"
+        image: "/grocito_ui.png"
     },
     {
         title: "Serverless AI X-Ray",
@@ -28,7 +28,7 @@ const projects = [
         tech: ["AWS Lambda", "AWS X-Ray", "OpenAI API", "Node.js", "Serverless Framework"],
         github: "https://github.com/kshitijx07/serverless-ai-xray",
         demo: "#",
-        image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop"
+        image: "/serverless_xray_ui.png"
     }
 ];
 
@@ -39,8 +39,8 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
             <div className="w-full h-[400px] md:h-[600px] relative overflow-hidden rounded-2xl bg-[#050505] border border-white/5 transition-transform duration-700 group-hover:scale-[1.02]">
                 <motion.div
                     className="absolute inset-0 w-full h-full overflow-hidden"
-                    initial={{ clipPath: "inset(100% 0% 0% 0%)" }}
-                    whileInView={{ clipPath: "inset(0% 0% 0% 0%)" }}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true, amount: 0.2 }}
                     transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                 >
