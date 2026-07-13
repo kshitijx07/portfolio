@@ -8,16 +8,16 @@ import Magnetic from "@/components/ui/Magnetic";
 const projects = [
     {
         title: "HostelHub",
-        description: "A comprehensive scalable hostel management system built to handle large scale bookings, payments, and student records with robust architecture.",
-        tech: ["Next.js", "Node.js", "Express", "MongoDB", "AWS", "Docker", "Jenkins"],
+        description: "Decoupled cloud-native hostel management platform with a React frontend on Amazon S3 and a Node.js REST API on AWS EKS (Kubernetes), with role-based access control.",
+        tech: ["AWS EKS", "Kubernetes", "CloudFront", "S3", "ALB", "Jenkins", "Docker", "React.js", "Node.js", "MongoDB Atlas"],
         github: "https://github.com/kshitijx07/Hostelhub",
         demo: "https://hostelhub-ruby.vercel.app",
         image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop"
     },
     {
         title: "Grocito",
-        description: "Full-fleged online grocery delivery platform featuring real-time inventory management, secure payments, and an intuitive user interface.",
-        tech: ["React.js", "Spring Boot", "MySQL", "TailwindCSS"],
+        description: "A three-portal grocery ordering system (Customer, Admin, Delivery Partner) featuring real-time order tracking, payment processing, and live map integration.",
+        tech: ["Spring Boot", "React.js", "MySQL", "REST APIs", "Real-Time Tracking"],
         github: "https://github.com/kshitijx07/Grocito-Copy",
         demo: "https://grocito-user.vercel.app/",
         image: "https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1974&auto=format&fit=crop"

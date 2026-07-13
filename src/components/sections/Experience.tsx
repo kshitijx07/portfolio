@@ -5,13 +5,26 @@ import { motion, useScroll, useTransform } from "framer-motion";
 
 const experiences = [
     {
+        role: "DevOps Intern",
+        company: "Colgate-Palmolive – DevOps Team",
+        duration: "Jul 2026 - Present",
+        description: [
+            "Working with enterprise DevOps workflows to support application deployment and infrastructure automation.",
+            "Gaining hands-on experience with CI/CD pipelines using Jenkins, Git, and GitHub.",
+            "Learning cloud infrastructure management on AWS and containerized application deployment using Docker.",
+            "Assisting in Linux system administration, deployment automation, and environment configuration.",
+            "Collaborating with cross-functional engineering teams to understand production-grade DevOps practices and software delivery processes.",
+            "Continuously improving knowledge of Kubernetes, Infrastructure as Code (Terraform), monitoring, and cloud-native application deployment."
+        ]
+    },
+    {
         role: "Full Stack Developer Intern",
         company: "Campus Credential",
-        duration: "Jan 2024 - Present",
+        duration: "Jun 2025 - Aug 2025",
         description: [
-            "Designed and implemented RESTful APIs using Node.js and Express.",
-            "Engineered frontend interfaces with React, improving site load performance by 30%.",
-            "Collaborated on designing database schemas reducing query latency."
+            "Owned end-to-end delivery of the Grocito platform, from requirements gathering and system design to production deployment, within a six-week sprint.",
+            "Led backend architecture decisions using Spring Boot and MySQL, establishing a modular MVC structure that supported parallel development across three portals.",
+            "Facilitated daily standups and sprint reviews within an agile team of three, coordinating feature delivery and code reviews to maintain on-schedule releases."
         ]
     }
 ];
