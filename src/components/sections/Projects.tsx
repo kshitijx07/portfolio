@@ -31,12 +31,12 @@ const projects = [
         image: "https://images.unsplash.com/photo-1544568100-847a948585b9?q=80&w=1974&auto=format&fit=crop"
     },
     {
-        title: "MechItEasy",
-        description: "Automotive service booking system that connects vehicle owners with nearby verified mechanics, complete with live tracking.",
-        tech: ["Next.js", "Express", "PostgreSQL", "Google Maps API"],
-        github: "#",
-        demo: "https://mechiteasy.vercel.app/",
-        image: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?q=80&w=2066&auto=format&fit=crop"
+        title: "Serverless AI X-Ray",
+        description: "An AI-powered serverless observability tool that leverages AWS Lambda, AWS X-Ray, and OpenAI to analyze request traces and automatically generate performance diagnoses.",
+        tech: ["AWS Lambda", "AWS X-Ray", "OpenAI API", "Node.js", "Serverless Framework"],
+        github: "https://github.com/kshitijx07/serverless-ai-xray",
+        demo: "#",
+        image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop"
     }
 ];
 

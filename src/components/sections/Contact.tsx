@@ -70,7 +70,7 @@ export default function Contact() {
                             </div>
                         </a>
 
-                        <a href="https://www.linkedin.com/in/kshitij-kumbhar-4129712a3" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-4 p-4 rounded-xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/10">
+                        <a href="https://www.linkedin.com/in/kshitij-kumbhar-369777x/" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-4 p-4 rounded-xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/10">
                             <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-[#0A66C2] group-hover:text-white transition-all">
                                 <FiLinkedin size={20} />
                             </div>
