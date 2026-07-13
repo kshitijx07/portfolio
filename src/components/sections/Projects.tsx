@@ -23,14 +23,6 @@ const projects = [
         image: "https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1974&auto=format&fit=crop"
     },
     {
-        title: "Pet Management Platform",
-        description: "A comprehensive, full-stack web application designed for pet lovers. This platform streamlines pet adoptions, daycare scheduling, and medical record tracking with integrated Razorpay payments.",
-        tech: ["React.js", "TailwindCSS", "Node.js", "Express", "MySQL", "JWT"],
-        github: "https://github.com/kshitijx07/pet-managment.git",
-        demo: "#",
-        image: "https://images.unsplash.com/photo-1544568100-847a948585b9?q=80&w=1974&auto=format&fit=crop"
-    },
-    {
         title: "Serverless AI X-Ray",
         description: "An AI-powered serverless observability tool that leverages AWS Lambda, AWS X-Ray, and OpenAI to analyze request traces and automatically generate performance diagnoses.",
         tech: ["AWS Lambda", "AWS X-Ray", "OpenAI API", "Node.js", "Serverless Framework"],
