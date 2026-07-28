@@ -9,7 +9,7 @@ import PlatformUpdatesModule from "@/components/bento/PlatformUpdatesModule";
 import AboutEducationModule from "@/components/bento/AboutEducationModule";
 import KeyMilestonesModule from "@/components/bento/KeyMilestonesModule";
 import WorksCarouselModule from "@/components/bento/WorksCarouselModule";
-import DevOpsTerminalSandbox from "@/components/bento/DevOpsTerminalSandbox";
+import RetroPixelGameRoom from "@/components/bento/RetroPixelGameRoom";
 import CodingProfilesBento from "@/components/bento/CodingProfilesBento";
 import ExperienceTimelineModule from "@/components/bento/ExperienceTimelineModule";
 import ContactResumePanel from "@/components/bento/ContactResumePanel";
@@ -140,7 +140,7 @@ export default function Home() {
         />
       </motion.section>
 
-      {/* CREATIVE GAME-STYLE DEVOPS ARCADE & SYSTEM SIMULATOR */}
+      {/* RETRO PIXEL DEVELOPER ROOM (Playable 2D Game World) */}
       <motion.section
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -148,7 +148,10 @@ export default function Home() {
         transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
         className="w-full"
       >
-        <DevOpsTerminalSandbox />
+        <RetroPixelGameRoom
+          projects={projectsData}
+          onOpenCaseStudy={setSelectedProject}
+        />
       </motion.section>
 
       {/* CODING PROFILES (Elevated Bento Tiles) */}
