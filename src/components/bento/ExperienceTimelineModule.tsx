@@ -36,14 +36,14 @@ export default function ExperienceTimelineModule() {
   return (
     <PinterestCardWrapper stampText="CAREER" pinLabel="Pin Experience">
       <div className="w-full overflow-hidden" data-cursor="Timeline">
-        <div className="flex items-center justify-between gap-4 mb-6 pb-4 border-b border-[#E8E3DA]">
+        <div className="flex items-center justify-between gap-4 mb-6 pb-4 border-b border-[#E8E3DA] dark:border-[#2E2C29] transition-colors">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-[#2D4030] text-white flex items-center justify-center shadow-sm">
+            <div className="w-10 h-10 rounded-xl bg-[#2D4030] dark:bg-[#4E6E52] text-white flex items-center justify-center shadow-sm">
               <Briefcase size={20} />
             </div>
             <div>
               <span className="bento-label !mb-0">CAREER JOURNEY // CHAPTER 05</span>
-              <h3 className="text-2xl font-editorial font-bold text-[#1A1918]">
+              <h3 className="text-2xl font-editorial font-bold text-[#1A1918] dark:text-[#FAF9F7] transition-colors">
                 Professional Timeline
               </h3>
             </div>
@@ -56,31 +56,31 @@ export default function ExperienceTimelineModule() {
 
           {experiences.map((exp, idx) => (
             <div key={idx} className="relative z-10">
-              <div className="absolute -left-[35px] md:-left-[43px] top-1.5 w-4 h-4 rounded-full bg-[#C86D51] border-2 border-white shadow-sm z-10" />
+              <div className="absolute -left-[35px] md:-left-[43px] top-1.5 w-4 h-4 rounded-full bg-[#C86D51] dark:bg-[#E07A5F] border-2 border-white dark:border-[#1C1B19] shadow-sm z-10" />
 
-              <div className="bg-[#F9F7F4] p-5 rounded-2xl border border-[#E8E3DA] shadow-sm hover:border-[#C86D51] transition-colors">
+              <div className="bg-[#F9F7F4] dark:bg-[#242220] p-5 rounded-2xl border border-[#E8E3DA] dark:border-[#2E2C29] shadow-sm hover:border-[#C86D51] dark:hover:border-[#E07A5F] transition-colors">
                 <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
-                  <span className="px-3 py-1 rounded-full bg-[#F2E4DF] text-[#C86D51] text-xs font-mono font-medium">
+                  <span className="px-3 py-1 rounded-full bg-[#F2E4DF] dark:bg-[#38241E] text-[#C86D51] dark:text-[#E07A5F] text-xs font-mono font-medium transition-colors">
                     {exp.tag}
                   </span>
-                  <span className="text-xs text-[#6E6C68] font-mono flex items-center gap-1">
+                  <span className="text-xs text-[#6E6C68] dark:text-[#A3A098] font-mono flex items-center gap-1 transition-colors">
                     <Calendar size={12} />
                     {exp.duration}
                   </span>
                 </div>
 
-                <h4 className="text-xl font-editorial font-bold text-[#1A1918]">
+                <h4 className="text-xl font-editorial font-bold text-[#1A1918] dark:text-[#FAF9F7] transition-colors">
                   {exp.role}
                 </h4>
-                <p className="text-xs md:text-sm font-semibold text-[#2D4030] mb-3 flex items-center gap-1">
+                <p className="text-xs md:text-sm font-semibold text-[#2D4030] dark:text-[#4E6E52] mb-3 flex items-center gap-1 transition-colors">
                   <span>{exp.company}</span>
-                  <span className="text-[#6E6C68] font-normal">• {exp.location}</span>
+                  <span className="text-[#6E6C68] dark:text-[#A3A098] font-normal">• {exp.location}</span>
                 </p>
 
                 <ul className="space-y-2 mt-3">
                   {exp.points.map((pt, pIdx) => (
-                    <li key={pIdx} className="flex items-start gap-2 text-xs md:text-sm text-[#2B2A29]">
-                      <CheckCircle2 size={14} className="text-[#C86D51] mt-0.5 shrink-0" />
+                    <li key={pIdx} className="flex items-start gap-2 text-xs md:text-sm text-[#2B2A29] dark:text-[#FAF9F7] transition-colors">
+                      <CheckCircle2 size={14} className="text-[#C86D51] dark:text-[#E07A5F] mt-0.5 shrink-0" />
                       <span>{pt}</span>
                     </li>
                   ))}

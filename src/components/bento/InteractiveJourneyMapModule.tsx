@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MapPin, Navigation, Compass, Globe2, ArrowUpRight, ListFilter, Sparkles } from "lucide-react";
+import { MapPin, Compass, Globe2, ArrowUpRight, ListFilter } from "lucide-react";
 import PinterestCardWrapper from "@/components/ui/PinterestCardWrapper";
 import { ProjectData } from "@/components/modals/CaseStudyModal";
 
@@ -10,7 +10,7 @@ interface MapPinLocation {
   id: string;
   name: string;
   region: string;
-  coords: { x: number; y: number }; // Percentage coords on map
+  coords: { x: number; y: number };
   type: "project" | "internship" | "education";
   title: string;
   subtitle: string;
@@ -94,10 +94,10 @@ export default function InteractiveJourneyMapModule({ onOpenCaseStudy, projects 
     <PinterestCardWrapper stampText="GEOGRAPHY // JOURNEY MAP" pinLabel="Pin Map">
       <div className="w-full flex flex-col justify-between" data-cursor="Pan Map">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-[#E8E3DA]">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-[#E8E3DA] dark:border-[#2E2C29] transition-colors">
           <div>
             <span className="bento-label">CHAPTER 02 // GEOGRAPHIC ITINERARY</span>
-            <h3 className="text-2xl font-editorial font-bold text-[#1A1918]">
+            <h3 className="text-2xl font-editorial font-bold text-[#1A1918] dark:text-[#FAF9F7] transition-colors">
               Interactive Journey & Project Map
             </h3>
           </div>
@@ -105,7 +105,7 @@ export default function InteractiveJourneyMapModule({ onOpenCaseStudy, projects 
           <div className="flex items-center gap-2">
             <button
               onClick={() => setViewMode(viewMode === "map" ? "list" : "map")}
-              className="px-3.5 py-1.5 rounded-full bg-[#EFECE6] hover:bg-[#C86D51] hover:text-white text-xs font-mono font-medium transition-colors text-[#1A1918] flex items-center gap-1.5"
+              className="px-3.5 py-1.5 rounded-full bg-[#EFECE6] dark:bg-[#2A2825] hover:bg-[#C86D51] dark:hover:bg-[#E07A5F] hover:text-white text-xs font-mono font-medium transition-colors text-[#1A1918] dark:text-[#FAF9F7] flex items-center gap-1.5"
             >
               {viewMode === "map" ? <ListFilter size={14} /> : <Globe2 size={14} />}
               <span>{viewMode === "map" ? "List View" : "Map View"}</span>
@@ -117,29 +117,31 @@ export default function InteractiveJourneyMapModule({ onOpenCaseStudy, projects 
         {viewMode === "map" ? (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
             {/* SVG/Canvas Map Canvas */}
-            <div className="lg:col-span-8 relative w-full h-[380px] md:h-[440px] rounded-2xl border border-[#E8E3DA] bg-[#FAF9F7] overflow-hidden p-4 shadow-inner">
+            <div className="lg:col-span-8 relative w-full h-[380px] md:h-[440px] rounded-2xl border border-[#E8E3DA] dark:border-[#2E2C29] bg-[#FAF9F7] dark:bg-[#151413] overflow-hidden p-4 shadow-inner transition-colors">
               {/* Paper Grid Lines */}
-              <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#C86D51_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
+              <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#C86D51_1px,transparent_1px)] dark:bg-[radial-gradient(#E07A5F_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
 
               {/* World/Regional Map Outline SVG */}
-              <svg className="w-full h-full text-[#E8E3DA]" viewBox="0 0 1000 500" fill="none" stroke="currentColor">
-                {/* Simplified Continents Silhouette */}
+              <svg className="w-full h-full text-[#E8E3DA] dark:text-[#2E2C29]" viewBox="0 0 1000 500" fill="none" stroke="currentColor">
                 <path
                   d="M150,150 Q200,100 300,140 Q350,220 250,280 Q180,320 120,250 Z"
                   fill="#F2E4DF"
-                  fillOpacity="0.4"
+                  className="dark:fill-[#2B221E]"
+                  fillOpacity="0.5"
                   strokeWidth="1.5"
                 />
                 <path
                   d="M450,120 Q550,80 650,120 Q700,200 620,300 Q500,340 430,220 Z"
                   fill="#E5EDE6"
-                  fillOpacity="0.4"
+                  className="dark:fill-[#1E2A20]"
+                  fillOpacity="0.5"
                   strokeWidth="1.5"
                 />
                 <path
                   d="M680,180 Q780,150 880,200 Q920,300 800,360 Q720,380 660,280 Z"
                   fill="#F2E4DF"
-                  fillOpacity="0.4"
+                  className="dark:fill-[#2B221E]"
+                  fillOpacity="0.5"
                   strokeWidth="1.5"
                 />
 
@@ -147,6 +149,7 @@ export default function InteractiveJourneyMapModule({ onOpenCaseStudy, projects 
                 <motion.path
                   d="M 280,160 L 420,190 L 620,240 L 680,290 L 720,275"
                   stroke="#C86D51"
+                  className="dark:stroke-[#E07A5F]"
                   strokeWidth="2.5"
                   strokeDasharray="6,6"
                   initial={{ pathLength: 0 }}
@@ -169,21 +172,21 @@ export default function InteractiveJourneyMapModule({ onOpenCaseStudy, projects 
                     {/* Pulsating Ring */}
                     <div
                       className={`w-8 h-8 rounded-full absolute -top-2 -left-2 animate-ping opacity-75 ${
-                        isSelected ? "bg-[#C86D51]" : "bg-[#2D4030]"
+                        isSelected ? "bg-[#C86D51] dark:bg-[#E07A5F]" : "bg-[#2D4030] dark:bg-[#4E6E52]"
                       }`}
                     />
 
                     {/* Pin Icon */}
                     <div
-                      className={`w-6 h-6 rounded-full flex items-center justify-center text-white shadow-md border-2 border-white transition-colors ${
-                        isSelected ? "bg-[#C86D51]" : "bg-[#1A1918] group-hover:bg-[#C86D51]"
+                      className={`w-6 h-6 rounded-full flex items-center justify-center text-white shadow-md border-2 border-white dark:border-[#1C1B19] transition-colors ${
+                        isSelected ? "bg-[#C86D51] dark:bg-[#E07A5F]" : "bg-[#1A1918] dark:bg-[#FAF9F7] dark:text-[#1A1918] group-hover:bg-[#C86D51] dark:group-hover:bg-[#E07A5F] dark:group-hover:text-white"
                       }`}
                     >
                       <MapPin size={13} />
                     </div>
 
                     {/* Hover Tooltip */}
-                    <div className="absolute top-7 left-1/2 -translate-x-1/2 whitespace-nowrap bg-[#1A1918] text-white text-[10px] font-mono px-2.5 py-1 rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-30">
+                    <div className="absolute top-7 left-1/2 -translate-x-1/2 whitespace-nowrap bg-[#1A1918] dark:bg-[#FAF9F7] text-white dark:text-[#1A1918] text-[10px] font-mono px-2.5 py-1 rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-30">
                       {pin.name}
                     </div>
                   </motion.div>
@@ -191,8 +194,8 @@ export default function InteractiveJourneyMapModule({ onOpenCaseStudy, projects 
               })}
 
               {/* Map Controls */}
-              <div className="absolute bottom-3 left-3 bg-[#FFFDF9]/90 backdrop-blur-sm px-3 py-1.5 rounded-full border border-[#E8E3DA] text-[10px] font-mono text-[#6E6C68] flex items-center gap-2 shadow-sm">
-                <Compass size={13} className="text-[#C86D51] animate-spin-slow" />
+              <div className="absolute bottom-3 left-3 bg-[#FFFDF9]/90 dark:bg-[#1C1B19]/90 backdrop-blur-sm px-3 py-1.5 rounded-full border border-[#E8E3DA] dark:border-[#2E2C29] text-[10px] font-mono text-[#6E6C68] dark:text-[#A3A098] flex items-center gap-2 shadow-sm transition-colors">
+                <Compass size={13} className="text-[#C86D51] dark:text-[#E07A5F] animate-spin-slow" />
                 <span>Pan & Click Pins to Explore Journey</span>
               </div>
             </div>
@@ -206,31 +209,31 @@ export default function InteractiveJourneyMapModule({ onOpenCaseStudy, projects 
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -16 }}
                   transition={{ duration: 0.3 }}
-                  className="bg-[#FFFDF9] border border-[#E8E3DA] p-5 rounded-2xl shadow-sm flex flex-col justify-between h-full"
+                  className="bg-[#FFFDF9] dark:bg-[#242220] border border-[#E8E3DA] dark:border-[#2E2C29] p-5 rounded-2xl shadow-sm flex flex-col justify-between h-full transition-colors"
                 >
                   <div>
-                    <div className="relative w-full h-36 rounded-xl overflow-hidden mb-4 border border-[#E8E3DA] bg-[#EFECE6]">
+                    <div className="relative w-full h-36 rounded-xl overflow-hidden mb-4 border border-[#E8E3DA] dark:border-[#2E2C29] bg-[#EFECE6] dark:bg-[#1A1918]">
                       <img src={selectedPin.image} alt={selectedPin.title} className="w-full h-full object-cover" />
-                      <span className="absolute top-2 left-2 px-2.5 py-0.5 rounded-full bg-[#1A1918] text-white text-[10px] font-mono">
+                      <span className="absolute top-2 left-2 px-2.5 py-0.5 rounded-full bg-[#1A1918] dark:bg-[#FAF9F7] text-white dark:text-[#1A1918] text-[10px] font-mono">
                         {selectedPin.name}
                       </span>
                     </div>
 
-                    <span className="text-[10px] font-mono text-[#C86D51] uppercase tracking-wider block mb-1">
+                    <span className="text-[10px] font-mono text-[#C86D51] dark:text-[#E07A5F] uppercase tracking-wider block mb-1">
                       {selectedPin.region}
                     </span>
 
-                    <h4 className="text-xl font-editorial font-bold text-[#1A1918] mb-2">
+                    <h4 className="text-xl font-editorial font-bold text-[#1A1918] dark:text-[#FAF9F7] mb-2 transition-colors">
                       {selectedPin.title}
                     </h4>
 
-                    <p className="text-xs text-[#6E6C68] leading-relaxed mb-4">
+                    <p className="text-xs text-[#6E6C68] dark:text-[#A3A098] leading-relaxed mb-4 transition-colors">
                       {selectedPin.subtitle}
                     </p>
 
                     <div className="flex flex-wrap gap-1 mb-4">
                       {selectedPin.tech.map((t) => (
-                        <span key={t} className="px-2 py-0.5 rounded bg-[#F9F7F4] border border-[#E8E3DA] text-[10px] font-mono text-[#2B2A29]">
+                        <span key={t} className="px-2 py-0.5 rounded bg-[#F9F7F4] dark:bg-[#1C1B19] border border-[#E8E3DA] dark:border-[#2E2C29] text-[10px] font-mono text-[#2B2A29] dark:text-[#FAF9F7] transition-colors">
                           {t}
                         </span>
                       ))}
@@ -239,7 +242,7 @@ export default function InteractiveJourneyMapModule({ onOpenCaseStudy, projects 
 
                   <button
                     onClick={() => onOpenCaseStudy(getAssociatedProject(selectedPin))}
-                    className="w-full py-2.5 rounded-full bg-[#1A1918] hover:bg-[#C86D51] text-white text-xs font-mono font-medium transition-colors shadow-sm flex items-center justify-center gap-1.5 active:scale-95"
+                    className="w-full py-2.5 rounded-full bg-[#1A1918] dark:bg-[#FAF9F7] hover:bg-[#C86D51] dark:hover:bg-[#E07A5F] text-white dark:text-[#1A1918] dark:hover:text-white text-xs font-mono font-medium transition-colors shadow-sm flex items-center justify-center gap-1.5 active:scale-95"
                   >
                     <span>Inspect Case Study</span>
                     <ArrowUpRight size={14} />
@@ -258,15 +261,15 @@ export default function InteractiveJourneyMapModule({ onOpenCaseStudy, projects 
                   setSelectedPin(pin);
                   setViewMode("map");
                 }}
-                className="p-4 rounded-xl bg-[#F9F7F4] border border-[#E8E3DA] hover:border-[#C86D51] cursor-pointer transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                className="p-4 rounded-xl bg-[#F9F7F4] dark:bg-[#242220] border border-[#E8E3DA] dark:border-[#2E2C29] hover:border-[#C86D51] dark:hover:border-[#E07A5F] cursor-pointer transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3"
               >
                 <div>
-                  <span className="text-[#C86D51] font-bold block mb-0.5">{pin.name} — {pin.title}</span>
-                  <span className="text-[#6E6C68] text-[11px] block">{pin.subtitle}</span>
+                  <span className="text-[#C86D51] dark:text-[#E07A5F] font-bold block mb-0.5">{pin.name} — {pin.title}</span>
+                  <span className="text-[#6E6C68] dark:text-[#A3A098] text-[11px] block">{pin.subtitle}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-1 rounded bg-[#EFECE6] text-[10px] text-[#1A1918]">{pin.type}</span>
-                  <ArrowUpRight size={14} className="text-[#C86D51]" />
+                  <span className="px-2.5 py-1 rounded bg-[#EFECE6] dark:bg-[#2A2825] text-[10px] text-[#1A1918] dark:text-[#FAF9F7]">{pin.type}</span>
+                  <ArrowUpRight size={14} className="text-[#C86D51] dark:text-[#E07A5F]" />
                 </div>
               </div>
             ))}
