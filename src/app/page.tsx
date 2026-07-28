@@ -8,6 +8,7 @@ import HeroIdentityPanel from "@/components/bento/HeroIdentityPanel";
 import AboutEducationModule from "@/components/bento/AboutEducationModule";
 import KeyMilestonesModule from "@/components/bento/KeyMilestonesModule";
 import WorksCarouselModule from "@/components/bento/WorksCarouselModule";
+import InteractiveJourneyMapModule from "@/components/bento/InteractiveJourneyMapModule";
 import CodingProfilesBento from "@/components/bento/CodingProfilesBento";
 import ExperienceTimelineModule from "@/components/bento/ExperienceTimelineModule";
 import ContactResumePanel from "@/components/bento/ContactResumePanel";
@@ -122,6 +123,20 @@ export default function Home() {
         className="w-full"
       >
         <WorksCarouselModule
+          projects={projectsData}
+          onOpenCaseStudy={setSelectedProject}
+        />
+      </motion.section>
+
+      {/* CHAPTER 02 CONTINUED: INTERACTIVE GEOGRAPHIC JOURNEY MAP */}
+      <motion.section
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        className="w-full"
+      >
+        <InteractiveJourneyMapModule
           projects={projectsData}
           onOpenCaseStudy={setSelectedProject}
         />
