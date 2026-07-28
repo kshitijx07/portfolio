@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Send, Mail, MapPin, CheckCircle2, Stamp } from "lucide-react";
+import { Send, CheckCircle2 } from "lucide-react";
 
 export default function VintagePostcardContact() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
@@ -18,16 +18,17 @@ export default function VintagePostcardContact() {
       setSending(false);
       setSubmitted(true);
       setFormData({ name: "", email: "", message: "" });
-    }, 1200);
+    }, 1000);
   };
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20, rotate: -1 }}
+      initial={{ opacity: 0, y: 16, rotate: -1 }}
       whileInView={{ opacity: 1, y: 0, rotate: -1 }}
-      whileHover={{ y: -8, rotate: 0, scale: 1.01 }}
+      whileHover={{ y: -6, rotate: 0, scale: 1.01 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+      data-cursor="Postcard"
       className="relative w-full paper-texture rounded-3xl p-6 md:p-10 border border-[#E8E3DA] shadow-postcard shadow-paper-hover transition-all duration-300 group overflow-hidden"
     >
       {/* Postal Header */}
@@ -42,26 +43,30 @@ export default function VintagePostcardContact() {
           </p>
         </div>
 
-        {/* Vintage Postal Stamp with animated hover rotation */}
+        {/* Vintage Stamp with Animated "Stamp Press" Bounce */}
         <motion.div
+          initial={{ scale: 1.2, rotate: -10 }}
+          whileInView={{ scale: 1, rotate: -6 }}
           whileHover={{ rotate: 12, scale: 1.1 }}
+          viewport={{ once: true }}
+          transition={{ type: "spring", stiffness: 400, damping: 15 }}
           className="w-20 h-24 rounded-lg bg-[#F2E4DF] border-4 border-dashed border-[#C86D51] p-2 flex flex-col items-center justify-between text-center cursor-pointer shadow-sm shrink-0"
         >
           <span className="text-[9px] font-mono font-bold text-[#C86D51]">INDIA</span>
-          <div className="w-8 h-8 rounded-full bg-[#C86D51] text-white flex items-center justify-center">
+          <div className="w-8 h-8 rounded-full bg-[#C86D51] text-white flex items-center justify-center shadow-inner">
             <Send size={14} />
           </div>
           <span className="text-[9px] font-mono font-bold text-[#2D4030]">2026</span>
         </motion.div>
       </div>
 
-      {/* Postcard Layout */}
+      {/* Postcard Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Left Side: Contact Form */}
+        {/* Left: Form */}
         <div>
           {submitted ? (
             <div className="bg-[#E5EDE6] p-6 rounded-2xl border border-[#2D4030]/20 text-center">
-              <CheckCircle2 size={36} className="text-[#2D4030] mx-auto mb-2" />
+              <CheckCircle2 size={36} className="text-[#2D4030] mx-auto mb-2 animate-bounce" />
               <h4 className="text-xl font-editorial font-bold text-[#2D4030] mb-1">
                 Postcard Delivered!
               </h4>
@@ -122,7 +127,7 @@ export default function VintagePostcardContact() {
               <button
                 type="submit"
                 disabled={sending}
-                className="w-full py-3.5 rounded-full bg-[#C86D51] hover:bg-[#1A1918] text-white text-xs font-medium tracking-wide transition-colors shadow-sm flex items-center justify-center gap-2"
+                className="w-full py-3.5 rounded-full bg-[#C86D51] hover:bg-[#1A1918] text-white text-xs font-medium tracking-wide transition-colors shadow-sm flex items-center justify-center gap-2 active:scale-95"
               >
                 <Send size={14} />
                 <span>{sending ? "Delivering..." : "Post Message"}</span>
@@ -131,7 +136,7 @@ export default function VintagePostcardContact() {
           )}
         </div>
 
-        {/* Right Side: Postal Lines & Direct Details */}
+        {/* Right: Postal Address Lines */}
         <div className="flex flex-col justify-between border-t md:border-t-0 md:border-l border-[#E8E3DA] pt-6 md:pt-0 md:pl-8">
           <div>
             <span className="text-xs font-mono text-[#6E6C68] uppercase tracking-wider block mb-4">

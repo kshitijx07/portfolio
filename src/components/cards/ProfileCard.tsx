@@ -2,20 +2,21 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { MapPin, Sparkles, ArrowUpRight, Mail } from "lucide-react";
+import { MapPin, Sparkles, Mail } from "lucide-react";
 import { FiGithub, FiLinkedin } from "react-icons/fi";
 
 export default function ProfileCard() {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20, rotate: -1.5 }}
+      initial={{ opacity: 0, y: 16, rotate: -1.5 }}
       whileInView={{ opacity: 1, y: 0, rotate: -1.5 }}
-      whileHover={{ y: -8, rotate: 0, scale: 1.01 }}
+      whileHover={{ y: -6, rotate: 0, scale: 1.01 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className="relative w-full paper-texture rounded-3xl p-7 md:p-8 border border-[#E8E3DA] shadow-paper shadow-paper-hover transition-all duration-300 group"
+      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+      data-cursor="Profile"
+      className="relative w-full paper-texture rounded-3xl p-6 md:p-8 border border-[#E8E3DA] shadow-paper shadow-paper-hover transition-all duration-300 group"
     >
-      {/* Tape strip at top */}
+      {/* Washi Tape strip */}
       <div className="tape-strip hidden sm:block" />
 
       {/* Header section */}
@@ -31,7 +32,7 @@ export default function ProfileCard() {
           </div>
           <div>
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E5EDE6] text-[#2D4030] text-xs font-medium tracking-wide mb-1">
-              <Sparkles size={12} className="animate-pulse" />
+              <Sparkles size={12} className="animate-pulse text-[#C86D51]" />
               <span>Open to Opportunities</span>
             </div>
             <h2 className="text-2xl md:text-3xl font-editorial font-bold text-[#1A1918]">

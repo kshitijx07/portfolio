@@ -2,7 +2,8 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Briefcase, Calendar, MapPin, CheckCircle2 } from "lucide-react";
+import { Briefcase, Calendar, CheckCircle2 } from "lucide-react";
+import AnimatedThreadLine from "@/components/ui/AnimatedThreadLine";
 
 const experiences = [
   {
@@ -36,15 +37,16 @@ const experiences = [
 export default function ExperienceThreadCard() {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20, rotate: 1 }}
+      initial={{ opacity: 0, y: 16, rotate: 1 }}
       whileInView={{ opacity: 1, y: 0, rotate: 1 }}
-      whileHover={{ y: -8, rotate: 0, scale: 1.01 }}
+      whileHover={{ y: -6, rotate: 0, scale: 1.01 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className="relative w-full paper-texture rounded-3xl p-6 md:p-8 border border-[#E8E3DA] shadow-paper shadow-paper-hover transition-all duration-300 group"
+      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+      data-cursor="Timeline"
+      className="relative w-full paper-texture rounded-3xl p-6 md:p-8 border border-[#E8E3DA] shadow-paper shadow-paper-hover transition-all duration-300 group overflow-hidden"
     >
       {/* Header */}
-      <div className="flex items-center justify-between gap-4 mb-8 pb-4 border-b border-[#E8E3DA]">
+      <div className="flex items-center justify-between gap-4 mb-8 pb-4 border-b border-[#E8E3DA] relative z-10">
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 rounded-2xl bg-[#2D4030] text-white flex items-center justify-center shadow-sm">
             <Briefcase size={22} />
@@ -65,14 +67,14 @@ export default function ExperienceThreadCard() {
       </div>
 
       {/* Connected Postcards timeline */}
-      <div className="relative pl-6 md:pl-8 space-y-10">
-        {/* Red Thread Visual Line */}
-        <div className="absolute top-2 bottom-2 left-2.5 md:left-3.5 w-0.5 bg-[#C86D51]/40 border-l border-dashed border-[#C86D51]" />
+      <div className="relative pl-8 md:pl-10 space-y-10">
+        {/* Animated Red Thread Line SVG */}
+        <AnimatedThreadLine />
 
         {experiences.map((exp, idx) => (
-          <div key={idx} className="relative">
+          <div key={idx} className="relative z-10">
             {/* Thread Pin Dot */}
-            <div className="absolute -left-[31px] md:-left-[39px] top-1.5 w-4 h-4 rounded-full bg-[#C86D51] border-2 border-white shadow-sm z-10" />
+            <div className="absolute -left-[35px] md:-left-[43px] top-1.5 w-4 h-4 rounded-full bg-[#C86D51] border-2 border-white shadow-sm z-10" />
 
             <div className="bg-[#F9F7F4] p-5 md:p-6 rounded-2xl border border-[#E8E3DA] shadow-sm hover:border-[#C86D51] transition-colors">
               <div className="flex flex-wrap items-center justify-between gap-2 mb-2">

@@ -50,7 +50,7 @@ h1, h2, h3, h4, .font-editorial {
 .shadow-paper-hover {
   box-shadow: 
     0 4px 12px rgba(26, 25, 24, 0.06),
-    0 16px 40px rgba(26, 25, 24, 0.12),
+    0 16px 40px rgba(200, 109, 81, 0.12),
     0 24px 48px rgba(26, 25, 24, 0.05);
 }
 
@@ -75,7 +75,7 @@ h1, h2, h3, h4, .font-editorial {
   transform: translateX(-50%) rotate(-1.5deg);
   width: 110px;
   height: 28px;
-  background: rgba(240, 235, 225, 0.75);
+  background: rgba(240, 235, 225, 0.85);
   backdrop-filter: blur(2px);
   border: 1px solid rgba(210, 200, 185, 0.5);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
@@ -140,4 +140,14 @@ html.lenis, html.lenis body {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(216, 196, 182, 0.4);
+}
+
+/* Accessibility: Prefers Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -1,112 +1,112 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import React from "react";
+import { motion } from "framer-motion";
+import { Briefcase, Calendar, CheckCircle2 } from "lucide-react";
+import AnimatedThreadLine from "@/components/ui/AnimatedThreadLine";
 
 const experiences = [
-    {
-        role: "DevOps Intern",
-        company: "Colgate-Palmolive – DevOps Team",
-        duration: "Jul 2026 - Present",
-        description: [
-            "Working with enterprise DevOps workflows to support application deployment and infrastructure automation.",
-            "Gaining hands-on experience with CI/CD pipelines using Jenkins, Git, and GitHub.",
-            "Learning cloud infrastructure management on AWS and containerized application deployment using Docker.",
-            "Assisting in Linux system administration, deployment automation, and environment configuration.",
-            "Collaborating with cross-functional engineering teams to understand production-grade DevOps practices and software delivery processes.",
-            "Continuously improving knowledge of Kubernetes, Infrastructure as Code (Terraform), monitoring, and cloud-native application deployment."
-        ]
-    },
-    {
-        role: "Full Stack Developer Intern",
-        company: "Campus Credential",
-        duration: "Jun 2025 - Aug 2025",
-        description: [
-            "Owned end-to-end delivery of the Grocito platform, from requirements gathering and system design to production deployment, within a six-week sprint.",
-            "Led backend architecture decisions using Spring Boot and MySQL, establishing a modular MVC structure that supported parallel development across three portals.",
-            "Facilitated daily standups and sprint reviews within an agile team of three, coordinating feature delivery and code reviews to maintain on-schedule releases."
-        ]
-    }
+  {
+    role: "DevOps Intern",
+    company: "Colgate-Palmolive – DevOps Team",
+    location: "Mumbai, Maharashtra, India (Hybrid)",
+    duration: "Jul 2026 – Present",
+    tag: "Enterprise DevOps & Cloud Automation",
+    points: [
+      "Working with enterprise DevOps workflows supporting production application deployment and infrastructure automation.",
+      "Gaining hands-on experience with CI/CD pipelines using Jenkins, Git, and GitHub.",
+      "Learning cloud infrastructure management on AWS and containerized application deployment using Docker.",
+      "Assisting in Linux system administration, deployment automation, and environment configuration.",
+      "Continuously improving knowledge of Kubernetes, Infrastructure as Code (Terraform), and cloud-native monitoring."
+    ]
+  },
+  {
+    role: "Full Stack Developer Intern",
+    company: "Campus Credential",
+    location: "Remote",
+    duration: "Jun 2025 – Aug 2025",
+    tag: "Full Stack Systems Delivery",
+    points: [
+      "Owned end-to-end delivery of the Grocito platform, from requirements gathering and system design to production deployment, within a six-week sprint.",
+      "Led backend architecture decisions using Spring Boot and MySQL, establishing a modular MVC structure that supported parallel development across three portals.",
+      "Facilitated daily standups and sprint reviews within an agile team of three, maintaining on-schedule releases."
+    ]
+  }
 ];
 
-import ParallaxText from "@/components/ui/ParallaxText";
-import SlideText from "@/components/ui/SlideText";
+export default function ExperienceThreadCard() {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16, rotate: 1 }}
+      whileInView={{ opacity: 1, y: 0, rotate: 1 }}
+      whileHover={{ y: -6, rotate: 0, scale: 1.01 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+      data-cursor="Timeline"
+      className="relative w-full paper-texture rounded-3xl p-6 md:p-8 border border-[#E8E3DA] shadow-paper shadow-paper-hover transition-all duration-300 group"
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between gap-4 mb-8 pb-4 border-b border-[#E8E3DA]">
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 rounded-2xl bg-[#2D4030] text-white flex items-center justify-center shadow-sm">
+            <Briefcase size={22} />
+          </div>
+          <div>
+            <h3 className="text-2xl font-editorial font-bold text-[#1A1918]">
+              Career Experience Timeline
+            </h3>
+            <p className="text-xs text-[#6E6C68] font-mono">
+              Professional Engineering Journey
+            </p>
+          </div>
+        </div>
 
-export default function Experience() {
-    const containerRef = useRef<HTMLDivElement>(null);
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ["start center", "end center"]
-    });
+        <span className="postmark-stamp text-[10px] hidden sm:block">
+          POSTCARD THREAD
+        </span>
+      </div>
 
-    const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+      {/* Connected Postcards timeline */}
+      <div className="relative pl-8 md:pl-10 space-y-10">
+        {/* Animated Red Thread Line SVG */}
+        <AnimatedThreadLine />
 
-    return (
-        <section className="py-32 px-6 relative z-10 bg-[#080808] border-t border-white/5" id="experience">
-            <div className="max-w-4xl mx-auto relative" ref={containerRef}>
-                <div className="mb-20">
-                    <ParallaxText offset={30} direction="up">
-                        <div className="flex items-center gap-4 mb-4">
-                            <span className="text-neutral-500 font-mono">05.</span>
-                            <div className="h-[1px] w-12 bg-neutral-600" />
-                            <span className="uppercase tracking-[0.2em] text-xs text-neutral-400">Career</span>
-                        </div>
-                        <h2 className="text-5xl md:text-7xl font-black italic tracking-tighter text-shadow-3d">
-                            Professional <span className="text-gradient-3d">Experience</span>
-                        </h2>
-                    </ParallaxText>
-                </div>
+        {experiences.map((exp, idx) => (
+          <div key={idx} className="relative z-10">
+            {/* Thread Pin Dot */}
+            <div className="absolute -left-[35px] md:-left-[43px] top-1.5 w-4 h-4 rounded-full bg-[#C86D51] border-2 border-white shadow-sm z-10" />
 
-                <div className="relative pl-8 md:pl-12 ml-4">
-                    {/* Background faint line */}
-                    <div className="absolute top-0 bottom-0 left-0 w-[1px] bg-white/10" />
+            <div className="bg-[#F9F7F4] p-5 md:p-6 rounded-2xl border border-[#E8E3DA] shadow-sm hover:border-[#C86D51] transition-colors">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+                <span className="px-3 py-1 rounded-full bg-[#F2E4DF] text-[#C86D51] text-xs font-mono font-medium">
+                  {exp.tag}
+                </span>
+                <span className="text-xs text-[#6E6C68] font-mono flex items-center gap-1">
+                  <Calendar size={12} />
+                  {exp.duration}
+                </span>
+              </div>
 
-                    {/* Active dynamic scroll line */}
-                    <motion.div
-                        style={{ scaleY: scrollYProgress, transformOrigin: "top" } as any}
-                        className="absolute top-0 left-0 w-[2px] -translate-x-[0.5px] bg-gradient-to-b from-transparent via-white to-white shadow-[0_0_15px_rgba(255,255,255,0.8)] h-full"
-                    />
+              <h4 className="text-xl font-editorial font-bold text-[#1A1918]">
+                {exp.role}
+              </h4>
+              <p className="text-xs md:text-sm font-semibold text-[#2D4030] mb-3 flex items-center gap-1">
+                <span>{exp.company}</span>
+                <span className="text-[#6E6C68] font-normal">• {exp.location}</span>
+              </p>
 
-                    {experiences.map((exp, idx) => (
-                        <SlideText key={idx} direction={idx % 2 === 0 ? "left" : "right"} offset={80}>
-                            <motion.div
-                                initial={{ opacity: 0, x: -30 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                viewport={{ once: true, amount: 0.2 }}
-                                transition={{ duration: 0.6, delay: 0.2 }}
-                                className="relative mb-16 last:mb-0"
-                            >
-                                <div className="absolute -left-[41px] md:-left-[57px] top-1 w-4 h-4 rounded-full bg-white border-4 border-black box-content z-10" />
-
-                                <div className="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-4 mb-4">
-                                    <h3 className="text-2xl font-bold text-white">{exp.role}</h3>
-                                    <span className="text-lg text-neutral-400 font-medium tracking-wide">@ {exp.company}</span>
-                                </div>
-
-                                <div className="text-sm font-mono text-neutral-500 mb-6 uppercase tracking-widest bg-white/5 inline-block px-3 py-1 rounded">
-                                    {exp.duration}
-                                </div>
-
-                                <ul className="space-y-4">
-                                    {exp.description.map((item, i) => (
-                                        <motion.li
-                                            key={i}
-                                            initial={{ opacity: 0, scale: 0.95 }}
-                                            whileInView={{ opacity: 1, scale: 1 }}
-                                            viewport={{ once: true }}
-                                            transition={{ duration: 0.4, delay: 0.4 + i * 0.1 }}
-                                            className="flex gap-4 text-neutral-300 leading-relaxed text-base md:text-lg"
-                                        >
-                                            <span className="text-neutral-600 mt-1">▹</span>
-                                            {item}
-                                        </motion.li>
-                                    ))}
-                                </ul>
-                            </motion.div>
-                        </SlideText>
-                    ))}
-                </div>
+              <ul className="space-y-2 mt-3">
+                {exp.points.map((pt, pIdx) => (
+                  <li key={pIdx} className="flex items-start gap-2 text-xs md:text-sm text-[#2B2A29]">
+                    <CheckCircle2 size={14} className="text-[#C86D51] mt-0.5 shrink-0" />
+                    <span>{pt}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-        </section>
-    );
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  );
 }

@@ -2,18 +2,19 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Download, FileText, RotateCw, CheckCircle, GraduationCap } from "lucide-react";
+import { Download, FileText, RotateCw, GraduationCap } from "lucide-react";
 
 export default function ResumePrintCard() {
   const [flipped, setFlipped] = useState(false);
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20, rotate: -1 }}
+      initial={{ opacity: 0, y: 16, rotate: -1 }}
       whileInView={{ opacity: 1, y: 0, rotate: -1 }}
-      whileHover={{ y: -8, rotate: 0, scale: 1.01 }}
+      whileHover={{ y: -6, rotate: 0, scale: 1.01 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+      data-cursor="Flip"
       className="relative w-full paper-texture rounded-3xl p-6 md:p-8 border border-[#E8E3DA] shadow-paper shadow-paper-hover transition-all duration-300 group"
     >
       {/* Header */}
@@ -24,7 +25,7 @@ export default function ResumePrintCard() {
           </div>
           <div>
             <h3 className="text-2xl font-editorial font-bold text-[#1A1918]">
-              Official Curriculum Vitae
+              Curriculum Vitae
             </h3>
             <p className="text-xs text-[#6E6C68] font-mono">
               Kshitij_Kumbhar_Resume.pdf
@@ -34,61 +35,67 @@ export default function ResumePrintCard() {
 
         <button
           onClick={() => setFlipped(!flipped)}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#EFECE6] hover:bg-[#C86D51] hover:text-white text-xs font-mono text-[#1A1918] transition-colors"
+          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#EFECE6] hover:bg-[#C86D51] hover:text-white text-xs font-mono text-[#1A1918] transition-colors shadow-sm active:scale-95"
           title="Flip Resume View"
         >
-          <RotateCw size={12} />
+          <RotateCw size={12} className={flipped ? "rotate-180 transition-transform duration-500" : "transition-transform duration-500"} />
           <span>{flipped ? "Overview" : "Education & Scores"}</span>
         </button>
       </div>
 
-      {/* Printed Paper Resume Document Card Container */}
-      <div className="bg-[#FFFDF9] border border-[#E8E3DA] p-6 rounded-2xl shadow-sm mb-6 relative overflow-hidden">
-        {!flipped ? (
-          <div>
-            <div className="border-b border-[#E8E3DA] pb-4 mb-4">
-              <h4 className="text-xl font-editorial font-bold text-[#1A1918]">
-                Kshitij Kumbhar
-              </h4>
-              <p className="text-xs text-[#6E6C68] font-mono">
-                Computer Engineering Student • Pune, India
-              </p>
-            </div>
+      {/* 3D Paper Flip Container */}
+      <div className="perspective-1000">
+        <motion.div
+          animate={{ rotateY: flipped ? 180 : 0 }}
+          transition={{ duration: 0.6, type: "spring", damping: 20, stiffness: 180 }}
+          className="bg-[#FFFDF9] border border-[#E8E3DA] p-6 rounded-2xl shadow-sm mb-6 relative overflow-hidden [transform-style:preserve-3d]"
+        >
+          {!flipped ? (
+            <div className="[backface-visibility:hidden]">
+              <div className="border-b border-[#E8E3DA] pb-4 mb-4">
+                <h4 className="text-xl font-editorial font-bold text-[#1A1918]">
+                  Kshitij Kumbhar
+                </h4>
+                <p className="text-xs text-[#6E6C68] font-mono">
+                  Computer Engineering Student • Pune, India
+                </p>
+              </div>
 
-            <div className="space-y-3 text-xs md:text-sm text-[#2B2A29]">
-              <p>
-                <strong className="font-semibold text-[#1A1918]">Summary:</strong> Computer Engineering student with hands-on experience in CI/CD pipelines, Docker, Kubernetes, and AWS. Reduced deployment effort through Jenkins automation and containerized microservice architectures.
-              </p>
-              <p>
-                <strong className="font-semibold text-[#1A1918]">Focus:</strong> Enterprise DevOps Workflows, AWS EKS, Infrastructure as Code, Cloud Native Systems.
-              </p>
+              <div className="space-y-3 text-xs md:text-sm text-[#2B2A29]">
+                <p>
+                  <strong className="font-semibold text-[#1A1918]">Summary:</strong> Computer Engineering student with hands-on experience in CI/CD pipelines, Docker, Kubernetes, and AWS. Reduced deployment effort through Jenkins automation and containerized microservice architectures.
+                </p>
+                <p>
+                  <strong className="font-semibold text-[#1A1918]">Core Competencies:</strong> Enterprise DevOps Workflows, AWS EKS, Infrastructure as Code, Cloud Native Systems.
+                </p>
+              </div>
             </div>
-          </div>
-        ) : (
-          <div>
-            <div className="flex items-center gap-2 mb-4 text-[#2D4030]">
-              <GraduationCap size={18} />
-              <h4 className="text-lg font-editorial font-bold text-[#1A1918]">
-                Academic Qualifications
-              </h4>
-            </div>
+          ) : (
+            <div className="[transform:rotateY(180deg)] [backface-visibility:hidden]">
+              <div className="flex items-center gap-2 mb-4 text-[#2D4030]">
+                <GraduationCap size={18} />
+                <h4 className="text-lg font-editorial font-bold text-[#1A1918]">
+                  Academic Qualifications
+                </h4>
+              </div>
 
-            <div className="space-y-3 text-xs md:text-sm text-[#2B2A29]">
-              <div className="border-l-2 border-[#C86D51] pl-3 py-1">
-                <span className="font-bold text-[#1A1918] block">MIT Academy of Engineering, Pune (2023 – 2027)</span>
-                <span className="text-xs text-[#6E6C68] font-mono block">B.Tech – Computer Engineering • CGPA: 8.46 / 10</span>
-              </div>
-              <div className="border-l-2 border-[#2D4030] pl-3 py-1">
-                <span className="font-bold text-[#1A1918] block">Yashwantrao Chavan Institute of Science, Satara (2023)</span>
-                <span className="text-xs text-[#6E6C68] font-mono block">HSC – Maharashtra State Board • Score: 84.17%</span>
-              </div>
-              <div className="border-l-2 border-[#D8C4B6] pl-3 py-1">
-                <span className="font-bold text-[#1A1918] block">Maharaja Sayajirao Vidyalaya, Satara (2021)</span>
-                <span className="text-xs text-[#6E6C68] font-mono block">SSC – Maharashtra State Board • Score: 97.00%</span>
+              <div className="space-y-3 text-xs md:text-sm text-[#2B2A29]">
+                <div className="border-l-2 border-[#C86D51] pl-3 py-1">
+                  <span className="font-bold text-[#1A1918] block">MIT Academy of Engineering, Pune (2023 – 2027)</span>
+                  <span className="text-xs text-[#6E6C68] font-mono block">B.Tech – Computer Engineering • CGPA: 8.46 / 10</span>
+                </div>
+                <div className="border-l-2 border-[#2D4030] pl-3 py-1">
+                  <span className="font-bold text-[#1A1918] block">Yashwantrao Chavan Institute of Science, Satara (2023)</span>
+                  <span className="text-xs text-[#6E6C68] font-mono block">HSC – Maharashtra State Board • Score: 84.17%</span>
+                </div>
+                <div className="border-l-2 border-[#D8C4B6] pl-3 py-1">
+                  <span className="font-bold text-[#1A1918] block">Maharaja Sayajirao Vidyalaya, Satara (2021)</span>
+                  <span className="text-xs text-[#6E6C68] font-mono block">SSC – Maharashtra State Board • Score: 97.00%</span>
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </motion.div>
       </div>
 
       {/* Download Action Bar */}
@@ -99,7 +106,7 @@ export default function ResumePrintCard() {
         <a
           href="/Kshitij_Kumbhar_Resume.pdf"
           download="Kshitij_Kumbhar_Resume.pdf"
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1A1918] hover:bg-[#C86D51] text-white text-xs font-medium tracking-wide transition-colors shadow-sm"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1A1918] hover:bg-[#C86D51] text-white text-xs font-medium tracking-wide transition-colors shadow-sm active:scale-95"
         >
           <Download size={14} />
           Download Resume (PDF)

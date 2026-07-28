@@ -14,29 +14,30 @@ interface ProjectCardProps {
 export default function ProjectCard({ project, rotation = 1, onOpenCaseStudy }: ProjectCardProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20, rotate: rotation }}
+      initial={{ opacity: 0, y: 16, rotate: rotation }}
       whileInView={{ opacity: 1, y: 0, rotate: rotation }}
-      whileHover={{ y: -8, rotate: 0, scale: 1.01 }}
+      whileHover={{ y: -6, rotate: 0, scale: 1.01 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+      data-cursor="Read"
       className="relative w-full paper-texture rounded-3xl p-6 border border-[#E8E3DA] shadow-paper shadow-paper-hover transition-all duration-300 group cursor-pointer flex flex-col justify-between"
       onClick={() => onOpenCaseStudy(project)}
     >
       <div>
         {/* Top Header */}
         <div className="flex items-center justify-between gap-2 mb-4">
-          <span className="px-3 py-1 rounded-full bg-[#EFECE6] text-[#6E6C68] text-xs font-mono">
+          <span className="px-3 py-1 rounded-full bg-[#F2E4DF] text-[#C86D51] text-xs font-mono font-medium">
             {project.category}
           </span>
           <span className="text-xs font-mono text-[#6E6C68]">{project.year}</span>
         </div>
 
-        {/* Thumbnail Image */}
+        {/* Thumbnail Image with Soft 1.04x Zoom */}
         <div className="relative w-full h-52 md:h-64 rounded-2xl overflow-hidden mb-5 border border-[#E8E3DA] bg-[#EFECE6]">
           <img
             src={project.image}
             alt={project.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+            className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500 ease-out"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#1A1918]/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         </div>
@@ -72,7 +73,7 @@ export default function ProjectCard({ project, rotation = 1, onOpenCaseStudy }: 
       {/* Footer Read Case Study Button */}
       <div className="flex items-center justify-between pt-4 border-t border-[#E8E3DA]">
         <span className="text-xs font-medium text-[#1A1918] group-hover:text-[#C86D51] transition-colors flex items-center gap-1.5">
-          <FolderGit2 size={14} />
+          <FolderGit2 size={14} className="text-[#C86D51]" />
           Read Case Study
         </span>
         <div className="w-8 h-8 rounded-full bg-[#EFECE6] group-hover:bg-[#C86D51] group-hover:text-white flex items-center justify-center transition-colors text-[#1A1918]">
