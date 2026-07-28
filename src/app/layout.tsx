@@ -4,6 +4,7 @@ import "./globals.css";
 import SmoothScrollProvider from "@/components/ui/SmoothScrollProvider";
 import NoiseOverlay from "@/components/ui/NoiseOverlay";
 import CustomCursor from "@/components/ui/CustomCursor";
+import Editorial3DBackground from "@/components/ui/Editorial3DBackground";
 import { Analytics } from "@vercel/analytics/next";
 
 const newsreader = Newsreader({
@@ -39,11 +40,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${newsreader.variable} ${plusJakartaSans.variable} ${jetbrainsMono.variable}`}>
-      <body className="bg-[#F9F7F4] text-[#1A1918] selection:bg-[#C86D51] selection:text-white min-h-screen antialiased">
+      <body className="bg-[#F9F7F4] text-[#1A1918] selection:bg-[#C86D51] selection:text-white min-h-screen antialiased relative">
+        <Editorial3DBackground />
         <NoiseOverlay />
         <CustomCursor />
         <SmoothScrollProvider>
-          {children}
+          <div className="relative z-10">{children}</div>
         </SmoothScrollProvider>
         <Analytics />
       </body>
