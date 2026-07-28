@@ -5,6 +5,7 @@ import SmoothScrollProvider from "@/components/ui/SmoothScrollProvider";
 import NoiseOverlay from "@/components/ui/NoiseOverlay";
 import CustomCursor from "@/components/ui/CustomCursor";
 import Editorial3DBackground from "@/components/ui/Editorial3DBackground";
+import ThemeToggle from "@/components/ui/ThemeToggle";
 import { Analytics } from "@vercel/analytics/next";
 
 const newsreader = Newsreader({
@@ -48,6 +49,7 @@ export default function RootLayout({
         <Editorial3DBackground />
         <NoiseOverlay />
         <CustomCursor />
+        <ThemeToggle />
         <SmoothScrollProvider>
           <div className="relative z-10">{children}</div>
         </SmoothScrollProvider>

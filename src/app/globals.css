@@ -21,17 +21,38 @@
 }
 
 :root {
-  --background: #F9F7F4;
-  --foreground: #1A1918;
+  --bg-primary: #F9F7F4;
+  --bg-card: #FFFDF9;
+  --bg-secondary: #EFECE6;
+  --text-primary: #1A1918;
+  --text-secondary: #6E6C68;
+  --border-color: #E8E3DA;
+  --accent-terracotta: #C86D51;
+  --accent-soft: #F2E4DF;
+  --accent-forest: #2D4030;
+}
+
+/* Luxury Dark Charcoal Theme Palette */
+[data-theme="dark"] {
+  --bg-primary: #121110;
+  --bg-card: #1C1B19;
+  --bg-secondary: #262422;
+  --text-primary: #FAF9F7;
+  --text-secondary: #A3A098;
+  --border-color: #2E2C29;
+  --accent-terracotta: #E07A5F;
+  --accent-soft: #38241E;
+  --accent-forest: #4E6E52;
 }
 
 body {
-  background-color: var(--background);
-  color: var(--foreground);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   font-family: var(--font-sans), sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
 
 h1, h2, h3, h4, .font-editorial {
@@ -39,25 +60,25 @@ h1, h2, h3, h4, .font-editorial {
   letter-spacing: -0.01em;
 }
 
-/* Bento Card Styling Tokens */
+/* Bento & Pinterest Card Styling Tokens */
 .bento-card {
-  background: #FFFDF9;
-  border: 1px solid #E8E3DA;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 1.5rem;
   padding: 1.5rem;
   box-shadow: 
-    0 1px 3px rgba(26, 25, 24, 0.04),
-    0 8px 24px rgba(26, 25, 24, 0.06);
+    0 1px 3px rgba(0, 0, 0, 0.04),
+    0 8px 24px rgba(0, 0, 0, 0.06);
   transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   position: relative;
   overflow: hidden;
 }
 
 .bento-card-hover:hover {
-  border-color: #C86D51;
+  border-color: var(--accent-terracotta);
   box-shadow: 
-    0 4px 12px rgba(26, 25, 24, 0.06),
-    0 16px 40px rgba(200, 109, 81, 0.12);
+    0 4px 12px rgba(0, 0, 0, 0.06),
+    0 16px 40px rgba(224, 122, 95, 0.15);
 }
 
 .bento-label {
@@ -65,7 +86,7 @@ h1, h2, h3, h4, .font-editorial {
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  color: #6E6C68;
+  color: var(--text-secondary);
   display: flex;
   items-center: center;
   gap: 0.5rem;
@@ -76,52 +97,19 @@ h1, h2, h3, h4, .font-editorial {
   content: "";
   height: 1px;
   flex: 1;
-  background: #E8E3DA;
+  background: var(--border-color);
 }
 
-/* Paper and Editorial Card Shadows */
-.shadow-paper {
-  box-shadow: 
-    0 1px 3px rgba(26, 25, 24, 0.04),
-    0 8px 24px rgba(26, 25, 24, 0.06);
-}
-
-.shadow-paper-hover {
-  box-shadow: 
-    0 4px 12px rgba(26, 25, 24, 0.06),
-    0 16px 40px rgba(200, 109, 81, 0.12);
-}
-
-.shadow-postcard {
-  box-shadow: 
-    0 2px 4px rgba(26, 25, 24, 0.03),
-    0 12px 36px rgba(200, 109, 81, 0.08);
-}
-
-/* Paper Texture & Stamps */
+/* Paper Texture & Washi Tape Tokens */
 .paper-texture {
-  background-color: #FFFDF9;
-  background-image: radial-gradient(#E8E3DA 0.75px, transparent 0.75px);
+  background-color: var(--bg-card);
+  background-image: radial-gradient(var(--border-color) 0.75px, transparent 0.75px);
   background-size: 16px 16px;
 }
 
-.tape-strip {
-  position: absolute;
-  top: -12px;
-  left: 50%;
-  transform: translateX(-50%) rotate(-1.5deg);
-  width: 110px;
-  height: 28px;
-  background: rgba(240, 235, 225, 0.85);
-  backdrop-filter: blur(2px);
-  border: 1px solid rgba(210, 200, 185, 0.5);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
-  z-index: 20;
-}
-
 .postmark-stamp {
-  border: 2px dashed #C86D51;
-  color: #C86D51;
+  border: 2px dashed var(--accent-terracotta);
+  color: var(--accent-terracotta);
   font-family: var(--font-mono);
   text-transform: uppercase;
   letter-spacing: 0.15em;
@@ -163,17 +151,17 @@ html.lenis, html.lenis body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #F9F7F4;
+  background: var(--bg-primary);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #D8C4B6;
+  background: var(--border-color);
   border-radius: 9999px;
-  border: 2px solid #F9F7F4;
+  border: 2px solid var(--bg-primary);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #C86D51;
+  background: var(--accent-terracotta);
 }
 
 /* Accessibility: Prefers Reduced Motion */
