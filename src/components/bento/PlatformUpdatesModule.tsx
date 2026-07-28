@@ -194,16 +194,10 @@ export default function PlatformUpdatesModule() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-[#E8E3DA] dark:border-[#2E2C29] transition-colors">
           <div>
-            <div className="flex items-center gap-2 mb-1">
-              <h3 className="text-2xl font-editorial font-bold text-[#1A1918] dark:text-[#FAF9F7] transition-colors">
-                Live Activity & Platform Deck
-              </h3>
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#C86D51]/10 dark:bg-[#E07A5F]/20 text-[#C86D51] dark:text-[#E07A5F] text-[10px] font-mono font-bold">
-                <Sparkles size={11} className="animate-pulse" />
-                3D Sliding Deck
-              </span>
-            </div>
-            <p className="text-xs text-[#6E6C68] dark:text-[#A3A098] font-mono transition-colors">
+            <h3 className="text-2xl font-editorial font-bold text-[#1A1918] dark:text-[#FAF9F7] transition-colors">
+              Live Activity & Platform Deck
+            </h3>
+            <p className="text-xs text-[#5C5955] dark:text-[#A3A098] font-mono transition-colors">
               Click any card or use navigation controls to cycle depth layers
             </p>
           </div>

@@ -1,209 +1,194 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import * as THREE from "three";
-import { Sparkles, Move } from "lucide-react";
+import PinterestCardWrapper from "@/components/ui/PinterestCardWrapper";
 
-const skillsList = [
-  "React.js", "Next.js 15", "AWS Cloud", "Docker", "Kubernetes",
-  "Jenkins", "Node.js", "Spring Boot", "MongoDB", "MySQL",
-  "TypeScript", "Tailwind", "Framer Motion", "Linux OS", "Git"
+interface SkillNode {
+  name: string;
+  category: "cloud" | "backend" | "frontend" | "database" | "tools";
+  x: number;
+  y: number;
+  z: number;
+}
+
+const skillsData: { name: string; category: SkillNode["category"] }[] = [
+  { name: "AWS Cloud", category: "cloud" },
+  { name: "Kubernetes", category: "cloud" },
+  { name: "Docker", category: "cloud" },
+  { name: "Terraform", category: "cloud" },
+  { name: "Jenkins", category: "tools" },
+  { name: "Linux OS", category: "tools" },
+  { name: "Node.js", category: "backend" },
+  { name: "Spring Boot", category: "backend" },
+  { name: "React.js", category: "frontend" },
+  { name: "TypeScript", category: "frontend" },
+  { name: "Tailwind", category: "frontend" },
+  { name: "MySQL", category: "database" },
+  { name: "MongoDB", category: "database" },
+  { name: "Git", category: "tools" },
+  { name: "Next.js 15", category: "frontend" },
+  { name: "Framer Motion", category: "frontend" },
 ];
 
 export default function Skills3DSphere() {
-  const mountRef = useRef<HTMLDivElement>(null);
-  const [activeSkill, setActiveSkill] = useState<string | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [nodes, setNodes] = useState<(SkillNode & { scale: number; opacity: number; px: number; py: number })[]>([]);
+  const rotationRef = useRef({ x: 0.005, y: 0.008 });
+  const isDraggingRef = useRef(false);
+  const previousMousePositionRef = useRef({ x: 0, y: 0 });
 
+  // Distribute nodes evenly on 3D sphere using Fibonacci Sphere Algorithm
   useEffect(() => {
-    const container = mountRef.current;
-    if (!container) return;
+    const numPoints = skillsData.length;
+    const radius = 170;
+    const phi = Math.PI * (3 - Math.sqrt(5)); // golden angle
 
-    const width = container.clientWidth || 400;
-    const height = 360;
+    const initialNodes: SkillNode[] = skillsData.map((skill, i) => {
+      const y = 1 - (i / (numPoints - 1)) * 2; // y goes from 1 to -1
+      const radiusAtY = Math.sqrt(1 - y * y); // radius at y
+      const theta = phi * i; // golden angle increment
 
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-    camera.position.z = 12;
+      const x = Math.cos(theta) * radiusAtY;
+      const z = Math.sin(theta) * radiusAtY;
 
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      return {
+        name: skill.name,
+        category: skill.category,
+        x: x * radius,
+        y: y * radius,
+        z: z * radius,
+      };
+    });
 
-    container.appendChild(renderer.domElement);
+    const projectNodes = (currentNodes: SkillNode[]) => {
+      return currentNodes.map((node) => {
+        const perspective = 400 / (400 + node.z);
+        return {
+          ...node,
+          scale: Math.max(0.65, Math.min(1.2, perspective)),
+          opacity: Math.max(0.35, Math.min(1, (node.z + 170) / 340)),
+          px: node.x * perspective,
+          py: node.y * perspective,
+        };
+      });
+    };
 
-    // Orbiting group
-    const sphereGroup = new THREE.Group();
-    scene.add(sphereGroup);
+    let animationFrameId: number;
+    let currentNodes = [...initialNodes];
 
-    // Create 3D Nodes on a Fibonacci sphere distribution
-    const count = skillsList.length;
-    const radius = 4.2;
+    const rotateSphere = () => {
+      const rx = rotationRef.current.x;
+      const ry = rotationRef.current.y;
 
-    // Materials
-    const textCanvas = document.createElement("canvas");
-    textCanvas.width = 256;
-    textCanvas.height = 64;
+      const cosX = Math.cos(rx);
+      const sinX = Math.sin(rx);
+      const cosY = Math.cos(ry);
+      const sinY = Math.sin(ry);
 
-    const nodes: THREE.Mesh[] = [];
+      currentNodes = currentNodes.map((node) => {
+        // Rotate around Y axis
+        let x1 = node.x * cosY - node.z * sinY;
+        let z1 = node.z * cosY + node.x * sinY;
 
-    for (let i = 0; i < count; i++) {
-      const phi = Math.acos(-1 + (2 * i + 1) / count);
-      const theta = Math.sqrt(count * Math.PI) * phi;
+        // Rotate around X axis
+        let y2 = node.y * cosX - z1 * sinX;
+        let z2 = z1 * cosX + node.y * sinX;
 
-      const x = radius * Math.cos(theta) * Math.sin(phi);
-      const y = radius * Math.sin(theta) * Math.sin(phi);
-      const z = radius * Math.cos(phi);
+        return {
+          ...node,
+          x: x1,
+          y: y2,
+          z: z2,
+        };
+      });
 
-      // Create a canvas texture for skill badge label
-      const canvas = document.createElement("canvas");
-      canvas.width = 256;
-      canvas.height = 64;
-      const ctx = canvas.getContext("2d");
-      if (ctx) {
-        ctx.fillStyle = "#FFFDF9";
-        ctx.roundRect(4, 4, 248, 56, 12);
-        ctx.fill();
-        ctx.strokeStyle = "#E8E3DA";
-        ctx.lineWidth = 3;
-        ctx.stroke();
+      setNodes(projectNodes(currentNodes));
 
-        ctx.fillStyle = "#1A1918";
-        ctx.font = "bold 20px monospace";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillText(skillsList[i], 128, 32);
+      // Slow drag deceleration
+      if (!isDraggingRef.current) {
+        rotationRef.current.x *= 0.98;
+        rotationRef.current.y *= 0.98;
+        if (Math.abs(rotationRef.current.x) < 0.002) rotationRef.current.x = 0.003;
+        if (Math.abs(rotationRef.current.y) < 0.002) rotationRef.current.y = 0.004;
       }
 
-      const texture = new THREE.CanvasTexture(canvas);
-      const spriteMat = new THREE.SpriteMaterial({ map: texture, transparent: true });
-      const sprite = new THREE.Sprite(spriteMat);
-      sprite.scale.set(2.2, 0.55, 1);
-      sprite.position.set(x, y, z);
-
-      sphereGroup.add(sprite);
-    }
-
-    // Inner orbital rings
-    const ringGeo = new THREE.TorusGeometry(radius, 0.02, 16, 100);
-    const ringMat = new THREE.MeshBasicMaterial({ color: 0xc86d51, transparent: true, opacity: 0.2 });
-    const ring1 = new THREE.Mesh(ringGeo, ringMat);
-    ring1.rotation.x = Math.PI / 3;
-    sphereGroup.add(ring1);
-
-    const ring2 = new THREE.Mesh(ringGeo, ringMat);
-    ring2.rotation.y = Math.PI / 4;
-    sphereGroup.add(ring2);
-
-    // Interactive Drag to Spin Momentum
-    let isDragging = false;
-    let previousMousePosition = { x: 0, y: 0 };
-    let velocityX = 0;
-    let velocityY = 0.005; // Ambient slow spin
-
-    const onPointerDown = (e: MouseEvent | TouchEvent) => {
-      isDragging = true;
-      const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
-      const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
-      previousMousePosition = { x: clientX, y: clientY };
+      animationFrameId = requestAnimationFrame(rotateSphere);
     };
 
-    const onPointerMove = (e: MouseEvent | TouchEvent) => {
-      if (!isDragging) return;
-      const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
-      const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
+    rotateSphere();
 
-      const deltaX = clientX - previousMousePosition.x;
-      const deltaY = clientY - previousMousePosition.y;
-
-      velocityY = deltaX * 0.005;
-      velocityX = deltaY * 0.005;
-
-      previousMousePosition = { x: clientX, y: clientY };
-    };
-
-    const onPointerUp = () => {
-      isDragging = false;
-    };
-
-    const domElem = renderer.domElement;
-    domElem.addEventListener("mousedown", onPointerDown);
-    domElem.addEventListener("mousemove", onPointerMove);
-    window.addEventListener("mouseup", onPointerUp);
-
-    domElem.addEventListener("touchstart", onPointerDown);
-    domElem.addEventListener("touchmove", onPointerMove);
-    window.addEventListener("touchend", onPointerUp);
-
-    // Resize Handler
-    const handleResize = () => {
-      if (!container) return;
-      const w = container.clientWidth || 400;
-      camera.aspect = w / height;
-      camera.updateProjectionMatrix();
-      renderer.setSize(w, height);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    // Animation Loop
-    let animId: number;
-    const animate = () => {
-      animId = requestAnimationFrame(animate);
-
-      // Inertia spin
-      sphereGroup.rotation.y += velocityY;
-      sphereGroup.rotation.x += velocityX;
-
-      // Friction damping
-      if (!isDragging) {
-        velocityY *= 0.96;
-        velocityX *= 0.96;
-
-        // Ambient rotation baseline
-        if (Math.abs(velocityY) < 0.002) velocityY = 0.002;
-      }
-
-      renderer.render(scene, camera);
-    };
-
-    animate();
-
-    return () => {
-      cancelAnimationFrame(animId);
-      domElem.removeEventListener("mousedown", onPointerDown);
-      domElem.removeEventListener("mousemove", onPointerMove);
-      window.removeEventListener("mouseup", onPointerUp);
-      domElem.removeEventListener("touchstart", onPointerDown);
-      domElem.removeEventListener("touchmove", onPointerMove);
-      window.removeEventListener("touchend", onPointerUp);
-      window.removeEventListener("resize", handleResize);
-      if (container && renderer.domElement) {
-        container.removeChild(renderer.domElement);
-      }
-      renderer.dispose();
-    };
+    return () => cancelAnimationFrame(animationFrameId);
   }, []);
 
+  // Mouse drag handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    isDraggingRef.current = true;
+    previousMousePositionRef.current = { x: e.clientX, y: e.clientY };
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDraggingRef.current) return;
+    const deltaX = e.clientX - previousMousePositionRef.current.x;
+    const deltaY = e.clientY - previousMousePositionRef.current.y;
+
+    rotationRef.current = {
+      x: deltaY * 0.005,
+      y: deltaX * 0.005,
+    };
+
+    previousMousePositionRef.current = { x: e.clientX, y: e.clientY };
+  };
+
+  const handleMouseUp = () => {
+    isDraggingRef.current = false;
+  };
+
   return (
-    <div className="bento-card relative w-full flex flex-col justify-between" data-cursor="Spin 3D">
-      <div className="flex items-center justify-between gap-4 mb-2">
-        <div>
-          <h3 className="text-2xl font-editorial font-bold text-[#1A1918]">
-            3D Skill Constellation
-          </h3>
+    <PinterestCardWrapper pinLabel="Pin Skills">
+      <div className="w-full flex flex-col justify-between" data-cursor="Spin 3D">
+        <div className="flex items-center justify-between gap-4 mb-4 pb-3 border-b border-[#E8E3DA] dark:border-[#2E2C29] transition-colors">
+          <div>
+            <h3 className="text-2xl font-editorial font-bold text-[#1A1918] dark:text-[#FAF9F7] transition-colors">
+              Technical Skill Constellation
+            </h3>
+            <p className="text-xs text-[#5C5955] dark:text-[#A3A098] font-mono transition-colors">
+              Interactive 3D constellation sphere mapping cloud, backend, and DevOps technical skills
+            </p>
+          </div>
         </div>
-        <div className="flex items-center gap-1.5 text-xs text-[#6E6C68] font-mono bg-[#EFECE6] px-3 py-1.5 rounded-full">
-          <Move size={14} className="text-[#C86D51]" />
-          <span>Drag to Spin 3D</span>
+
+        {/* 3D Sphere Interactive Stage */}
+        <div
+          ref={containerRef}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
+          className="relative w-full h-[360px] md:h-[420px] rounded-3xl bg-[#FAF9F7] dark:bg-[#151413] border border-[#E8E3DA] dark:border-[#2E2C29] overflow-hidden cursor-grab active:cursor-grabbing flex items-center justify-center transition-colors shadow-inner select-none"
+        >
+          {/* Subtle Orbit Rings */}
+          <div className="absolute w-[280px] h-[280px] md:w-[340px] md:h-[340px] rounded-full border border-[#E8E3DA]/60 dark:border-[#2E2C29]/60 pointer-events-none -rotate-12" />
+          <div className="absolute w-[260px] h-[260px] md:w-[320px] md:h-[320px] rounded-full border border-[#C86D51]/20 dark:border-[#E07A5F]/20 pointer-events-none rotate-45" />
+
+          {/* Render 3D Skill Pills */}
+          {nodes.map((node, i) => (
+            <div
+              key={i}
+              style={{
+                transform: `translate3d(${node.px}px, ${node.py}px, 0px) scale(${node.scale})`,
+                opacity: node.opacity,
+                zIndex: Math.round(node.z + 200),
+              }}
+              className="absolute pointer-events-none transition-transform duration-75"
+            >
+              <div className="px-3.5 py-1.5 rounded-full bg-[#FFFDF9] dark:bg-[#242220] border border-[#E8E3DA] dark:border-[#2E2C29] text-xs font-mono font-bold text-[#1A1918] dark:text-[#FAF9F7] shadow-md whitespace-nowrap flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-[#C86D51] dark:bg-[#E07A5F]" />
+                <span>{node.name}</span>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-
-      <p className="text-xs text-[#6E6C68] font-sans mb-4">
-        Interactive 3D constellation sphere. Drag, spin, and orbit around the technical skills ecosystem.
-      </p>
-
-      {/* 3D R3F / Three Canvas Mount */}
-      <div ref={mountRef} className="w-full h-[360px] cursor-grab active:cursor-grabbing flex items-center justify-center overflow-hidden" />
-    </div>
+    </PinterestCardWrapper>
   );
 }
