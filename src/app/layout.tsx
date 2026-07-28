@@ -29,8 +29,12 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Kshitij Kumbhar — Pinterest Editorial Portfolio",
+  title: "Kshitij Kumbhar",
   description: "Computer Engineering Student & Cloud Systems Architect based in Pune, India. Building cloud infrastructures and digital systems.",
+  icons: {
+    icon: "/icon.png",
+    apple: "/apple-icon.png",
+  },
 };
 
 export default function RootLayout({
