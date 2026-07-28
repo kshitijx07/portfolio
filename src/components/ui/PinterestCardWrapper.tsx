@@ -18,7 +18,6 @@ export default function PinterestCardWrapper({
   className = "",
   pinLabel = "Pinned",
   showTape = true,
-  stampText,
   rotateDeg = 0,
 }: PinterestCardWrapperProps) {
   const [isPinned, setIsPinned] = useState(false);
@@ -59,13 +58,6 @@ export default function PinterestCardWrapper({
         <Pin size={13} className={isPinned ? "fill-white rotate-45" : "-rotate-45"} />
         <span>{isPinned ? "Saved" : "Pin"}</span>
       </button>
-
-      {/* Postmark Stamp Badge if provided */}
-      {stampText && (
-        <div className="absolute top-4 left-6 z-20 border-2 border-dashed border-[#C86D51]/70 dark:border-[#E07A5F]/70 text-[#C86D51] dark:text-[#E07A5F] font-mono text-[9px] font-bold tracking-widest px-2.5 py-0.5 rounded -rotate-6 uppercase pointer-events-none transition-colors">
-          {stampText}
-        </div>
-      )}
 
       {/* Card Content */}
       <div className="relative z-10 pt-2">{children}</div>

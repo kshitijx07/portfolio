@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 // Bento Instrument Panel Modules
 import HeroIdentityPanel from "@/components/bento/HeroIdentityPanel";
-import LinkedInUpdatesModule from "@/components/bento/LinkedInUpdatesModule";
+import PlatformUpdatesModule from "@/components/bento/PlatformUpdatesModule";
 import AboutEducationModule from "@/components/bento/AboutEducationModule";
 import KeyMilestonesModule from "@/components/bento/KeyMilestonesModule";
 import WorksCarouselModule from "@/components/bento/WorksCarouselModule";
@@ -103,7 +103,7 @@ export default function Home() {
         <HeroIdentityPanel />
       </motion.section>
 
-      {/* LINKEDIN UPDATES CARD (Placed directly below Hero Identity Card) */}
+      {/* PLATFORM LIVE UPDATES CARD (Placed directly below Hero Identity Card) */}
       <motion.section
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -111,7 +111,7 @@ export default function Home() {
         transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
         className="w-full"
       >
-        <LinkedInUpdatesModule />
+        <PlatformUpdatesModule />
       </motion.section>
 
       {/* ABOUT & MILESTONES (Bento Row) */}
