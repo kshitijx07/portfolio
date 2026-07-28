@@ -11,10 +11,11 @@ export default function Parallax3DBackground() {
     if (!container) return;
 
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isDark = document.documentElement.getAttribute("data-theme") === "dark";
 
     // Scene & Camera Setup
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0xf9f7f4, 0.02);
+    scene.fog = new THREE.FogExp2(isDark ? 0x121110 : 0xf9f7f4, 0.02);
 
     const camera = new THREE.PerspectiveCamera(
       50,
@@ -31,10 +32,10 @@ export default function Parallax3DBackground() {
     container.appendChild(renderer.domElement);
 
     // Lighting
-    const ambientLight = new THREE.AmbientLight(0xfffdf9, 1.5);
+    const ambientLight = new THREE.AmbientLight(isDark ? 0x242220 : 0xfffdf9, 1.5);
     scene.add(ambientLight);
 
-    const dirLight = new THREE.DirectionalLight(0xc86d51, 1.2);
+    const dirLight = new THREE.DirectionalLight(isDark ? 0xe07a5f : 0xc86d51, 1.2);
     dirLight.position.set(12, 18, 10);
     scene.add(dirLight);
 
@@ -45,9 +46,9 @@ export default function Parallax3DBackground() {
     // Translucent 3D Paper Planes
     const planeGeo = new THREE.PlaneGeometry(3.5, 4.5);
     const planeMats = [
-      new THREE.MeshStandardMaterial({ color: 0xfffdf9, roughness: 0.8, transparent: true, opacity: 0.6 }),
-      new THREE.MeshStandardMaterial({ color: 0xc86d51, roughness: 0.7, transparent: true, opacity: 0.25 }),
-      new THREE.MeshStandardMaterial({ color: 0xd8c4b6, roughness: 0.8, transparent: true, opacity: 0.4 }),
+      new THREE.MeshStandardMaterial({ color: isDark ? 0x1c1b19 : 0xfffdf9, roughness: 0.8, transparent: true, opacity: 0.6 }),
+      new THREE.MeshStandardMaterial({ color: isDark ? 0xe07a5f : 0xc86d51, roughness: 0.7, transparent: true, opacity: 0.25 }),
+      new THREE.MeshStandardMaterial({ color: isDark ? 0x2e2c29 : 0xd8c4b6, roughness: 0.8, transparent: true, opacity: 0.4 }),
     ];
 
     const planeItems: { mesh: THREE.Mesh; depthFactor: number; rotSpeed: number }[] = [];
@@ -89,13 +90,25 @@ export default function Parallax3DBackground() {
 
     const particlesMat = new THREE.PointsMaterial({
       size: 0.08,
-      color: 0xc86d51,
+      color: isDark ? 0xe07a5f : 0xc86d51,
       transparent: true,
       opacity: 0.4,
     });
 
     const particlesMesh = new THREE.Points(particlesGeo, particlesMat);
     scene.add(particlesMesh);
+
+    // Theme MutationObserver
+    const observer = new MutationObserver(() => {
+      const currentDark = document.documentElement.getAttribute("data-theme") === "dark";
+      scene.fog = new THREE.FogExp2(currentDark ? 0x121110 : 0xf9f7f4, 0.02);
+      planeMats[0].color.setHex(currentDark ? 0x1c1b19 : 0xfffdf9);
+      planeMats[1].color.setHex(currentDark ? 0xe07a5f : 0xc86d51);
+      planeMats[2].color.setHex(currentDark ? 0x2e2c29 : 0xd8c4b6);
+      particlesMat.color.setHex(currentDark ? 0xe07a5f : 0xc86d51);
+    });
+
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 
     // Mouse & Scroll Parallax Listeners
     let targetMouseX = 0;
@@ -159,6 +172,7 @@ export default function Parallax3DBackground() {
 
     return () => {
       cancelAnimationFrame(animId);
+      observer.disconnect();
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleResize);

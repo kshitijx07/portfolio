@@ -10,12 +10,14 @@ export default function Editorial3DBackground() {
     const container = mountRef.current;
     if (!container) return;
 
-    // Check for reduced motion preference
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // Check initial dark theme
+    const isDark = document.documentElement.getAttribute("data-theme") === "dark";
 
     // Scene setup
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0xf9f7f4, 0.025);
+    scene.fog = new THREE.FogExp2(isDark ? 0x121110 : 0xf9f7f4, 0.025);
 
     // Camera setup
     const camera = new THREE.PerspectiveCamera(
@@ -36,14 +38,14 @@ export default function Editorial3DBackground() {
     container.appendChild(renderer.domElement);
 
     // Ambient & Directional Lights
-    const ambientLight = new THREE.AmbientLight(0xfffdf9, 1.2);
+    const ambientLight = new THREE.AmbientLight(isDark ? 0x242220 : 0xfffdf9, 1.2);
     scene.add(ambientLight);
 
-    const dirLight1 = new THREE.DirectionalLight(0xc86d51, 1.5);
+    const dirLight1 = new THREE.DirectionalLight(isDark ? 0xe07a5f : 0xc86d51, 1.5);
     dirLight1.position.set(10, 15, 10);
     scene.add(dirLight1);
 
-    const dirLight2 = new THREE.DirectionalLight(0x2d4030, 0.8);
+    const dirLight2 = new THREE.DirectionalLight(isDark ? 0x4e6e52 : 0x2d4030, 0.8);
     dirLight2.position.set(-10, -10, 5);
     scene.add(dirLight2);
 
@@ -51,31 +53,31 @@ export default function Editorial3DBackground() {
     const shapesGroup = new THREE.Group();
     scene.add(shapesGroup);
 
-    // Color palette materials (Scandinavian Editorial)
+    // Color palette materials
     const materials = [
       new THREE.MeshStandardMaterial({
-        color: 0xfffdf9,
+        color: isDark ? 0x1c1b19 : 0xfffdf9,
         roughness: 0.7,
         metalness: 0.1,
         transparent: true,
         opacity: 0.8,
       }),
       new THREE.MeshStandardMaterial({
-        color: 0xc86d51,
+        color: isDark ? 0xe07a5f : 0xc86d51,
         roughness: 0.6,
         metalness: 0.1,
         transparent: true,
         opacity: 0.65,
       }),
       new THREE.MeshStandardMaterial({
-        color: 0xd8c4b6,
+        color: isDark ? 0x2e2c29 : 0xd8c4b6,
         roughness: 0.8,
         metalness: 0.05,
         transparent: true,
         opacity: 0.75,
       }),
       new THREE.MeshStandardMaterial({
-        color: 0x2d4030,
+        color: isDark ? 0x4e6e52 : 0x2d4030,
         roughness: 0.7,
         metalness: 0.1,
         transparent: true,
@@ -140,6 +142,18 @@ export default function Editorial3DBackground() {
       initialY: -5,
     });
 
+    // Theme MutationObserver
+    const observer = new MutationObserver(() => {
+      const currentDark = document.documentElement.getAttribute("data-theme") === "dark";
+      scene.fog = new THREE.FogExp2(currentDark ? 0x121110 : 0xf9f7f4, 0.025);
+      materials[0].color.setHex(currentDark ? 0x1c1b19 : 0xfffdf9);
+      materials[1].color.setHex(currentDark ? 0xe07a5f : 0xc86d51);
+      materials[2].color.setHex(currentDark ? 0x2e2c29 : 0xd8c4b6);
+      materials[3].color.setHex(currentDark ? 0x4e6e52 : 0x2d4030);
+    });
+
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
     // Mouse position state
     let targetMouseX = 0;
     let targetMouseY = 0;
@@ -199,6 +213,7 @@ export default function Editorial3DBackground() {
     // Cleanup
     return () => {
       cancelAnimationFrame(animationFrameId);
+      observer.disconnect();
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("resize", handleResize);
       if (container && renderer.domElement) {

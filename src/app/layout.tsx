@@ -45,7 +45,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${newsreader.variable} ${plusJakartaSans.variable} ${jetbrainsMono.variable}`}>
-      <body className="bg-[#F9F7F4] text-[#1A1918] selection:bg-[#C86D51] selection:text-white min-h-screen antialiased relative">
+      <body className="bg-[var(--bg-primary)] text-[var(--text-primary)] selection:bg-[#C86D51] selection:text-white min-h-screen antialiased relative transition-colors duration-400">
         <Editorial3DBackground />
         <NoiseOverlay />
         <CustomCursor />
