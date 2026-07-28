@@ -1,35 +1,34 @@
 import type { Metadata } from "next";
-import { Syne, Outfit, JetBrains_Mono } from "next/font/google";
+import { Newsreader, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import SmoothScrollProvider from "@/components/ui/SmoothScrollProvider";
+import NoiseOverlay from "@/components/ui/NoiseOverlay";
+import { Analytics } from "@vercel/analytics/next";
 
-const syne = Syne({
-  variable: "--font-space-grotesk",
+const newsreader = Newsreader({
+  variable: "--font-newsreader",
   subsets: ["latin"],
-  weight: ["700", "800"],
-  display: 'swap',
+  style: ["normal", "italic"],
+  display: "swap",
 });
 
-const outfit = Outfit({
-  variable: "--font-inter",
+const plusJakartaSans = Plus_Jakarta_Sans({
+  variable: "--font-jakarta",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "700"],
-  display: 'swap',
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
 });
 
 const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
+  variable: "--font-mono",
   subsets: ["latin"],
-  weight: ["400"],
-  display: 'swap',
+  weight: ["400", "500"],
+  display: "swap",
 });
 
-import PageTransition from "@/components/ui/PageTransition";
-import { LazyMotion, domMax } from "framer-motion";
-import { Analytics } from "@vercel/analytics/next";
-
 export const metadata: Metadata = {
-  title: "Kshitij Kumbhar | Creative Developer",
-  description: "Portfolio of Kshitij Kumbhar - DevOps Engineer, Full Stack Developer, and Cloud Enthusiast.",
+  title: "Kshitij Kumbhar — Editorial Portfolio & Digital Collection",
+  description: "Computer Engineering Student & DevOps Architect based in Pune, India. Building cloud infrastructures and digital systems.",
 };
 
 export default function RootLayout({
@@ -38,31 +37,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <link rel="preconnect" href="https://prod.spline.design" crossOrigin="anonymous" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                if ('fonts' in document) {
-                  document.fonts.ready.then(function() {
-                    document.documentElement.classList.add('fonts-loaded');
-                  });
-                } else {
-                  document.documentElement.classList.add('fonts-loaded');
-                }
-              })();
-            `,
-          }}
-        />
-      </head>
-      <body className={`${outfit.variable} ${syne.variable} ${jetbrainsMono.variable} antialiased bg-black text-white selection:bg-white selection:text-black`}>
-        <LazyMotion features={domMax}>
-          <PageTransition />
+    <html lang="en" className={`${newsreader.variable} ${plusJakartaSans.variable} ${jetbrainsMono.variable}`}>
+      <body className="bg-[#F9F7F4] text-[#1A1918] selection:bg-[#C86D51] selection:text-white min-h-screen antialiased">
+        <NoiseOverlay />
+        <SmoothScrollProvider>
           {children}
-          <Analytics />
-        </LazyMotion>
+        </SmoothScrollProvider>
+        <Analytics />
       </body>
     </html>
   );
