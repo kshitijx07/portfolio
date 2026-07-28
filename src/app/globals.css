@@ -39,26 +39,63 @@ h1, h2, h3, h4, .font-editorial {
   letter-spacing: -0.01em;
 }
 
+/* Bento Card Styling Tokens */
+.bento-card {
+  background: #FFFDF9;
+  border: 1px solid #E8E3DA;
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  box-shadow: 
+    0 1px 3px rgba(26, 25, 24, 0.04),
+    0 8px 24px rgba(26, 25, 24, 0.06);
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.bento-card-hover:hover {
+  border-color: #C86D51;
+  box-shadow: 
+    0 4px 12px rgba(26, 25, 24, 0.06),
+    0 16px 40px rgba(200, 109, 81, 0.12);
+}
+
+.bento-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #6E6C68;
+  display: flex;
+  items-center: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.bento-label::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: #E8E3DA;
+}
+
 /* Paper and Editorial Card Shadows */
 .shadow-paper {
   box-shadow: 
     0 1px 3px rgba(26, 25, 24, 0.04),
-    0 8px 24px rgba(26, 25, 24, 0.06),
-    0 16px 32px rgba(26, 25, 24, 0.03);
+    0 8px 24px rgba(26, 25, 24, 0.06);
 }
 
 .shadow-paper-hover {
   box-shadow: 
     0 4px 12px rgba(26, 25, 24, 0.06),
-    0 16px 40px rgba(200, 109, 81, 0.12),
-    0 24px 48px rgba(26, 25, 24, 0.05);
+    0 16px 40px rgba(200, 109, 81, 0.12);
 }
 
 .shadow-postcard {
   box-shadow: 
     0 2px 4px rgba(26, 25, 24, 0.03),
-    0 12px 36px rgba(200, 109, 81, 0.08),
-    0 20px 50px rgba(45, 64, 48, 0.05);
+    0 12px 36px rgba(200, 109, 81, 0.08);
 }
 
 /* Paper Texture & Stamps */
@@ -92,6 +129,11 @@ h1, h2, h3, h4, .font-editorial {
   border-radius: 4px;
   transform: rotate(-6deg);
   display: inline-block;
+}
+
+/* 3D Perspective Setup */
+.perspective-1000 {
+  perspective: 1000px;
 }
 
 /* Lenis Smooth Scroll Setup */
@@ -132,14 +174,6 @@ html.lenis, html.lenis body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #C86D51;
-}
-
-/* Glassmorphism for editorial popups */
-.glass-editorial {
-  background: rgba(255, 253, 249, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(216, 196, 182, 0.4);
 }
 
 /* Accessibility: Prefers Reduced Motion */

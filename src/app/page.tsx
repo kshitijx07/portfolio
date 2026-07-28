@@ -2,20 +2,20 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import ProfileCard from "@/components/cards/ProfileCard";
-import ProjectCard from "@/components/cards/ProjectCard";
+
+// Bento Instrument Panel Modules
+import HeroIdentityPanel from "@/components/bento/HeroIdentityPanel";
+import AboutEducationModule from "@/components/bento/AboutEducationModule";
+import KeyMilestonesModule from "@/components/bento/KeyMilestonesModule";
+import WorksCarouselModule from "@/components/bento/WorksCarouselModule";
+import CodingProfilesBento from "@/components/bento/CodingProfilesBento";
+import ExperienceTimelineModule from "@/components/bento/ExperienceTimelineModule";
+import ContactResumePanel from "@/components/bento/ContactResumePanel";
+
+// 3D & UI Components
+import Parallax3DBackground from "@/components/ui/Parallax3DBackground";
+import Skills3DSphere from "@/components/ui/Skills3DSphere";
 import CaseStudyModal, { ProjectData } from "@/components/modals/CaseStudyModal";
-import GitHubCard from "@/components/cards/GitHubCard";
-import LeetCodeCard from "@/components/cards/LeetCodeCard";
-import CodeforcesCard from "@/components/cards/CodeforcesCard";
-import ExperienceThreadCard from "@/components/cards/ExperienceThreadCard";
-import ResumePrintCard from "@/components/cards/ResumePrintCard";
-import DraggableStickersCard from "@/components/cards/DraggableStickersCard";
-import PhotographyCollageCard from "@/components/cards/PhotographyCollageCard";
-import CollectibleBadgesCard from "@/components/cards/CollectibleBadgesCard";
-import TestimonialNotesCard from "@/components/cards/TestimonialNotesCard";
-import VintagePostcardContact from "@/components/cards/VintagePostcardContact";
-import { Sparkles } from "lucide-react";
 
 const projectsData: ProjectData[] = [
   {
@@ -87,122 +87,91 @@ const projectsData: ProjectData[] = [
 
 export default function Home() {
   const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
-  const [activeFilter, setActiveFilter] = useState("All");
-
-  const categories = ["All", "Projects", "Skills", "CP & GitHub", "Experience", "Postcard"];
 
   return (
-    <main className="min-h-screen px-4 md:px-10 py-10 max-w-[1600px] mx-auto">
-      {/* Editorial Header */}
-      <header className="mb-12 text-center md:text-left flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#E8E3DA] pb-8">
-        <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EFECE6] text-[#6E6C68] text-xs font-mono mb-3">
-            <Sparkles size={12} className="text-[#C86D51] animate-pulse" />
-            <span>PINTEREST EDITORIAL COLLECTION • VOLUME 2026</span>
-          </div>
-          <h1 className="text-4xl md:text-6xl font-editorial font-bold text-[#1A1918] tracking-tight">
-            Kshitij Kumbhar
-          </h1>
-          <p className="text-sm md:text-base text-[#6E6C68] font-sans mt-2 max-w-xl leading-relaxed">
-            Computer Engineering Student & Cloud Systems Architect. Designing digital systems with Scandinavian clarity and precision.
-          </p>
-        </div>
+    <main className="min-h-screen px-4 md:px-10 py-10 max-w-[1500px] mx-auto space-y-8 relative z-10">
+      {/* 3D Ambient Parallax Background */}
+      <Parallax3DBackground />
 
-        {/* Floating Filter Tags */}
-        <div className="flex flex-wrap items-center justify-center md:justify-end gap-2">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveFilter(cat)}
-              className={`px-4 py-2 rounded-full text-xs font-mono transition-all duration-300 active:scale-95 ${
-                activeFilter === cat
-                  ? "bg-[#1A1918] text-white shadow-sm"
-                  : "bg-[#EFECE6] text-[#6E6C68] hover:bg-[#D8C4B6] hover:text-[#1A1918]"
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-      </header>
+      {/* CHAPTER 01: IDENTITY & HERO PANEL (Full-Width Top) */}
+      <motion.section
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        className="w-full"
+      >
+        <HeroIdentityPanel />
+      </motion.section>
 
-      {/* 4-Column Responsive Pinterest Masonry Grid */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={activeFilter}
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -12 }}
-          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-start"
-        >
-          {/* COLUMN 1 */}
-          {(activeFilter === "All" || activeFilter === "Postcard" || activeFilter === "Skills") && (
-            <div className="space-y-6">
-              {/* Gentle Slow Sway on Profile Card */}
-              <motion.div
-                animate={{ rotate: [-1.5, -0.5, -1.5] }}
-                transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-              >
-                <ProfileCard />
-              </motion.div>
-              <DraggableStickersCard />
-              <PhotographyCollageCard />
-            </div>
-          )}
+      {/* CHAPTER 01 CONTINUED: ABOUT & MILESTONES (Bento Row) */}
+      <motion.section
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch"
+      >
+        <AboutEducationModule />
+        <KeyMilestonesModule />
+      </motion.section>
 
-          {/* COLUMN 2 */}
-          {(activeFilter === "All" || activeFilter === "Projects" || activeFilter === "CP & GitHub") && (
-            <div className="space-y-6">
-              <ProjectCard
-                project={projectsData[0]}
-                rotation={-1}
-                onOpenCaseStudy={setSelectedProject}
-              />
-              <GitHubCard />
-              <CollectibleBadgesCard />
-            </div>
-          )}
+      {/* CHAPTER 02: CRAFT & RECENT WORKS CAROUSEL */}
+      <motion.section
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        className="w-full"
+      >
+        <WorksCarouselModule
+          projects={projectsData}
+          onOpenCaseStudy={setSelectedProject}
+        />
+      </motion.section>
 
-          {/* COLUMN 3 */}
-          {(activeFilter === "All" || activeFilter === "Projects" || activeFilter === "CP & GitHub") && (
-            <div className="space-y-6">
-              {/* Gentle Slow Sway on Project Card */}
-              <motion.div
-                animate={{ rotate: [1, 2, 1] }}
-                transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-              >
-                <ProjectCard
-                  project={projectsData[1]}
-                  rotation={1}
-                  onOpenCaseStudy={setSelectedProject}
-                />
-              </motion.div>
-              <LeetCodeCard />
-              <CodeforcesCard />
-              <ProjectCard
-                project={projectsData[2]}
-                rotation={-1.5}
-                onOpenCaseStudy={setSelectedProject}
-              />
-            </div>
-          )}
+      {/* CHAPTER 03: PROOF & CODING PROFILES (Elevated Bento Tiles) */}
+      <motion.section
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        className="w-full"
+      >
+        <CodingProfilesBento />
+      </motion.section>
 
-          {/* COLUMN 4 */}
-          {(activeFilter === "All" || activeFilter === "Experience" || activeFilter === "Postcard") && (
-            <div className="space-y-6">
-              <ExperienceThreadCard />
-              <ResumePrintCard />
-              <TestimonialNotesCard />
-            </div>
-          )}
-        </motion.div>
-      </AnimatePresence>
+      {/* CHAPTER 04: SKILLS SYSTEM (Interactive 3D Constellation Sphere) */}
+      <motion.section
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        className="w-full"
+      >
+        <Skills3DSphere />
+      </motion.section>
 
-      {/* Postcard Contact Section (Full Width Bottom) */}
-      <div className="mt-16">
-        <VintagePostcardContact />
-      </div>
+      {/* CHAPTER 05: CAREER TIMELINE */}
+      <motion.section
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        className="w-full"
+      >
+        <ExperienceTimelineModule />
+      </motion.section>
+
+      {/* CHAPTER 05 CONTINUED: CONTACT & RESUME CONTROL PANEL */}
+      <motion.section
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        className="w-full"
+      >
+        <ContactResumePanel />
+      </motion.section>
 
       {/* Case Study Modal */}
       <CaseStudyModal
