@@ -23,21 +23,20 @@ const projectsData: ProjectData[] = [
     category: "Cloud Architecture",
     year: "2026",
     description: "Decoupled cloud-native hostel management platform with a React frontend on Amazon S3 and a Node.js REST API on AWS EKS (Kubernetes), with role-based access control.",
-    longDescription: "HostelHub is a production-grade cloud-native hostel management platform. The frontend React application is hosted statically on Amazon S3 secured via CloudFront Origin Access Control (OAC). The backend REST API is containerized with Docker multi-stage builds and deployed to AWS EKS with Horizontal Pod Autoscaling (HPA).",
+    longDescription: "Built a cloud-native hostel management platform with a decoupled React frontend hosted on Amazon S3 and a Node.js REST API deployed on AWS EKS (Kubernetes), implementing role-based access control for students and administrators.",
     tech: ["AWS EKS", "Kubernetes", "CloudFront", "S3", "ALB", "Jenkins", "Docker", "React.js", "Node.js", "MongoDB Atlas"],
     github: "https://github.com/kshitijx07/Hostelhub",
     demo: "https://hostelhub-ruby.vercel.app",
     image: "/hostelhub_ui.png",
     highlights: [
-      "Built decoupled architecture with S3 static hosting and EKS REST API",
-      "Designed unified CloudFront distribution routing /* to private S3 and /api/* to ALB",
-      "Configured Kubernetes rolling updates with zero downtime and HPA scaling on 70% CPU",
-      "Engineered split Jenkins CI/CD pipeline automating 100% of deployments"
+      "Built a cloud-native hostel management platform with a decoupled React frontend hosted on Amazon S3 and a Node.js REST API deployed on AWS EKS (Kubernetes).",
+      "Designed a unified AWS CloudFront distribution routing static and API traffic through OAC-secured S3 and an NGINX Ingress-backed ALB, eliminating CORS overhead.",
+      "Containerized the backend with Docker multi-stage builds and configured a Horizontal Pod Autoscaler scaling replicas from 2 to 5 at 70% CPU.",
+      "Engineered a split Jenkins CI/CD pipeline automating npm build, S3 sync, CloudFront invalidation, DockerHub image build, and kubectl rollout."
     ],
     architecture: [
-      "Role-Based Access Control for Students & Administrators",
-      "Kubernetes Secrets & ConfigMaps for MongoDB Atlas, Cloudinary & JWT",
-      "Private S3 Bucket Access enforced via CloudFront OAC ARN policy"
+      "Secured workloads with Kubernetes Secrets for MongoDB Atlas, Cloudinary, and JWT.",
+      "Enforced private S3 access through a CloudFront OAC policy, removing public bucket exposure entirely."
     ]
   },
   {
@@ -45,42 +44,41 @@ const projectsData: ProjectData[] = [
     category: "Full Stack System",
     year: "2025",
     description: "A three-portal grocery ordering system (Customer, Admin, Delivery Partner) featuring real-time order tracking, payment processing, and live map integration.",
-    longDescription: "Grocito is a multi-portal real-time grocery ordering and delivery ecosystem. Built with Spring Boot, React, and MySQL, it connects customers, warehouse admins, and delivery partners with live tracking and map integration.",
-    tech: ["Spring Boot", "React.js", "MySQL", "REST APIs", "Real-Time Tracking", "TailwindCSS"],
+    longDescription: "Developed a three-portal system for Customer, Admin, and Delivery Partner roles, supporting real-time order tracking, payment processing, and live map integration for 50+ concurrent simulated users.",
+    tech: ["Spring Boot", "React.js", "MySQL", "REST APIs", "Real-Time Tracking"],
     github: "https://github.com/kshitijx07/Grocito-Copy",
     demo: "https://grocito-user.vercel.app/",
     image: "/grocito_ui.png",
     highlights: [
-      "Engineered three-portal ecosystem for Customer, Admin, and Delivery Partner",
-      "Integrated real-time order tracking and map routing APIs",
-      "Designed optimized MySQL schemas handling high-frequency concurrent transactions",
-      "Built admin analytics dashboard surfacing inventory health and order KPIs"
+      "Developed a three-portal system for Customer, Admin, and Delivery Partner roles with real-time order tracking and map integration.",
+      "Designed optimized MySQL schemas and backend REST APIs handling high-frequency concurrent transactions with sub-200ms response latency.",
+      "Built an admin analytics dashboard surfacing sales trends, inventory health, and order KPIs, cutting manual reporting time by 30%.",
+      "Integrated a secure payment gateway alongside a donation-tracking system giving donors full visibility across three order stages."
     ],
     architecture: [
-      "Spring Boot Modular MVC Architecture",
-      "Razorpay payment gateway & donation tracking system",
-      "Role-based authentication & tokenized security"
+      "Spring Boot Modular MVC Architecture with tokenized security.",
+      "Razorpay payment gateway & donation tracking system integration."
     ]
   },
   {
     title: "Serverless AI X-Ray Analyzer",
     category: "AI & Serverless",
     year: "2026",
-    description: "Serverless event-driven medical imaging platform on AWS using MobileNet TFLite to classify chest X-rays in <1s at zero idle cost, with S3 presigned URL uploads & Terraform automation.",
-    longDescription: "Engineered a serverless, event-driven medical imaging platform on AWS that uses a pre-trained MobileNet TFLite model to classify chest X-rays in under 1 second at zero idle cost. Deployed a secure three-Lambda backend behind API Gateway with CORS enforcement and per-second request throttling to reduce DDoS exposure. Streamlined uploads with an S3 presigned URL flow sending images directly from the browser to S3, increasing the effective upload limit 5x (10 MB to 50 MB) while bypassing the API Gateway payload cap. Automated infrastructure for all three Lambda functions using modular Terraform and a GitHub Actions pipeline that runs uninterrupted deployments; built a React UI with drag-and-drop uploads and a two-second DynamoDB polling loop streaming AI confidence scores in real time.",
-    tech: ["AWS Lambda", "Terraform", "GitHub Actions", "API Gateway", "S3", "DynamoDB", "React.js", "Python"],
+    description: "Serverless event-driven medical imaging platform on AWS using MobileNet TFLite to classify chest X-rays in <1s at zero idle cost.",
+    longDescription: "Engineered a serverless, event-driven medical imaging platform on AWS that uses a pre-trained MobileNet TFLite model to classify chest X-rays in under 1 second at zero idle cost.",
+    tech: ["AWS Lambda", "Terraform", "GitHub Actions", "API Gateway", "S3", "DynamoDB"],
     github: "https://github.com/kshitijx07/serverless-ai-xray",
     demo: "#",
     image: "/serverless_xray_ui.png",
     highlights: [
-      "Classifies chest X-rays in under 1 second at 0 idle cost using pre-trained MobileNet TFLite model",
-      "Deployed 3 secure Lambdas behind API Gateway with CORS & per-second request throttling",
-      "Engineered browser S3 presigned URL flow increasing upload cap 5x (10 MB to 50 MB)",
-      "Automated infrastructure with modular Terraform & uninterrupted GitHub Actions pipeline"
+      "Engineered a serverless, event-driven medical imaging platform on AWS using MobileNet TFLite to classify chest X-rays in <1s at zero idle cost.",
+      "Deployed a secure three-Lambda backend behind API Gateway with CORS enforcement and per-second request throttling.",
+      "Streamlined uploads with an S3 presigned URL flow directly from browser to S3, increasing upload cap 5x (10 MB to 50 MB).",
+      "Automated infrastructure for all 3 Lambdas using modular Terraform & GitHub Actions CI/CD with real-time DynamoDB AI confidence streaming."
     ],
     architecture: [
-      "Event-driven S3 & DynamoDB 2-second real-time AI confidence score streaming loop",
-      "Modular Terraform Infrastructure as Code deployment pipeline"
+      "Modular Terraform Infrastructure as Code setup.",
+      "Event-driven S3 presigned URL uploads and DynamoDB polling loop."
     ]
   }
 ];

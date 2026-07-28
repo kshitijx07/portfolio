@@ -8,16 +8,14 @@ import TiltCardWrapper from "@/components/ui/TiltCardWrapper";
 const experiences = [
   {
     role: "DevOps Intern",
-    company: "Colgate-Palmolive – DevOps Team",
+    company: "Colgate-Palmolive",
     location: "Mumbai, Maharashtra, India (Hybrid)",
     duration: "Jul 2026 – Present",
     tag: "Enterprise DevOps & Cloud Automation",
     points: [
-      "Working with enterprise DevOps workflows supporting production application deployment and infrastructure automation.",
-      "Gaining hands-on experience with CI/CD pipelines using Jenkins, Git, and GitHub.",
-      "Learning cloud infrastructure management on AWS and containerized application deployment using Docker.",
-      "Assisting in Linux system administration, deployment automation, and environment configuration.",
-      "Continuously improving knowledge of Kubernetes, Infrastructure as Code (Terraform), and cloud-native monitoring."
+      "Support application deployment and infrastructure automation workflows within a DevOps team, contributing to CI/CD pipelines built with Jenkins, Git, and GitHub.",
+      "Assist with AWS cloud infrastructure management and containerized application deployment using Docker across Linux-based staging and production environments.",
+      "Collaborate with cross-functional engineering teams on deployment automation, contributing to Infrastructure as Code with Terraform and to monitoring initiatives."
     ]
   },
   {
@@ -27,9 +25,9 @@ const experiences = [
     duration: "Jun 2025 – Aug 2025",
     tag: "Full Stack Systems Delivery",
     points: [
-      "Owned end-to-end delivery of the Grocito platform, from requirements gathering and system design to production deployment, within a six-week sprint.",
+      "Owned end-to-end delivery of the Grocito platform, from requirements gathering and system design through production deployment, within a six-week sprint.",
       "Led backend architecture decisions using Spring Boot and MySQL, establishing a modular MVC structure that supported parallel development across three portals.",
-      "Facilitated daily standups and sprint reviews within an agile team of three, maintaining on-schedule releases."
+      "Facilitated daily standups and sprint reviews within an agile team of three, coordinating feature delivery and code reviews to maintain on-schedule releases."
     ]
   }
 ];
