@@ -42,7 +42,6 @@ export default function ExperienceTimelineModule() {
               <Briefcase size={20} />
             </div>
             <div>
-              <span className="bento-label !mb-0">CAREER JOURNEY // CHAPTER 05</span>
               <h3 className="text-2xl font-editorial font-bold text-[#1A1918] dark:text-[#FAF9F7] transition-colors">
                 Professional Timeline
               </h3>

@@ -9,8 +9,6 @@ export default function AboutEducationModule() {
     <PinterestCardWrapper stampText="ACADEMICS" rotateDeg={-0.5}>
       <div className="w-full flex flex-col justify-between h-full" data-cursor="About">
         <div>
-          <span className="bento-label">ABOUT & ACADEMICS // CHAPTER 01</span>
-          
           <h3 className="text-2xl font-editorial font-bold text-[#1A1918] dark:text-[#FAF9F7] mb-3 transition-colors">
             Engineering Background
           </h3>

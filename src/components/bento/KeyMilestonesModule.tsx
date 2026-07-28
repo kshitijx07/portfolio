@@ -55,14 +55,12 @@ export default function KeyMilestonesModule() {
     <PinterestCardWrapper stampText="HONORS" rotateDeg={0.5}>
       <div className="w-full flex flex-col justify-between h-full" data-cursor="Badges">
         <div>
-          <div className="flex items-center justify-between gap-2 mb-1">
-            <span className="bento-label">KEY MILESTONES // CHAPTER 03</span>
-            <Trophy size={16} className="text-[#C86D51] dark:text-[#E07A5F]" />
+          <div className="flex items-center justify-between gap-2 mb-2">
+            <h3 className="text-2xl font-editorial font-bold text-[#1A1918] dark:text-[#FAF9F7] transition-colors">
+              Honors & Accolades
+            </h3>
+            <Trophy size={18} className="text-[#C86D51] dark:text-[#E07A5F]" />
           </div>
-
-          <h3 className="text-2xl font-editorial font-bold text-[#1A1918] dark:text-[#FAF9F7] mb-4 transition-colors">
-            Honors & Accolades
-          </h3>
 
           <div className="grid grid-cols-2 gap-3">
             {milestones.map((m) => (

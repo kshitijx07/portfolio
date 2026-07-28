@@ -27,9 +27,7 @@ export default function HeroIdentityPanel() {
   return (
     <PinterestCardWrapper stampText="PUNE // 2026" pinLabel="Hero Pin">
       <div className="w-full p-2 md:p-4" data-cursor="Identity">
-        <div className="bento-label !mt-2">CHAPTER 01 // IDENTITY CONTROL PANEL</div>
-
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pt-2">
           {/* Left: Portrait & Identity info */}
           <div className="flex items-center gap-4 md:gap-6">
             <div className="relative group/avatar">

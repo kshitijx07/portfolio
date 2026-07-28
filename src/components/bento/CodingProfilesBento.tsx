@@ -18,8 +18,6 @@ export default function CodingProfilesBento() {
 
   return (
     <div className="w-full space-y-4" data-cursor="Profiles">
-      <div className="bento-label">CODING PROFILES // CHAPTER 03</div>
-
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* GitHub Elevated Tile */}
         <TiltCardWrapper maxTilt={4}>

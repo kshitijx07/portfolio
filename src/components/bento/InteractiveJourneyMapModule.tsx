@@ -96,7 +96,6 @@ export default function InteractiveJourneyMapModule({ onOpenCaseStudy, projects 
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-[#E8E3DA] dark:border-[#2E2C29] transition-colors">
           <div>
-            <span className="bento-label">CHAPTER 02 // GEOGRAPHIC ITINERARY</span>
             <h3 className="text-2xl font-editorial font-bold text-[#1A1918] dark:text-[#FAF9F7] transition-colors">
               Interactive Journey & Project Map
             </h3>

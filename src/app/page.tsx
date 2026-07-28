@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 // Bento Instrument Panel Modules
 import HeroIdentityPanel from "@/components/bento/HeroIdentityPanel";
+import LinkedInUpdatesModule from "@/components/bento/LinkedInUpdatesModule";
 import AboutEducationModule from "@/components/bento/AboutEducationModule";
 import KeyMilestonesModule from "@/components/bento/KeyMilestonesModule";
 import WorksCarouselModule from "@/components/bento/WorksCarouselModule";
@@ -92,7 +93,7 @@ export default function Home() {
       {/* 3D Ambient Parallax Background */}
       <Parallax3DBackground />
 
-      {/* CHAPTER 01: IDENTITY & HERO PANEL (Full-Width Top) */}
+      {/* IDENTITY CONTROL PANEL (Full-Width Top Card) */}
       <motion.section
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
@@ -102,7 +103,18 @@ export default function Home() {
         <HeroIdentityPanel />
       </motion.section>
 
-      {/* CHAPTER 01 CONTINUED: ABOUT & MILESTONES (Bento Row) */}
+      {/* LINKEDIN UPDATES CARD (Placed directly below Hero Identity Card) */}
+      <motion.section
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        className="w-full"
+      >
+        <LinkedInUpdatesModule />
+      </motion.section>
+
+      {/* ABOUT & MILESTONES (Bento Row) */}
       <motion.section
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -114,7 +126,7 @@ export default function Home() {
         <KeyMilestonesModule />
       </motion.section>
 
-      {/* CHAPTER 02: CRAFT & RECENT WORKS CAROUSEL */}
+      {/* RECENT WORKS CAROUSEL */}
       <motion.section
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -128,7 +140,7 @@ export default function Home() {
         />
       </motion.section>
 
-      {/* CHAPTER 02 CONTINUED: INTERACTIVE GEOGRAPHIC JOURNEY MAP */}
+      {/* INTERACTIVE GEOGRAPHIC JOURNEY MAP */}
       <motion.section
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -142,7 +154,7 @@ export default function Home() {
         />
       </motion.section>
 
-      {/* CHAPTER 03: PROOF & CODING PROFILES (Elevated Bento Tiles) */}
+      {/* CODING PROFILES (Elevated Bento Tiles) */}
       <motion.section
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -153,7 +165,7 @@ export default function Home() {
         <CodingProfilesBento />
       </motion.section>
 
-      {/* CHAPTER 04: SKILLS SYSTEM (Interactive 3D Constellation Sphere) */}
+      {/* SKILLS SYSTEM (Interactive 3D Constellation Sphere) */}
       <motion.section
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -164,7 +176,7 @@ export default function Home() {
         <Skills3DSphere />
       </motion.section>
 
-      {/* CHAPTER 05: CAREER TIMELINE */}
+      {/* CAREER TIMELINE */}
       <motion.section
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -175,7 +187,7 @@ export default function Home() {
         <ExperienceTimelineModule />
       </motion.section>
 
-      {/* CHAPTER 05 CONTINUED: CONTACT & RESUME CONTROL PANEL */}
+      {/* CONTACT & RESUME CONTROL PANEL */}
       <motion.section
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}

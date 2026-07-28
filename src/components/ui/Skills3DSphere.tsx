@@ -188,7 +188,6 @@ export default function Skills3DSphere() {
     <div className="bento-card relative w-full flex flex-col justify-between" data-cursor="Spin 3D">
       <div className="flex items-center justify-between gap-4 mb-2">
         <div>
-          <span className="bento-label">SKILLS SYSTEM // CHAPTER 04</span>
           <h3 className="text-2xl font-editorial font-bold text-[#1A1918]">
             3D Skill Constellation
           </h3>

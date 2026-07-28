@@ -24,9 +24,7 @@ export default function ContactResumePanel() {
   return (
     <PinterestCardWrapper stampText="PAR AVION" pinLabel="Pin Contact">
       <div className="w-full overflow-hidden" data-cursor="Contact">
-        <div className="bento-label">GET IN TOUCH // CHAPTER 05</div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8 pt-2">
           {/* Left: Contact Form */}
           <div>
             <div className="flex items-center justify-between gap-4 mb-4">

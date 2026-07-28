@@ -30,7 +30,6 @@ export default function WorksCarouselModule({ projects, onOpenCaseStudy }: Works
         {/* Header with 01/03 Counter & Direct Selectors */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-[#E8E3DA] dark:border-[#2E2C29] transition-colors">
           <div>
-            <span className="bento-label">RECENT WORKS // CHAPTER 02</span>
             <h3 className="text-2xl font-editorial font-bold text-[#1A1918] dark:text-[#FAF9F7] transition-colors">
               Featured Engineering Projects
             </h3>
