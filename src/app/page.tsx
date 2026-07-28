@@ -63,24 +63,24 @@ const projectsData: ProjectData[] = [
     ]
   },
   {
-    title: "Serverless AI X-Ray",
+    title: "Serverless AI X-Ray Analyzer",
     category: "AI & Serverless",
     year: "2026",
-    description: "An AI-powered serverless observability tool that leverages AWS Lambda, AWS X-Ray, and OpenAI to analyze request traces and automatically generate performance diagnoses.",
-    longDescription: "Serverless AI X-Ray is a next-gen developer observability tool. It intercepts AWS X-Ray distributed traces across Lambda functions, processes timing bottlenecks, and utilizes OpenAI models to generate human-readable performance tuning suggestions.",
-    tech: ["AWS Lambda", "AWS X-Ray", "OpenAI API", "Node.js", "Serverless Framework", "Python"],
+    description: "Serverless event-driven medical imaging platform on AWS using MobileNet TFLite to classify chest X-rays in <1s at zero idle cost, with S3 presigned URL uploads & Terraform automation.",
+    longDescription: "Engineered a serverless, event-driven medical imaging platform on AWS that uses a pre-trained MobileNet TFLite model to classify chest X-rays in under 1 second at zero idle cost. Deployed a secure three-Lambda backend behind API Gateway with CORS enforcement and per-second request throttling to reduce DDoS exposure. Streamlined uploads with an S3 presigned URL flow sending images directly from the browser to S3, increasing the effective upload limit 5x (10 MB to 50 MB) while bypassing the API Gateway payload cap. Automated infrastructure for all three Lambda functions using modular Terraform and a GitHub Actions pipeline that runs uninterrupted deployments; built a React UI with drag-and-drop uploads and a two-second DynamoDB polling loop streaming AI confidence scores in real time.",
+    tech: ["AWS Lambda", "Terraform", "GitHub Actions", "API Gateway", "S3", "DynamoDB", "React.js", "Python"],
     github: "https://github.com/kshitijx07/serverless-ai-xray",
     demo: "#",
     image: "/serverless_xray_ui.png",
     highlights: [
-      "Intercepts serverless distributed traces across AWS Lambda & DynamoDB",
-      "Uses OpenAI API to synthesize root-cause latency analysis automatically",
-      "Displays real-time execution flow charts and timing diagnostics"
+      "Classifies chest X-rays in under 1 second at 0 idle cost using pre-trained MobileNet TFLite model",
+      "Deployed 3 secure Lambdas behind API Gateway with CORS & per-second request throttling",
+      "Engineered browser S3 presigned URL flow increasing upload cap 5x (10 MB to 50 MB)",
+      "Automated infrastructure with modular Terraform & uninterrupted GitHub Actions pipeline"
     ],
     architecture: [
-      "Serverless Framework Deployment",
-      "AWS X-Ray SDK integration with zero overhead",
-      "OpenAI GPT-4 trace diagnosis engine"
+      "Event-driven S3 & DynamoDB 2-second real-time AI confidence score streaming loop",
+      "Modular Terraform Infrastructure as Code deployment pipeline"
     ]
   }
 ];

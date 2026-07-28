@@ -2,9 +2,15 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const response = await fetch("https://codeforces.com/api/user.info?handles=kshitij___x07", {
+    let response = await fetch("https://codeforces.com/api/user.info?handles=kshitij___x07", {
       next: { revalidate: 3600 },
     });
+
+    if (!response.ok) {
+      response = await fetch("https://codeforces.com/api/user.info?handles=kshitijx07", {
+        next: { revalidate: 3600 },
+      });
+    }
 
     if (!response.ok) {
       throw new Error("Codeforces API error");

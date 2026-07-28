@@ -82,7 +82,7 @@ export default function ResumePrintCard() {
               <div className="space-y-3 text-xs md:text-sm text-[#2B2A29]">
                 <div className="border-l-2 border-[#C86D51] pl-3 py-1">
                   <span className="font-bold text-[#1A1918] block">MIT Academy of Engineering, Pune (2023 – 2027)</span>
-                  <span className="text-xs text-[#6E6C68] font-mono block">B.Tech – Computer Engineering • CGPA: 8.46 / 10</span>
+                  <span className="text-xs text-[#6E6C68] font-mono block">B.Tech – Computer Engineering • CGPA: 8.48 / 10</span>
                 </div>
                 <div className="border-l-2 border-[#2D4030] pl-3 py-1">
                   <span className="font-bold text-[#1A1918] block">Yashwantrao Chavan Institute of Science, Satara (2023)</span>

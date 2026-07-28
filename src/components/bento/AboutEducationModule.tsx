@@ -29,7 +29,7 @@ export default function AboutEducationModule() {
                 </span>
                 <span className="text-[#C86D51]">2023 – 2027</span>
               </div>
-              <span className="text-[#6E6C68] block">B.Tech – Computer Engineering • CGPA: 8.46 / 10</span>
+              <span className="text-[#6E6C68] block">B.Tech – Computer Engineering • CGPA: 8.48 / 10</span>
             </div>
 
             <div className="p-3 rounded-xl bg-[#F9F7F4] border border-[#E8E3DA]">
