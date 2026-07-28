@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Laptop, Trophy, BookOpen, Volume2, VolumeX, Download, ExternalLink, Sparkles, Terminal, ArrowRight, UserCheck } from "lucide-react";
+import { Laptop, Trophy, BookOpen, Volume2, VolumeX, Download, ExternalLink, Terminal, ArrowRight, UserCheck } from "lucide-react";
 import { FiGithub, FiLinkedin } from "react-icons/fi";
 import PinterestCardWrapper from "@/components/ui/PinterestCardWrapper";
 import { ProjectData } from "@/components/modals/CaseStudyModal";
@@ -76,20 +76,15 @@ export default function RetroPixelGameRoom({ onOpenCaseStudy, projects }: RetroP
         {/* Module Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-[#E8E3DA] dark:border-[#2E2C29] transition-colors">
           <div>
-            <div className="flex items-center gap-2 mb-1">
-              <h3 className="text-2xl font-editorial font-bold text-[#1A1918] dark:text-[#FAF9F7] transition-colors">
-                Kshitij's Retro Pixel Developer Room
-              </h3>
-              <span className="px-2.5 py-0.5 rounded-full bg-[#C86D51]/10 dark:bg-[#E07A5F]/20 text-[#C86D51] dark:text-[#E07A5F] text-[10px] font-mono font-bold uppercase">
-                Playable 8-Bit World
-              </span>
-            </div>
+            <h3 className="text-2xl font-editorial font-bold text-[#1A1918] dark:text-[#FAF9F7] transition-colors">
+              Kshitij's Retro Pixel Developer Room
+            </h3>
             <p className="text-xs text-[#5C5955] dark:text-[#A3A098] font-mono transition-colors">
               Use WASD/Arrow keys or click room objects to explore projects, resume floppy disk & live stats
             </p>
           </div>
 
-          {/* Sound & Mode Controls */}
+          {/* Sound Control */}
           <div className="flex items-center gap-2">
             <button
               onClick={() => setSoundEnabled(!soundEnabled)}
@@ -124,20 +119,20 @@ export default function RetroPixelGameRoom({ onOpenCaseStudy, projects }: RetroP
 
         {/* 2D Interactive Pixel Room Stage */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-          {/* Left Column: Pixel Art Room Canvas */}
-          <div className="lg:col-span-7 relative w-full h-[360px] md:h-[400px] rounded-3xl bg-[#1A1918] dark:bg-[#151413] border border-[#2B2A29] dark:border-[#2E2C29] overflow-hidden p-4 shadow-2xl transition-colors select-none">
+          {/* Left Column: Pixel Art Room Canvas (Adapts dynamically to light & dark mode) */}
+          <div className="lg:col-span-7 relative w-full h-[360px] md:h-[400px] rounded-3xl bg-[#F9F7F4] dark:bg-[#151413] border border-[#E8E3DA] dark:border-[#2E2C29] overflow-hidden p-4 shadow-sm transition-colors select-none">
             {/* Pixel Grid Pattern */}
-            <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#FAF9F7_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
+            <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#1A1918_1px,transparent_1px)] dark:bg-[radial-gradient(#FAF9F7_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
 
             {/* Room Object 1: DevOps Workstation (Top-Left Laptop) */}
             <motion.div
               whileHover={{ scale: 1.05 }}
               onClick={() => selectObject("workstation", { x: 25, y: 35 })}
               style={{ left: "15%", top: "20%" }}
-              className={`absolute cursor-pointer p-3 rounded-2xl border transition-all ${
+              className={`absolute cursor-pointer p-3.5 rounded-2xl border transition-all ${
                 activeObject === "workstation"
-                  ? "bg-[#C86D51] border-white text-white shadow-[0_0_20px_rgba(200,109,81,0.6)]"
-                  : "bg-[#282522] border-[#3E3B37] text-[#A3A098] hover:border-[#C86D51]"
+                  ? "bg-[#C86D51] dark:bg-[#E07A5F] border-white text-white shadow-lg"
+                  : "bg-white dark:bg-[#282522] border-[#E8E3DA] dark:border-[#3E3B37] text-[#1A1918] dark:text-[#A3A098] hover:border-[#C86D51]"
               }`}
             >
               <Laptop size={26} />
@@ -149,10 +144,10 @@ export default function RetroPixelGameRoom({ onOpenCaseStudy, projects }: RetroP
               whileHover={{ scale: 1.05 }}
               onClick={() => selectObject("arcade", { x: 70, y: 35 })}
               style={{ left: "68%", top: "20%" }}
-              className={`absolute cursor-pointer p-3 rounded-2xl border transition-all ${
+              className={`absolute cursor-pointer p-3.5 rounded-2xl border transition-all ${
                 activeObject === "arcade"
-                  ? "bg-[#FFA116] border-white text-black shadow-[0_0_20px_rgba(255,161,22,0.6)]"
-                  : "bg-[#282522] border-[#3E3B37] text-[#A3A098] hover:border-[#FFA116]"
+                  ? "bg-[#FFA116] border-white text-black shadow-lg"
+                  : "bg-white dark:bg-[#282522] border-[#E8E3DA] dark:border-[#3E3B37] text-[#1A1918] dark:text-[#A3A098] hover:border-[#FFA116]"
               }`}
             >
               <Trophy size={26} />
@@ -164,10 +159,10 @@ export default function RetroPixelGameRoom({ onOpenCaseStudy, projects }: RetroP
               whileHover={{ scale: 1.05 }}
               onClick={() => selectObject("bookshelf", { x: 25, y: 70 })}
               style={{ left: "15%", top: "65%" }}
-              className={`absolute cursor-pointer p-3 rounded-2xl border transition-all ${
+              className={`absolute cursor-pointer p-3.5 rounded-2xl border transition-all ${
                 activeObject === "bookshelf"
-                  ? "bg-[#00B8A3] border-white text-black shadow-[0_0_20px_rgba(0,184,163,0.6)]"
-                  : "bg-[#282522] border-[#3E3B37] text-[#A3A098] hover:border-[#00B8A3]"
+                  ? "bg-[#00B8A3] border-white text-black shadow-lg"
+                  : "bg-white dark:bg-[#282522] border-[#E8E3DA] dark:border-[#3E3B37] text-[#1A1918] dark:text-[#A3A098] hover:border-[#00B8A3]"
               }`}
             >
               <BookOpen size={26} />
@@ -179,17 +174,17 @@ export default function RetroPixelGameRoom({ onOpenCaseStudy, projects }: RetroP
               whileHover={{ scale: 1.05 }}
               onClick={() => selectObject("polaroid", { x: 70, y: 70 })}
               style={{ left: "68%", top: "65%" }}
-              className={`absolute cursor-pointer p-3 rounded-2xl border transition-all ${
+              className={`absolute cursor-pointer p-3.5 rounded-2xl border transition-all ${
                 activeObject === "polaroid"
-                  ? "bg-[#0A66C2] border-white text-white shadow-[0_0_20px_rgba(10,102,194,0.6)]"
-                  : "bg-[#282522] border-[#3E3B37] text-[#A3A098] hover:border-[#0A66C2]"
+                  ? "bg-[#0A66C2] border-white text-white shadow-lg"
+                  : "bg-white dark:bg-[#282522] border-[#E8E3DA] dark:border-[#3E3B37] text-[#1A1918] dark:text-[#A3A098] hover:border-[#0A66C2]"
               }`}
             >
               <FiLinkedin size={26} />
               <span className="text-[10px] font-mono block mt-1 font-bold">Desk Album</span>
             </motion.div>
 
-            {/* Player Character Avatar (Walks across room) */}
+            {/* Player Character Avatar */}
             <motion.div
               animate={{ left: `${avatarPos.x}%`, top: `${avatarPos.y}%` }}
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
@@ -199,15 +194,9 @@ export default function RetroPixelGameRoom({ onOpenCaseStudy, projects }: RetroP
                 KK
               </div>
               <span className="px-2 py-0.5 rounded bg-[#1A1918] text-white text-[9px] font-mono block text-center mt-1 shadow-md whitespace-nowrap">
-                Kshitij (Player 1)
+                Kshitij
               </span>
             </motion.div>
-
-            {/* Room Navigation Helper Prompt */}
-            <div className="absolute bottom-3 left-3 bg-[#242220]/90 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-[#3E3B37] text-[10px] font-mono text-[#A3A098] flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#00B8A3] animate-pulse" />
-              <span>Use WASD / Arrow Keys or Click Objects to Move</span>
-            </div>
           </div>
 
           {/* Right Column: Selected Room Object Content Display Inspector */}
