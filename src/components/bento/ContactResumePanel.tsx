@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { Send, FileText, Download, CheckCircle2, Mail, MapPin } from "lucide-react";
-import TiltCardWrapper from "@/components/ui/TiltCardWrapper";
+import { Send, FileText, Download, CheckCircle2 } from "lucide-react";
+import PinterestCardWrapper from "@/components/ui/PinterestCardWrapper";
 
 export default function ContactResumePanel() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
@@ -23,8 +22,8 @@ export default function ContactResumePanel() {
   };
 
   return (
-    <TiltCardWrapper maxTilt={2}>
-      <div className="bento-card bento-card-hover w-full paper-texture overflow-hidden" data-cursor="Contact">
+    <PinterestCardWrapper stampText="PAR AVION" pinLabel="Pin Contact">
+      <div className="w-full paper-texture overflow-hidden" data-cursor="Contact">
         <div className="bento-label">GET IN TOUCH // CHAPTER 05</div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
@@ -34,7 +33,6 @@ export default function ContactResumePanel() {
               <h3 className="text-2xl font-editorial font-bold text-[#1A1918]">
                 Send a Message
               </h3>
-              <span className="postmark-stamp text-[10px]">PAR AVION</span>
             </div>
 
             {submitted ? (
@@ -136,9 +134,9 @@ export default function ContactResumePanel() {
 
         <div className="pt-4 border-t border-[#E8E3DA] flex items-center justify-between text-xs text-[#6E6C68] font-mono">
           <span>© 2026 Kshitij Kumbhar</span>
-          <span className="text-[#C86D51]">Bento Instrument Panel</span>
+          <span className="text-[#C86D51]">Pinterest Editorial Collection</span>
         </div>
       </div>
-    </TiltCardWrapper>
+    </PinterestCardWrapper>
   );
 }

@@ -1,13 +1,13 @@
 "use client";
 
 import React from "react";
-import { GraduationCap, Award, BookOpen } from "lucide-react";
-import TiltCardWrapper from "@/components/ui/TiltCardWrapper";
+import { GraduationCap } from "lucide-react";
+import PinterestCardWrapper from "@/components/ui/PinterestCardWrapper";
 
 export default function AboutEducationModule() {
   return (
-    <TiltCardWrapper maxTilt={3}>
-      <div className="bento-card bento-card-hover w-full flex flex-col justify-between h-full" data-cursor="About">
+    <PinterestCardWrapper stampText="ACADEMICS" rotateDeg={-0.5}>
+      <div className="w-full flex flex-col justify-between h-full" data-cursor="About">
         <div>
           <span className="bento-label">ABOUT & ACADEMICS // CHAPTER 01</span>
           
@@ -21,7 +21,7 @@ export default function AboutEducationModule() {
 
           {/* Academic Timeline Rows */}
           <div className="space-y-3 font-mono text-xs">
-            <div className="p-3.5 rounded-xl bg-[#F9F7F4] border border-[#E8E3DA]">
+            <div className="p-3.5 rounded-xl bg-[#F9F7F4] border border-[#E8E3DA] shadow-sm hover:border-[#C86D51] transition-colors">
               <div className="flex items-center justify-between text-[#1A1918] font-bold mb-1">
                 <span className="flex items-center gap-1.5">
                   <GraduationCap size={14} className="text-[#C86D51]" />
@@ -32,7 +32,7 @@ export default function AboutEducationModule() {
               <span className="text-[#6E6C68] block">B.Tech – Computer Engineering • CGPA: 8.48 / 10</span>
             </div>
 
-            <div className="p-3 rounded-xl bg-[#F9F7F4] border border-[#E8E3DA]">
+            <div className="p-3 rounded-xl bg-[#F9F7F4] border border-[#E8E3DA] hover:border-[#2D4030] transition-colors">
               <div className="flex items-center justify-between text-[#1A1918] font-bold mb-0.5">
                 <span>Yashwantrao Chavan Institute of Science</span>
                 <span className="text-[#2D4030]">84.17%</span>
@@ -40,7 +40,7 @@ export default function AboutEducationModule() {
               <span className="text-[#6E6C68] block">HSC – Maharashtra State Board (2023)</span>
             </div>
 
-            <div className="p-3 rounded-xl bg-[#F9F7F4] border border-[#E8E3DA]">
+            <div className="p-3 rounded-xl bg-[#F9F7F4] border border-[#E8E3DA] hover:border-[#2D4030] transition-colors">
               <div className="flex items-center justify-between text-[#1A1918] font-bold mb-0.5">
                 <span>Maharaja Sayajirao Vidyalaya</span>
                 <span className="text-[#2D4030]">97.00%</span>
@@ -50,6 +50,6 @@ export default function AboutEducationModule() {
           </div>
         </div>
       </div>
-    </TiltCardWrapper>
+    </PinterestCardWrapper>
   );
 }

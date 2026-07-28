@@ -2,9 +2,9 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, FolderGit2, ArrowUpRight, Layers } from "lucide-react";
+import { ChevronLeft, ChevronRight, FolderGit2, ArrowUpRight } from "lucide-react";
 import { ProjectData } from "@/components/modals/CaseStudyModal";
-import TiltCardWrapper from "@/components/ui/TiltCardWrapper";
+import PinterestCardWrapper from "@/components/ui/PinterestCardWrapper";
 
 interface WorksCarouselModuleProps {
   projects: ProjectData[];
@@ -25,8 +25,8 @@ export default function WorksCarouselModule({ projects, onOpenCaseStudy }: Works
   const currentProject = projects[currentIndex];
 
   return (
-    <TiltCardWrapper maxTilt={2}>
-      <div className="bento-card bento-card-hover w-full flex flex-col justify-between" data-cursor="Carousel">
+    <PinterestCardWrapper stampText="PROJECT BOARD" pinLabel="Pin Project">
+      <div className="w-full flex flex-col justify-between" data-cursor="Carousel">
         {/* Header with 01/03 Counter & Direct Selectors */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-[#E8E3DA]">
           <div>
@@ -85,11 +85,11 @@ export default function WorksCarouselModule({ projects, onOpenCaseStudy }: Works
             onClick={() => onOpenCaseStudy(currentProject)}
           >
             {/* Image Banner */}
-            <div className="lg:col-span-7 relative w-full h-60 md:h-80 rounded-2xl overflow-hidden border border-[#E8E3DA] bg-[#EFECE6] shadow-sm">
+            <div className="lg:col-span-7 relative w-full h-60 md:h-80 rounded-2xl overflow-hidden border border-[#E8E3DA] bg-[#EFECE6] shadow-sm group/img">
               <img
                 src={currentProject.image}
                 alt={currentProject.title}
-                className="w-full h-full object-cover hover:scale-[1.03] transition-transform duration-500"
+                className="w-full h-full object-cover group-hover/img:scale-[1.03] transition-transform duration-500"
               />
               <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-[#F2E4DF] text-[#C86D51] text-xs font-mono font-medium shadow-sm">
                 {currentProject.category}
@@ -149,6 +149,6 @@ export default function WorksCarouselModule({ projects, onOpenCaseStudy }: Works
           ))}
         </div>
       </div>
-    </TiltCardWrapper>
+    </PinterestCardWrapper>
   );
 }

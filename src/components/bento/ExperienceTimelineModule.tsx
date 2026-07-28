@@ -3,7 +3,7 @@
 import React from "react";
 import { Briefcase, Calendar, CheckCircle2 } from "lucide-react";
 import AnimatedThreadLine from "@/components/ui/AnimatedThreadLine";
-import TiltCardWrapper from "@/components/ui/TiltCardWrapper";
+import PinterestCardWrapper from "@/components/ui/PinterestCardWrapper";
 
 const experiences = [
   {
@@ -34,8 +34,8 @@ const experiences = [
 
 export default function ExperienceTimelineModule() {
   return (
-    <TiltCardWrapper maxTilt={2}>
-      <div className="bento-card bento-card-hover w-full overflow-hidden" data-cursor="Timeline">
+    <PinterestCardWrapper stampText="CAREER" pinLabel="Pin Experience">
+      <div className="w-full overflow-hidden" data-cursor="Timeline">
         <div className="flex items-center justify-between gap-4 mb-6 pb-4 border-b border-[#E8E3DA]">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-[#2D4030] text-white flex items-center justify-center shadow-sm">
@@ -48,8 +48,6 @@ export default function ExperienceTimelineModule() {
               </h3>
             </div>
           </div>
-
-          <span className="postmark-stamp text-[10px]">VERIFIED</span>
         </div>
 
         {/* Timeline with Thread Line */}
@@ -92,6 +90,6 @@ export default function ExperienceTimelineModule() {
           ))}
         </div>
       </div>
-    </TiltCardWrapper>
+    </PinterestCardWrapper>
   );
 }

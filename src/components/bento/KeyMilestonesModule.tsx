@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Trophy, Award, ShieldCheck, Cloud, Terminal, Code2 } from "lucide-react";
-import TiltCardWrapper from "@/components/ui/TiltCardWrapper";
+import { Trophy, Cloud, Terminal, Code2, ShieldCheck } from "lucide-react";
+import PinterestCardWrapper from "@/components/ui/PinterestCardWrapper";
 
 const milestones = [
   {
@@ -48,8 +48,8 @@ export default function KeyMilestonesModule() {
   const [selectedMilestone, setSelectedMilestone] = useState<any>(null);
 
   return (
-    <TiltCardWrapper maxTilt={3}>
-      <div className="bento-card bento-card-hover w-full flex flex-col justify-between h-full" data-cursor="Badges">
+    <PinterestCardWrapper stampText="HONORS" rotateDeg={0.5}>
+      <div className="w-full flex flex-col justify-between h-full" data-cursor="Badges">
         <div>
           <div className="flex items-center justify-between gap-2 mb-1">
             <span className="bento-label">KEY MILESTONES // CHAPTER 03</span>
@@ -66,10 +66,10 @@ export default function KeyMilestonesModule() {
                 key={m.id}
                 initial={{ scale: 0.9, opacity: 0 }}
                 whileInView={{ scale: 1, opacity: 1 }}
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.05, rotate: 1 }}
                 viewport={{ once: true }}
                 onClick={() => setSelectedMilestone(m)}
-                className="p-3.5 rounded-2xl border border-[#E8E3DA] cursor-pointer transition-all flex flex-col items-center text-center shadow-sm"
+                className="p-3.5 rounded-2xl border border-[#E8E3DA] cursor-pointer transition-all flex flex-col items-center text-center shadow-sm hover:shadow-md"
                 style={{ backgroundColor: m.bg }}
               >
                 <div
@@ -129,6 +129,6 @@ export default function KeyMilestonesModule() {
           )}
         </AnimatePresence>
       </div>
-    </TiltCardWrapper>
+    </PinterestCardWrapper>
   );
 }

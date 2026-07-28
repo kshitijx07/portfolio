@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import { CheckCircle2, Sparkles, MapPin, Clock, ArrowUpRight } from "lucide-react";
 import { FiGithub, FiLinkedin } from "react-icons/fi";
-import TiltCardWrapper from "@/components/ui/TiltCardWrapper";
+import PinterestCardWrapper from "@/components/ui/PinterestCardWrapper";
 
 export default function HeroIdentityPanel() {
   const [time, setTime] = useState("");
@@ -26,21 +25,21 @@ export default function HeroIdentityPanel() {
   }, []);
 
   return (
-    <TiltCardWrapper maxTilt={3}>
-      <div className="bento-card bento-card-hover w-full p-6 md:p-8 paper-texture" data-cursor="Identity">
-        <div className="bento-label">CHAPTER 01 // IDENTITY CONTROL PANEL</div>
+    <PinterestCardWrapper stampText="PUNE // 2026" pinLabel="Hero Pin">
+      <div className="w-full p-2 md:p-4 paper-texture" data-cursor="Identity">
+        <div className="bento-label !mt-2">CHAPTER 01 // IDENTITY CONTROL PANEL</div>
 
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           {/* Left: Portrait & Identity info */}
           <div className="flex items-center gap-4 md:gap-6">
-            <div className="relative">
+            <div className="relative group/avatar">
               <img
                 src="https://github.com/kshitijx07.png"
                 alt="Kshitij Kumbhar"
-                className="w-20 h-20 md:w-24 md:h-24 rounded-2xl object-cover border-2 border-[#EFECE6] shadow-sm"
+                className="w-20 h-20 md:w-24 md:h-24 rounded-2xl object-cover border-2 border-[#EFECE6] shadow-md group-hover/avatar:rotate-2 transition-transform duration-300"
               />
-              <span className="absolute -bottom-1 -right-1 w-5 h-5 bg-[#C86D51] text-white rounded-full flex items-center justify-center border-2 border-white shadow-sm" title="Verified Architect">
-                <CheckCircle2 size={12} />
+              <span className="absolute -bottom-1 -right-1 w-6 h-6 bg-[#C86D51] text-white rounded-full flex items-center justify-center border-2 border-white shadow-sm" title="Verified Architect">
+                <CheckCircle2 size={13} />
               </span>
             </div>
 
@@ -80,7 +79,7 @@ export default function HeroIdentityPanel() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-[#EFECE6] hover:bg-[#C86D51] hover:text-white flex items-center justify-center transition-colors text-[#1A1918]"
-                title="GitHub"
+                title="GitHub Profile"
               >
                 <FiGithub size={18} />
               </a>
@@ -89,7 +88,7 @@ export default function HeroIdentityPanel() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-[#EFECE6] hover:bg-[#C86D51] hover:text-white flex items-center justify-center transition-colors text-[#1A1918]"
-                title="LinkedIn"
+                title="LinkedIn Profile"
               >
                 <FiLinkedin size={18} />
               </a>
@@ -105,6 +104,6 @@ export default function HeroIdentityPanel() {
           </div>
         </div>
       </div>
-    </TiltCardWrapper>
+    </PinterestCardWrapper>
   );
 }
