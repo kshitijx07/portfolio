@@ -58,7 +58,7 @@ export async function GET() {
       username: "kshitijx07",
       name: "Kshitij Kumbhar",
       avatarUrl: "https://github.com/kshitijx07.png",
-      publicRepos: 18,
+      publicRepos: 38,
       followers: 24,
       following: 15,
       totalStars: 14,
