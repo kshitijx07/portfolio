@@ -1,9 +1,27 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 
 export default function EditorialAboutSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+
+  const smoothProgress = useSpring(scrollYProgress, { damping: 25, stiffness: 200 });
+
+  // Progressive Portrait Development
+  const portraitScale = useTransform(smoothProgress, [0.1, 0.45], [0.92, 1.0]);
+  const portraitOpacity = useTransform(smoothProgress, [0.1, 0.4], [0.2, 1.0]);
+  const portraitY = useTransform(smoothProgress, [0.1, 0.45], [50, 0]);
+
+  // Narrative Typographic Scroll Reveal
+  const textY = useTransform(smoothProgress, [0.15, 0.45], [60, 0]);
+  const textOpacity = useTransform(smoothProgress, [0.15, 0.4], [0.1, 1.0]);
+
   const pixelStaircase = [
     { top: "8%", left: "4%" },
     { top: "14%", left: "8%" },
@@ -15,7 +33,11 @@ export default function EditorialAboutSection() {
   ];
 
   return (
-    <section id="about" className="py-20 md:py-28 border-t border-[var(--border-color)] relative overflow-hidden bg-[#050505]">
+    <section
+      ref={sectionRef}
+      id="about"
+      className="py-24 md:py-36 border-t border-[var(--border-color)] relative overflow-hidden bg-[#050505]"
+    >
       {/* Generative Dotted Texture Background */}
       <div className="absolute inset-0 opacity-20 hud-dot-grid pointer-events-none" />
 
@@ -44,9 +66,16 @@ export default function EditorialAboutSection() {
 
       <div className="max-w-[1500px] mx-auto px-4 md:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-          {/* Left Column: Framed Portrait with Neon Signature & Crosshairs */}
+          {/* Left Column: Progressive Developing Portrait */}
           <div className="lg:col-span-5 relative flex justify-center lg:justify-start">
-            <div className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 border border-white/15 bg-[#0D0D0D] p-3 shadow-2xl group">
+            <motion.div
+              style={{
+                scale: portraitScale,
+                opacity: portraitOpacity,
+                y: portraitY,
+              }}
+              className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 border border-white/15 bg-[#0D0D0D] p-3 shadow-2xl group"
+            >
               <span className="absolute -top-2 -left-2 font-mono text-xs text-[var(--accent-acid)]">+</span>
               <span className="absolute -top-2 -right-2 font-mono text-xs text-[var(--accent-acid)]">+</span>
               <span className="absolute -bottom-2 -left-2 font-mono text-xs text-[var(--accent-acid)]">+</span>
@@ -61,29 +90,34 @@ export default function EditorialAboutSection() {
                 <div className="absolute inset-0 bg-gradient-to-tr from-[#07145C]/40 via-transparent to-[var(--accent-acid)]/10 mix-blend-color-dodge pointer-events-none" />
               </div>
 
-              {/* Neon Acid-Lime Handwritten Script Signature (Reference 2 Overlay) */}
+              {/* Neon Acid-Lime Handwritten Script Signature */}
               <div className="absolute -top-5 -left-4 z-20 pointer-events-none rotate-[-12deg]">
                 <span className="text-3xl sm:text-4xl md:text-5xl font-serif italic text-[var(--accent-acid)] font-bold tracking-wide drop-shadow-[0_0_12px_rgba(183,255,0,0.6)]">
                   Kshitij
                 </span>
               </div>
 
-              {/* Circular Progress & Telemetry Ring on Corner (Reference Screenshot) */}
+              {/* Circular Progress & Telemetry Ring */}
               <div className="absolute -bottom-3 -left-3 z-20 bg-[#050505] border border-white/20 p-1.5 flex items-center gap-1.5 font-mono text-[9px] text-white/80 shadow-md">
                 <span className="w-2.5 h-2.5 rounded-full border border-[var(--accent-acid)] border-t-transparent animate-spin" />
                 <span>12:22 31°C</span>
               </div>
 
-              {/* Pixel Accent Squares on Corner */}
               <div className="absolute -bottom-3 -right-3 flex gap-1 pointer-events-none">
                 <span className="w-2.5 h-2.5 bg-[var(--accent-acid)] shadow-[0_0_8px_rgba(183,255,0,0.5)]" />
                 <span className="w-2.5 h-2.5 bg-[var(--accent-acid)] shadow-[0_0_8px_rgba(183,255,0,0.5)]" />
               </div>
-            </div>
+            </motion.div>
           </div>
 
-          {/* Right Column: Large Editorial Narrative based on verified resume */}
-          <div className="lg:col-span-7 space-y-6">
+          {/* Right Column: Progressive Editorial Narrative */}
+          <motion.div
+            style={{
+              y: textY,
+              opacity: textOpacity,
+            }}
+            className="lg:col-span-7 space-y-6"
+          >
             <div className="flex items-center gap-2 mb-2 font-mono text-xs text-[var(--accent-acid)] font-bold">
               <span className="w-2 h-2 bg-[var(--accent-acid)]" />
               <span>02 // SUMMARY & PROFILE</span>
@@ -130,7 +164,7 @@ export default function EditorialAboutSection() {
                 <span>CODEFORCES @kshitijx07</span>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

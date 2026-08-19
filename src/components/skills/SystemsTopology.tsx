@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { motion, useScroll } from "framer-motion";
 import { Cloud, Server, Database, GitBranch, Cpu } from "lucide-react";
 
 interface TopologyNode {
@@ -56,12 +57,29 @@ const topologyData: TopologyNode[] = [
 ];
 
 export default function SystemsTopology() {
+  const sectionRef = useRef<HTMLElement>(null);
   const [activeNode, setActiveNode] = useState<string>("cloud-infra");
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+
+  // Scroll activates nodes sequentially
+  useEffect(() => {
+    return scrollYProgress.on("change", (latest) => {
+      if (latest > 0.2 && latest < 0.4) setActiveNode("cloud-infra");
+      else if (latest >= 0.4 && latest < 0.6) setActiveNode("automation-iac");
+      else if (latest >= 0.6 && latest < 0.75) setActiveNode("ai-multiagent");
+      else if (latest >= 0.75 && latest < 0.9) setActiveNode("backend-services");
+      else if (latest >= 0.9) setActiveNode("data-persistence");
+    });
+  }, [scrollYProgress]);
 
   const selectedNode = topologyData.find((n) => n.id === activeNode) || topologyData[0];
 
   return (
-    <section className="py-16 md:py-24 border-t border-[var(--border-color)]">
+    <section ref={sectionRef} id="systems" className="py-20 md:py-28 border-t border-[var(--border-color)]">
       <div className="w-full border border-[var(--border-color)] bg-[var(--bg-surface)] p-6 md:p-10 space-y-8" data-cursor="System">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-[var(--border-color)]">

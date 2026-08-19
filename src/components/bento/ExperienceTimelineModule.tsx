@@ -1,6 +1,7 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
+import { motion, useScroll, useSpring } from "framer-motion";
 import { Briefcase, Calendar } from "lucide-react";
 
 const experiences = [
@@ -31,8 +32,17 @@ const experiences = [
 ];
 
 export default function ExperienceTimelineModule() {
+  const containerRef = useRef<HTMLElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end end"],
+  });
+
+  const lineHeight = useSpring(scrollYProgress, { damping: 25, stiffness: 200 });
+
   return (
-    <section className="py-16 border-t border-[var(--border-color)]">
+    <section ref={containerRef} className="py-16 border-t border-[var(--border-color)]">
       <div className="w-full border border-[var(--border-color)] bg-[var(--bg-surface)] p-6 md:p-8 space-y-6" data-cursor="Timeline">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[var(--border-color)]">
           <div className="flex items-center gap-3">
@@ -52,13 +62,25 @@ export default function ExperienceTimelineModule() {
           </div>
         </div>
 
-        {/* Timeline Items */}
-        <div className="space-y-6">
+        {/* Timeline with Progressive Thread Line */}
+        <div className="relative pl-6 md:pl-8 space-y-6">
+          {/* Background Track Line */}
+          <div className="absolute left-2.5 top-3 bottom-3 w-[2px] bg-white/10" />
+
+          {/* Animated Thread Line */}
+          <motion.div
+            style={{ scaleY: lineHeight }}
+            className="absolute left-2.5 top-3 bottom-3 w-[2px] bg-[var(--accent-acid)] origin-top shadow-[0_0_10px_rgba(183,255,0,0.6)]"
+          />
+
           {experiences.map((exp, idx) => (
             <div
               key={idx}
-              className="p-6 bg-[var(--bg-primary)] border border-[var(--border-color)] hover:border-[var(--accent-acid)] transition-colors space-y-4"
+              className="relative p-6 bg-[var(--bg-primary)] border border-[var(--border-color)] hover:border-[var(--accent-acid)] transition-colors space-y-4"
             >
+              {/* Timeline Pin Indicator */}
+              <div className="absolute -left-[27px] md:-left-[35px] top-6 w-3 h-3 bg-[var(--accent-acid)] border-2 border-[#050505] shadow-[0_0_8px_rgba(183,255,0,0.8)]" />
+
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <span className="hud-tag hud-tag-acid text-[10px]">
                   {exp.tag}

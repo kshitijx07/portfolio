@@ -1,18 +1,41 @@
 "use client";
 
 import React, { useRef, useEffect, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowDown, ArrowUpRight, ShieldCheck, Activity } from "lucide-react";
+import { motion, useScroll, useTransform, useVelocity, useSpring } from "framer-motion";
+import { ArrowDown, ArrowUpRight, ShieldCheck } from "lucide-react";
 import * as THREE from "three";
 import HeroFloatingArtifacts from "@/components/sections/HeroFloatingArtifacts";
 
 export default function TechnicalHeroSection() {
+  const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const sectionRef = useRef<HTMLElement>(null);
   const [isLowPower, setIsLowPower] = useState(false);
   const [timeString, setTimeString] = useState("12:22 31°C");
-  const { scrollY } = useScroll();
-  const yParallax = useTransform(scrollY, [0, 600], [0, 50]);
+
+  // Central Scroll Timeline Observer for Hero (170vh space)
+  const { scrollYProgress, scrollY } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"],
+  });
+
+  const scrollVelocity = useVelocity(scrollY);
+  const smoothProgress = useSpring(scrollYProgress, { damping: 26, stiffness: 220 });
+
+  // Opposing Typographic Motion Vectors (Choreographed Line by Line)
+  const line1X = useTransform(smoothProgress, [0, 0.8], [0, -30]);
+  const line1Y = useTransform(smoothProgress, [0, 0.8], [0, -70]);
+  const line2X = useTransform(smoothProgress, [0, 0.8], [0, 25]);
+  const line2Y = useTransform(smoothProgress, [0, 0.8], [0, -50]);
+  const line3X = useTransform(smoothProgress, [0, 0.8], [0, -40]);
+  const line3Y = useTransform(smoothProgress, [0, 0.8], [0, -30]);
+  const line4X = useTransform(smoothProgress, [0, 0.8], [0, 35]);
+  const line4Y = useTransform(smoothProgress, [0, 0.8], [0, 0]);
+
+  // 3D Object Scroll Morph Vectors
+  const object3DX = useTransform(smoothProgress, [0, 0.9], [0, 60]);
+  const object3DY = useTransform(smoothProgress, [0, 0.9], [0, -40]);
+  const object3DScale = useTransform(smoothProgress, [0, 0.9], [1, 0.9]);
+  const heroOpacity = useTransform(smoothProgress, [0.75, 0.98], [1, 0]);
 
   // Live IST Clock
   useEffect(() => {
@@ -47,7 +70,7 @@ export default function TechnicalHeroSection() {
     const observer = new IntersectionObserver(([entry]) => {
       isVisible = entry.isIntersecting;
     });
-    if (sectionRef.current) observer.observe(sectionRef.current);
+    if (containerRef.current) observer.observe(containerRef.current);
 
     // Three.js Scene Setup for Glossy Liquid Blue Sculpture
     const scene = new THREE.Scene();
@@ -151,8 +174,13 @@ export default function TechnicalHeroSection() {
       targetY += (mouseY - targetY) * 0.05;
       velocity *= 0.94;
 
-      mesh.rotation.x += 0.004 + targetY * 0.015 + velocity * 0.015;
-      mesh.rotation.y += 0.007 + targetX * 0.015 + velocity * 0.015;
+      // Scroll progress influences 3D rotation & depth
+      const scrollFraction = scrollYProgress.get();
+      const currentScrollVel = Math.min(Math.abs(scrollVelocity.get()) * 0.001, 0.15);
+
+      mesh.rotation.x += 0.004 + targetY * 0.015 + velocity * 0.015 + scrollFraction * 0.01;
+      mesh.rotation.y += 0.007 + targetX * 0.015 + velocity * 0.015 + scrollFraction * 0.02 + currentScrollVel;
+      camera.position.z = 5.2 - scrollFraction * 0.6;
 
       particles.rotation.y -= 0.001;
 
@@ -172,73 +200,107 @@ export default function TechnicalHeroSection() {
       particleGeo.dispose();
       particleMat.dispose();
     };
-  }, []);
+  }, [scrollYProgress, scrollVelocity]);
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative -mx-4 md:-mx-8 px-4 md:px-8 pt-20 md:pt-28 pb-16 md:pb-24 overflow-hidden bg-gradient-to-b from-[#07145C] via-[#091967] to-[#050505] text-white border-b border-[var(--border-color)]"
-    >
-      {/* Generative Dot Grid & Volumetric Glow Mesh (Reference Screenshot) */}
-      <div className="absolute inset-0 opacity-25 hud-dot-grid pointer-events-none" />
-      <div className="absolute inset-0 pointer-events-none z-0">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-[#203DFF]/35 blur-[140px] rounded-full" />
-        <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] bg-[#6F82FF]/20 blur-[110px] rounded-full" />
-      </div>
+    <div ref={containerRef} className="relative min-h-[160vh] md:min-h-[175vh]">
+      {/* Sticky Full-Viewport Hero Experience Container */}
+      <motion.section
+        style={{ opacity: heroOpacity }}
+        className="sticky top-0 left-0 w-full min-h-screen -mx-4 md:-mx-8 px-4 md:px-8 pt-20 md:pt-28 pb-16 md:pb-24 overflow-hidden bg-gradient-to-b from-[#07145C] via-[#091967] to-[#050505] text-white border-b border-[var(--border-color)] flex flex-col justify-between"
+      >
+        {/* Generative Dot Grid & Volumetric Glow Mesh */}
+        <div className="absolute inset-0 opacity-25 hud-dot-grid pointer-events-none" />
+        <div className="absolute inset-0 pointer-events-none z-0">
+          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-[#203DFF]/35 blur-[140px] rounded-full" />
+          <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] bg-[#6F82FF]/20 blur-[110px] rounded-full" />
+        </div>
 
-      <div className="max-w-[1500px] mx-auto relative z-10 space-y-6">
-        {/* Top Massive Grotesk Headline (Reference Composition) */}
-        <motion.div style={{ y: yParallax }} className="relative z-20 space-y-2 pointer-events-none">
-          <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[5.75rem] font-display font-extrabold tracking-tighter text-white leading-[0.92] max-w-5xl uppercase select-none drop-shadow-sm">
-            I BUILD <br />
-            DIGITAL & CLOUD <br />
-            SYSTEMS THAT FEEL ALIVE.
-          </h1>
-        </motion.div>
+        <div className="max-w-[1500px] mx-auto w-full relative z-10 flex flex-col justify-between flex-1 space-y-6">
+          {/* Top 3-Column Metadata Strip */}
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 pb-6 border-b border-white/15 font-mono text-xs text-white/80">
+            <div className="md:col-span-4 space-y-1">
+              <span className="text-[var(--accent-acid)] font-bold block">
+                // DEVOPS & CLOUD ENGINEER
+              </span>
+              <span className="text-white/60 text-[11px] block">
+                Cloud Infrastructure • Multi-Agent AI • CI/CD
+              </span>
+            </div>
 
-        {/* 3D Liquid Canvas & Layered Floating Mixed-Media Stickers */}
-        <div className="relative min-h-[380px] md:min-h-[460px] flex items-center justify-center">
-          {/* Floating Artifacts (Heart sticker, 2026 badge, 3D cursor, etc.) */}
-          <HeroFloatingArtifacts />
+            <div className="md:col-span-4 space-y-1">
+              <p className="leading-relaxed text-white/90">
+                Thinking in systems. Engineering scalable Kubernetes clusters, automated CI/CD pipelines & resilient architectures.
+              </p>
+            </div>
 
-          {/* 3D Liquid Sculpture Canvas */}
-          {!isLowPower ? (
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 opacity-95">
+            <div className="md:col-span-4 space-y-1 md:text-right">
+              <p className="text-white font-bold">
+                DevOps Intern @ Colgate-Palmolive
+              </p>
+              <p className="text-white/60 text-[11px]">
+                Pune, India • B.Tech CS @ MIT AOE (CGPA 8.48/10)
+              </p>
+            </div>
+          </div>
+
+          {/* Headline with Opposing Motion Vectors */}
+          <div className="relative z-20 pointer-events-none select-none my-auto">
+            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[5.75rem] font-display font-extrabold tracking-tighter text-white leading-[0.92] max-w-5xl uppercase drop-shadow-sm space-y-1">
+              <motion.span style={{ x: line1X, y: line1Y }} className="block">
+                I BUILD
+              </motion.span>
+              <motion.span style={{ x: line2X, y: line2Y }} className="block">
+                DIGITAL & CLOUD
+              </motion.span>
+              <motion.span style={{ x: line3X, y: line3Y }} className="block">
+                SYSTEMS THAT
+              </motion.span>
+              <motion.span style={{ x: line4X, y: line4Y }} className="block text-[var(--accent-acid)]">
+                FEEL ALIVE.
+              </motion.span>
+            </h1>
+          </div>
+
+          {/* 3D Liquid Canvas & Layered Floating Mixed-Media Stickers */}
+          <motion.div
+            style={{ x: object3DX, y: object3DY, scale: object3DScale }}
+            className="absolute inset-0 flex items-center justify-center pointer-events-none z-10"
+          >
+            <HeroFloatingArtifacts />
+
+            {!isLowPower ? (
               <canvas
                 ref={canvasRef}
                 className="w-full max-w-[660px] h-[380px] md:h-[460px] pointer-events-auto cursor-grab active:cursor-grabbing"
               />
-            </div>
-          ) : (
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 opacity-30">
-              <div className="w-64 h-64 border-2 border-dashed border-[#203DFF] rounded-full animate-spin-slow" />
-            </div>
-          )}
-        </div>
+            ) : (
+              <div className="w-64 h-64 border-2 border-dashed border-[#203DFF] rounded-full animate-spin-slow opacity-30" />
+            )}
+          </motion.div>
 
-        {/* Bottom Hero Narrative & Telemetry Bar (Reference Screenshot) */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 pt-6 border-t border-white/15 font-mono text-xs text-white/80 items-end">
-          {/* Left: Bio Narrative */}
-          <div className="md:col-span-8 space-y-1">
-            <p className="leading-relaxed text-white/90 text-xs sm:text-sm font-sans max-w-2xl">
-              I'm <strong className="text-white font-bold font-mono">Kshitij Kumbhar</strong>, DevOps Intern @ Colgate-Palmolive (Mumbai Hybrid). Building scalable Kubernetes clusters, multi-agent AI systems, and automated CI/CD infrastructure.
-            </p>
-          </div>
-
-          {/* Right: Live Telemetry & Status Ring Glyph */}
-          <div className="md:col-span-4 flex items-center justify-between md:justify-end gap-6 font-mono text-xs">
-            <div className="text-white/80 font-bold">
-              <span>{timeString}</span>
-              <span className="text-[var(--accent-acid)] block text-[10px]">PUNE / INDIA</span>
+          {/* Bottom Hero Narrative & Telemetry Bar */}
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 pt-6 border-t border-white/15 font-mono text-xs text-white/80 items-end">
+            <div className="md:col-span-8 space-y-1">
+              <p className="leading-relaxed text-white/90 text-xs sm:text-sm font-sans max-w-2xl">
+                I'm <strong className="text-white font-bold font-mono">Kshitij Kumbhar</strong>, DevOps Intern @ Colgate-Palmolive (Mumbai Hybrid). Building scalable Kubernetes clusters, multi-agent AI systems, and automated CI/CD infrastructure.
+              </p>
             </div>
 
-            <div className="flex items-center gap-2 text-white/60">
-              <span className="w-3 h-3 rounded-full border-2 border-[var(--accent-acid)] border-t-transparent animate-spin" />
-              <span className="text-[11px] font-bold text-white">SYS // ONLINE</span>
+            <div className="md:col-span-4 flex items-center justify-between md:justify-end gap-6 font-mono text-xs">
+              <div className="text-white/80 font-bold">
+                <span>{timeString}</span>
+                <span className="text-[var(--accent-acid)] block text-[10px]">PUNE / INDIA</span>
+              </div>
+
+              <div className="flex items-center gap-2 text-white/60">
+                <span className="w-3 h-3 rounded-full border-2 border-[var(--accent-acid)] border-t-transparent animate-spin" />
+                <span className="text-[11px] font-bold text-white">SYS // ONLINE</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </motion.section>
+    </div>
   );
 }
