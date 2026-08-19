@@ -1,18 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { subscribePointer } from "@/lib/bus";
 import { Globe, ArrowUpRight } from "lucide-react";
 
 export default function HeroHUD() {
-  const [coords, setCoords] = useState("0124 X 0063 Y");
+  const coordsRef = useRef<HTMLDivElement>(null);
   const [timeStr, setTimeStr] = useState("IST 17:30 29°C");
 
+  // Zero-react-rerender pointer telemetry
   useEffect(() => {
     const unsub = subscribePointer((state) => {
-      const x = Math.round(state.x * 1000).toString().padStart(4, "0");
-      const y = Math.round((1.0 - state.y) * 1000).toString().padStart(4, "0");
-      setCoords(`${x} X ${y} Y`);
+      if (coordsRef.current) {
+        const x = Math.round(state.x * 1000).toString().padStart(4, "0");
+        const y = Math.round((1.0 - state.y) * 1000).toString().padStart(4, "0");
+        coordsRef.current.textContent = `${x} X ${y} Y`;
+      }
     });
     return () => {
       unsub();
@@ -93,7 +96,9 @@ export default function HeroHUD() {
       {/* Bottom Telemetry Bar */}
       <div className="flex justify-between items-center border-t border-white/15 pt-4 text-xs sm:text-sm font-medium">
         <div className="text-zinc-300">UTC+5:30 // {timeStr}</div>
-        <div className="font-bold text-[#4DEEEA] tracking-widest">{coords}</div>
+        <div ref={coordsRef} className="font-bold text-[#4DEEEA] tracking-widest">
+          0124 X 0063 Y
+        </div>
         <div className="flex items-center gap-2">
           <span className="text-[#B4F342] text-xs font-bold hidden sm:inline">LIVE GRID</span>
           <Globe className="w-4 h-4 text-[#B4F342] animate-spin" />

@@ -30,14 +30,17 @@ export function ScrambleText({
   const [output, setOutput] = useState(text);
   const containerRef = useRef<HTMLSpanElement>(null);
   const isAnimating = useRef(false);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const glyphs = GLYPH_SETS[glyphSet] || GLYPH_SETS.cyber;
 
   const runScramble = useCallback(() => {
     if (isAnimating.current) return;
     isAnimating.current = true;
 
+    if (intervalRef.current) clearInterval(intervalRef.current);
+
     let iteration = 0;
-    const interval = setInterval(() => {
+    intervalRef.current = setInterval(() => {
       setOutput(
         text
           .split("")
@@ -50,18 +53,20 @@ export function ScrambleText({
       );
 
       if (iteration >= text.length) {
-        clearInterval(interval);
+        if (intervalRef.current) clearInterval(intervalRef.current);
         setOutput(text);
         isAnimating.current = false;
       }
-      iteration += 1 / 2;
+      iteration += 0.5;
     }, speed);
   }, [text, speed, glyphs]);
 
   useEffect(() => {
     if (trigger === "always") {
       runScramble();
-      return;
+      return () => {
+        if (intervalRef.current) clearInterval(intervalRef.current);
+      };
     }
 
     const observer = new IntersectionObserver(
@@ -77,7 +82,10 @@ export function ScrambleText({
       observer.observe(containerRef.current);
     }
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
   }, [trigger, runScramble]);
 
   const handleMouseEnter = () => {

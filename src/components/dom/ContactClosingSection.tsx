@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ContactGlassScene from "@/components/canvas/ContactGlassScene";
 import { subscribePointer } from "@/lib/bus";
 import {
@@ -22,7 +22,7 @@ import { FiGithub, FiLinkedin } from "react-icons/fi";
 import { ScrambleText } from "@/components/ui/scramble-text";
 
 export default function ContactClosingSection() {
-  const [coords, setCoords] = useState("0799 X 0613 Y");
+  const coordsRef = useRef<HTMLSpanElement>(null);
   const [emailCopied, setEmailCopied] = useState(false);
   const [phoneCopied, setPhoneCopied] = useState(false);
   const [timeUtc, setTimeUtc] = useState("");
@@ -43,12 +43,14 @@ export default function ContactClosingSection() {
   const phone = "+91-7058157357";
   const location = "Pune, Maharashtra, India";
 
-  // Real-time Coordinate & Time Telemetry
+  // Real-time Coordinate & Time Telemetry (Zero React Re-render)
   useEffect(() => {
     const unsubPointer = subscribePointer((state) => {
-      const x = Math.round(state.x * 1000).toString().padStart(4, "0");
-      const y = Math.round((1.0 - state.y) * 1000).toString().padStart(4, "0");
-      setCoords(`${x} X ${y} Y`);
+      if (coordsRef.current) {
+        const x = Math.round(state.x * 1000).toString().padStart(4, "0");
+        const y = Math.round((1.0 - state.y) * 1000).toString().padStart(4, "0");
+        coordsRef.current.textContent = `${x} X ${y} Y`;
+      }
     });
 
     const updateClock = () => {
@@ -429,7 +431,7 @@ export default function ContactClosingSection() {
           {/* Live Pointer Telemetry */}
           <div className="hidden md:flex items-center gap-2.5 font-bold text-white tracking-widest bg-black/60 px-4 py-2 rounded-xs border border-white/15">
             <span className="w-2 h-2 rounded-full bg-[#4DEEEA] animate-ping" />
-            <span>{coords}</span>
+            <span ref={coordsRef}>0799 X 0613 Y</span>
           </div>
 
           {/* Social Channels */}
