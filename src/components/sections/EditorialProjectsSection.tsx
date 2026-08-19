@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { motion, useScroll, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, GitBranch } from "lucide-react";
 import { FiGithub } from "react-icons/fi";
 import { ProjectData } from "@/components/modals/CaseStudyModal";
@@ -66,7 +66,7 @@ export default function EditorialProjectsSection({ projects, onOpenCaseStudy }: 
     offset: ["start start", "end end"],
   });
 
-  // Calculate active project based on scroll progress
+  // Calculate active project dynamically based on normalized scroll progression (1 viewport per project)
   useEffect(() => {
     return scrollYProgress.on("change", (latest) => {
       const numProjects = projects.length;
@@ -81,8 +81,12 @@ export default function EditorialProjectsSection({ projects, onOpenCaseStudy }: 
 
   return (
     <section id="work" className="border-t border-[var(--border-color)] relative bg-[#050505]">
-      {/* Pinned Desktop Experience Track */}
-      <div ref={containerRef} className="relative hidden lg:block h-[320vh]">
+      {/* Pinned Desktop Experience Track (Dynamic height: 400vh for 4 projects) */}
+      <div
+        ref={containerRef}
+        style={{ height: `${projects.length * 100}vh` }}
+        className="relative hidden lg:block"
+      >
         <div className="sticky top-0 left-0 w-full h-screen flex flex-col justify-between py-12 px-8 max-w-[1500px] mx-auto overflow-hidden">
           {/* Top Stage Bar with Live Progress Indicator */}
           <div className="flex items-center justify-between pb-4 border-b border-white/15">

@@ -19,7 +19,8 @@ export default function PixelCursorTrail() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    if ("ontouchstart" in window || navigator.maxTouchPoints > 0) return;
+    // Strictly enable only on desktop devices with a fine pointer (mouse)
+    if (!window.matchMedia("(pointer: fine)").matches) return;
 
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -39,38 +40,39 @@ export default function PixelCursorTrail() {
     window.addEventListener("resize", handleResize);
 
     const particles: PixelParticle[] = [];
+    const maxParticles = 14; // Small, ultra-efficient particle pool
     let lastX = -100;
     let lastY = -100;
-    const colors = ["#B7FF00", "#D4FF00", "#FFFFFF", "#00D2FF"];
+    const colors = ["#B7FF00", "#C6FF00", "#FFFFFF"];
 
     const handleMouseMove = (e: MouseEvent) => {
       const dx = e.clientX - lastX;
       const dy = e.clientY - lastY;
       const dist = Math.sqrt(dx * dx + dy * dy);
 
-      // Spawn pixel particle every 10px distance
-      if (dist > 8) {
+      // Spawn pixel particle every 10px distance if under pool cap
+      if (dist > 10 && particles.length < maxParticles) {
         lastX = e.clientX;
         lastY = e.clientY;
 
-        const size = Math.floor(Math.random() * 4) + 4; // 4px - 7px square
+        const size = Math.floor(Math.random() * 3) + 4; // 4px - 6px square
         const color = colors[Math.floor(Math.random() * colors.length)];
 
         particles.push({
           x: Math.floor(e.clientX / 4) * 4, // Snap to 4px grid for pixel staircase look
           y: Math.floor(e.clientY / 4) * 4,
           size,
-          alpha: 0.9,
+          alpha: 0.85,
           color,
-          vx: (Math.random() - 0.5) * 0.4,
-          vy: (Math.random() - 0.5) * 0.4,
+          vx: (Math.random() - 0.5) * 0.3,
+          vy: (Math.random() - 0.5) * 0.3,
           life: 0,
-          maxLife: 24 + Math.random() * 10, // ~400ms lifetime
+          maxLife: 18 + Math.random() * 6, // ~300ms lifetime
         });
       }
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
 
     let animId: number;
     const render = () => {

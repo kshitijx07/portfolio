@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { ShieldCheck } from "lucide-react";
 
 export default function TechnicalHUDBar() {
   const [coords, setCoords] = useState({ x: 741, y: 384 });

@@ -17,7 +17,7 @@ const topologyData: TopologyNode[] = [
   {
     id: "cloud-infra",
     category: "cloud",
-    title: "01 // DevOps & Cloud Infrastructure",
+    title: "01 // Cloud Infrastructure",
     desc: "AWS cloud architecture, containerized microservices, VPC routing, and Kubernetes orchestration.",
     tech: ["AWS (EKS, ECR, CloudFront, VPC, ALB, IAM, EC2, S3)", "Docker Multi-Stage", "Kubernetes Clusters", "Auto Scaling & HPA"],
     connections: ["automation-iac", "ai-multiagent", "backend-services", "data-persistence"],
@@ -25,7 +25,7 @@ const topologyData: TopologyNode[] = [
   {
     id: "automation-iac",
     category: "automation",
-    title: "02 // Automation & CI/CD Pipelines",
+    title: "02 // Automation & IaC",
     desc: "Infrastructure as Code provisioning and automated deployment workflows removing manual release effort.",
     tech: ["Terraform (IaC)", "Jenkins CI/CD", "GitHub Actions", "Linux CLI & Bash", "DockerHub"],
     connections: ["cloud-infra", "backend-services"],
@@ -33,7 +33,7 @@ const topologyData: TopologyNode[] = [
   {
     id: "ai-multiagent",
     category: "ai",
-    title: "03 // AI & Multi-Agent Systems",
+    title: "03 // AI & Multi-Agent RAG",
     desc: "Autonomous supervisor routing, Model Context Protocol servers, and high-throughput vector RAG pipelines.",
     tech: ["LangGraph Multi-Agent", "RAG (Retrieval-Augmented)", "Model Context Protocol (MCP)", "Pinecone (768-dim Vector)", "Gemini 2.5 Flash"],
     connections: ["cloud-infra", "backend-services"],
@@ -41,7 +41,7 @@ const topologyData: TopologyNode[] = [
   {
     id: "backend-services",
     category: "backend",
-    title: "04 // Backend & Frontend Engineering",
+    title: "04 // Backend Services",
     desc: "High-throughput RESTful microservices, MVC architectures, and responsive digital interfaces.",
     tech: ["Spring Boot", "Node.js & Express.js", "React.js & Vite", "Tailwind CSS", "RESTful APIs"],
     connections: ["cloud-infra", "data-persistence"],
@@ -49,7 +49,7 @@ const topologyData: TopologyNode[] = [
   {
     id: "data-persistence",
     category: "data",
-    title: "05 // Databases & Core CS",
+    title: "05 // Data & Vector Stores",
     desc: "Relational, document, and vector databases with solid foundation in algorithms and systems.",
     tech: ["Pinecone Vector Store", "MongoDB Atlas", "MySQL Relational", "Data Structures & Algorithms (DSA)", "OOP & Operating Systems"],
     connections: ["cloud-infra", "backend-services", "ai-multiagent"],
