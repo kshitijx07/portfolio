@@ -172,7 +172,7 @@ export default function ScrollShell({ children }: ScrollShellProps) {
   return (
     <div className="relative w-full min-h-screen">
       {/* ── One-Line Style System Boot Loader Badge ────────────────── */}
-      <SystemBootLoader onComplete={handleBootComplete} minDuration={1400} />
+      <SystemBootLoader onComplete={handleBootComplete} minDuration={8500} />
 
       {/* ── Main Page Content ──────────────────────────────────── */}
       {children}
