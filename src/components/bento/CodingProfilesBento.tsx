@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Star, ExternalLink } from "lucide-react";
+import { Star, ExternalLink, Activity, Sparkles } from "lucide-react";
 import { FiGithub } from "react-icons/fi";
 import PinterestCardWrapper from "@/components/ui/PinterestCardWrapper";
 
@@ -17,33 +17,41 @@ export default function CodingProfilesBento() {
   }, []);
 
   return (
-    <PinterestCardWrapper pinLabel="Pin Profiles">
+    <PinterestCardWrapper stampText="ANALYTICS // LIVE_SYNC">
       <div className="w-full space-y-4" data-cursor="Profiles">
-        <div className="flex items-center justify-between gap-4 pb-3 border-b border-[#E8E3DA] dark:border-[#2E2C29] transition-colors">
+        <div className="flex items-center justify-between gap-4 pb-3 border-b border-[#E8E3DA] dark:border-[#2E2C29]">
           <div>
-            <h3 className="text-2xl font-editorial font-bold text-[#1A1918] dark:text-[#FAF9F7] transition-colors">
-              Coding Profiles & Platform Analytics
-            </h3>
-            <p className="text-xs text-[#5C5955] dark:text-[#A3A098] font-mono transition-colors">
-              Live algorithmic and software engineering metrics
+            <div className="flex items-center gap-2 mb-1">
+              <h3 className="text-2xl font-editorial font-bold text-[#1A1918] dark:text-[#FAF9F7]">
+                Coding Profiles & Platform Analytics
+              </h3>
+              <span className="y2k-pill text-[10px] text-[#00E676]">
+                <Activity size={11} className="text-[#00E676] animate-pulse" />
+                <span>3 Live Feeds</span>
+              </span>
+            </div>
+            <p className="text-xs text-[#5C5955] dark:text-[#A3A098] font-mono">
+              Live algorithmic performance and software engineering telemetry
             </p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* GitHub Tile */}
-          <div className="p-5 rounded-2xl bg-[#F9F7F4] dark:bg-[#242220] border border-[#E8E3DA] dark:border-[#2E2C29] flex flex-col justify-between h-full transition-colors shadow-sm hover:border-[#C86D51] dark:hover:border-[#E07A5F]">
+          <div className="p-5 rounded-2xl bg-white/60 dark:bg-white/5 border border-white/80 dark:border-white/10 backdrop-blur-md flex flex-col justify-between h-full transition-all duration-300 shadow-sm hover:border-[#C86D51] dark:hover:border-[#E07A5F] hover:shadow-md group">
             <div>
               <div className="flex items-center justify-between gap-2 mb-4">
-                <div className="flex items-center gap-2">
-                  <FiGithub size={20} className="text-[#C86D51] dark:text-[#E07A5F]" />
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-xl bg-[#C86D51]/10 dark:bg-[#E07A5F]/20 flex items-center justify-center text-[#C86D51] dark:text-[#E07A5F]">
+                    <FiGithub size={18} />
+                  </div>
                   <span className="font-mono text-sm font-bold text-[#1A1918] dark:text-[#FAF9F7]">GitHub</span>
                 </div>
                 <a
                   href="https://github.com/kshitijx07"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs text-[#5C5955] dark:text-[#A3A098] hover:text-[#C86D51] dark:hover:text-[#E07A5F] font-mono transition-colors flex items-center gap-1 font-semibold"
+                  className="text-xs text-[#5C5955] dark:text-[#A3A098] hover:text-[#C86D51] dark:hover:text-[#E07A5F] font-mono transition-colors flex items-center gap-1 font-bold"
                 >
                   <span>@kshitijx07</span>
                   <ExternalLink size={12} />
@@ -67,23 +75,27 @@ export default function CodingProfilesBento() {
 
             <div className="pt-3 border-t border-[#E8E3DA] dark:border-[#2E2C29] flex justify-between items-center text-[11px] font-mono text-[#5C5955] dark:text-[#A3A098]">
               <span>Docker • TS • Java • Python</span>
-              <span className="text-[10px] text-[#C86D51] dark:text-[#E07A5F] font-bold">LIVE API</span>
+              <span className="px-2 py-0.5 rounded-full bg-[#C86D51]/10 dark:bg-[#E07A5F]/20 text-[#C86D51] dark:text-[#E07A5F] text-[10px] font-bold">
+                LIVE API
+              </span>
             </div>
           </div>
 
           {/* LeetCode Tile */}
-          <div className="p-5 rounded-2xl bg-[#F9F7F4] dark:bg-[#242220] border border-[#E8E3DA] dark:border-[#2E2C29] flex flex-col justify-between h-full transition-colors shadow-sm hover:border-[#FFA116]">
+          <div className="p-5 rounded-2xl bg-white/60 dark:bg-white/5 border border-white/80 dark:border-white/10 backdrop-blur-md flex flex-col justify-between h-full transition-all duration-300 shadow-sm hover:border-[#FFA116] hover:shadow-md group">
             <div>
               <div className="flex items-center justify-between gap-2 mb-4">
-                <div className="flex items-center gap-2">
-                  <span className="w-6 h-6 rounded bg-[#FFA116] text-black font-bold text-xs flex items-center justify-center">LC</span>
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-xl bg-[#FFA116] text-black font-bold text-xs flex items-center justify-center shadow-xs">
+                    LC
+                  </div>
                   <span className="font-mono text-sm font-bold text-[#1A1918] dark:text-[#FAF9F7]">LeetCode</span>
                 </div>
                 <a
                   href="https://leetcode.com/u/kshitij72"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs text-[#5C5955] dark:text-[#A3A098] hover:text-[#FFA116] font-mono transition-colors flex items-center gap-1 font-semibold"
+                  className="text-xs text-[#5C5955] dark:text-[#A3A098] hover:text-[#FFA116] font-mono transition-colors flex items-center gap-1 font-bold"
                 >
                   <span>@kshitij72</span>
                   <ExternalLink size={12} />
@@ -102,7 +114,7 @@ export default function CodingProfilesBento() {
                     <span>Med: {leetcodeData?.mediumSolved || 138}</span>
                     <span>Hard: {leetcodeData?.hardSolved || 15}</span>
                   </div>
-                  <div className="w-full h-2 rounded-full bg-[#EFECE6] dark:bg-[#1C1B19] overflow-hidden flex">
+                  <div className="w-full h-2 rounded-full bg-[#EFECE6] dark:bg-[#1C1B19] overflow-hidden flex shadow-inner">
                     <div className="bg-[#00B8A3] h-full" style={{ width: "40%" }} />
                     <div className="bg-[#FFC01E] h-full" style={{ width: "53%" }} />
                     <div className="bg-[#FF375F] h-full" style={{ width: "7%" }} />
@@ -112,24 +124,28 @@ export default function CodingProfilesBento() {
             </div>
 
             <div className="pt-3 border-t border-[#E8E3DA] dark:border-[#2E2C29] flex justify-between items-center text-[11px] font-mono text-[#5C5955] dark:text-[#A3A098]">
-              <span>Global Rank #{leetcodeData?.ranking || 605333}</span>
-              <span className="text-[10px] text-[#FFA116] font-bold">GRAPHQL</span>
+              <span>Rank #{leetcodeData?.ranking || 605333}</span>
+              <span className="px-2 py-0.5 rounded-full bg-[#FFA116]/15 dark:bg-[#FFA116]/25 text-[#FFA116] text-[10px] font-bold">
+                GRAPHQL
+              </span>
             </div>
           </div>
 
           {/* Codeforces Tile */}
-          <div className="p-5 rounded-2xl bg-[#F9F7F4] dark:bg-[#242220] border border-[#E8E3DA] dark:border-[#2E2C29] flex flex-col justify-between h-full transition-colors shadow-sm hover:border-[#1F8ACB]">
+          <div className="p-5 rounded-2xl bg-white/60 dark:bg-white/5 border border-white/80 dark:border-white/10 backdrop-blur-md flex flex-col justify-between h-full transition-all duration-300 shadow-sm hover:border-[#1F8ACB] hover:shadow-md group">
             <div>
               <div className="flex items-center justify-between gap-2 mb-4">
-                <div className="flex items-center gap-2">
-                  <span className="w-6 h-6 rounded bg-[#1F8ACB] text-white font-bold text-xs flex items-center justify-center">CF</span>
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-xl bg-[#1F8ACB] text-white font-bold text-xs flex items-center justify-center shadow-xs">
+                    CF
+                  </div>
                   <span className="font-mono text-sm font-bold text-[#1A1918] dark:text-[#FAF9F7]">Codeforces</span>
                 </div>
                 <a
                   href="https://codeforces.com/profile/kshitij___x07"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs text-[#5C5955] dark:text-[#A3A098] hover:text-[#1F8ACB] font-mono transition-colors flex items-center gap-1 font-semibold"
+                  className="text-xs text-[#5C5955] dark:text-[#A3A098] hover:text-[#1F8ACB] font-mono transition-colors flex items-center gap-1 font-bold"
                 >
                   <span>@kshitij___x07</span>
                   <ExternalLink size={12} />
@@ -139,7 +155,7 @@ export default function CodingProfilesBento() {
               <div className="space-y-3 mb-4 font-mono text-xs">
                 <div className="flex justify-between">
                   <span className="text-[#5C5955] dark:text-[#A3A098] font-medium">Rating:</span>
-                  <span className="font-bold text-[#1F8ACB] text-sm">{codeforcesData?.rating || 1280}</span>
+                  <span className="font-bold text-[#00D2FF] text-sm">{codeforcesData?.rating || 1280}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-[#5C5955] dark:text-[#A3A098] font-medium">Max Rank:</span>
@@ -150,7 +166,9 @@ export default function CodingProfilesBento() {
 
             <div className="pt-3 border-t border-[#E8E3DA] dark:border-[#2E2C29] flex justify-between items-center text-[11px] font-mono text-[#5C5955] dark:text-[#A3A098]">
               <span>Contests: {codeforcesData?.contestsCount || 14}</span>
-              <span className="text-[10px] text-[#1F8ACB] font-bold">LIVE API</span>
+              <span className="px-2 py-0.5 rounded-full bg-[#1F8ACB]/15 dark:bg-[#1F8ACB]/25 text-[#1F8ACB] text-[10px] font-bold">
+                LIVE API
+              </span>
             </div>
           </div>
         </div>
@@ -158,3 +176,4 @@ export default function CodingProfilesBento() {
     </PinterestCardWrapper>
   );
 }
+

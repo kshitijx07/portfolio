@@ -3,10 +3,10 @@
 @variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 @theme inline {
-  --color-editorial-bg: #F9F7F4;
-  --color-editorial-card: #FFFDF9;
+  --color-editorial-bg: #F8F6F0;
+  --color-editorial-card: rgba(255, 253, 249, 0.75);
   --color-editorial-text: #1A1918;
-  --color-editorial-muted: #6E6C68;
+  --color-editorial-muted: #5C5955;
   
   --color-terracotta: #C86D51;
   --color-terracotta-soft: #F2E4DF;
@@ -16,6 +16,13 @@
   --color-forest-soft: #E5EDE6;
   --color-charcoal: #2B2A29;
   --color-cream: #FFFDF9;
+  
+  /* Y2K & Ethereal Accent Colors */
+  --color-cyber-cyan: #00D2FF;
+  --color-cyber-pink: #FF6B9D;
+  --color-electric-emerald: #00E676;
+  --color-aurora-purple: #9D7BFF;
+  --color-chrome-silver: #E2E8F0;
 
   --font-serif: var(--font-newsreader), Georgia, serif;
   --font-sans: var(--font-jakarta), system-ui, sans-serif;
@@ -23,28 +30,44 @@
 }
 
 :root {
-  --bg-primary: #F9F7F4;
-  --bg-card: #FFFDF9;
-  --bg-secondary: #EFECE6;
+  --bg-primary: #F8F6F0;
+  --bg-card: rgba(255, 253, 249, 0.72);
+  --bg-card-solid: #FFFDF9;
+  --bg-secondary: rgba(239, 236, 230, 0.6);
   --text-primary: #1A1918;
-  --text-secondary: #6E6C68;
-  --border-color: #E8E3DA;
+  --text-secondary: #5C5955;
+  --border-color: rgba(232, 227, 218, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.6);
+  --glass-specular: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.1) 100%);
+  --glass-glow: rgba(200, 109, 81, 0.08);
   --accent-terracotta: #C86D51;
   --accent-soft: #F2E4DF;
   --accent-forest: #2D4030;
+  
+  --aurora-1: rgba(200, 109, 81, 0.15);
+  --aurora-2: rgba(0, 210, 255, 0.12);
+  --aurora-3: rgba(157, 123, 255, 0.10);
 }
 
-/* Luxury Dark Charcoal Theme Palette */
+/* Luxury Ethereal Dark Mode Palette */
 [data-theme="dark"] {
-  --bg-primary: #121110;
-  --bg-card: #1C1B19;
-  --bg-secondary: #262422;
+  --bg-primary: #0F0E0D;
+  --bg-card: rgba(26, 24, 22, 0.65);
+  --bg-card-solid: #1C1B19;
+  --bg-secondary: rgba(38, 36, 34, 0.6);
   --text-primary: #FAF9F7;
   --text-secondary: #A3A098;
-  --border-color: #2E2C29;
+  --border-color: rgba(46, 44, 41, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-specular: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.02) 100%);
+  --glass-glow: rgba(224, 122, 95, 0.15);
   --accent-terracotta: #E07A5F;
   --accent-soft: #38241E;
   --accent-forest: #4E6E52;
+  
+  --aurora-1: rgba(224, 122, 95, 0.18);
+  --aurora-2: rgba(0, 210, 255, 0.15);
+  --aurora-3: rgba(157, 123, 255, 0.12);
 }
 
 body {
@@ -62,63 +85,165 @@ h1, h2, h3, h4, .font-editorial {
   letter-spacing: -0.01em;
 }
 
-/* Bento & Pinterest Card Styling Tokens */
-.bento-card {
+/* ==========================================================================
+   GLASSMORPHISM TOKENS & UTILITIES
+   ========================================================================== */
+.glass-panel {
   background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--border-color);
-  border-radius: 1.5rem;
-  padding: 1.5rem;
   box-shadow: 
-    0 1px 3px rgba(0, 0, 0, 0.04),
-    0 8px 24px rgba(0, 0, 0, 0.06);
-  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    0 4px 24px -1px rgba(0, 0, 0, 0.04),
+    0 0 0 1px var(--glass-border) inset;
   position: relative;
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-theme="dark"] .glass-panel {
+  box-shadow: 
+    0 8px 32px 0 rgba(0, 0, 0, 0.37),
+    0 0 0 1px var(--glass-border) inset;
+}
+
+.glass-panel-hover:hover {
+  border-color: var(--accent-terracotta);
+  box-shadow: 
+    0 12px 40px -4px var(--glass-glow),
+    0 0 0 1px rgba(224, 122, 95, 0.3) inset;
+  transform: translateY(-2px);
+}
+
+.glass-specular-edge::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--glass-specular);
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   Y2K AESTHETIC & CHROME GRADIENTS
+   ========================================================================== */
+.y2k-chrome-text {
+  background: linear-gradient(135deg, #1A1918 0%, #716E68 50%, #1A1918 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-theme="dark"] .y2k-chrome-text {
+  background: linear-gradient(135deg, #FFFFFF 0%, #A3A098 50%, #FAF9F7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.y2k-hologram-border {
+  position: relative;
+}
+
+.y2k-hologram-border::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(200, 109, 81, 0.4), rgba(0, 210, 255, 0.4), rgba(157, 123, 255, 0.4));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.y2k-hologram-border:hover::after {
+  opacity: 1;
+}
+
+.y2k-pill {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.65rem;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   PIXEL ART RETRO GLYPHS & ACCENTS
+   ========================================================================== */
+.pixel-corners {
+  clip-path: polygon(
+    0 4px, 4px 4px, 4px 0,
+    calc(100% - 4px) 0, calc(100% - 4px) 4px, 100% 4px,
+    100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px), calc(100% - 4px) 100%,
+    4px 100%, 4px calc(100% - 4px), 0 calc(100% - 4px)
+  );
+}
+
+.pixel-dot-matrix {
+  background-image: radial-gradient(var(--border-color) 1px, transparent 1px);
+  background-size: 14px 14px;
+}
+
+.crt-scanlines {
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.15) 50%
+  ), linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.03),
+    rgba(0, 255, 0, 0.01),
+    rgba(0, 0, 255, 0.03)
+  );
+  background-size: 100% 3px, 6px 100%;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   ETHEREAL AURORA GLOWS & AMBIENT GRAPHICS
+   ========================================================================== */
+.ethereal-aurora-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
   overflow: hidden;
 }
 
-.bento-card-hover:hover {
-  border-color: var(--accent-terracotta);
-  box-shadow: 
-    0 4px 12px rgba(0, 0, 0, 0.06),
-    0 16px 40px rgba(224, 122, 95, 0.15);
+.aurora-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.65;
+  animation: float-aurora 20s ease-in-out infinite alternate;
 }
 
-.bento-label {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: var(--text-secondary);
-  display: flex;
-  items-center: center;
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
-}
-
-.bento-label::after {
-  content: "";
-  height: 1px;
-  flex: 1;
-  background: var(--border-color);
-}
-
-/* Paper Texture & Washi Tape Tokens */
-.paper-texture {
-  background-color: var(--bg-card);
-  background-image: radial-gradient(var(--border-color) 0.75px, transparent 0.75px);
-  background-size: 16px 16px;
-}
-
-.postmark-stamp {
-  border: 2px dashed var(--accent-terracotta);
-  color: var(--accent-terracotta);
-  font-family: var(--font-mono);
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  padding: 4px 12px;
-  border-radius: 4px;
-  transform: rotate(-6deg);
-  display: inline-block;
+@keyframes float-aurora {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  50% {
+    transform: translate(40px, -30px) scale(1.15);
+  }
+  100% {
+    transform: translate(-30px, 40px) scale(0.95);
+  }
 }
 
 /* 3D Perspective Setup */
@@ -147,9 +272,9 @@ html.lenis, html.lenis body {
   pointer-events: none;
 }
 
-/* Custom Editorial Scrollbar */
+/* Custom Ethereal Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 7px;
 }
 
 ::-webkit-scrollbar-track {

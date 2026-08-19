@@ -17,7 +17,7 @@ export default function Editorial3DBackground() {
 
     // Scene setup
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(isDark ? 0x121110 : 0xf9f7f4, 0.025);
+    scene.fog = new THREE.FogExp2(isDark ? 0x0f0e0d : 0xf8f6f0, 0.02);
 
     // Camera setup
     const camera = new THREE.PerspectiveCamera(
@@ -26,78 +26,79 @@ export default function Editorial3DBackground() {
       0.1,
       100
     );
-    camera.position.z = 18;
+    camera.position.z = 20;
 
     // Renderer setup
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.1;
+    renderer.toneMappingExposure = 1.2;
 
     container.appendChild(renderer.domElement);
 
-    // Ambient & Directional Lights
-    const ambientLight = new THREE.AmbientLight(isDark ? 0x242220 : 0xfffdf9, 1.2);
+    // Ambient & Directional Lights with Ethereal Chromatic Aura
+    const ambientLight = new THREE.AmbientLight(isDark ? 0x242220 : 0xfffdf9, 1.4);
     scene.add(ambientLight);
 
-    const dirLight1 = new THREE.DirectionalLight(isDark ? 0xe07a5f : 0xc86d51, 1.5);
-    dirLight1.position.set(10, 15, 10);
+    const dirLight1 = new THREE.DirectionalLight(isDark ? 0xe07a5f : 0xc86d51, 1.8);
+    dirLight1.position.set(12, 18, 12);
     scene.add(dirLight1);
 
-    const dirLight2 = new THREE.DirectionalLight(isDark ? 0x4e6e52 : 0x2d4030, 0.8);
-    dirLight2.position.set(-10, -10, 5);
+    const dirLight2 = new THREE.DirectionalLight(isDark ? 0x00d2ff : 0x9d7bff, 1.0);
+    dirLight2.position.set(-14, -12, 8);
     scene.add(dirLight2);
 
-    // Group for floating 3D paper shapes
+    // Group for floating 3D holographic & glass objects
     const shapesGroup = new THREE.Group();
     scene.add(shapesGroup);
 
-    // Color palette materials
+    // Color palette materials for glass & holographic chrome
     const materials = [
-      new THREE.MeshStandardMaterial({
+      new THREE.MeshPhysicalMaterial({
         color: isDark ? 0x1c1b19 : 0xfffdf9,
-        roughness: 0.7,
+        roughness: 0.1,
         metalness: 0.1,
-        transparent: true,
-        opacity: 0.8,
-      }),
-      new THREE.MeshStandardMaterial({
-        color: isDark ? 0xe07a5f : 0xc86d51,
-        roughness: 0.6,
-        metalness: 0.1,
+        transmission: 0.7,
+        thickness: 0.8,
         transparent: true,
         opacity: 0.65,
       }),
       new THREE.MeshStandardMaterial({
-        color: isDark ? 0x2e2c29 : 0xd8c4b6,
-        roughness: 0.8,
-        metalness: 0.05,
+        color: isDark ? 0xe07a5f : 0xc86d51,
+        roughness: 0.3,
+        metalness: 0.4,
         transparent: true,
-        opacity: 0.75,
+        opacity: 0.55,
       }),
       new THREE.MeshStandardMaterial({
-        color: isDark ? 0x4e6e52 : 0x2d4030,
-        roughness: 0.7,
-        metalness: 0.1,
+        color: isDark ? 0x00d2ff : 0x00b8a3,
+        roughness: 0.2,
+        metalness: 0.5,
+        transparent: true,
+        opacity: 0.45,
+      }),
+      new THREE.MeshStandardMaterial({
+        color: isDark ? 0x9d7bff : 0xd8c4b6,
+        roughness: 0.3,
+        metalness: 0.3,
         transparent: true,
         opacity: 0.5,
       }),
     ];
 
-    // Create floating 3D paper card geometries & shapes
     const meshItems: { mesh: THREE.Mesh; rotSpeed: THREE.Vector3; floatSpeed: number; initialY: number }[] = [];
 
-    // 1. Floating Paper Cards
-    const cardGeo = new THREE.BoxGeometry(2.4, 3.2, 0.05);
-    for (let i = 0; i < 14; i++) {
+    // 1. Floating Holographic Glass Octahedrons & Prisms (Y2K / Ethereal)
+    const octaGeo = new THREE.OctahedronGeometry(1.2, 0);
+    for (let i = 0; i < 8; i++) {
       const mat = materials[i % materials.length];
-      const mesh = new THREE.Mesh(cardGeo, mat);
+      const mesh = new THREE.Mesh(octaGeo, mat);
 
       mesh.position.set(
-        (Math.random() - 0.5) * 26,
-        (Math.random() - 0.5) * 22,
-        (Math.random() - 0.5) * 12 - 2
+        (Math.random() - 0.5) * 30,
+        (Math.random() - 0.5) * 24,
+        (Math.random() - 0.5) * 14 - 3
       );
 
       mesh.rotation.set(
@@ -111,45 +112,69 @@ export default function Editorial3DBackground() {
       meshItems.push({
         mesh,
         rotSpeed: new THREE.Vector3(
-          (Math.random() - 0.5) * 0.003,
           (Math.random() - 0.5) * 0.004,
-          (Math.random() - 0.5) * 0.002
+          (Math.random() - 0.5) * 0.005,
+          (Math.random() - 0.5) * 0.003
         ),
-        floatSpeed: 0.001 + Math.random() * 0.001,
+        floatSpeed: 0.0015 + Math.random() * 0.001,
         initialY: mesh.position.y,
       });
     }
 
-    // 2. Floating Editorial Prisms/Rings
-    const torusGeo = new THREE.TorusGeometry(1.2, 0.08, 16, 50);
-    const torusMesh = new THREE.Mesh(torusGeo, materials[1]);
-    torusMesh.position.set(-8, 4, -4);
-    shapesGroup.add(torusMesh);
+    // 2. Floating Cyber Glass Torus Rings
+    const torusGeo = new THREE.TorusGeometry(1.5, 0.06, 16, 64);
+    const torus1 = new THREE.Mesh(torusGeo, materials[1]);
+    torus1.position.set(-10, 6, -5);
+    shapesGroup.add(torus1);
     meshItems.push({
-      mesh: torusMesh,
+      mesh: torus1,
       rotSpeed: new THREE.Vector3(0.002, 0.003, 0.001),
-      floatSpeed: 0.0015,
-      initialY: 4,
+      floatSpeed: 0.001,
+      initialY: 6,
     });
 
-    const torusMesh2 = new THREE.Mesh(torusGeo, materials[2]);
-    torusMesh2.position.set(9, -5, -3);
-    shapesGroup.add(torusMesh2);
+    const torus2 = new THREE.Mesh(torusGeo, materials[2]);
+    torus2.position.set(11, -7, -4);
+    shapesGroup.add(torus2);
     meshItems.push({
-      mesh: torusMesh2,
-      rotSpeed: new THREE.Vector3(-0.002, -0.001, 0.002),
+      mesh: torus2,
+      rotSpeed: new THREE.Vector3(-0.002, -0.002, 0.002),
       floatSpeed: 0.0012,
-      initialY: -5,
+      initialY: -7,
     });
+
+    // 3. Ethereal Stardust Particle Cloud (Pixel & Ethereal vibe)
+    const particleCount = 80;
+    const particleGeo = new THREE.BufferGeometry();
+    const particlePositions = new Float32Array(particleCount * 3);
+
+    for (let i = 0; i < particleCount * 3; i += 3) {
+      particlePositions[i] = (Math.random() - 0.5) * 36;
+      particlePositions[i + 1] = (Math.random() - 0.5) * 30;
+      particlePositions[i + 2] = (Math.random() - 0.5) * 16;
+    }
+
+    particleGeo.setAttribute("position", new THREE.BufferAttribute(particlePositions, 3));
+
+    const particleMat = new THREE.PointsMaterial({
+      size: 0.09,
+      color: isDark ? 0x00d2ff : 0xc86d51,
+      transparent: true,
+      opacity: 0.6,
+    });
+
+    const particleSystem = new THREE.Points(particleGeo, particleMat);
+    scene.add(particleSystem);
 
     // Theme MutationObserver
     const observer = new MutationObserver(() => {
       const currentDark = document.documentElement.getAttribute("data-theme") === "dark";
-      scene.fog = new THREE.FogExp2(currentDark ? 0x121110 : 0xf9f7f4, 0.025);
+      scene.fog = new THREE.FogExp2(currentDark ? 0x0f0e0d : 0xf8f6f0, 0.02);
       materials[0].color.setHex(currentDark ? 0x1c1b19 : 0xfffdf9);
       materials[1].color.setHex(currentDark ? 0xe07a5f : 0xc86d51);
-      materials[2].color.setHex(currentDark ? 0x2e2c29 : 0xd8c4b6);
-      materials[3].color.setHex(currentDark ? 0x4e6e52 : 0x2d4030);
+      materials[2].color.setHex(currentDark ? 0x00d2ff : 0x00b8a3);
+      materials[3].color.setHex(currentDark ? 0x9d7bff : 0xd8c4b6);
+      particleMat.color.setHex(currentDark ? 0x00d2ff : 0xc86d51);
     });
 
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
@@ -191,8 +216,8 @@ export default function Editorial3DBackground() {
 
       if (!prefersReducedMotion) {
         // Group parallax rotation
-        shapesGroup.rotation.y = mouseX * 0.15;
-        shapesGroup.rotation.x = -mouseY * 0.15;
+        shapesGroup.rotation.y = mouseX * 0.12;
+        shapesGroup.rotation.x = -mouseY * 0.12;
 
         // Individual mesh animations
         meshItems.forEach((item, index) => {
@@ -201,8 +226,11 @@ export default function Editorial3DBackground() {
           item.mesh.rotation.z += item.rotSpeed.z;
 
           // Gentle floating sine wave motion
-          item.mesh.position.y = item.initialY + Math.sin(elapsedTime * 0.8 + index) * 0.4;
+          item.mesh.position.y = item.initialY + Math.sin(elapsedTime * 0.7 + index) * 0.35;
         });
+
+        // Rotate particle galaxy gently
+        particleSystem.rotation.y = elapsedTime * 0.02;
       }
 
       renderer.render(scene, camera);
@@ -224,9 +252,27 @@ export default function Editorial3DBackground() {
   }, []);
 
   return (
-    <div
-      ref={mountRef}
-      className="pointer-events-none fixed inset-0 z-0 opacity-70 transition-opacity duration-1000 overflow-hidden"
-    />
+    <>
+      {/* Three.js 3D Canvas */}
+      <div
+        ref={mountRef}
+        className="pointer-events-none fixed inset-0 z-0 opacity-70 transition-opacity duration-1000 overflow-hidden"
+      />
+      {/* Ethereal Aurora Light Orbs in CSS */}
+      <div className="ethereal-aurora-bg">
+        <div
+          className="aurora-orb w-[450px] h-[450px] top-[-100px] left-[-100px]"
+          style={{ background: "radial-gradient(circle, var(--aurora-1) 0%, transparent 70%)" }}
+        />
+        <div
+          className="aurora-orb w-[500px] h-[500px] top-[40%] right-[-150px] animation-delay-2000"
+          style={{ background: "radial-gradient(circle, var(--aurora-2) 0%, transparent 70%)" }}
+        />
+        <div
+          className="aurora-orb w-[420px] h-[420px] bottom-[-100px] left-[20%] animation-delay-4000"
+          style={{ background: "radial-gradient(circle, var(--aurora-3) 0%, transparent 70%)" }}
+        />
+      </div>
+    </>
   );
 }

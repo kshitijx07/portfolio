@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 
 interface PinterestCardWrapperProps {
@@ -15,26 +15,57 @@ interface PinterestCardWrapperProps {
 export default function PinterestCardWrapper({
   children,
   className = "",
-  showTape = true,
+  showTape = false,
+  stampText,
   rotateDeg = 0,
 }: PinterestCardWrapperProps) {
+  const [mousePosition, setMousePosition] = useState<{ x: number; y: number } | null>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePosition({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setMousePosition(null);
+  };
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      whileHover={{ y: -6, scale: 1.01 }}
-      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-      className={`relative group rounded-[2rem] bg-[#FFFDF9] dark:bg-[#1C1B19] border border-[#E8E3DA] dark:border-[#2E2C29] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.04)] dark:shadow-[0_4px_24px_rgba(0,0,0,0.3)] hover:shadow-[0_16px_40px_rgba(200,109,81,0.12)] dark:hover:shadow-[0_16px_40px_rgba(224,122,95,0.2)] hover:border-[#C86D51] dark:hover:border-[#E07A5F] transition-all duration-300 ${className}`}
+      viewport={{ once: true, margin: "-40px" }}
+      whileHover={{ y: -4 }}
+      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className={`relative group rounded-[2rem] bg-white/70 dark:bg-[#181615]/70 backdrop-blur-xl border border-white/60 dark:border-white/10 p-6 md:p-7 shadow-[0_8px_32px_rgba(0,0,0,0.04)] dark:shadow-[0_12px_36px_rgba(0,0,0,0.45)] hover:border-[#C86D51]/50 dark:hover:border-[#E07A5F]/50 transition-all duration-300 overflow-hidden glass-specular-edge ${className}`}
       style={{ transform: rotateDeg ? `rotate(${rotateDeg}deg)` : undefined }}
     >
-      {/* Semi-transparent Washi Tape Strip at Top Center */}
-      {showTape && (
-        <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 w-28 h-6 bg-[#EFECE6]/90 dark:bg-[#2B2926]/90 backdrop-blur-sm border border-[#D8C4B6]/50 dark:border-[#3E3B37]/50 rounded-sm shadow-[0_2px_4px_rgba(0,0,0,0.03)] -rotate-1 z-20 pointer-events-none transition-colors" />
+      {/* Dynamic Cursor Spotlight Glow (Ethereal Design) */}
+      {mousePosition && (
+        <div
+          className="pointer-events-none absolute -inset-px opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0"
+          style={{
+            background: `radial-gradient(400px circle at ${mousePosition.x}px ${mousePosition.y}px, var(--glass-glow), transparent 70%)`,
+          }}
+        />
+      )}
+
+      {/* Subtle Y2K Metadata Stamp */}
+      {stampText && (
+        <div className="absolute top-4 right-5 z-20 font-mono text-[9px] text-[#5C5955] dark:text-[#A3A098] opacity-60 tracking-wider flex items-center gap-1 uppercase pointer-events-none">
+          <span className="text-[#C86D51] dark:text-[#E07A5F]">✦</span>
+          <span>{stampText}</span>
+        </div>
       )}
 
       {/* Card Content */}
-      <div className="relative z-10 pt-2">{children}</div>
+      <div className="relative z-10">{children}</div>
     </motion.div>
   );
 }
+
