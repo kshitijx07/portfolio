@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { Canvas } from "@react-three/fiber";
 import {
   Cloud,
   Server,
@@ -21,10 +22,13 @@ import { FiGithub, FiLinkedin } from "react-icons/fi";
 // WebGL Scenes & Shaders
 import HeroAboutScene from "@/components/canvas/HeroAboutScene";
 import ContactGlassScene from "@/components/canvas/ContactGlassScene";
+import RetroDotMatrixBg from "@/components/canvas/RetroDotMatrixBg";
+import DomSyncProjectGrid from "@/components/canvas/DomSyncProjectGrid";
 
 // DOM & HUD Components
 import HeroHUD from "@/components/dom/HeroHUD";
 import PolarityCard from "@/components/dom/PolarityCard";
+import ProjectCardSync from "@/components/dom/ProjectCardSync";
 import { ScrambleText } from "@/components/ui/scramble-text";
 import { Badge } from "@/components/ui/badge";
 
@@ -279,11 +283,19 @@ export default function PortfolioPage() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════
-          SECTION 4: FEATURED CLOUD & AI PROJECTS
+          SECTION 4: FEATURED CLOUD & AI PROJECTS (DOM-Sync + Retro Dot Matrix)
       ═══════════════════════════════════════════════════════════ */}
-      <section id="projects" className="relative z-10 min-h-screen bg-[#050505] px-8 py-24 md:px-14 border-t border-white/10">
+      <section id="projects" className="relative z-10 min-h-screen bg-[#050505] px-8 py-24 md:px-14 border-t border-white/10 overflow-hidden">
+        {/* WebGL Retro Dot Matrix & Velocity UV Semicircular Curl Layer */}
+        <div className="absolute inset-0 z-0 pointer-events-none opacity-60">
+          <Canvas camera={{ position: [0, 0, 1] }}>
+            <RetroDotMatrixBg />
+            <DomSyncProjectGrid />
+          </Canvas>
+        </div>
+
         <div className="relative z-10 max-w-7xl mx-auto space-y-12">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6 bg-[#050505]/70 backdrop-blur-sm p-4 rounded-sm">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6 bg-[#050505]/80 backdrop-blur-md p-4 rounded-sm">
             <div>
               <div className="flex items-center gap-2 text-[#4DEEEA] font-mono text-xs uppercase tracking-wider font-semibold mb-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#4DEEEA]" />
@@ -296,192 +308,89 @@ export default function PortfolioPage() {
             <span className="font-mono text-xs text-white/50">AWS // EKS // LANGGRAPH // SERVERLESS</span>
           </div>
 
-          <div className="space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Project 1: HostelHub */}
-            <div className="border border-white/10 bg-[#0A0A0A]/85 backdrop-blur-md p-8 md:p-10 rounded-sm hover:border-[#B4F342] transition-colors shadow-2xl">
-              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-white/10">
-                <div>
-                  <div className="flex items-center gap-3">
-                    <span className="bg-[#B4F342] text-black font-mono text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider">
-                      EKS + KUBERNETES + JENKINS
-                    </span>
-                    <span className="font-mono text-xs text-white/50">Jan 2026 – Mar 2026</span>
-                  </div>
-                  <h3 className="text-2xl sm:text-3xl font-bold text-white mt-2">
-                    HostelHub — Cloud-Native Hostel Management Platform
-                  </h3>
-                </div>
+            <ProjectCardSync
+              id="project-hostelhub"
+              tag="EKS + KUBERNETES + JENKINS"
+              year="2026"
+              title="HostelHub"
+              description="Cloud-native hostel management platform with a decoupled React frontend hosted on Amazon S3 and a Node.js REST API deployed on AWS EKS (Kubernetes), implementing role-based access control."
+              technologies={[
+                "AWS EKS",
+                "Kubernetes",
+                "CloudFront",
+                "S3",
+                "ALB",
+                "Jenkins",
+                "Docker",
+                "React.js",
+                "Node.js",
+                "MongoDB Atlas",
+              ]}
+              githubUrl="https://github.com/kshitijx07/Hostelhub"
+              demoUrl="https://hostelhub-ruby.vercel.app"
+              bullets={[
+                "Designed unified AWS CloudFront distribution routing traffic through OAC-secured S3 and an NGINX Ingress-backed ALB, eliminating CORS overhead.",
+                "Containerized backend with Docker multi-stage builds and configured HPA auto-scaling (2 to 5 replicas at >70% CPU) for zero-downtime rolling updates.",
+                "Engineered split Jenkins CI/CD pipeline covering S3 sync, CloudFront invalidation, DockerHub builds, and kubectl rollouts.",
+                "Secured workloads with Kubernetes Secrets for MongoDB Atlas, Cloudinary, and JWT with CloudFront OAC private bucket policies.",
+              ]}
+            />
 
-                <div className="flex items-center gap-3">
-                  <a
-                    href="https://github.com/kshitijx07/Hostelhub"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white font-mono text-xs font-bold uppercase rounded-sm flex items-center gap-2 transition-colors"
-                  >
-                    <FiGithub size={14} />
-                    <span>GitHub</span>
-                  </a>
-                  <a
-                    href="https://hostelhub-ruby.vercel.app"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="px-4 py-2 bg-[#B4F342] text-black hover:bg-white font-mono text-xs font-bold uppercase rounded-sm flex items-center gap-2 transition-colors"
-                  >
-                    <span>Live Demo</span>
-                    <ArrowUpRight size={14} />
-                  </a>
-                </div>
-              </div>
+            {/* Project 2: DSA Swarm AI */}
+            <ProjectCardSync
+              id="project-dsa-swarm"
+              tag="LANGGRAPH + MCP + PINECONE RAG"
+              year="2026"
+              title="DSA Swarm AI"
+              bannerText="npx @kshitij/dsa-swarm-ai"
+              bgColor="bg-[#0D0D0D]"
+              description="Distributed Multi-Agent RAG Swarm and Model Context Protocol (MCP) Server using LangGraph, Google Gemini 2.5 Flash, and Pinecone (768-dim vector store) on AWS EKS."
+              technologies={[
+                "AWS EKS",
+                "Kubernetes",
+                "Terraform",
+                "CloudFront",
+                "LangGraph",
+                "MCP Server",
+                "Pinecone",
+                "Docker",
+                "GitHub Actions",
+              ]}
+              githubUrl="https://github.com/kshitijx07"
+              bullets={[
+                "Autonomous Supervisor routing with sub-second retrieval across complex Data Structure and Algorithm queries.",
+                "Provisioned cloud-native AWS EKS infrastructure via Terraform (IaC) with unprivileged Docker containers (UID 10001) behind ALB and CloudFront.",
+                "Engineered 4-key API rotation pool and exponential backoff for Gemini 2.5 Flash LLM endpoints, multiplying throughput from 15 RPM to 60 RPM.",
+                "Optimized RAG vector search with custom 768-dim Gemini embeddings and Pinecone cosine similarity (topK=6).",
+              ]}
+            />
 
-              <div className="space-y-4 pt-6">
-                <ul className="space-y-3 text-sm text-zinc-300 leading-relaxed">
-                  <li className="flex items-start gap-2">
-                    <span className="text-[#B4F342] mt-1">▹</span>
-                    <span>Built a cloud-native hostel management platform with a decoupled React frontend hosted on Amazon S3 and a Node.js REST API deployed on AWS EKS (Kubernetes), implementing role-based access control for students and administrators.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-[#B4F342] mt-1">▹</span>
-                    <span>Designed a unified AWS CloudFront distribution routing static and API traffic through OAC-secured S3 and an NGINX Ingress-backed ALB, eliminating CORS overhead and unifying all traffic under a single origin.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-[#B4F342] mt-1">▹</span>
-                    <span>Containerized the backend with Docker multi-stage builds and configured a Horizontal Pod Autoscaler that scales replicas from 2 to 5 when CPU utilization exceeds 70%, enabling zero-downtime rolling updates.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-[#B4F342] mt-1">▹</span>
-                    <span>Engineered a split Jenkins CI/CD pipeline covering the full deployment cycle: frontend pipeline runs npm build with S3 sync and CloudFront cache invalidation; backend builds Docker images to DockerHub and triggers kubectl rollout.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-[#B4F342] mt-1">▹</span>
-                    <span>Secured workloads with Kubernetes Secrets for MongoDB Atlas, Cloudinary, and JWT, and enforced private S3 access through a CloudFront OAC policy, removing public bucket exposure entirely.</span>
-                  </li>
-                </ul>
-
-                <div className="flex flex-wrap gap-2 pt-4 border-t border-white/10 font-mono text-xs">
-                  {["AWS EKS", "Kubernetes", "CloudFront", "S3", "ALB", "Jenkins", "Docker", "React.js", "Node.js", "MongoDB Atlas"].map((tech) => (
-                    <span key={tech} className="bg-white/5 border border-white/10 px-2.5 py-1 text-white/80 rounded-sm">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Project 2: Serverless AI X-Ray Analyzer */}
-            <div className="border border-white/10 bg-[#0A0A0A]/85 backdrop-blur-md p-8 md:p-10 rounded-sm hover:border-[#FF3E1D] transition-colors shadow-2xl">
-              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-white/10">
-                <div>
-                  <div className="flex items-center gap-3">
-                    <span className="bg-[#FF3E1D] text-black font-mono text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider">
-                      AWS LAMBDA + TERRAFORM + MOBILENET
-                    </span>
-                    <span className="font-mono text-xs text-white/50">Apr 2026 – May 2026 (Independent Project)</span>
-                  </div>
-                  <h3 className="text-2xl sm:text-3xl font-bold text-white mt-2">
-                    Serverless AI X-Ray Analyzer
-                  </h3>
-                </div>
-
-                <a
-                  href="https://github.com/kshitijx07/serverless-ai-xray"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white font-mono text-xs font-bold uppercase rounded-sm flex items-center gap-2 transition-colors w-fit"
-                >
-                  <FiGithub size={14} />
-                  <span>GitHub</span>
-                </a>
-              </div>
-
-              <div className="space-y-4 pt-6">
-                <ul className="space-y-3 text-sm text-zinc-300 leading-relaxed">
-                  <li className="flex items-start gap-2">
-                    <span className="text-[#FF3E1D] mt-1">▹</span>
-                    <span>Engineered a serverless, event-driven medical imaging platform on AWS that uses a pre-trained MobileNet TFLite model to classify chest X-rays in under 1 second at zero idle cost.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-[#FF3E1D] mt-1">▹</span>
-                    <span>Deployed a secure three-Lambda backend behind API Gateway with CORS enforcement and per-second request throttling to reduce DDoS exposure.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-[#FF3E1D] mt-1">▹</span>
-                    <span>Streamlined uploads with an S3 presigned URL flow sending images directly from the browser to S3, increasing the effective upload limit 5x (10 MB to 50 MB) while bypassing the API Gateway payload cap.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-[#FF3E1D] mt-1">▹</span>
-                    <span>Automated infrastructure for all three Lambda functions using modular Terraform and a GitHub Actions pipeline with real-time DynamoDB polling streaming AI confidence scores.</span>
-                  </li>
-                </ul>
-
-                <div className="flex flex-wrap gap-2 pt-4 border-t border-white/10 font-mono text-xs">
-                  {["AWS Lambda", "Terraform", "GitHub Actions", "API Gateway", "S3", "DynamoDB", "MobileNet TFLite"].map((tech) => (
-                    <span key={tech} className="bg-white/5 border border-white/10 px-2.5 py-1 text-white/80 rounded-sm">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Project 3: DSA Swarm AI */}
-            <div className="border border-white/10 bg-[#0A0A0A]/85 backdrop-blur-md p-8 md:p-10 rounded-sm hover:border-[#4DEEEA] transition-colors shadow-2xl">
-              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-white/10">
-                <div>
-                  <div className="flex items-center gap-3">
-                    <span className="bg-[#4DEEEA] text-black font-mono text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider">
-                      LANGGRAPH + MCP + PINECONE RAG
-                    </span>
-                    <span className="font-mono text-xs text-white/50">2026</span>
-                  </div>
-                  <h3 className="text-2xl sm:text-3xl font-bold text-white mt-2">
-                    DSA Swarm AI — Distributed Multi-Agent RAG on AWS EKS
-                  </h3>
-                </div>
-
-                <a
-                  href="https://github.com/kshitijx07"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white font-mono text-xs font-bold uppercase rounded-sm flex items-center gap-2 transition-colors w-fit"
-                >
-                  <FiGithub size={14} />
-                  <span>GitHub</span>
-                </a>
-              </div>
-
-              <div className="space-y-4 pt-6">
-                <ul className="space-y-3 text-sm text-zinc-300 leading-relaxed">
-                  <li className="flex items-start gap-2">
-                    <span className="text-[#4DEEEA] mt-1">▹</span>
-                    <span>Architected a distributed Multi-Agent RAG Swarm and Model Context Protocol (MCP) Server using LangGraph, Google Gemini 2.5 Flash, and Pinecone (768-dim vector store), processing complex Data Structure and Algorithm queries with autonomous Supervisor routing and sub-second retrieval.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-[#4DEEEA] mt-1">▹</span>
-                    <span>Provisioned cloud-native AWS EKS infrastructure via Terraform (IaC), deploying multi-stage unprivileged Docker containers (UID 10001) behind an AWS ALB and CloudFront CDN, achieving &lt;6s end-to-end latency and 0% CORS overhead.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-[#4DEEEA] mt-1">▹</span>
-                    <span>Engineered a 4-key API rotation pool and exponential backoff strategy for Gemini 2.5 Flash LLM endpoints, multiplying throughput from 15 RPM to 60 RPM (4x quota expansion) and eliminating HTTP 429 errors.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-[#4DEEEA] mt-1">▹</span>
-                    <span>Optimized RAG vector search and LLM latency with custom 768-dim Gemini embeddings, Pinecone cosine similarity (topK=6), and capped token generation (maxOutputTokens: 1200) to eliminate CloudFront 504 timeouts.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-[#4DEEEA] mt-1">▹</span>
-                    <span>Secured workloads and automated GitOps CI/CD by enforcing cross-Security Group ingress rules between ALB and EKS worker nodes, Kubernetes Secrets for keys, and automated GitHub Actions CI/CD to Amazon ECR.</span>
-                  </li>
-                </ul>
-
-                <div className="flex flex-wrap gap-2 pt-4 border-t border-white/10 font-mono text-xs">
-                  {["AWS EKS", "Kubernetes", "Terraform", "CloudFront", "LangGraph", "MCP Server", "LangChain", "Pinecone", "RAG", "Docker", "GitHub Actions", "Node.js", "React.js"].map((tech) => (
-                    <span key={tech} className="bg-white/5 border border-white/10 px-2.5 py-1 text-white/80 rounded-sm">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
+            {/* Project 3: Serverless AI X-Ray Analyzer */}
+            <div className="md:col-span-2">
+              <ProjectCardSync
+                id="project-xray"
+                tag="AWS LAMBDA + TERRAFORM + MOBILENET"
+                year="2026"
+                title="Serverless AI X-Ray Analyzer"
+                description="Serverless, event-driven medical imaging platform on AWS using a pre-trained MobileNet TFLite model to classify chest X-rays in under 1 second at zero idle cost."
+                technologies={[
+                  "AWS Lambda",
+                  "Terraform",
+                  "GitHub Actions",
+                  "API Gateway",
+                  "S3",
+                  "DynamoDB",
+                  "MobileNet TFLite",
+                ]}
+                githubUrl="https://github.com/kshitijx07/serverless-ai-xray"
+                bullets={[
+                  "Deployed secure 3-Lambda backend behind API Gateway with CORS enforcement and per-second request throttling.",
+                  "Streamlined S3 presigned URL direct upload flow increasing upload limits 5x (10 MB to 50 MB) while bypassing API Gateway payload caps.",
+                  "Automated infrastructure using modular Terraform and GitHub Actions with real-time DynamoDB polling streaming AI confidence scores.",
+                ]}
+              />
             </div>
           </div>
         </div>
