@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { Sparkles, Globe2 } from "lucide-react";
-import PinterestCardWrapper from "@/components/ui/PinterestCardWrapper";
+import { Globe2 } from "lucide-react";
 
 interface SkillNode {
   name: string;
@@ -145,20 +144,21 @@ export default function Skills3DSphere() {
   };
 
   return (
-    <PinterestCardWrapper stampText="SPHERE // 3D_NODES">
-      <div className="w-full flex flex-col justify-between" data-cursor="Spin 3D">
-        <div className="flex items-center justify-between gap-4 mb-4 pb-3 border-b border-[#E8E3DA] dark:border-[#2E2C29]">
+    <section className="py-16 border-t border-[var(--border-color)]">
+      <div className="w-full border border-[var(--border-color)] bg-[var(--bg-surface)] p-6 md:p-8 flex flex-col justify-between" data-cursor="Spin 3D">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4 pb-3 border-b border-[var(--border-color)]">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <h3 className="text-2xl font-editorial font-bold text-[#1A1918] dark:text-[#FAF9F7]">
+              <span className="w-2 h-2 bg-[var(--accent-acid)]" />
+              <h3 className="text-2xl md:text-3xl font-display font-extrabold text-[var(--text-primary)] uppercase tracking-tight">
                 Technical Skill Constellation
               </h3>
-              <span className="y2k-pill text-[10px] text-[#C86D51] dark:text-[#E07A5F]">
-                <Globe2 size={11} className="text-[#C86D51] dark:text-[#E07A5F]" />
+              <span className="hud-tag hud-tag-acid text-[9px]">
+                <Globe2 size={11} />
                 <span>Fibonacci 3D</span>
               </span>
             </div>
-            <p className="text-xs text-[#5C5955] dark:text-[#A3A098] font-mono">
+            <p className="text-xs text-[var(--text-secondary)] font-mono">
               Drag or spin the 3D constellation sphere to explore cloud, DevOps & full-stack competencies
             </p>
           </div>
@@ -171,11 +171,11 @@ export default function Skills3DSphere() {
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}
-          className="relative w-full h-[360px] md:h-[420px] rounded-3xl bg-white/40 dark:bg-[#141312] border border-white/80 dark:border-white/10 overflow-hidden cursor-grab active:cursor-grabbing flex items-center justify-center shadow-xl select-none glass-specular-edge"
+          className="relative w-full h-[360px] md:h-[420px] bg-[var(--bg-primary)] border border-[var(--border-color)] overflow-hidden cursor-grab active:cursor-grabbing flex items-center justify-center select-none"
         >
-          {/* Ethereal Orbit Rings */}
-          <div className="absolute w-[280px] h-[280px] md:w-[340px] md:h-[340px] rounded-full border border-[#00D2FF]/20 pointer-events-none -rotate-12 animate-pulse" />
-          <div className="absolute w-[260px] h-[260px] md:w-[320px] md:h-[320px] rounded-full border border-[#C86D51]/25 dark:border-[#E07A5F]/25 pointer-events-none rotate-45" />
+          {/* Technical Orbit Rings */}
+          <div className="absolute w-[280px] h-[280px] md:w-[340px] md:h-[340px] rounded-full border border-[var(--border-color)] pointer-events-none -rotate-12" />
+          <div className="absolute w-[260px] h-[260px] md:w-[320px] md:h-[320px] rounded-full border border-[var(--accent-acid)]/25 pointer-events-none rotate-45" />
 
           {/* Render 3D Skill Pills */}
           {nodes.map((node, i) => (
@@ -188,15 +188,14 @@ export default function Skills3DSphere() {
               }}
               className="absolute pointer-events-none transition-transform duration-75"
             >
-              <div className="px-3.5 py-1.5 rounded-2xl bg-white/90 dark:bg-[#201E1B]/90 border border-white/80 dark:border-white/10 text-xs font-mono font-bold text-[#1A1918] dark:text-[#FAF9F7] shadow-lg whitespace-nowrap flex items-center gap-1.5 backdrop-blur-md">
-                <span className="w-2 h-2 rounded-full bg-[#C86D51] dark:bg-[#E07A5F]" />
+              <div className="px-3 py-1 bg-[var(--bg-surface)] border border-[var(--border-color)] text-xs font-mono font-bold text-[var(--text-primary)] shadow-md whitespace-nowrap flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 bg-[var(--accent-acid)]" />
                 <span>{node.name}</span>
               </div>
             </div>
           ))}
         </div>
       </div>
-    </PinterestCardWrapper>
+    </section>
   );
 }
-

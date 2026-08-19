@@ -1,22 +1,24 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
-// Bento Instrument Panel Modules
-import HeroIdentityPanel from "@/components/bento/HeroIdentityPanel";
+// Technical UI & HUD Framework
+import TechnicalHeader from "@/components/ui/TechnicalHeader";
+import TechnicalHUDBar from "@/components/ui/TechnicalHUDBar";
+import TechnicalGridShell from "@/components/ui/TechnicalGridShell";
+
+// Sections & Modules
+import TechnicalHeroSection from "@/components/sections/TechnicalHeroSection";
+import EditorialProjectsSection from "@/components/sections/EditorialProjectsSection";
+import RetroPixelGameRoom from "@/components/bento/RetroPixelGameRoom";
 import PlatformUpdatesModule from "@/components/bento/PlatformUpdatesModule";
 import AboutEducationModule from "@/components/bento/AboutEducationModule";
 import KeyMilestonesModule from "@/components/bento/KeyMilestonesModule";
-import WorksCarouselModule from "@/components/bento/WorksCarouselModule";
-import RetroPixelGameRoom from "@/components/bento/RetroPixelGameRoom";
 import CodingProfilesBento from "@/components/bento/CodingProfilesBento";
+import Skills3DSphere from "@/components/ui/Skills3DSphere";
 import ExperienceTimelineModule from "@/components/bento/ExperienceTimelineModule";
 import ContactResumePanel from "@/components/bento/ContactResumePanel";
-
-// 3D & UI Components
-import Parallax3DBackground from "@/components/ui/Parallax3DBackground";
-import Skills3DSphere from "@/components/ui/Skills3DSphere";
 import CaseStudyModal, { ProjectData } from "@/components/modals/CaseStudyModal";
 
 const projectsData: ProjectData[] = [
@@ -87,122 +89,72 @@ const projectsData: ProjectData[] = [
 
 export default function Home() {
   const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
+  const [soundEnabled, setSoundEnabled] = useState(false);
+
+  const toggleSound = () => {
+    setSoundEnabled(!soundEnabled);
+  };
 
   return (
-    <main className="min-h-screen px-4 md:px-10 py-10 max-w-[1500px] mx-auto space-y-8 relative z-10">
-      {/* 3D Ambient Parallax Background */}
-      <Parallax3DBackground />
+    <div className="relative min-h-screen pb-16">
+      {/* 12-Column Persistent Structural Grid & Crosshairs */}
+      <TechnicalGridShell />
 
-      {/* IDENTITY CONTROL PANEL (Full-Width Top Card) */}
-      <motion.section
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className="w-full"
-      >
-        <HeroIdentityPanel />
-      </motion.section>
+      {/* Fixed Monospace Navigation Header */}
+      <TechnicalHeader
+        soundEnabled={soundEnabled}
+        onToggleSound={toggleSound}
+      />
 
-      {/* PLATFORM LIVE UPDATES CARD (Placed directly below Hero Identity Card) */}
-      <motion.section
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className="w-full"
-      >
-        <PlatformUpdatesModule />
-      </motion.section>
+      {/* Main Editorial Content Flow */}
+      <main className="max-w-[1500px] mx-auto px-4 md:px-8 relative z-10 space-y-4">
+        {/* 1. HERO SECTION */}
+        <TechnicalHeroSection />
 
-      {/* ABOUT & MILESTONES (Bento Row) */}
-      <motion.section
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch"
-      >
-        <AboutEducationModule />
-        <KeyMilestonesModule />
-      </motion.section>
-
-      {/* RECENT WORKS CAROUSEL */}
-      <motion.section
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className="w-full"
-      >
-        <WorksCarouselModule
+        {/* 2. SELECTED WORK / EDITORIAL CASE STUDIES */}
+        <EditorialProjectsSection
           projects={projectsData}
           onOpenCaseStudy={setSelectedProject}
         />
-      </motion.section>
 
-      {/* RETRO PIXEL DEVELOPER ROOM (Playable 2D Game World) */}
-      <motion.section
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className="w-full"
-      >
+        {/* 3. PLAYABLE RETRO PIXEL DEVELOPER ROOM */}
         <RetroPixelGameRoom
           projects={projectsData}
           onOpenCaseStudy={setSelectedProject}
         />
-      </motion.section>
 
-      {/* CODING PROFILES (Elevated Bento Tiles) */}
-      <motion.section
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className="w-full"
-      >
+        {/* 4. LIVE PLATFORM TELEMETRY DECK */}
+        <PlatformUpdatesModule />
+
+        {/* 5. ACADEMIC FOUNDATION & HONORS */}
+        <section id="about" className="py-16 border-t border-[var(--border-color)]">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+            <AboutEducationModule />
+            <KeyMilestonesModule />
+          </div>
+        </section>
+
+        {/* 6. CODING PROFILES & TELEMETRY */}
         <CodingProfilesBento />
-      </motion.section>
 
-      {/* SKILLS SYSTEM (Interactive 3D Constellation Sphere) */}
-      <motion.section
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className="w-full"
-      >
+        {/* 7. TECHNICAL SKILL CONSTELLATION (FIBONACCI 3D SPHERE) */}
         <Skills3DSphere />
-      </motion.section>
 
-      {/* CAREER TIMELINE */}
-      <motion.section
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className="w-full"
-      >
+        {/* 8. PROFESSIONAL TIMELINE */}
         <ExperienceTimelineModule />
-      </motion.section>
 
-      {/* CONTACT & RESUME CONTROL PANEL */}
-      <motion.section
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className="w-full"
-      >
+        {/* 9. ENCRYPTED TRANSMISSION & RESUME */}
         <ContactResumePanel />
-      </motion.section>
+      </main>
 
-      {/* Case Study Modal */}
+      {/* Persistent Bottom Technical HUD Telemetry Bar */}
+      <TechnicalHUDBar />
+
+      {/* Deep Case Study Modal */}
       <CaseStudyModal
         project={selectedProject}
         onClose={() => setSelectedProject(null)}
       />
-    </main>
+    </div>
   );
 }

@@ -189,22 +189,22 @@ export default function PlatformUpdatesModule() {
   };
 
   return (
-    <PinterestCardWrapper stampText="DECK // 3D_MESH">
-      <div className="w-full overflow-hidden" data-cursor="3D Deck">
+    <section id="stats" className="py-16 border-t border-[var(--border-color)]">
+      <div className="w-full border border-[var(--border-color)] bg-[var(--bg-surface)] p-6 md:p-8" data-cursor="3D Deck">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-[#E8E3DA] dark:border-[#2E2C29]">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-[var(--border-color)]">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <h3 className="text-2xl font-editorial font-bold text-[#1A1918] dark:text-[#FAF9F7]">
-                Live Activity & Platform Deck
+              <span className="w-2 h-2 bg-[var(--accent-acid)]" />
+              <h3 className="text-2xl md:text-3xl font-display font-extrabold text-[var(--text-primary)] uppercase tracking-tight">
+                Live Activity & Platform Telemetry
               </h3>
-              <span className="y2k-pill text-[10px] text-[#C86D51] dark:text-[#E07A5F]">
-                <Sparkles size={11} className="animate-pulse text-[#00D2FF]" />
+              <span className="hud-tag hud-tag-acid text-[9px]">
                 <span>3D Spatial Deck</span>
               </span>
             </div>
-            <p className="text-xs text-[#5C5955] dark:text-[#A3A098] font-mono">
-              Click cards or use directional triggers to cycle spatial depth layers
+            <p className="text-xs text-[var(--text-secondary)] font-mono">
+              Real-time synchronization across LinkedIn, LeetCode (257+ solved), GitHub & Codeforces
             </p>
           </div>
 
@@ -212,17 +212,17 @@ export default function PlatformUpdatesModule() {
           <div className="flex items-center gap-2">
             <button
               onClick={handlePrev}
-              className="w-9 h-9 rounded-2xl bg-white/60 dark:bg-white/5 hover:bg-[#C86D51] dark:hover:bg-[#E07A5F] hover:text-white dark:hover:text-white border border-white/80 dark:border-white/10 flex items-center justify-center transition-all text-[#1A1918] dark:text-[#FAF9F7] active:scale-90 shadow-sm"
+              className="hud-btn p-2"
               title="Previous Layer"
             >
-              <ChevronLeft size={18} />
+              <ChevronLeft size={16} />
             </button>
             <button
               onClick={handleNext}
-              className="w-9 h-9 rounded-2xl bg-white/60 dark:bg-white/5 hover:bg-[#C86D51] dark:hover:bg-[#E07A5F] hover:text-white dark:hover:text-white border border-white/80 dark:border-white/10 flex items-center justify-center transition-all text-[#1A1918] dark:text-[#FAF9F7] active:scale-90 shadow-sm"
+              className="hud-btn p-2"
               title="Next Layer"
             >
-              <ChevronRight size={18} />
+              <ChevronRight size={16} />
             </button>
           </div>
         </div>
@@ -247,10 +247,10 @@ export default function PlatformUpdatesModule() {
                 }}
                 transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                 style={{ zIndex: cardStyle.zIndex }}
-                className={`absolute w-[90%] sm:w-[72%] md:w-[480px] p-6 md:p-7 rounded-3xl backdrop-blur-xl border cursor-pointer transition-all duration-300 shadow-2xl flex flex-col justify-between h-[270px] glass-specular-edge ${
+                className={`absolute w-[92%] sm:w-[75%] md:w-[490px] p-6 md:p-7 border cursor-pointer transition-all duration-300 shadow-xl flex flex-col justify-between h-[270px] ${
                   isActive
-                    ? "bg-white/90 dark:bg-[#201E1B]/90 border-[#C86D51] dark:border-[#E07A5F] shadow-[0_16px_40px_rgba(200,109,81,0.18)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
-                    : "bg-white/60 dark:bg-[#181615]/60 border-white/60 dark:border-white/10 hover:border-[#C86D51]/50"
+                    ? "bg-[var(--bg-surface)] border-[var(--accent-acid)] shadow-[0_12px_32px_rgba(183,255,0,0.15)]"
+                    : "bg-[var(--bg-primary)] border-[var(--border-color)] hover:border-[var(--accent-acid)]/50"
                 }`}
               >
                 <div>
@@ -258,44 +258,44 @@ export default function PlatformUpdatesModule() {
                   <div className="flex items-center justify-between gap-3 mb-3">
                     <div className="flex items-center gap-3">
                       <div
-                        className="w-10 h-10 rounded-2xl flex items-center justify-center text-white shadow-md"
-                        style={{ backgroundColor: card.color }}
+                        className="w-9 h-9 flex items-center justify-center text-[#050505] font-mono font-bold text-xs"
+                        style={{ backgroundColor: card.color === "#0A66C2" ? "var(--accent-blue)" : "var(--accent-acid)" }}
                       >
                         <card.icon size={18} />
                       </div>
                       <div>
-                        <span className="font-mono text-xs font-bold text-[#1A1918] dark:text-[#FAF9F7] block">
+                        <span className="font-mono text-xs font-bold text-[var(--text-primary)] block">
                           {card.title}
                         </span>
-                        <span className="text-[11px] font-mono text-[#5C5955] dark:text-[#A3A098]">
+                        <span className="text-[11px] font-mono text-[var(--text-muted)]">
                           {card.metaRight}
                         </span>
                       </div>
                     </div>
 
-                    <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold ${card.badgeBg} ${card.badgeText}`}>
+                    <span className="hud-tag text-[9px] font-mono">
                       {card.tag}
                     </span>
                   </div>
 
                   {/* Card Subtitle */}
-                  <h4 className="text-lg font-editorial font-bold text-[#1A1918] dark:text-[#FAF9F7] mb-2">
+                  <h4 className="text-lg font-display font-bold text-[var(--text-primary)] uppercase mb-2">
                     {card.subtitle}
                   </h4>
 
                   {/* Card Main Content */}
-                  <div className="mb-4">{card.content}</div>
+                  <div className="mb-4 font-sans text-xs text-[var(--text-secondary)]">{card.content}</div>
                 </div>
 
                 {/* Card Footer */}
-                <div className="pt-3 border-t border-[#E8E3DA] dark:border-[#2E2C29] flex items-center justify-between font-mono text-xs text-[#5C5955] dark:text-[#A3A098]">
+                <div className="pt-3 border-t border-[var(--border-color)] flex items-center justify-between font-mono text-xs text-[var(--text-muted)]">
                   <span>{card.metaLeft}</span>
                   <a
                     href={card.link}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="inline-flex items-center gap-1 font-bold hover:text-[#C86D51] dark:hover:text-[#E07A5F] transition-colors"
+                    className="inline-flex items-center gap-1 font-bold text-[var(--text-primary)] hover:text-[var(--accent-acid)] transition-colors"
                   >
                     <span>{card.linkText}</span>
                     <ExternalLink size={13} />
@@ -306,23 +306,23 @@ export default function PlatformUpdatesModule() {
           })}
         </div>
 
-        {/* Deck Navigation Indicator Dots */}
+        {/* Deck Navigation Indicator Rectangles */}
         <div className="flex items-center justify-center gap-2 mt-4">
           {cards.map((card, idx) => (
             <button
               key={card.id}
               onClick={() => setActiveIndex(idx)}
-              className={`h-2 rounded-full transition-all duration-300 ${
+              className={`h-1.5 transition-all duration-300 cursor-pointer ${
                 activeIndex === idx
-                  ? "w-8 bg-[#C86D51] dark:bg-[#E07A5F]"
-                  : "w-2 bg-[#EFECE6] dark:bg-[#2A2825] hover:bg-[#C86D51]"
+                  ? "w-8 bg-[var(--accent-acid)]"
+                  : "w-2 bg-[var(--border-color)] hover:bg-[var(--accent-acid)]"
               }`}
               title={`Switch to ${card.title}`}
             />
           ))}
         </div>
       </div>
-    </PinterestCardWrapper>
+    </section>
   );
 }
 

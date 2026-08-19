@@ -45,11 +45,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${newsreader.variable} ${plusJakartaSans.variable} ${jetbrainsMono.variable}`}>
-      <body className="bg-[var(--bg-primary)] text-[var(--text-primary)] selection:bg-[#C86D51] selection:text-white min-h-screen antialiased relative transition-colors duration-400">
-        <Editorial3DBackground />
+      <body className="bg-[var(--bg-primary)] text-[var(--text-primary)] selection:bg-[var(--accent-acid)] selection:text-[#050505] min-h-screen antialiased relative transition-colors duration-300">
         <NoiseOverlay />
         <CustomCursor />
-        <ThemeToggle />
         <SmoothScrollProvider>
           <div className="relative z-10">{children}</div>
         </SmoothScrollProvider>

@@ -1,9 +1,7 @@
 "use client";
 
 import React from "react";
-import { Briefcase, Calendar, CheckCircle2, Sparkles } from "lucide-react";
-import AnimatedThreadLine from "@/components/ui/AnimatedThreadLine";
-import PinterestCardWrapper from "@/components/ui/PinterestCardWrapper";
+import { Briefcase, Calendar, CheckCircle2 } from "lucide-react";
 
 const experiences = [
   {
@@ -34,68 +32,65 @@ const experiences = [
 
 export default function ExperienceTimelineModule() {
   return (
-    <PinterestCardWrapper stampText="CAREER // TIMELINE">
-      <div className="w-full overflow-hidden" data-cursor="Timeline">
-        <div className="flex items-center justify-between gap-4 mb-6 pb-4 border-b border-[#E8E3DA] dark:border-[#2E2C29]">
+    <section className="py-16 border-t border-[var(--border-color)]">
+      <div className="w-full border border-[var(--border-color)] bg-[var(--bg-surface)] p-6 md:p-8 space-y-6" data-cursor="Timeline">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[var(--border-color)]">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#2D4030] to-[#4E6E52] text-white flex items-center justify-center shadow-md">
-              <Briefcase size={20} />
+            <div className="w-9 h-9 bg-[var(--accent-acid)] text-[#050505] flex items-center justify-center font-bold">
+              <Briefcase size={18} />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-2xl font-editorial font-bold text-[#1A1918] dark:text-[#FAF9F7]">
+                <h3 className="text-2xl md:text-3xl font-display font-extrabold text-[var(--text-primary)] uppercase tracking-tight">
                   Professional Engineering Timeline
                 </h3>
-                <span className="y2k-pill text-[10px] text-[#00E676]">
-                  <Sparkles size={11} className="animate-pulse" />
-                  <span>2 Industry Roles</span>
+                <span className="hud-tag hud-tag-acid text-[9px]">
+                  <span>2 Roles</span>
                 </span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Timeline with Thread Line */}
-        <div className="relative pl-8 md:pl-10 space-y-8">
-          <AnimatedThreadLine />
-
+        {/* Timeline Items */}
+        <div className="space-y-6">
           {experiences.map((exp, idx) => (
-            <div key={idx} className="relative z-10">
-              <div className="absolute -left-[35px] md:-left-[43px] top-2 w-4 h-4 rounded-full bg-[#C86D51] dark:bg-[#E07A5F] border-2 border-white dark:border-[#1C1B19] shadow-md z-10 animate-pulse" />
+            <div
+              key={idx}
+              className="p-6 bg-[var(--bg-primary)] border border-[var(--border-color)] hover:border-[var(--accent-acid)] transition-colors space-y-4"
+            >
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <span className="hud-tag hud-tag-acid text-[10px]">
+                  {exp.tag}
+                </span>
+                <span className="text-xs text-[var(--text-muted)] font-mono flex items-center gap-1.5 font-bold">
+                  <Calendar size={13} className="text-[var(--accent-acid)]" />
+                  {exp.duration}
+                </span>
+              </div>
 
-              <div className="bg-white/60 dark:bg-white/5 backdrop-blur-md p-5 md:p-6 rounded-3xl border border-white/80 dark:border-white/10 shadow-sm hover:border-[#C86D51] dark:hover:border-[#E07A5F] hover:shadow-md transition-all duration-300 glass-specular-edge">
-                <div className="flex flex-wrap items-center justify-between gap-2 mb-2.5">
-                  <span className="px-3 py-1 rounded-full bg-[#C86D51]/10 dark:bg-[#E07A5F]/20 text-[#C86D51] dark:text-[#E07A5F] text-xs font-mono font-bold">
-                    {exp.tag}
-                  </span>
-                  <span className="text-xs text-[#5C5955] dark:text-[#A3A098] font-mono flex items-center gap-1.5 font-semibold">
-                    <Calendar size={13} className="text-[#00D2FF]" />
-                    {exp.duration}
-                  </span>
-                </div>
-
-                <h4 className="text-xl font-editorial font-bold text-[#1A1918] dark:text-[#FAF9F7] mb-0.5">
+              <div>
+                <h4 className="text-xl font-display font-extrabold text-[var(--text-primary)] uppercase">
                   {exp.role}
                 </h4>
-                <p className="text-xs md:text-sm font-semibold text-[#00E676] dark:text-[#00E676] mb-3 flex items-center gap-1.5 font-mono">
+                <p className="text-xs md:text-sm font-semibold text-[var(--accent-acid)] font-mono mt-0.5">
                   <span>{exp.company}</span>
-                  <span className="text-[#5C5955] dark:text-[#A3A098] font-normal">• {exp.location}</span>
+                  <span className="text-[var(--text-muted)] font-normal"> • {exp.location}</span>
                 </p>
-
-                <ul className="space-y-2 mt-3">
-                  {exp.points.map((pt, pIdx) => (
-                    <li key={pIdx} className="flex items-start gap-2.5 text-xs md:text-sm text-[#2B2A29] dark:text-[#FAF9F7] leading-relaxed">
-                      <CheckCircle2 size={15} className="text-[#C86D51] dark:text-[#E07A5F] mt-0.5 shrink-0" />
-                      <span>{pt}</span>
-                    </li>
-                  ))}
-                </ul>
               </div>
+
+              <ul className="space-y-2 pt-2 border-t border-[var(--border-color)]">
+                {exp.points.map((pt, pIdx) => (
+                  <li key={pIdx} className="flex items-start gap-2.5 text-xs md:text-sm text-[var(--text-secondary)] leading-relaxed font-sans">
+                    <span className="text-[var(--accent-acid)] font-bold mt-0.5">▹</span>
+                    <span>{pt}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           ))}
         </div>
       </div>
-    </PinterestCardWrapper>
+    </section>
   );
 }
-

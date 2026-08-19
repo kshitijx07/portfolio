@@ -48,7 +48,7 @@ export default function CustomCursor() {
 
   return (
     <motion.div
-      className="pointer-events-none fixed top-0 left-0 z-50 flex items-center justify-center rounded-full bg-[#C86D51] text-white font-mono text-[10px] uppercase font-bold tracking-wider shadow-md mix-blend-normal"
+      className="pointer-events-none fixed top-0 left-0 z-50 flex items-center justify-center bg-[var(--accent-acid)] text-[#050505] font-mono text-[9px] uppercase font-extrabold tracking-wider shadow-[0_0_12px_rgba(183,255,0,0.5)]"
       style={{
         x: cursorX,
         y: cursorY,
@@ -56,17 +56,19 @@ export default function CustomCursor() {
         translateY: "-50%",
       }}
       animate={{
-        width: isHovered ? 64 : 14,
-        height: isHovered ? 64 : 14,
-        opacity: 0.85,
+        width: isHovered ? 56 : 8,
+        height: isHovered ? 56 : 8,
+        borderRadius: isHovered ? "4px" : "1px",
+        opacity: isHovered ? 0.95 : 0.75,
       }}
-      transition={{ type: "spring", damping: 22, stiffness: 300 }}
+      transition={{ type: "spring", damping: 24, stiffness: 350 }}
     >
       {isHovered && (
         <motion.span
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.5 }}
+          className="text-center leading-none"
         >
           {cursorLabel}
         </motion.span>

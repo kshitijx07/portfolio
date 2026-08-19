@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Send, FileText, Download, CheckCircle2, Copy, Check, Sparkles, Mail } from "lucide-react";
-import PinterestCardWrapper from "@/components/ui/PinterestCardWrapper";
+import { Send, Download, CheckCircle2, Copy, Check, Mail } from "lucide-react";
 
 export default function ContactResumePanel() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
@@ -29,35 +28,36 @@ export default function ContactResumePanel() {
   };
 
   return (
-    <PinterestCardWrapper stampText="COMM_CHANNEL // ACTIVE">
-      <div className="w-full overflow-hidden" data-cursor="Contact">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8 pt-2">
-          {/* Left: Contact Form */}
-          <div>
-            <div className="flex items-center justify-between gap-4 mb-4">
+    <section id="contact" className="py-16 md:py-24 border-t border-[var(--border-color)]">
+      <div className="w-full border border-[var(--border-color)] bg-[var(--bg-surface)] p-6 md:p-10 space-y-8" data-cursor="Contact">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+          {/* Left: Encrypted Communication Terminal */}
+          <div className="space-y-4">
+            <div className="flex items-center justify-between gap-4 pb-3 border-b border-[var(--border-color)]">
               <div className="flex items-center gap-2">
-                <h3 className="text-2xl font-editorial font-bold text-[#1A1918] dark:text-[#FAF9F7]">
-                  Send a Direct Message
+                <span className="w-2 h-2 bg-[var(--accent-acid)]" />
+                <h3 className="text-xl md:text-2xl font-display font-extrabold text-[var(--text-primary)] uppercase tracking-tight">
+                  Direct Transmission Channel
                 </h3>
-                <span className="y2k-pill text-[10px] text-[#00D2FF]">
-                  <Mail size={11} className="text-[#00D2FF]" />
-                  <span>Encrypted</span>
-                </span>
               </div>
+              <span className="hud-tag hud-tag-acid text-[9px]">
+                <Mail size={11} />
+                <span>Encrypted</span>
+              </span>
             </div>
 
             {submitted ? (
-              <div className="bg-[#E5EDE6] dark:bg-[#1E2A20] p-6 rounded-3xl border border-[#2D4030]/20 dark:border-[#4E6E52]/20 text-center transition-colors">
-                <CheckCircle2 size={32} className="text-[#00E676] mx-auto mb-2 animate-bounce" />
-                <h4 className="text-lg font-editorial font-bold text-[#2D4030] dark:text-[#FAF9F7] mb-1">
+              <div className="p-6 border border-[var(--accent-acid)] bg-[var(--bg-primary)] text-center">
+                <CheckCircle2 size={28} className="text-[var(--accent-acid)] mx-auto mb-2" />
+                <h4 className="text-lg font-display font-bold text-[var(--text-primary)] uppercase mb-1">
                   Transmission Delivered!
                 </h4>
-                <p className="text-xs text-[#2D4030] dark:text-[#A3A098]">
+                <p className="text-xs text-[var(--text-secondary)] font-sans">
                   Thank you for reaching out. Kshitij will get back to you shortly.
                 </p>
                 <button
                   onClick={() => setSubmitted(false)}
-                  className="mt-3 text-xs font-mono underline text-[#2D4030] dark:text-[#E07A5F] cursor-pointer"
+                  className="mt-3 text-xs font-mono underline text-[var(--accent-acid)] cursor-pointer"
                 >
                   Send another message
                 </button>
@@ -70,7 +70,7 @@ export default function ContactResumePanel() {
                   placeholder="Your Full Name"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-4 py-3 rounded-2xl bg-white/60 dark:bg-white/5 border border-white/80 dark:border-white/10 text-xs text-[#1A1918] dark:text-[#FAF9F7] focus:border-[#C86D51] dark:focus:border-[#E07A5F] focus:outline-none transition-all duration-300 font-mono shadow-sm"
+                  className="w-full px-4 py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] focus:border-[var(--accent-acid)] focus:outline-none font-mono"
                 />
                 <input
                   type="email"
@@ -78,7 +78,7 @@ export default function ContactResumePanel() {
                   placeholder="Your Email Address"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-4 py-3 rounded-2xl bg-white/60 dark:bg-white/5 border border-white/80 dark:border-white/10 text-xs text-[#1A1918] dark:text-[#FAF9F7] focus:border-[#C86D51] dark:focus:border-[#E07A5F] focus:outline-none transition-all duration-300 font-mono shadow-sm"
+                  className="w-full px-4 py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] focus:border-[var(--accent-acid)] focus:outline-none font-mono"
                 />
                 <textarea
                   required
@@ -86,79 +86,65 @@ export default function ContactResumePanel() {
                   placeholder="Write your note or engineering inquiry..."
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="w-full px-4 py-3 rounded-2xl bg-white/60 dark:bg-white/5 border border-white/80 dark:border-white/10 text-xs text-[#1A1918] dark:text-[#FAF9F7] focus:border-[#C86D51] dark:focus:border-[#E07A5F] focus:outline-none transition-all duration-300 resize-none font-mono shadow-sm"
+                  className="w-full px-4 py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] focus:border-[var(--accent-acid)] focus:outline-none resize-none font-mono"
                 />
                 <button
                   type="submit"
                   disabled={sending}
-                  className="w-full py-3 rounded-2xl bg-[#C86D51] dark:bg-[#E07A5F] hover:bg-[#1A1918] dark:hover:bg-[#FAF9F7] text-white dark:hover:text-[#1A1918] text-xs font-mono font-bold tracking-wide transition-all duration-300 shadow-md flex items-center justify-center gap-2 active:scale-95 cursor-pointer"
+                  className="hud-btn hud-tag-acid w-full justify-center py-3 font-bold"
                 >
                   <Send size={14} />
-                  <span>{sending ? "Sending..." : "Transmit Message"}</span>
+                  <span>{sending ? "TRANSMITTING..." : "TRANSMIT MESSAGE"}</span>
                 </button>
               </form>
             )}
           </div>
 
-          {/* Right: Direct Details & Downloadable Resume Row */}
-          <div className="flex flex-col justify-between space-y-6 pt-4 lg:pt-0 border-t lg:border-t-0 lg:border-l border-[#E8E3DA] dark:border-[#2E2C29] lg:pl-8">
-            <div>
-              <span className="text-xs font-mono text-[#5C5955] dark:text-[#A3A098] uppercase block mb-3 font-semibold">
-                Direct Recipient Information
-              </span>
-              <div className="space-y-3 font-mono text-xs text-[#1A1918] dark:text-[#FAF9F7]">
-                <div className="p-3.5 rounded-2xl bg-white/60 dark:bg-white/5 border border-white/80 dark:border-white/10 flex items-center justify-between shadow-sm">
-                  <div>
-                    <span className="text-[#5C5955] dark:text-[#A3A098] block text-[10px] font-semibold">EMAIL ADDRESS:</span>
-                    <a href="mailto:kshitijkumbhar007@gmail.com" className="font-bold hover:text-[#C86D51] dark:hover:text-[#E07A5F] transition-colors">
-                      kshitijkumbhar007@gmail.com
-                    </a>
-                  </div>
-                  <button
-                    onClick={handleCopyEmail}
-                    className="p-2 rounded-xl bg-white/80 dark:bg-white/10 hover:bg-[#C86D51] dark:hover:bg-[#E07A5F] hover:text-white transition-colors text-[#5C5955] dark:text-[#A3A098]"
-                    title="Copy Email"
-                  >
-                    {copied ? <Check size={14} className="text-[#00E676]" /> : <Copy size={14} />}
-                  </button>
-                </div>
-
-                <div className="p-3.5 rounded-2xl bg-white/60 dark:bg-white/5 border border-white/80 dark:border-white/10 shadow-sm">
-                  <span className="text-[#5C5955] dark:text-[#A3A098] block text-[10px] font-semibold">LOCATION:</span>
-                  <span className="font-bold">Pune, Maharashtra, 411001, India</span>
-                </div>
+          {/* Right: Quick Telemetry & CV Actions */}
+          <div className="space-y-4">
+            <div className="flex items-center justify-between gap-4 pb-3 border-b border-[var(--border-color)]">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-[var(--accent-acid)]" />
+                <h3 className="text-xl md:text-2xl font-display font-extrabold text-[var(--text-primary)] uppercase tracking-tight">
+                  Verified Coordinates & CV
+                </h3>
               </div>
             </div>
 
-            {/* Resume Download Row with Last Updated Chip */}
-            <div className="p-4 rounded-3xl bg-white/60 dark:bg-white/5 border border-white/80 dark:border-white/10 shadow-sm backdrop-blur-md">
-              <div className="flex items-center justify-between gap-2 mb-3">
-                <div className="flex items-center gap-2">
-                  <FileText size={18} className="text-[#C86D51] dark:text-[#E07A5F]" />
-                  <span className="font-editorial font-bold text-sm text-[#1A1918] dark:text-[#FAF9F7]">Curriculum Vitae</span>
-                </div>
-                <span className="px-2.5 py-0.5 rounded-full bg-[#00E676]/15 text-[#00E676] text-[10px] font-mono font-bold">
-                  Updated July 2026
-                </span>
+            <div className="p-6 bg-[var(--bg-primary)] border border-[var(--border-color)] space-y-4 font-mono text-xs">
+              <div className="flex justify-between items-center pb-3 border-b border-[var(--border-color)]">
+                <span className="text-[var(--text-muted)]">CURRENT LOCATION:</span>
+                <span className="text-[var(--text-primary)] font-bold">PUNE, INDIA (GMT+5:30)</span>
               </div>
+
+              <div className="flex justify-between items-center pb-3 border-b border-[var(--border-color)]">
+                <span className="text-[var(--text-muted)]">EMAIL CHANNEL:</span>
+                <button
+                  onClick={handleCopyEmail}
+                  className="inline-flex items-center gap-1 text-[var(--accent-acid)] hover:underline cursor-pointer font-bold"
+                >
+                  <span>kshitijkumbhar007@gmail.com</span>
+                  {copied ? <Check size={12} /> : <Copy size={12} />}
+                </button>
+              </div>
+
+              <div className="flex justify-between items-center pb-3 border-b border-[var(--border-color)]">
+                <span className="text-[var(--text-muted)]">ACADEMIC STATUS:</span>
+                <span className="text-[var(--text-primary)] font-bold">B.TECH CS (CGPA 8.48/10)</span>
+              </div>
+
               <a
                 href="/Kshitij_Kumbhar_Resume.pdf"
                 download="Kshitij_Kumbhar_Resume.pdf"
-                className="w-full py-2.5 rounded-2xl bg-[#1A1918] dark:bg-[#FAF9F7] hover:bg-[#C86D51] dark:hover:bg-[#E07A5F] text-white dark:text-[#1A1918] dark:hover:text-white text-xs font-mono font-bold transition-all duration-300 shadow-md flex items-center justify-center gap-2 active:scale-95 cursor-pointer"
+                className="hud-btn hud-tag-acid w-full justify-center py-3 font-bold mt-2"
               >
                 <Download size={14} />
-                <span>Download Resume (PDF)</span>
+                <span>DOWNLOAD VERIFIED CV (PDF)</span>
               </a>
             </div>
           </div>
         </div>
-
-        <div className="pt-4 border-t border-[#E8E3DA] dark:border-[#2E2C29] flex items-center justify-between text-xs text-[#5C5955] dark:text-[#A3A098] font-mono">
-          <span>© 2026 Kshitij Kumbhar</span>
-          <span className="text-[#C86D51] dark:text-[#E07A5F] font-bold">Glassmorphism • Pixel Art • Y2K • Ethereal</span>
-        </div>
       </div>
-    </PinterestCardWrapper>
+    </section>
   );
 }
-
