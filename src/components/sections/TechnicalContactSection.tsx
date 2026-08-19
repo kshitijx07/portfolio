@@ -1,8 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { Mail, Phone, ArrowUpRight, Check, Send, Download } from "lucide-react";
+import { Mail, Phone, ArrowUpRight, Send, Download } from "lucide-react";
 import { FiGithub, FiLinkedin } from "react-icons/fi";
+import HyperspaceCanvas from "@/components/ui/HyperspaceCanvas";
+import MagneticButton from "@/components/ui/MagneticButton";
 
 export default function TechnicalContactSection() {
   const [copied, setCopied] = useState<string | null>(null);
@@ -21,7 +23,6 @@ export default function TechnicalContactSection() {
     if (!formState.email || !formState.message) return;
 
     setIsSubmitting(true);
-    // Simulate real network transmission
     setTimeout(() => {
       setIsSubmitting(false);
       setSubmitSuccess(true);
@@ -31,15 +32,18 @@ export default function TechnicalContactSection() {
   };
 
   return (
-    <section id="contact" className="py-20 md:py-28 border-t border-[var(--border-color)]">
-      <div className="w-full border border-[var(--border-color)] bg-[var(--bg-surface)] p-6 md:p-10 space-y-10" data-cursor="Contact">
+    <section id="contact" className="py-20 md:py-28 border-t border-[var(--border-color)] relative overflow-hidden">
+      {/* Scroll-Velocity Reactive Hyperspace Starfield Canvas */}
+      <HyperspaceCanvas />
+
+      <div className="w-full border border-[var(--border-color)] bg-[var(--bg-surface)]/90 backdrop-blur-md p-6 md:p-10 space-y-10 relative z-10" data-cursor="Contact">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-[var(--border-color)]">
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span className="w-2.5 h-2.5 bg-[var(--accent-acid)] shadow-[0_0_8px_rgba(183,255,0,0.6)]" />
               <span className="font-mono text-xs text-[var(--accent-acid)] tracking-wider uppercase font-extrabold">
-                05 // TRANSMISSION CHANNEL
+                05 // TRANSMISSION CHANNEL & HYPERSPACE
               </span>
             </div>
             <h2 className="text-3xl sm:text-5xl md:text-6xl font-display font-extrabold tracking-tight text-[var(--text-primary)] uppercase leading-[0.95]">
@@ -105,14 +109,16 @@ export default function TechnicalContactSection() {
                 />
               </div>
 
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="hud-btn hud-tag-acid w-full justify-center py-3 font-bold text-xs"
-              >
-                <span>{isSubmitting ? "TRANSMITTING PACKET..." : "SEND TRANSMISSION →"}</span>
-                <Send size={14} />
-              </button>
+              <MagneticButton className="w-full">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="hud-btn hud-tag-acid w-full justify-center py-3 font-bold text-xs"
+                >
+                  <span>{isSubmitting ? "TRANSMITTING PACKET..." : "SEND TRANSMISSION →"}</span>
+                  <Send size={14} />
+                </button>
+              </MagneticButton>
 
               {submitSuccess && (
                 <div className="p-3 bg-[var(--accent-acid)]/10 border border-[var(--accent-acid)] text-[var(--accent-acid)] text-center font-bold text-[11px]">
@@ -188,14 +194,16 @@ export default function TechnicalContactSection() {
             </div>
 
             {/* CV Download Button */}
-            <a
-              href="/Kshitij_Kumbhar_Resume.pdf"
-              download="Kshitij_Kumbhar_Resume.pdf"
-              className="hud-btn bg-white/5 hover:bg-white/10 border-white/20 text-white w-full justify-center py-3.5 font-bold"
-            >
-              <span>DOWNLOAD VERIFIED CV (PDF)</span>
-              <Download size={14} />
-            </a>
+            <MagneticButton className="w-full">
+              <a
+                href="/Kshitij_Kumbhar_Resume.pdf"
+                download="Kshitij_Kumbhar_Resume.pdf"
+                className="hud-btn bg-white/5 hover:bg-white/10 border-white/20 text-white w-full justify-center py-3.5 font-bold"
+              >
+                <span>DOWNLOAD VERIFIED CV (PDF)</span>
+                <Download size={14} />
+              </a>
+            </MagneticButton>
           </div>
         </div>
       </div>

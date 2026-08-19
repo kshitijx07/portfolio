@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform, useVelocity, useSpring } from "framer-
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import * as THREE from "three";
 import HeroFloatingArtifacts from "@/components/sections/HeroFloatingArtifacts";
+import MagneticButton from "@/components/ui/MagneticButton";
 
 export default function TechnicalHeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -53,7 +54,7 @@ export default function TechnicalHeroSection() {
     });
     if (containerRef.current) observer.observe(containerRef.current);
 
-    // Three.js Scene Setup for Glossy Liquid Blue Sculpture
+    // Three.js Scene Setup for Glossy Liquid Balloon Sculpture
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
     camera.position.z = 5.2;
@@ -224,9 +225,9 @@ export default function TechnicalHeroSection() {
             </div>
           </div>
 
-          {/* Headline with Opposing Motion Vectors (No paragraph clutter) */}
+          {/* Headline (74px bold grotesk with opposing vectors) */}
           <div className="relative z-20 pointer-events-none select-none my-auto">
-            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-display font-extrabold tracking-tighter text-white leading-[0.92] max-w-5xl uppercase drop-shadow-sm space-y-1">
+            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[74px] font-display font-extrabold tracking-tighter text-white leading-[0.92] max-w-5xl uppercase drop-shadow-sm space-y-1">
               <motion.span style={{ x: line1X, y: line1Y }} className="block">
                 I BUILD
               </motion.span>
@@ -259,27 +260,31 @@ export default function TechnicalHeroSection() {
             )}
           </motion.div>
 
-          {/* Bottom Hero Narrative & Telemetry Bar */}
+          {/* Bottom Hero Narrative & Magnetic Controls */}
           <div className="flex flex-wrap items-center justify-between gap-4 pt-5 border-t border-white/15 font-mono text-xs">
             <div className="flex items-center gap-3">
-              <a
-                href="#work"
-                data-cursor="Work"
-                className="hud-btn hud-tag-acid"
-              >
-                <span>Selected Work</span>
-                <ArrowDown size={13} />
-              </a>
+              <MagneticButton>
+                <a
+                  href="#work"
+                  data-cursor="Work"
+                  className="hud-btn hud-tag-acid"
+                >
+                  <span>Selected Work</span>
+                  <ArrowDown size={13} />
+                </a>
+              </MagneticButton>
 
-              <a
-                href="/Kshitij_Kumbhar_Resume.pdf"
-                download="Kshitij_Kumbhar_Resume.pdf"
-                data-cursor="Download"
-                className="hud-btn bg-white/10 hover:bg-white/20 border-white/20 text-white"
-              >
-                <span>CV PDF</span>
-                <ArrowUpRight size={13} />
-              </a>
+              <MagneticButton>
+                <a
+                  href="/Kshitij_Kumbhar_Resume.pdf"
+                  download="Kshitij_Kumbhar_Resume.pdf"
+                  data-cursor="Download"
+                  className="hud-btn bg-white/10 hover:bg-white/20 border-white/20 text-white"
+                >
+                  <span>CV PDF</span>
+                  <ArrowUpRight size={13} />
+                </a>
+              </MagneticButton>
             </div>
 
             <div className="flex items-center gap-4 text-white/70">
