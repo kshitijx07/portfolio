@@ -1,29 +1,23 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import ScrollShell from "@/components/webgl/CanvasRoot";
-import NoiseOverlay from "@/components/ui/NoiseOverlay";
-import CustomCursor from "@/components/ui/CustomCursor";
-import PixelCursorTrail from "@/components/ui/PixelCursorTrail";
 import { Analytics } from "@vercel/analytics/next";
 
-const plusJakartaSans = Plus_Jakarta_Sans({
-  variable: "--font-jakarta",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
   display: "swap",
 });
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
   subsets: ["latin"],
-  weight: ["400", "500", "700"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Kshitij Kumbhar — DevOps & Cloud Engineering",
-  description: "DevOps Intern @ Colgate-Palmolive & Computer Engineering Student based in Pune, India. Building cloud infrastructure, automated CI/CD pipelines, and multi-agent AI systems.",
+  title: "Kshitij Kumbhar — DevOps Engineer & Cloud Infrastructure Developer",
+  description: "DevOps Engineer & Cloud Infrastructure Developer building automated, containerized, cloud-native systems — from CI/CD pipelines to Kubernetes-orchestrated microservices on AWS.",
   icons: {
     icon: "/icon.png",
     apple: "/apple-icon.png",
@@ -36,14 +30,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${plusJakartaSans.variable} ${jetbrainsMono.variable}`}>
-      <body className="bg-[var(--bg-primary)] text-[var(--text-primary)] selection:bg-[var(--accent-acid)] selection:text-[#050505] min-h-screen antialiased relative transition-colors duration-300">
-        <NoiseOverlay />
-        <PixelCursorTrail />
-        <CustomCursor />
-        <ScrollShell>
-          <div className="relative z-10">{children}</div>
-        </ScrollShell>
+    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable} dark`}>
+      <body className="bg-zinc-950 text-zinc-100 min-h-screen antialiased bg-grid-pattern selection:bg-cyan-500 selection:text-zinc-950">
+        {children}
         <Analytics />
       </body>
     </html>
