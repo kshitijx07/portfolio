@@ -4,8 +4,7 @@ import "./globals.css";
 import SmoothScrollProvider from "@/components/ui/SmoothScrollProvider";
 import NoiseOverlay from "@/components/ui/NoiseOverlay";
 import CustomCursor from "@/components/ui/CustomCursor";
-import Editorial3DBackground from "@/components/ui/Editorial3DBackground";
-import ThemeToggle from "@/components/ui/ThemeToggle";
+import PixelCursorTrail from "@/components/ui/PixelCursorTrail";
 import { Analytics } from "@vercel/analytics/next";
 
 const newsreader = Newsreader({
@@ -31,7 +30,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: "Kshitij Kumbhar",
-  description: "Computer Engineering Student & Cloud Systems Architect based in Pune, India. Building cloud infrastructures and digital systems.",
+  description: "Computer Engineering Student & DevOps Intern based in Pune, India. Building cloud infrastructures and digital systems.",
   icons: {
     icon: "/icon.png",
     apple: "/apple-icon.png",
@@ -47,6 +46,7 @@ export default function RootLayout({
     <html lang="en" className={`${newsreader.variable} ${plusJakartaSans.variable} ${jetbrainsMono.variable}`}>
       <body className="bg-[var(--bg-primary)] text-[var(--text-primary)] selection:bg-[var(--accent-acid)] selection:text-[#050505] min-h-screen antialiased relative transition-colors duration-300">
         <NoiseOverlay />
+        <PixelCursorTrail />
         <CustomCursor />
         <SmoothScrollProvider>
           <div className="relative z-10">{children}</div>

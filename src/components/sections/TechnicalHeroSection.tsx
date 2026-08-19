@@ -2,15 +2,35 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowDown, ArrowUpRight, ShieldCheck } from "lucide-react";
+import { ArrowDown, ArrowUpRight, ShieldCheck, Activity } from "lucide-react";
 import * as THREE from "three";
+import HeroFloatingArtifacts from "@/components/sections/HeroFloatingArtifacts";
 
 export default function TechnicalHeroSection() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const [isLowPower, setIsLowPower] = useState(false);
+  const [timeString, setTimeString] = useState("12:22 31°C");
   const { scrollY } = useScroll();
   const yParallax = useTransform(scrollY, [0, 600], [0, 50]);
+
+  // Live IST Clock
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      const istOptions: Intl.DateTimeFormatOptions = {
+        timeZone: "Asia/Kolkata",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      };
+      const time = new Intl.DateTimeFormat([], istOptions).format(now);
+      setTimeString(`${time} 31°C`);
+    };
+    updateTime();
+    const interval = setInterval(updateTime, 10000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -38,7 +58,7 @@ export default function TechnicalHeroSection() {
     renderer.setSize(canvas.clientWidth, canvas.clientHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    const geometry = new THREE.TorusKnotGeometry(1.35, 0.4, 140, 36, 2, 3);
+    const geometry = new THREE.TorusKnotGeometry(1.35, 0.42, 140, 36, 2, 3);
     const material = new THREE.MeshPhysicalMaterial({
       color: 0x1A44FF,
       emissive: 0x07145C,
@@ -157,94 +177,64 @@ export default function TechnicalHeroSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative -mx-4 md:-mx-8 px-4 md:px-8 pt-24 md:pt-32 pb-16 md:pb-24 overflow-hidden bg-gradient-to-b from-[#07145C] via-[#091967] to-[#050505] text-white border-b border-[var(--border-color)]"
+      className="relative -mx-4 md:-mx-8 px-4 md:px-8 pt-20 md:pt-28 pb-16 md:pb-24 overflow-hidden bg-gradient-to-b from-[#07145C] via-[#091967] to-[#050505] text-white border-b border-[var(--border-color)]"
     >
-      {/* Volumetric Radial Glow Mesh */}
+      {/* Generative Dot Grid & Volumetric Glow Mesh (Reference Screenshot) */}
+      <div className="absolute inset-0 opacity-25 hud-dot-grid pointer-events-none" />
       <div className="absolute inset-0 pointer-events-none z-0">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[450px] bg-[#203DFF]/30 blur-[130px] rounded-full" />
-        <div className="absolute top-1/3 right-1/4 w-[350px] h-[350px] bg-[#6F82FF]/20 blur-[100px] rounded-full" />
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-[#203DFF]/35 blur-[140px] rounded-full" />
+        <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] bg-[#6F82FF]/20 blur-[110px] rounded-full" />
       </div>
 
-      <div className="max-w-[1500px] mx-auto relative z-10 space-y-8">
-        {/* 3-Column Editorial Asymmetric Header Strip */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 pb-6 border-b border-white/15 font-mono text-xs text-white/80">
-          {/* Column 1: Role & Category */}
-          <div className="md:col-span-4 space-y-1">
-            <span className="text-[var(--accent-acid)] font-bold block">
-              // DEVOPS & CLOUD ENGINEER
-            </span>
-            <span className="text-white/60 text-[11px] block">
-              Cloud Infrastructure • Multi-Agent AI • CI/CD
-            </span>
-          </div>
+      <div className="max-w-[1500px] mx-auto relative z-10 space-y-6">
+        {/* Top Massive Grotesk Headline (Reference Composition) */}
+        <motion.div style={{ y: yParallax }} className="relative z-20 space-y-2 pointer-events-none">
+          <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[5.75rem] font-display font-extrabold tracking-tighter text-white leading-[0.92] max-w-5xl uppercase select-none drop-shadow-sm">
+            I BUILD <br />
+            DIGITAL & CLOUD <br />
+            SYSTEMS THAT FEEL ALIVE.
+          </h1>
+        </motion.div>
 
-          {/* Column 2: System Statement */}
-          <div className="md:col-span-4 space-y-1">
-            <p className="leading-relaxed text-white/90">
-              Thinking in systems. Engineering scalable Kubernetes clusters, automated CI/CD pipelines & resilient architectures.
-            </p>
-          </div>
+        {/* 3D Liquid Canvas & Layered Floating Mixed-Media Stickers */}
+        <div className="relative min-h-[380px] md:min-h-[460px] flex items-center justify-center">
+          {/* Floating Artifacts (Heart sticker, 2026 badge, 3D cursor, etc.) */}
+          <HeroFloatingArtifacts />
 
-          {/* Column 3: Status & Coordinates */}
-          <div className="md:col-span-4 space-y-1 md:text-right">
-            <p className="text-white font-bold">
-              DevOps Intern @ Colgate-Palmolive
-            </p>
-            <p className="text-white/60 text-[11px]">
-              Pune, India • B.Tech CS @ MIT AOE (CGPA 8.48/10)
-            </p>
-          </div>
-        </div>
-
-        {/* Headline & 3D Centerpiece Stage */}
-        <div className="relative mt-6 md:mt-10 min-h-[360px] md:min-h-[440px] flex flex-col justify-between">
-          {/* 3D Liquid Canvas */}
+          {/* 3D Liquid Sculpture Canvas */}
           {!isLowPower ? (
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 opacity-95">
               <canvas
                 ref={canvasRef}
-                className="w-full max-w-[620px] h-[360px] md:h-[430px] pointer-events-auto cursor-grab active:cursor-grabbing"
+                className="w-full max-w-[660px] h-[380px] md:h-[460px] pointer-events-auto cursor-grab active:cursor-grabbing"
               />
             </div>
           ) : (
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 opacity-30">
-              <div className="w-60 h-60 border-2 border-dashed border-[#203DFF] rounded-full animate-spin-slow" />
+              <div className="w-64 h-64 border-2 border-dashed border-[#203DFF] rounded-full animate-spin-slow" />
             </div>
           )}
+        </div>
 
-          {/* Massive Editorial Headline */}
-          <motion.div style={{ y: yParallax }} className="relative z-10 space-y-4 pointer-events-none">
-            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-display font-extrabold tracking-tighter text-white leading-[0.93] max-w-5xl uppercase select-none drop-shadow-sm">
-              I BUILD DIGITAL & CLOUD SYSTEMS THAT FEEL ALIVE.
-            </h1>
-          </motion.div>
+        {/* Bottom Hero Narrative & Telemetry Bar (Reference Screenshot) */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 pt-6 border-t border-white/15 font-mono text-xs text-white/80 items-end">
+          {/* Left: Bio Narrative */}
+          <div className="md:col-span-8 space-y-1">
+            <p className="leading-relaxed text-white/90 text-xs sm:text-sm font-sans max-w-2xl">
+              I'm <strong className="text-white font-bold font-mono">Kshitij Kumbhar</strong>, DevOps Intern @ Colgate-Palmolive (Mumbai Hybrid). Building scalable Kubernetes clusters, multi-agent AI systems, and automated CI/CD infrastructure.
+            </p>
+          </div>
 
-          {/* Bottom Hero Control Matrix */}
-          <div className="relative z-10 pt-8 flex flex-wrap items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <a
-                href="#work"
-                data-cursor="Projects"
-                className="hud-btn hud-tag-acid"
-              >
-                <span>Explore Selected Work</span>
-                <ArrowDown size={14} />
-              </a>
-
-              <a
-                href="/Kshitij_Kumbhar_Resume.pdf"
-                download="Kshitij_Kumbhar_Resume.pdf"
-                data-cursor="Download"
-                className="hud-btn bg-white/10 hover:bg-white/20 border-white/20 text-white"
-              >
-                <span>CV PDF</span>
-                <ArrowUpRight size={14} />
-              </a>
+          {/* Right: Live Telemetry & Status Ring Glyph */}
+          <div className="md:col-span-4 flex items-center justify-between md:justify-end gap-6 font-mono text-xs">
+            <div className="text-white/80 font-bold">
+              <span>{timeString}</span>
+              <span className="text-[var(--accent-acid)] block text-[10px]">PUNE / INDIA</span>
             </div>
 
-            <div className="font-mono text-xs text-white/80 flex items-center gap-2">
-              <ShieldCheck size={14} className="text-[var(--accent-acid)]" />
-              <span>K8S ORCHESTRATION • RESTFUL APIS • CI/CD</span>
+            <div className="flex items-center gap-2 text-white/60">
+              <span className="w-3 h-3 rounded-full border-2 border-[var(--accent-acid)] border-t-transparent animate-spin" />
+              <span className="text-[11px] font-bold text-white">SYS // ONLINE</span>
             </div>
           </div>
         </div>

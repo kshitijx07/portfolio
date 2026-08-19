@@ -61,12 +61,20 @@ export default function EditorialAboutSection() {
                 <div className="absolute inset-0 bg-gradient-to-tr from-[#07145C]/40 via-transparent to-[var(--accent-acid)]/10 mix-blend-color-dodge pointer-events-none" />
               </div>
 
+              {/* Neon Acid-Lime Handwritten Script Signature (Reference 2 Overlay) */}
               <div className="absolute -top-5 -left-4 z-20 pointer-events-none rotate-[-12deg]">
                 <span className="text-3xl sm:text-4xl md:text-5xl font-serif italic text-[var(--accent-acid)] font-bold tracking-wide drop-shadow-[0_0_12px_rgba(183,255,0,0.6)]">
                   Kshitij
                 </span>
               </div>
 
+              {/* Circular Progress & Telemetry Ring on Corner (Reference Screenshot) */}
+              <div className="absolute -bottom-3 -left-3 z-20 bg-[#050505] border border-white/20 p-1.5 flex items-center gap-1.5 font-mono text-[9px] text-white/80 shadow-md">
+                <span className="w-2.5 h-2.5 rounded-full border border-[var(--accent-acid)] border-t-transparent animate-spin" />
+                <span>12:22 31°C</span>
+              </div>
+
+              {/* Pixel Accent Squares on Corner */}
               <div className="absolute -bottom-3 -right-3 flex gap-1 pointer-events-none">
                 <span className="w-2.5 h-2.5 bg-[var(--accent-acid)] shadow-[0_0_8px_rgba(183,255,0,0.5)]" />
                 <span className="w-2.5 h-2.5 bg-[var(--accent-acid)] shadow-[0_0_8px_rgba(183,255,0,0.5)]" />
