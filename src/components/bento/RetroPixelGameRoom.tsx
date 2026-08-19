@@ -38,7 +38,6 @@ export default function RetroPixelGameRoom({ projects, onOpenCaseStudy }: RetroP
     fetch("/api/leetcode").then((res) => res.json()).then(setLeetcodeData).catch(() => {});
   }, []);
 
-  // 8-Bit Chiptune Web Audio Synthesizer
   const playRetroSfx = (freq: number = 440, type: OscillatorType = "square") => {
     if (!soundEnabled) return;
     try {
@@ -63,7 +62,6 @@ export default function RetroPixelGameRoom({ projects, onOpenCaseStudy }: RetroP
     } catch (e) {}
   };
 
-  // Keyboard controls for Avatar (WASD & Arrow Keys)
   useEffect(() => {
     if (!isOpen) return;
 
@@ -87,7 +85,6 @@ export default function RetroPixelGameRoom({ projects, onOpenCaseStudy }: RetroP
           playRetroSfx(250, "square");
         }
 
-        // Proximity detection to auto-activate stations
         if (newX < 35 && newY < 45) setActiveObject("workstation");
         else if (newX > 60 && newY < 45) setActiveObject("arcade");
         else if (newX < 35 && newY > 55) setActiveObject("bookshelf");
@@ -110,7 +107,6 @@ export default function RetroPixelGameRoom({ projects, onOpenCaseStudy }: RetroP
   return (
     <section id="pixel-room" className="py-12 border-t border-[var(--border-color)]">
       <div className="w-full border border-[var(--border-color)] bg-[var(--bg-surface)] p-6 md:p-8 space-y-6" data-cursor="Lab">
-        {/* Module Header / Teaser */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[var(--border-color)]">
           <div>
             <div className="flex items-center gap-2 mb-1">
@@ -140,7 +136,6 @@ export default function RetroPixelGameRoom({ projects, onOpenCaseStudy }: RetroP
           </div>
         </div>
 
-        {/* Expandable Playable Room Enclosure */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
@@ -150,7 +145,6 @@ export default function RetroPixelGameRoom({ projects, onOpenCaseStudy }: RetroP
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               className="space-y-6 overflow-hidden pt-2"
             >
-              {/* Player Controls & HUD Bar */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] font-mono text-xs">
                 <div className="flex items-center gap-4 text-[11px]">
                   <span className="text-[var(--text-muted)]">CONTROLS: WASD / ARROWS OR CLICK</span>
@@ -169,14 +163,12 @@ export default function RetroPixelGameRoom({ projects, onOpenCaseStudy }: RetroP
                 </button>
               </div>
 
-              {/* 2D Interactive Pixel Room Stage */}
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-                {/* Left Column: Pixel Art Room Canvas */}
+                {/* Left: Pixel Art Canvas */}
                 <div className="lg:col-span-7 relative w-full h-[360px] md:h-[400px] bg-[var(--bg-primary)] border border-[var(--border-color)] overflow-hidden p-4 select-none">
-                  {/* Pixel Grid Pattern */}
                   <div className="absolute inset-0 opacity-25 hud-dot-grid pointer-events-none" />
 
-                  {/* Room Object 1: DevOps Workstation */}
+                  {/* Workstation */}
                   <motion.div
                     whileHover={{ scale: 1.05 }}
                     onClick={() => selectObject("workstation", { x: 25, y: 35 })}
@@ -191,7 +183,7 @@ export default function RetroPixelGameRoom({ projects, onOpenCaseStudy }: RetroP
                     <span className="text-[10px] font-mono block mt-1 font-bold uppercase">Workstation</span>
                   </motion.div>
 
-                  {/* Room Object 2: Arcade Cabinet */}
+                  {/* Arcade */}
                   <motion.div
                     whileHover={{ scale: 1.05 }}
                     onClick={() => selectObject("arcade", { x: 70, y: 35 })}
@@ -206,7 +198,7 @@ export default function RetroPixelGameRoom({ projects, onOpenCaseStudy }: RetroP
                     <span className="text-[10px] font-mono block mt-1 font-bold uppercase">Arcade</span>
                   </motion.div>
 
-                  {/* Room Object 3: Bookshelf & Floppy Disk */}
+                  {/* Bookshelf */}
                   <motion.div
                     whileHover={{ scale: 1.05 }}
                     onClick={() => selectObject("bookshelf", { x: 25, y: 70 })}
@@ -221,7 +213,7 @@ export default function RetroPixelGameRoom({ projects, onOpenCaseStudy }: RetroP
                     <span className="text-[10px] font-mono block mt-1 font-bold uppercase">Resume Shelf</span>
                   </motion.div>
 
-                  {/* Room Object 4: Desk Polaroid Album */}
+                  {/* Polaroid */}
                   <motion.div
                     whileHover={{ scale: 1.05 }}
                     onClick={() => selectObject("polaroid", { x: 70, y: 70 })}
@@ -251,10 +243,10 @@ export default function RetroPixelGameRoom({ projects, onOpenCaseStudy }: RetroP
                   </motion.div>
                 </div>
 
-                {/* Right Column: Selected Room Object Content Display Inspector */}
+                {/* Right: Inspector */}
                 <div className="lg:col-span-5 flex flex-col justify-between h-full">
                   <AnimatePresence mode="wait">
-                    {/* OBJECT 1: DevOps Workstation */}
+                    {/* Workstation */}
                     {activeObject === "workstation" && (
                       <motion.div
                         key="workstation"
@@ -272,7 +264,7 @@ export default function RetroPixelGameRoom({ projects, onOpenCaseStudy }: RetroP
                           </div>
 
                           <h4 className="text-xl font-display font-bold text-[var(--text-primary)] uppercase mb-2">
-                            Engineering Terminal & Codebases
+                            Engineering Systems & Codebases
                           </h4>
 
                           <p className="text-xs text-[var(--text-secondary)] leading-relaxed mb-4 font-sans">
@@ -311,7 +303,7 @@ export default function RetroPixelGameRoom({ projects, onOpenCaseStudy }: RetroP
                       </motion.div>
                     )}
 
-                    {/* OBJECT 2: Arcade Cabinet (LeetCode & Codeforces) */}
+                    {/* Arcade */}
                     {activeObject === "arcade" && (
                       <motion.div
                         key="arcade"
@@ -338,7 +330,7 @@ export default function RetroPixelGameRoom({ projects, onOpenCaseStudy }: RetroP
                                 <span className="font-bold text-[var(--text-primary)]">LeetCode XP:</span>
                                 <span className="text-[var(--accent-acid)] font-bold">{leetcodeData?.totalSolved || 257} Solved</span>
                               </div>
-                              <span className="text-[10px] text-[var(--text-muted)] block">Global Rank #{leetcodeData?.ranking || 605333}</span>
+                              <span className="text-[10px] text-[var(--text-muted)] block">Global Rank #{leetcodeData?.ranking || 605333} (@kshitij72)</span>
                             </div>
 
                             <div className="p-4 bg-[var(--bg-primary)] border border-[var(--border-color)]">
@@ -346,7 +338,7 @@ export default function RetroPixelGameRoom({ projects, onOpenCaseStudy }: RetroP
                                 <span className="font-bold text-[var(--text-primary)]">Codeforces Rating:</span>
                                 <span className="text-[var(--text-primary)] font-bold">1280 (Pupil)</span>
                               </div>
-                              <span className="text-[10px] text-[var(--text-muted)] block">@kshitij___x07</span>
+                              <span className="text-[10px] text-[var(--text-muted)] block">@kshitijx07</span>
                             </div>
                           </div>
                         </div>
@@ -357,13 +349,13 @@ export default function RetroPixelGameRoom({ projects, onOpenCaseStudy }: RetroP
                           rel="noopener noreferrer"
                           className="hud-btn hud-tag-acid w-full justify-center py-2.5"
                         >
-                          <span>View LeetCode Profile</span>
+                          <span>View LeetCode Profile (@kshitij72)</span>
                           <ExternalLink size={14} />
                         </a>
                       </motion.div>
                     )}
 
-                    {/* OBJECT 3: Resume Bookshelf & Floppy Disk */}
+                    {/* Bookshelf */}
                     {activeObject === "bookshelf" && (
                       <motion.div
                         key="bookshelf"
@@ -406,7 +398,7 @@ export default function RetroPixelGameRoom({ projects, onOpenCaseStudy }: RetroP
                       </motion.div>
                     )}
 
-                    {/* OBJECT 4: Desk Polaroid Album (LinkedIn Updates) */}
+                    {/* Polaroid */}
                     {activeObject === "polaroid" && (
                       <motion.div
                         key="polaroid"
@@ -439,7 +431,7 @@ export default function RetroPixelGameRoom({ projects, onOpenCaseStudy }: RetroP
                         </div>
 
                         <a
-                          href="https://www.linkedin.com/in/kshitij-kumbhar-369777x/"
+                          href="https://linkedin.com/in/kshitij-kumbhar"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="hud-btn hud-tag-acid w-full justify-center py-2.5"

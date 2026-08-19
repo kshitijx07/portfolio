@@ -1,12 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Cloud, Server, Database, GitBranch, Cpu, ShieldCheck, Terminal, Layers } from "lucide-react";
+import { Cloud, Server, Database, GitBranch, Cpu } from "lucide-react";
 
 interface TopologyNode {
   id: string;
-  category: "cloud" | "automation" | "backend" | "data";
+  category: "cloud" | "automation" | "ai" | "backend" | "data";
   title: string;
   desc: string;
   tech: string[];
@@ -17,34 +16,42 @@ const topologyData: TopologyNode[] = [
   {
     id: "cloud-infra",
     category: "cloud",
-    title: "01 // Cloud & Compute",
-    desc: "Production container orchestration, load balancing, and private cloud infrastructure on AWS.",
-    tech: ["AWS Cloud (EC2, S3, CloudFront)", "EKS (Kubernetes Clusters)", "Docker Multi-Stage", "Horizontal Pod Autoscaler"],
-    connections: ["automation-iac", "backend-services", "data-persistence"],
+    title: "01 // DevOps & Cloud Infrastructure",
+    desc: "AWS cloud architecture, containerized microservices, VPC routing, and Kubernetes orchestration.",
+    tech: ["AWS (EKS, ECR, CloudFront, VPC, ALB, IAM, EC2, S3)", "Docker Multi-Stage", "Kubernetes Clusters", "Auto Scaling & HPA"],
+    connections: ["automation-iac", "ai-multiagent", "backend-services", "data-persistence"],
   },
   {
     id: "automation-iac",
     category: "automation",
-    title: "02 // Automation & CI/CD",
-    desc: "Infrastructure as Code provisioning and automated multi-branch deployment pipelines.",
-    tech: ["Terraform (IaC)", "Jenkins CI/CD", "GitHub Actions", "Linux Bash / Shell"],
+    title: "02 // Automation & CI/CD Pipelines",
+    desc: "Infrastructure as Code provisioning and automated deployment workflows removing manual release effort.",
+    tech: ["Terraform (IaC)", "Jenkins CI/CD", "GitHub Actions", "Linux CLI & Bash", "DockerHub"],
+    connections: ["cloud-infra", "backend-services"],
+  },
+  {
+    id: "ai-multiagent",
+    category: "ai",
+    title: "03 // AI & Multi-Agent Systems",
+    desc: "Autonomous supervisor routing, Model Context Protocol servers, and high-throughput vector RAG pipelines.",
+    tech: ["LangGraph Multi-Agent", "RAG (Retrieval-Augmented)", "Model Context Protocol (MCP)", "Pinecone (768-dim Vector)", "Gemini 2.5 Flash"],
     connections: ["cloud-infra", "backend-services"],
   },
   {
     id: "backend-services",
     category: "backend",
-    title: "03 // Distributed Backend",
-    desc: "High-throughput RESTful microservices, RBAC security, and event-driven architectures.",
-    tech: ["Spring Boot (Java)", "Node.js / Express", "React.js / Next.js", "REST APIs / GraphQL"],
+    title: "04 // Backend & Frontend Engineering",
+    desc: "High-throughput RESTful microservices, MVC architectures, and responsive digital interfaces.",
+    tech: ["Spring Boot", "Node.js & Express.js", "React.js & Vite", "Tailwind CSS", "RESTful APIs"],
     connections: ["cloud-infra", "data-persistence"],
   },
   {
     id: "data-persistence",
     category: "data",
-    title: "04 // Data & Storage",
-    desc: "Scalable relational and document database schemas with private cloud storage policies.",
-    tech: ["Amazon S3 (OAC Private)", "MySQL Relational", "PostgreSQL", "MongoDB Atlas"],
-    connections: ["cloud-infra", "backend-services"],
+    title: "05 // Databases & Core CS",
+    desc: "Relational, document, and vector databases with solid foundation in algorithms and systems.",
+    tech: ["Pinecone Vector Store", "MongoDB Atlas", "MySQL Relational", "Data Structures & Algorithms (DSA)", "OOP & Operating Systems"],
+    connections: ["cloud-infra", "backend-services", "ai-multiagent"],
   },
 ];
 
@@ -60,23 +67,23 @@ export default function SystemsTopology() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-[var(--border-color)]">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="w-2 h-2 bg-[var(--accent-acid)]" />
-              <span className="font-mono text-xs text-[var(--accent-acid)] tracking-wider uppercase font-bold">
+              <span className="w-2.5 h-2.5 bg-[var(--accent-acid)] shadow-[0_0_8px_rgba(183,255,0,0.6)]" />
+              <span className="font-mono text-xs text-[var(--accent-acid)] tracking-wider uppercase font-extrabold">
                 SYSTEMS // TOPOLOGY GRAPH
               </span>
             </div>
             <h2 className="text-3xl md:text-5xl font-display font-extrabold tracking-tight text-[var(--text-primary)] uppercase">
-              Infrastructure & Engineering Architecture
+              Technical Competencies & Systems Topology
             </h2>
           </div>
           <p className="font-mono text-xs text-[var(--text-secondary)] max-w-sm">
-            Interactive systems topology mapping how cloud infrastructure, automated pipelines, backend services, and data storage interlock.
+            Interactive architecture map connecting AWS infrastructure, automated CI/CD pipelines, multi-agent AI systems, and databases.
           </p>
         </div>
 
-        {/* Interactive Systems Topology Matrix */}
+        {/* Topology Interactive Matrix */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Left Column: Topology Interactive Nodes */}
+          {/* Left Column: Interactive Domain Nodes */}
           <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
             {topologyData.map((node) => {
               const isActive = activeNode === node.id;
@@ -94,7 +101,6 @@ export default function SystemsTopology() {
                       : "bg-[var(--bg-surface)] border-[var(--border-color)] text-[var(--text-secondary)] hover:border-[var(--text-muted)]"
                   }`}
                 >
-                  {/* Active Indicator Pin */}
                   {isActive && (
                     <span className="absolute top-2 right-2 w-2 h-2 bg-[var(--accent-acid)] animate-pulse" />
                   )}
@@ -102,6 +108,7 @@ export default function SystemsTopology() {
                   <div className="flex items-center gap-2 mb-2">
                     {node.category === "cloud" && <Cloud size={16} className="text-[var(--accent-acid)]" />}
                     {node.category === "automation" && <Cpu size={16} className="text-[var(--accent-acid)]" />}
+                    {node.category === "ai" && <Cpu size={16} className="text-[var(--accent-acid)]" />}
                     {node.category === "backend" && <Server size={16} className="text-[var(--accent-acid)]" />}
                     {node.category === "data" && <Database size={16} className="text-[var(--accent-acid)]" />}
                     <span className="font-mono text-[11px] font-bold uppercase text-[var(--text-primary)]">
@@ -128,7 +135,7 @@ export default function SystemsTopology() {
             })}
           </div>
 
-          {/* Right Column: Live Architectural Flow Inspector */}
+          {/* Right Column: Live Inspector */}
           <div className="lg:col-span-6 bg-[var(--bg-primary)] border border-[var(--border-color)] p-6 md:p-8 space-y-6">
             <div className="flex items-center justify-between pb-3 border-b border-[var(--border-color)] font-mono text-xs">
               <span className="text-[var(--text-primary)] font-bold uppercase">
@@ -148,7 +155,6 @@ export default function SystemsTopology() {
               </p>
             </div>
 
-            {/* Complete Stack Matrix */}
             <div>
               <span className="font-mono text-[10px] text-[var(--text-muted)] uppercase tracking-wider block mb-2 font-bold">
                 COMPONENTS & TECHNOLOGIES
@@ -166,7 +172,6 @@ export default function SystemsTopology() {
               </div>
             </div>
 
-            {/* Interconnected System Bus */}
             <div className="pt-4 border-t border-[var(--border-color)] space-y-2">
               <span className="font-mono text-[10px] text-[var(--text-muted)] uppercase tracking-wider block font-bold">
                 CONNECTED SYSTEM DEPENDENCIES

@@ -23,6 +23,27 @@ import CaseStudyModal, { ProjectData } from "@/components/modals/CaseStudyModal"
 
 const projectsData: ProjectData[] = [
   {
+    title: "DSA Swarm AI",
+    category: "AI & Cloud Architecture",
+    year: "2026",
+    description: "Distributed Multi-Agent RAG Swarm & Model Context Protocol (MCP) Server using LangGraph, Gemini 2.5 Flash, and Pinecone on AWS EKS.",
+    longDescription: "Architected a distributed Multi-Agent RAG Swarm and Model Context Protocol (MCP) Server using LangGraph, Google Gemini 2.5 Flash, and Pinecone (768-dim vector store), processing complex Data Structure and Algorithm queries with autonomous Supervisor routing and sub-second retrieval.",
+    tech: ["AWS EKS", "Kubernetes", "Terraform", "CloudFront", "LangGraph", "MCP Server", "Pinecone", "RAG", "Docker", "GitHub Actions", "Node.js", "React.js"],
+    github: "https://github.com/kshitijx07",
+    demo: "#",
+    image: "/serverless_xray_ui.png",
+    highlights: [
+      "Architected a distributed Multi-Agent RAG Swarm and Model Context Protocol (MCP) Server using LangGraph, Google Gemini 2.5 Flash, and Pinecone (768-dim vector store).",
+      "Provisioned cloud-native AWS EKS infrastructure via Terraform (IaC), deploying multi-stage unprivileged Docker containers (UID 10001) behind AWS ALB and CloudFront CDN.",
+      "Engineered a 4-key API rotation pool and exponential backoff for Gemini 2.5 Flash endpoints, multiplying throughput from 15 to 60 RPM (4x quota expansion).",
+      "Optimized RAG vector search with Pinecone cosine similarity (topK=6) and capped token generation to eliminate CloudFront 504 timeouts."
+    ],
+    architecture: [
+      "Terraform IaC provisioning of AWS EKS cluster, ALB, and CloudFront CDN.",
+      "Cross-Security Group ingress rules, Kubernetes Secrets for API keys, and automated GitHub Actions CI/CD to Amazon ECR."
+    ]
+  },
+  {
     title: "HostelHub",
     category: "Cloud Architecture",
     year: "2026",
@@ -36,11 +57,32 @@ const projectsData: ProjectData[] = [
       "Built a cloud-native hostel management platform with a decoupled React frontend hosted on Amazon S3 and a Node.js REST API deployed on AWS EKS (Kubernetes).",
       "Designed a unified AWS CloudFront distribution routing static and API traffic through OAC-secured S3 and an NGINX Ingress-backed ALB, eliminating CORS overhead.",
       "Containerized the backend with Docker multi-stage builds and configured a Horizontal Pod Autoscaler scaling replicas from 2 to 5 at 70% CPU.",
-      "Engineered a split Jenkins CI/CD pipeline automating npm build, S3 sync, CloudFront invalidation, DockerHub image build, and kubectl rollout."
+      "Engineered a split Jenkins CI/CD pipeline covering npm build with S3 sync and CloudFront invalidation, and backend DockerHub builds with kubectl rollout."
     ],
     architecture: [
       "Secured workloads with Kubernetes Secrets for MongoDB Atlas, Cloudinary, and JWT.",
       "Enforced private S3 access through a CloudFront OAC policy, removing public bucket exposure entirely."
+    ]
+  },
+  {
+    title: "Serverless AI X-Ray Analyzer",
+    category: "AI & Serverless",
+    year: "2026",
+    description: "Serverless event-driven medical imaging platform on AWS using MobileNet TFLite to classify chest X-rays in <1s at zero idle cost.",
+    longDescription: "Engineered a serverless, event-driven medical imaging platform on AWS that uses a pre-trained MobileNet TFLite model to classify chest X-rays in under 1 second at zero idle cost.",
+    tech: ["AWS Lambda", "Terraform", "GitHub Actions", "API Gateway", "S3", "DynamoDB"],
+    github: "https://github.com/kshitijx07/serverless-ai-xray",
+    demo: "#",
+    image: "/serverless_xray_ui.png",
+    highlights: [
+      "Engineered a serverless, event-driven medical imaging platform on AWS using MobileNet TFLite to classify chest X-rays in <1s at zero idle cost.",
+      "Deployed a secure three-Lambda backend behind API Gateway with CORS enforcement and per-second request throttling to reduce DDoS exposure.",
+      "Streamlined uploads with an S3 presigned URL flow sending images directly from browser to S3, increasing upload cap 5x (10 MB to 50 MB).",
+      "Automated infrastructure for all 3 Lambdas using modular Terraform and a GitHub Actions pipeline with real-time DynamoDB AI confidence streaming."
+    ],
+    architecture: [
+      "Modular Terraform Infrastructure as Code setup.",
+      "Event-driven S3 presigned URL uploads and DynamoDB polling loop."
     ]
   },
   {
@@ -62,27 +104,6 @@ const projectsData: ProjectData[] = [
     architecture: [
       "Spring Boot Modular MVC Architecture with tokenized security.",
       "Razorpay payment gateway & donation tracking system integration."
-    ]
-  },
-  {
-    title: "Serverless AI X-Ray Analyzer",
-    category: "AI & Serverless",
-    year: "2026",
-    description: "Serverless event-driven medical imaging platform on AWS using MobileNet TFLite to classify chest X-rays in <1s at zero idle cost.",
-    longDescription: "Engineered a serverless, event-driven medical imaging platform on AWS that uses a pre-trained MobileNet TFLite model to classify chest X-rays in under 1 second at zero idle cost.",
-    tech: ["AWS Lambda", "Terraform", "GitHub Actions", "API Gateway", "S3", "DynamoDB"],
-    github: "https://github.com/kshitijx07/serverless-ai-xray",
-    demo: "#",
-    image: "/serverless_xray_ui.png",
-    highlights: [
-      "Engineered a serverless, event-driven medical imaging platform on AWS using MobileNet TFLite to classify chest X-rays in <1s at zero idle cost.",
-      "Deployed a secure three-Lambda backend behind API Gateway with CORS enforcement and per-second request throttling.",
-      "Streamlined uploads with an S3 presigned URL flow directly from browser to S3, increasing upload cap 5x (10 MB to 50 MB).",
-      "Automated infrastructure for all 3 Lambdas using modular Terraform & GitHub Actions CI/CD with real-time DynamoDB AI confidence streaming."
-    ],
-    architecture: [
-      "Modular Terraform Infrastructure as Code setup.",
-      "Event-driven S3 presigned URL uploads and DynamoDB polling loop."
     ]
   }
 ];
@@ -108,10 +129,10 @@ export default function Home() {
 
       {/* Main Editorial Multi-Environment Content Flow */}
       <main className="relative z-10 space-y-0">
-        {/* 1. HERO: ELECTRIC BLUE IMMERSIVE ENVIRONMENT (Reference 1) */}
+        {/* 1. HERO: ELECTRIC BLUE IMMERSIVE ENVIRONMENT */}
         <TechnicalHeroSection />
 
-        {/* 2. EDITORIAL BIO: DARK VOID + PORTRAIT + PIXEL STAIRCASE (Reference 2) */}
+        {/* 2. EDITORIAL BIO: DARK VOID + PORTRAIT + PIXEL STAIRCASE */}
         <EditorialAboutSection />
 
         {/* 3. LIVE PLATFORM TELEMETRY DECK */}
@@ -119,7 +140,7 @@ export default function Home() {
           <PlatformUpdatesModule />
         </div>
 
-        {/* 4. SELECTED WORKS: DIGITAL ARCHIVE & PAPER CANVASES (Reference 3) */}
+        {/* 4. SELECTED WORKS: DIGITAL ARCHIVE & PAPER CANVASES */}
         <EditorialProjectsSection
           projects={projectsData}
           onOpenCaseStudy={setSelectedProject}

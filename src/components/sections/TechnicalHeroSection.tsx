@@ -13,7 +13,6 @@ export default function TechnicalHeroSection() {
   const yParallax = useTransform(scrollY, [0, 600], [0, 60]);
 
   useEffect(() => {
-    // Detect reduced motion or small mobile screens
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const isMobile = window.innerWidth < 768;
     if (prefersReducedMotion || isMobile) {
@@ -30,7 +29,7 @@ export default function TechnicalHeroSection() {
     });
     if (sectionRef.current) observer.observe(sectionRef.current);
 
-    // Three.js Scene Setup for Glossy Liquid Blue/Chrome Tube (Reference 1)
+    // Three.js Scene Setup
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
     camera.position.z = 5.2;
@@ -39,10 +38,7 @@ export default function TechnicalHeroSection() {
     renderer.setSize(canvas.clientWidth, canvas.clientHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    // Liquid Flowing Tube Sculpture (Inspired by Reference 1)
     const geometry = new THREE.TorusKnotGeometry(1.4, 0.42, 140, 36, 2, 3);
-    
-    // Glossy Vibrant Electric Blue Material with Specular Highlights
     const material = new THREE.MeshPhysicalMaterial({
       color: 0x1A44FF,
       emissive: 0x07145C,
@@ -56,8 +52,7 @@ export default function TechnicalHeroSection() {
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
 
-    // Subtle Luminous Particle Sparkles
-    const particleCount = 80;
+    const particleCount = 70;
     const particleGeo = new THREE.BufferGeometry();
     const particlePositions = new Float32Array(particleCount * 3);
 
@@ -78,7 +73,6 @@ export default function TechnicalHeroSection() {
     const particles = new THREE.Points(particleGeo, particleMat);
     scene.add(particles);
 
-    // Dramatic Studio Lighting for Glossy 3D Form
     const blueKeyLight = new THREE.PointLight(0x203DFF, 4.5, 25);
     blueKeyLight.position.set(5, 5, 5);
     scene.add(blueKeyLight);
@@ -94,7 +88,6 @@ export default function TechnicalHeroSection() {
     const ambientLight = new THREE.AmbientLight(0x07145C, 1.2);
     scene.add(ambientLight);
 
-    // Interaction Physics
     let mouseX = 0;
     let mouseY = 0;
     let targetX = 0;
@@ -132,7 +125,6 @@ export default function TechnicalHeroSection() {
     let animId: number;
     const animate = () => {
       animId = requestAnimationFrame(animate);
-
       if (!isVisible) return;
 
       targetX += (mouseX - targetX) * 0.05;
@@ -165,49 +157,48 @@ export default function TechnicalHeroSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative -mx-4 md:-mx-8 px-4 md:px-8 pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden bg-gradient-to-b from-[#07145C] via-[#091967] to-[#050505] text-white border-b border-[var(--border-color)]"
+      className="relative -mx-4 md:-mx-8 px-4 md:px-8 pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden bg-gradient-to-b from-[#07145C] via-[#091967] to-[#050505] text-white border-b border-[var(--border-color)]"
     >
-      {/* Volumetric Radial Glow Mesh (Inspired by Reference 1) */}
+      {/* Volumetric Radial Glow */}
       <div className="absolute inset-0 pointer-events-none z-0">
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-[#203DFF]/30 blur-[130px] rounded-full" />
         <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] bg-[#6F82FF]/20 blur-[100px] rounded-full" />
       </div>
 
       <div className="max-w-[1500px] mx-auto relative z-10 space-y-8">
-        {/* 3-Column Editorial Asymmetric Header Strip (Reference 1 Composition) */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 pb-8 border-b border-white/15 font-mono text-xs text-white/80">
-          {/* Column 1: Identity & Category */}
-          <div className="md:col-span-3 space-y-1">
-            <span className="inline-flex items-center gap-2 px-2.5 py-0.5 border border-dashed border-white/40 text-white font-bold tracking-wider text-[11px]">
-              <span className="w-1.5 h-1.5 bg-[var(--accent-acid)] animate-pulse" />
-              <span>KSHITIJ.DESIGN</span>
-            </span>
-            <span className="text-white/60 block text-[11px] pt-1">
-              Design & Engineering
+        {/* 3-Column Header Strip (Cleaned per user reference image) */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 pb-6 border-b border-white/15 font-mono text-xs text-white/80">
+          {/* Column 1: Brand & Role */}
+          <div className="md:col-span-4 space-y-1">
+            <div className="flex items-center gap-1.5">
+              <span className="font-bold text-white tracking-wider">KSHITIJ.DESIGN</span>
+              <span className="w-2 h-2 bg-[var(--accent-acid)] inline-block" />
+            </div>
+            <span className="text-[var(--accent-acid)] font-bold block">
+              // DEVOPS & CLOUD ENGINEER
             </span>
           </div>
 
           {/* Column 2: System Statement */}
           <div className="md:col-span-4 space-y-1">
             <p className="leading-relaxed text-white/90">
-              Thinking in systems. Engineering with scale, low latency & cloud precision.
+              Thinking in systems. Engineering scalable Kubernetes clusters, automated CI/CD pipelines & resilient architectures.
             </p>
           </div>
 
-          {/* Column 3: Narrative Bio */}
-          <div className="md:col-span-5 space-y-2">
-            <p className="leading-relaxed text-white">
-              I'm <strong className="text-white font-bold">Kshitij Kumbhar</strong>, DevOps Intern @ Colgate-Palmolive (Hybrid). Building scalable Kubernetes clusters on AWS EKS & cloud architectures.
+          {/* Column 3: Status & Coordinates */}
+          <div className="md:col-span-4 space-y-1 md:text-right">
+            <p className="text-white font-bold">
+              DevOps Intern @ Colgate-Palmolive
             </p>
-            <div className="flex items-center gap-2 text-[10px] text-white/60">
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-acid)] animate-pulse" />
-              <span>AWS EKS • KUBERNETES • DOCKER • TERRAFORM</span>
-            </div>
+            <p className="text-white/60 text-[11px]">
+              Pune, India • B.Tech CS @ MIT AOE (CGPA 8.48/10)
+            </p>
           </div>
         </div>
 
         {/* Massive Editorial Headline & Interactive 3D Canvas Stage */}
-        <div className="relative mt-8 md:mt-12 min-h-[380px] md:min-h-[460px] flex flex-col justify-between">
+        <div className="relative mt-6 md:mt-10 min-h-[380px] md:min-h-[460px] flex flex-col justify-between">
           {/* 3D Glossy Liquid Sculpture Canvas */}
           {!isLowPower ? (
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 opacity-95">
@@ -222,7 +213,7 @@ export default function TechnicalHeroSection() {
             </div>
           )}
 
-          {/* Massive Editorial Typography (Tight Tracking, Clamp Scale) */}
+          {/* Massive Editorial Typography */}
           <motion.div style={{ y: yParallax }} className="relative z-10 space-y-4 pointer-events-none">
             <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[5.75rem] font-display font-extrabold tracking-tighter text-white leading-[0.93] max-w-5xl uppercase select-none drop-shadow-sm">
               I BUILD DIGITAL & CLOUD SYSTEMS THAT FEEL ALIVE.
@@ -252,9 +243,9 @@ export default function TechnicalHeroSection() {
               </a>
             </div>
 
-            <div className="font-mono text-xs text-white/70 flex items-center gap-2">
+            <div className="font-mono text-xs text-white/80 flex items-center gap-2">
               <ShieldCheck size={14} className="text-[var(--accent-acid)]" />
-              <span>PUNE, INDIA • GMT+5:30 • AWS CLOUD ARCHITECT</span>
+              <span>K8S ORCHESTRATION • RESTFUL APIS • CI/CD</span>
             </div>
           </div>
         </div>

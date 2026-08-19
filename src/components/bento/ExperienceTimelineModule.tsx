@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Briefcase, Calendar, CheckCircle2 } from "lucide-react";
+import { Briefcase, Calendar } from "lucide-react";
 
 const experiences = [
   {
@@ -9,7 +9,7 @@ const experiences = [
     company: "Colgate-Palmolive",
     location: "Mumbai, Maharashtra, India (Hybrid)",
     duration: "Jul 2026 – Present",
-    tag: "ENTERPRISE // CLOUD",
+    tag: "ENTERPRISE // DEVOPS & CLOUD",
     points: [
       "Support application deployment and infrastructure automation workflows within a DevOps team, contributing to CI/CD pipelines built with Jenkins, Git, and GitHub.",
       "Assist with AWS cloud infrastructure management and containerized application deployment using Docker across Linux-based staging and production environments.",
@@ -21,7 +21,7 @@ const experiences = [
     company: "Campus Credential",
     location: "Remote",
     duration: "Jun 2025 – Aug 2025",
-    tag: "SPRING BOOT // REACT",
+    tag: "SPRING BOOT // GROCITO",
     points: [
       "Owned end-to-end delivery of the Grocito platform, from requirements gathering and system design through production deployment, within a six-week sprint.",
       "Led backend architecture decisions using Spring Boot and MySQL, establishing a modular MVC structure that supported parallel development across three portals.",
