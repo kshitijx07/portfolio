@@ -46,6 +46,7 @@ export default function TechnicalHeader({ soundEnabled = false, onToggleSound }:
     { id: "work", label: "WORK", href: "#work" },
     { id: "about", label: "ABOUT", href: "#about" },
     { id: "systems", label: "SYSTEMS", href: "#systems" },
+    { id: "experience", label: "EXP", href: "#experience" },
     { id: "pixel-room", label: "LAB", href: "#pixel-room" },
     { id: "contact", label: "CONTACT", href: "#contact" },
   ];

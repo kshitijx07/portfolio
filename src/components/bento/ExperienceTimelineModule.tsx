@@ -42,7 +42,7 @@ export default function ExperienceTimelineModule() {
   const lineHeight = useSpring(scrollYProgress, { damping: 25, stiffness: 200 });
 
   return (
-    <section ref={containerRef} className="py-16 border-t border-[var(--border-color)]">
+    <section ref={containerRef} id="experience" className="py-16 border-t border-[var(--border-color)]">
       <div className="w-full border border-[var(--border-color)] bg-[var(--bg-surface)] p-6 md:p-8 space-y-6" data-cursor="Timeline">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[var(--border-color)]">
           <div className="flex items-center gap-3">
