@@ -434,6 +434,19 @@ if (typeof window !== "undefined") {
 
 export const getViewportSnapshot = (): ViewportSnapshot => viewportSnapshot;
 
+export const isLowPowerDevice = (): boolean => {
+  if (typeof window === "undefined" || typeof navigator === "undefined") return false;
+  const isMobile = window.innerWidth < 768;
+  const lowCores = navigator.hardwareConcurrency ? navigator.hardwareConcurrency <= 4 : false;
+  const lowMem = (navigator as any).deviceMemory ? (navigator as any).deviceMemory <= 4 : false;
+  return isMobile || lowCores || lowMem;
+};
+
+export const prefersReducedMotion = (): boolean => {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
+};
+
 export const subscribeViewport = (
   fn: (state: ViewportSnapshot) => void
 ): (() => void) => {

@@ -3,7 +3,13 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import Lenis from "lenis";
 import { addEffect } from "@react-three/fiber";
-import { bindLenisScrollBus, subscribeScroll, ScrollSnapshot } from "@/lib/bus";
+import {
+  bindLenisScrollBus,
+  subscribeScroll,
+  ScrollSnapshot,
+  isLowPowerDevice,
+  prefersReducedMotion,
+} from "@/lib/bus";
 import { ChevronUp } from "lucide-react";
 
 interface SectionAnchor {
@@ -30,37 +36,57 @@ export default function ScrollShell({ children }: ScrollShellProps) {
   const lenisRef = useRef<Lenis | null>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
 
-  // ── 1. LENIS SMOOTH SCROLL & R3F FRAME BRIDGE ──────────────────
+  // ── 1. LENIS SMOOTH SCROLL & ADAPTIVE FRAME BRIDGE ─────────────
   useEffect(() => {
-    // Check user preference for reduced motion
-    const prefersReducedMotion =
-      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
+    const isReduced = prefersReducedMotion();
+    const isLowEnd = isLowPowerDevice();
 
-    // 1. Instantiate Lenis with manual RAF mode (autoRaf: false)
+    // Instantiate Lenis with device-adaptive smoothing
     const lenis = new Lenis({
       autoRaf: false,
-      duration: prefersReducedMotion ? 0.01 : 1.25,
+      duration: isReduced ? 0.01 : isLowEnd ? 0.85 : 1.15,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: "vertical",
       gestureOrientation: "vertical",
-      smoothWheel: !prefersReducedMotion,
-      wheelMultiplier: 1.0,
-      touchMultiplier: 1.8,
+      smoothWheel: !isReduced,
+      wheelMultiplier: isLowEnd ? 1.1 : 1.0,
+      touchMultiplier: 1.5,
       infinite: false,
     });
     lenisRef.current = lenis;
 
-    // 2. Bind Lenis to the global single-source ScrollBus
+    // Bind Lenis to global single-source telemetry bus
     bindLenisScrollBus(lenis);
 
-    // 3. Single-Frame Loop Bridge: R3F drives Lenis RAF via addEffect
+    // Single-Frame Bridge: R3F drives Lenis RAF via addEffect
+    let r3fActive = false;
     const unsubscribeEffect = addEffect((time: number) => {
+      r3fActive = true;
       lenis.raf(time);
     });
 
-    // 4. Global Keyboard Navigation Listener
+    // Fallback RAF loop if Three.js canvas is not mounted
+    let fallbackRafId: number | null = null;
+    const fallbackRaf = (time: number) => {
+      if (!r3fActive && lenisRef.current) {
+        lenisRef.current.raf(time);
+      }
+      fallbackRafId = requestAnimationFrame(fallbackRaf);
+    };
+    fallbackRafId = requestAnimationFrame(fallbackRaf);
+
+    // Page Visibility API optimization (suspend during tab switch)
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        lenis.stop();
+      } else {
+        lenis.start();
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    // Global Keyboard Quick Navigation Listener
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Don't intercept when user is typing in form inputs
       if (
         document.activeElement?.tagName === "INPUT" ||
         document.activeElement?.tagName === "TEXTAREA" ||
@@ -71,17 +97,17 @@ export default function ScrollShell({ children }: ScrollShellProps) {
 
       if (e.key === "Home") {
         e.preventDefault();
-        lenis.scrollTo(0, { duration: 1.2 });
+        lenis.scrollTo(0, { duration: 1.0 });
       } else if (e.key === "End") {
         e.preventDefault();
-        lenis.scrollTo(document.documentElement.scrollHeight, { duration: 1.5 });
+        lenis.scrollTo(document.documentElement.scrollHeight, { duration: 1.2 });
       } else if (e.key >= "1" && e.key <= "7") {
         const idx = parseInt(e.key, 10) - 1;
         if (SECTION_ANCHORS[idx]) {
           const el = document.getElementById(SECTION_ANCHORS[idx].id);
           if (el) {
             e.preventDefault();
-            lenis.scrollTo(el, { duration: 1.2, offset: -20 });
+            lenis.scrollTo(el, { duration: 1.0, offset: -20 });
           }
         }
       }
@@ -91,7 +117,9 @@ export default function ScrollShell({ children }: ScrollShellProps) {
 
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       unsubscribeEffect();
+      if (fallbackRafId) cancelAnimationFrame(fallbackRafId);
       bindLenisScrollBus(null);
       lenis.destroy();
       lenisRef.current = null;
@@ -112,7 +140,7 @@ export default function ScrollShell({ children }: ScrollShellProps) {
   // ── 3. PROGRAMMATIC SCROLL DISPATCHER ──────────────────────────
   const scrollToTop = useCallback(() => {
     if (lenisRef.current) {
-      lenisRef.current.scrollTo(0, { duration: 1.2 });
+      lenisRef.current.scrollTo(0, { duration: 1.0 });
     } else {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -120,7 +148,7 @@ export default function ScrollShell({ children }: ScrollShellProps) {
 
   return (
     <div className="relative w-full min-h-screen">
-      {/* ── Main Children Content ───────────────────────────────── */}
+      {/* ── Main Page Content ──────────────────────────────────── */}
       {children}
 
       {/* ── Floating Back-To-Top HUD Action Beacon ────────────────── */}
@@ -133,7 +161,7 @@ export default function ScrollShell({ children }: ScrollShellProps) {
       >
         <button
           onClick={scrollToTop}
-          className="p-3 bg-black/80 hover:bg-[#B4F342] text-white hover:text-black border border-white/20 hover:border-[#B4F342] rounded-sm transition-all shadow-2xl flex items-center justify-center group backdrop-blur-md cursor-pointer"
+          className="p-3 bg-black/85 hover:bg-[#B4F342] text-white hover:text-black border border-white/20 hover:border-[#B4F342] rounded-sm transition-all shadow-2xl flex items-center justify-center group backdrop-blur-md cursor-pointer"
           title="Smooth scroll to top (Home key)"
         >
           <ChevronUp className="w-4 h-4 transition-transform group-hover:-translate-y-0.5" />
