@@ -22,9 +22,7 @@ import { FiGithub, FiLinkedin } from "react-icons/fi";
 // WebGL Scenes & Shaders
 import HeroAboutScene from "@/components/canvas/HeroAboutScene";
 import ContactGlassScene from "@/components/canvas/ContactGlassScene";
-import ExperienceBgScene from "@/components/canvas/ExperienceBgScene";
-import SkillsMatrixBgScene from "@/components/canvas/SkillsMatrixBgScene";
-import EducationBgScene from "@/components/canvas/EducationBgScene";
+import UnifiedSectionsBg from "@/components/canvas/UnifiedSectionsBg";
 
 // DOM & HUD Components
 import HeroHUD from "@/components/dom/HeroHUD";
@@ -192,8 +190,8 @@ export default function PortfolioPage() {
           SECTION 3: PROFESSIONAL EXPERIENCE
       ═══════════════════════════════════════════════════════════ */}
       <section id="experience" className="relative z-10 min-h-screen bg-[#080808] px-6 sm:px-10 md:px-14 py-24 border-t border-white/10 overflow-hidden">
-        {/* Interactive 3D WebGL Background Scene with Floating Cloud Nodes */}
-        <ExperienceBgScene />
+        {/* Unified Lightweight 3D Dot-Matrix Background with Floating Polyhedra */}
+        <UnifiedSectionsBg variant="experience" accent="lime" opacity={0.7} />
 
         <div className="relative z-10 max-w-7xl mx-auto space-y-12">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6 bg-[#080808]/80 backdrop-blur-md p-6 rounded-sm">
@@ -308,8 +306,8 @@ export default function PortfolioPage() {
           SECTION 5: TECHNICAL SKILLS MATRIX
       ═══════════════════════════════════════════════════════════ */}
       <section id="skills" className="relative z-10 min-h-screen bg-[#080808] px-6 sm:px-10 md:px-14 py-24 border-t border-white/10 overflow-hidden">
-        {/* Interactive 3D WebGL Background Scene with Floating Tech Polyhedra */}
-        <SkillsMatrixBgScene />
+        {/* Unified Lightweight 3D Dot-Matrix Background with Floating Polyhedra */}
+        <UnifiedSectionsBg variant="skills" accent="lime" opacity={0.7} />
 
         <div className="relative z-10 max-w-7xl mx-auto space-y-12">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6 bg-[#080808]/80 backdrop-blur-md p-6 rounded-sm">
@@ -447,8 +445,8 @@ export default function PortfolioPage() {
           SECTION 6: EDUCATION & ACADEMIC STANDING
       ═══════════════════════════════════════════════════════════ */}
       <section id="education" className="relative z-10 min-h-screen bg-[#050505] px-6 sm:px-10 md:px-14 py-24 border-t border-white/10 overflow-hidden">
-        {/* Interactive 3D WebGL Background Scene with Rotating Gyroscope Rings */}
-        <EducationBgScene />
+        {/* Unified Lightweight 3D Dot-Matrix Background with Floating Polyhedra */}
+        <UnifiedSectionsBg variant="education" accent="cyan" opacity={0.7} />
 
         <div className="relative z-10 max-w-7xl mx-auto space-y-12">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6 bg-[#050505]/80 backdrop-blur-md p-6 rounded-sm">

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import ProjectCyberGridBg from "@/components/canvas/ProjectCyberGridBg";
 import ProjectCardSync, {
   ProjectMetric,
 } from "@/components/dom/ProjectCardSync";
@@ -190,6 +189,8 @@ const PROJECTS_REGISTRY: ProjectData[] = [
   },
 ];
 
+import UnifiedSectionsBg from "@/components/canvas/UnifiedSectionsBg";
+
 export default function Projects() {
   const [activeFilter, setActiveFilter] = useState<ProjectCategory>("ALL");
 
@@ -211,8 +212,8 @@ export default function Projects() {
       id="projects"
       className="relative z-10 min-h-screen bg-[#050505] px-6 sm:px-10 md:px-14 py-20 border-t border-white/10 overflow-hidden"
     >
-      {/* ── 3D Perspective Cyber Grid & Velocity UV Curl Layer ── */}
-      <ProjectCyberGridBg />
+      {/* ── Unified 3D Dot-Matrix Grid & Floating Data Nodes Layer ── */}
+      <UnifiedSectionsBg variant="projects" accent="cyan" opacity={0.75} />
 
       <div className="relative z-10 max-w-7xl mx-auto space-y-8">
         {/* ── 1. Section Header & Telemetry Status ────────────────── */}
