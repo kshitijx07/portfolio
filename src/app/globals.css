@@ -6,6 +6,9 @@
   --color-acid-lime: #B7FF00;
   --color-acid-glow: rgba(183, 255, 0, 0.25);
   --color-cyber-blue: #00D2FF;
+  --color-electric-blue: #203DFF;
+  --color-electric-blue-deep: #07145C;
+  --color-electric-blue-glow: #6F82FF;
   --color-void-black: #050505;
   --color-surface-dark: #0D0D0D;
   --color-surface-card: #141414;
@@ -16,31 +19,37 @@
   --font-serif: var(--font-newsreader), Georgia, serif;
   --font-sans: var(--font-jakarta), system-ui, sans-serif;
   --font-mono: var(--font-mono), "JetBrains Mono", "IBM Plex Mono", monospace;
+  --font-script: "Caveat", "Brush Script MT", "Segoe Script", cursive;
 }
 
 :root {
-  --bg-primary: #FAF9F6;
-  --bg-surface: #FFFFFF;
-  --bg-card: rgba(255, 255, 255, 0.85);
-  --bg-card-solid: #FFFFFF;
-  --bg-secondary: #F0EFEA;
+  --bg-primary: #050505;
+  --bg-surface: #0D0D0D;
+  --bg-card: rgba(16, 16, 16, 0.75);
+  --bg-card-solid: #141414;
+  --bg-secondary: #181818;
   
-  --text-primary: #050505;
-  --text-secondary: #6B6A65;
-  --text-muted: #9E9D96;
+  --bg-electric-blue: #07145C;
+  --bg-electric-blue-deep: #091967;
+  --color-electric-blue: #203DFF;
+  --color-electric-blue-glow: #6F82FF;
   
-  --border-color: rgba(0, 0, 0, 0.08);
-  --grid-line: rgba(0, 0, 0, 0.06);
-  --grid-crosshair: rgba(0, 0, 0, 0.25);
+  --text-primary: #FFFFFF;
+  --text-secondary: #A0A09A;
+  --text-muted: #60605C;
   
-  --accent-acid: #82BC00;
-  --accent-acid-bright: #9EE000;
-  --accent-acid-bg: rgba(130, 188, 0, 0.12);
-  --accent-blue: #0066FF;
+  --border-color: rgba(255, 255, 255, 0.09);
+  --grid-line: rgba(255, 255, 255, 0.07);
+  --grid-crosshair: rgba(183, 255, 0, 0.4);
   
-  --glass-border: rgba(0, 0, 0, 0.08);
-  --glass-specular: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.2) 100%);
-  --glass-glow: rgba(130, 188, 0, 0.1);
+  --accent-acid: #B7FF00;
+  --accent-acid-bright: #D4FF00;
+  --accent-acid-bg: rgba(183, 255, 0, 0.12);
+  --accent-blue: #00D2FF;
+  
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-specular: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.02) 100%);
+  --glass-glow: rgba(183, 255, 0, 0.15);
 }
 
 /* Experimental Future Dark Void Mode (HAOQI.DESIGN inspired) */

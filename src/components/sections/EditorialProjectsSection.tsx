@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowUpRight, ExternalLink, Layers, Terminal, GitBranch, ShieldCheck } from "lucide-react";
+import { ArrowUpRight, ExternalLink, GitBranch, ShieldCheck, Layers } from "lucide-react";
 import { FiGithub } from "react-icons/fi";
 import { ProjectData } from "@/components/modals/CaseStudyModal";
 
@@ -40,165 +40,202 @@ const architectureDiagrams: Record<string, string[]> = {
   ],
 };
 
+const projectThemes: Record<string, { badge: string; tag: string }> = {
+  HostelHub: { badge: "CODING PROJECT", tag: "01 / CLOUD ARCHITECTURE" },
+  Grocito: { badge: "FULL STACK SYSTEM", tag: "02 / SPRING BOOT & REACT" },
+  "Serverless AI X-Ray Analyzer": { badge: "AI & SERVERLESS", tag: "03 / AWS LAMBDA & TERRAFORM" },
+};
+
 export default function EditorialProjectsSection({ projects, onOpenCaseStudy }: EditorialProjectsSectionProps) {
+  // Cascading pixel steps for Reference 3 motif
+  const archivePixelSteps = [
+    { top: "6%", left: "2%" },
+    { top: "12%", left: "5%" },
+    { top: "18%", left: "8%" },
+    { top: "24%", left: "11%" },
+    { top: "30%", left: "14%" },
+  ];
+
   return (
-    <section id="work" className="py-16 md:py-24 border-t border-[var(--border-color)]">
-      {/* Section Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12 pb-6 border-b border-[var(--border-color)]">
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <span className="w-2 h-2 bg-[var(--accent-acid)]" />
-            <span className="font-mono text-xs text-[var(--accent-acid)] tracking-wider uppercase font-bold">
-              01 // INDEXED WORKS
-            </span>
-          </div>
-          <h2 className="text-3xl md:text-5xl font-display font-extrabold tracking-tight text-[var(--text-primary)] uppercase">
-            Selected Cloud Engineering Systems
-          </h2>
-        </div>
-        <p className="font-mono text-xs text-[var(--text-secondary)] max-w-sm">
-          Architectural case studies across Kubernetes orchestration, distributed backend portals, and serverless AI pipelines.
-        </p>
+    <section id="work" className="py-20 md:py-28 border-t border-[var(--border-color)] relative overflow-hidden bg-[#050505]">
+      {/* Decorative Cascading Pixel Staircase on Archive Margin (Reference 3) */}
+      <div className="absolute inset-0 pointer-events-none z-0 hidden lg:block">
+        {archivePixelSteps.map((step, idx) => (
+          <motion.div
+            key={idx}
+            animate={{
+              opacity: [0.3, 0.9, 0.3],
+              scale: [0.95, 1.05, 0.95],
+            }}
+            transition={{
+              duration: 3.5 + idx * 0.3,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: idx * 0.2,
+            }}
+            style={{ top: step.top, left: step.left }}
+            className="absolute w-3 h-3 bg-[var(--accent-acid)] shadow-[0_0_12px_rgba(183,255,0,0.4)]"
+          />
+        ))}
       </div>
 
-      {/* Editorial Case Study List */}
-      <div className="space-y-16 md:space-y-24">
-        {projects.map((project, idx) => {
-          const archDiagram = architectureDiagrams[project.title] || [];
+      <div className="max-w-[1500px] mx-auto px-4 md:px-8 relative z-10 space-y-16">
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-white/15">
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <span className="w-2 h-2 bg-[var(--accent-acid)]" />
+              <span className="font-mono text-xs text-[var(--accent-acid)] tracking-wider uppercase font-bold">
+                03 // DIGITAL ARCHIVE & SELECTED WORKS
+              </span>
+            </div>
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-extrabold tracking-tight text-white uppercase">
+              Production Systems & Case Studies
+            </h2>
+          </div>
+          <p className="font-mono text-xs text-white/60 max-w-sm">
+            Architectural case studies across Kubernetes orchestration, distributed backend systems, and serverless AI pipelines.
+          </p>
+        </div>
 
-          return (
-            <motion.div
-              key={project.title}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-              className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start group"
-            >
-              {/* Left/Main Column: High-Impact Visual Asset Stage with Technical Overlay */}
-              <div
-                onClick={() => onOpenCaseStudy(project)}
-                className="lg:col-span-8 relative border border-[var(--border-color)] bg-[var(--bg-surface)] overflow-hidden cursor-pointer group/img"
-                data-cursor="Project"
+        {/* Digital Archive Editorial Case Study Cards (Reference 3 Aesthetic) */}
+        <div className="space-y-20 md:space-y-28">
+          {projects.map((project, idx) => {
+            const archDiagram = architectureDiagrams[project.title] || [];
+            const meta = projectThemes[project.title] || { badge: "CODING PROJECT", tag: "SYSTEM" };
+
+            return (
+              <motion.div
+                key={project.title}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                className="relative border border-white/15 bg-[#0D0D0D] p-4 sm:p-6 md:p-8 space-y-6"
               >
-                {/* Top HUD Bar on Asset */}
-                <div className="flex items-center justify-between px-4 py-2.5 bg-[var(--bg-primary)]/90 border-b border-[var(--border-color)] font-mono text-[11px] text-[var(--text-secondary)]">
-                  <span className="text-[var(--text-primary)] font-bold">
-                    {project.title.toUpperCase()} // SYSTEM_VIEW
-                  </span>
-                  <span className="hud-tag hud-tag-acid text-[9px] py-0.5 px-2">
-                    {project.category}
+                {/* Floating Acid-Lime Badge (Reference 3 Stamp) */}
+                <div className="absolute -top-3 right-6 z-20">
+                  <span className="px-3.5 py-1 bg-[var(--accent-acid)] text-[#050505] font-mono text-[10px] font-extrabold uppercase tracking-wider shadow-[0_0_15px_rgba(183,255,0,0.5)]">
+                    [{meta.badge}]
                   </span>
                 </div>
 
-                {/* Asset Screenshot */}
-                <div className="relative w-full h-[280px] sm:h-[380px] md:h-[440px] overflow-hidden bg-black/20">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover group-hover/img:scale-[1.02] transition-transform duration-500"
-                  />
+                {/* Top Card Meta Header */}
+                <div className="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-white/10 font-mono text-xs text-white/70">
+                  <div className="flex items-center gap-2">
+                    <span className="text-[var(--accent-acid)] font-bold">{meta.tag}</span>
+                    <span>• {project.title.toUpperCase()}</span>
+                  </div>
+                  <span>YEAR // {project.year}</span>
                 </div>
 
-                {/* Technical System Architecture Blueprint Overlay */}
-                <div className="p-4 bg-[var(--bg-primary)] border-t border-[var(--border-color)] font-mono text-[10px] space-y-1.5">
-                  <div className="flex items-center gap-1.5 text-[var(--accent-acid)] font-bold mb-1">
-                    <GitBranch size={12} />
-                    <span>SYSTEM TOPOLOGY & FLOW DIAGRAM</span>
-                  </div>
-                  <div className="bg-[var(--bg-surface)] p-3 border border-[var(--border-color)] text-[var(--text-secondary)] leading-relaxed space-y-0.5 select-none">
-                    {archDiagram.map((line, lIdx) => (
-                      <p key={lIdx} className={line.startsWith("▼") ? "text-[var(--accent-acid)] font-bold" : "text-[var(--text-primary)]"}>
-                        {line}
-                      </p>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Bottom Asset Meta Strip */}
-                <div className="flex items-center justify-between px-4 py-2 bg-[var(--bg-primary)]/90 border-t border-[var(--border-color)] font-mono text-[10px] text-[var(--text-muted)]">
-                  <span>STAGE // PRODUCTION DEPLOYED</span>
-                  <span>{project.year}</span>
-                </div>
-              </div>
-
-              {/* Right Column: Case Study Narrative & Technical Matrix */}
-              <div className="lg:col-span-4 flex flex-col justify-between h-full space-y-6 pt-2">
-                <div>
-                  {/* Project Number & Status */}
-                  <div className="flex items-center justify-between font-mono text-xs text-[var(--text-muted)] mb-3">
-                    <span>0{idx + 1} / 0{projects.length}</span>
-                    <span className="text-[var(--accent-acid)] font-semibold">✦ VERIFIED ARCHITECTURE</span>
-                  </div>
-
-                  {/* Project Title */}
-                  <h3
+                {/* Main Asymmetric Composition */}
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                  {/* Left Column: Warm Paper / High-Contrast Showcase Stage (Reference 3) */}
+                  <div
                     onClick={() => onOpenCaseStudy(project)}
-                    className="text-2xl md:text-3xl font-display font-extrabold text-[var(--text-primary)] hover:text-[var(--accent-acid)] transition-colors cursor-pointer mb-3 uppercase tracking-tight flex items-center justify-between"
+                    className="lg:col-span-8 relative bg-[#FAF9F6] p-4 sm:p-6 md:p-8 border border-white/20 text-[#050505] cursor-pointer group"
+                    data-cursor="Project"
                   >
-                    <span>{project.title}</span>
-                    <ArrowUpRight size={20} className="text-[var(--accent-acid)] opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </h3>
+                    {/* Top Paper Bar */}
+                    <div className="flex items-center justify-between pb-3 mb-4 border-b border-black/10 font-mono text-[11px] text-black/60 font-semibold">
+                      <span>SYSTEM_VIEW // PRODUCTION</span>
+                      <span className="text-black font-bold uppercase">{project.category}</span>
+                    </div>
 
-                  {/* Project Description */}
-                  <p className="text-xs md:text-sm text-[var(--text-secondary)] leading-relaxed font-sans mb-6">
-                    {project.description}
-                  </p>
+                    {/* Screenshot Showcase Container */}
+                    <div className="relative w-full h-[260px] sm:h-[360px] md:h-[420px] overflow-hidden bg-black/5 border border-black/10">
+                      <img
+                        src={project.image}
+                        alt={project.title}
+                        className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
+                      />
+                    </div>
 
-                  {/* Key Deliverable Bullet Points */}
-                  <div className="space-y-2 mb-6 font-mono text-xs border-l-2 border-[var(--accent-acid)] pl-3">
-                    {project.highlights.slice(0, 2).map((h, hIdx) => (
-                      <p key={hIdx} className="text-[var(--text-secondary)] text-[11px] leading-relaxed">
-                        • {h}
-                      </p>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Tech Matrix Chips & Action Buttons */}
-                <div className="space-y-4 pt-4 border-t border-[var(--border-color)]">
-                  <div>
-                    <span className="font-mono text-[10px] text-[var(--text-muted)] uppercase tracking-wider block mb-2 font-bold">
-                      TECH STACK INFRASTRUCTURE
-                    </span>
-                    <div className="flex flex-wrap gap-1.5">
-                      {project.tech.map((t) => (
-                        <span
-                          key={t}
-                          className="px-2 py-0.5 border border-[var(--border-color)] bg-[var(--bg-secondary)] font-mono text-[10px] text-[var(--text-primary)]"
-                        >
-                          {t}
-                        </span>
-                      ))}
+                    {/* Paper Bottom Description */}
+                    <div className="pt-4 mt-4 border-t border-black/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2 font-mono text-[11px] text-black/80">
+                      <span className="font-bold uppercase tracking-wider">{project.title}™ ARCHITECTURE</span>
+                      <span className="text-black/60">CLICK TO EXPAND FULL BLUEPRINT →</span>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 pt-2">
-                    <button
-                      onClick={() => onOpenCaseStudy(project)}
-                      className="hud-btn hud-tag-acid flex-1 justify-center py-2"
-                    >
-                      <span>Inspect Case Study</span>
-                      <ArrowUpRight size={13} />
-                    </button>
-
-                    {project.github && project.github !== "#" && (
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hud-btn p-2"
-                        title="GitHub Repository"
+                  {/* Right Column: Case Study Narrative & Blueprint Matrix */}
+                  <div className="lg:col-span-4 flex flex-col justify-between h-full space-y-6 pt-2">
+                    <div className="space-y-4">
+                      {/* Project Title */}
+                      <h3
+                        onClick={() => onOpenCaseStudy(project)}
+                        className="text-2xl md:text-3xl font-display font-extrabold text-white hover:text-[var(--accent-acid)] transition-colors cursor-pointer uppercase tracking-tight flex items-center justify-between"
                       >
-                        <FiGithub size={15} />
-                      </a>
-                    )}
+                        <span>{project.title}</span>
+                        <ArrowUpRight size={22} className="text-[var(--accent-acid)]" />
+                      </h3>
+
+                      {/* Summary */}
+                      <p className="text-xs md:text-sm text-white/70 leading-relaxed font-sans">
+                        {project.description}
+                      </p>
+
+                      {/* Technical Blueprint Flow Box */}
+                      <div className="p-3.5 bg-[#141414] border border-white/10 font-mono text-[10px] space-y-1">
+                        <div className="flex items-center gap-1 text-[var(--accent-acid)] font-bold mb-1">
+                          <GitBranch size={11} />
+                          <span>FLOW BLUEPRINT</span>
+                        </div>
+                        {archDiagram.slice(0, 5).map((line, lIdx) => (
+                          <p key={lIdx} className={line.startsWith("▼") ? "text-[var(--accent-acid)] font-bold" : "text-white/80"}>
+                            {line}
+                          </p>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Tech Stack Chips & Action Trigger */}
+                    <div className="space-y-4 pt-4 border-t border-white/10">
+                      <div>
+                        <span className="font-mono text-[10px] text-white/50 uppercase tracking-wider block mb-2 font-bold">
+                          INFRASTRUCTURE MATRIX
+                        </span>
+                        <div className="flex flex-wrap gap-1.5">
+                          {project.tech.map((t) => (
+                            <span
+                              key={t}
+                              className="px-2 py-0.5 border border-white/15 bg-white/5 font-mono text-[10px] text-white/90"
+                            >
+                              {t}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2 pt-2">
+                        <button
+                          onClick={() => onOpenCaseStudy(project)}
+                          className="hud-btn hud-tag-acid flex-1 justify-center py-2.5 font-bold"
+                        >
+                          <span>Inspect Case Study</span>
+                          <ArrowUpRight size={14} />
+                        </button>
+
+                        {project.github && project.github !== "#" && (
+                          <a
+                            href={project.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hud-btn p-2.5 border-white/20 text-white hover:border-[var(--accent-acid)]"
+                            title="GitHub Repository"
+                          >
+                            <FiGithub size={15} />
+                          </a>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </motion.div>
-          );
-        })}
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

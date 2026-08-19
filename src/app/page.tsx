@@ -1,23 +1,23 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion } from "framer-motion";
 
 // Technical UI & HUD Framework
 import TechnicalHeader from "@/components/ui/TechnicalHeader";
 import TechnicalHUDBar from "@/components/ui/TechnicalHUDBar";
 import TechnicalGridShell from "@/components/ui/TechnicalGridShell";
 
-// Sections & Modules
+// Multi-Environment Sections (Inspired by HAOQI.DESIGN)
 import TechnicalHeroSection from "@/components/sections/TechnicalHeroSection";
+import EditorialAboutSection from "@/components/sections/EditorialAboutSection";
+import PlatformUpdatesModule from "@/components/bento/PlatformUpdatesModule";
 import EditorialProjectsSection from "@/components/sections/EditorialProjectsSection";
 import SystemsTopology from "@/components/skills/SystemsTopology";
+import ExperienceTimelineModule from "@/components/bento/ExperienceTimelineModule";
 import RetroPixelGameRoom from "@/components/bento/RetroPixelGameRoom";
-import PlatformUpdatesModule from "@/components/bento/PlatformUpdatesModule";
 import AboutEducationModule from "@/components/bento/AboutEducationModule";
 import KeyMilestonesModule from "@/components/bento/KeyMilestonesModule";
 import CodingProfilesBento from "@/components/bento/CodingProfilesBento";
-import ExperienceTimelineModule from "@/components/bento/ExperienceTimelineModule";
 import ContactResumePanel from "@/components/bento/ContactResumePanel";
 import CaseStudyModal, { ProjectData } from "@/components/modals/CaseStudyModal";
 
@@ -96,7 +96,7 @@ export default function Home() {
   };
 
   return (
-    <div className="relative min-h-screen pb-16">
+    <div className="relative min-h-screen pb-16 bg-[#050505] text-white">
       {/* 12-Column Persistent Structural Grid & Crosshairs */}
       <TechnicalGridShell />
 
@@ -106,45 +106,60 @@ export default function Home() {
         onToggleSound={toggleSound}
       />
 
-      {/* Main Editorial Content Flow */}
-      <main className="max-w-[1500px] mx-auto px-4 md:px-8 relative z-10 space-y-4">
-        {/* 1. HERO SECTION */}
+      {/* Main Editorial Multi-Environment Content Flow */}
+      <main className="relative z-10 space-y-0">
+        {/* 1. HERO: ELECTRIC BLUE IMMERSIVE ENVIRONMENT (Reference 1) */}
         <TechnicalHeroSection />
 
-        {/* 2. LIVE PLATFORM TELEMETRY DECK */}
-        <PlatformUpdatesModule />
+        {/* 2. EDITORIAL BIO: DARK VOID + PORTRAIT + PIXEL STAIRCASE (Reference 2) */}
+        <EditorialAboutSection />
 
-        {/* 3. SELECTED WORK / EDITORIAL CASE STUDIES (With System Flow Diagrams) */}
+        {/* 3. LIVE PLATFORM TELEMETRY DECK */}
+        <div className="max-w-[1500px] mx-auto px-4 md:px-8 py-8">
+          <PlatformUpdatesModule />
+        </div>
+
+        {/* 4. SELECTED WORKS: DIGITAL ARCHIVE & PAPER CANVASES (Reference 3) */}
         <EditorialProjectsSection
           projects={projectsData}
           onOpenCaseStudy={setSelectedProject}
         />
 
-        {/* 4. SYSTEMS TOPOLOGY (Replacing Generic Sphere) */}
-        <SystemsTopology />
+        {/* 5. SYSTEMS TOPOLOGY GRAPH (Interactive Infrastructure Diagram) */}
+        <div className="max-w-[1500px] mx-auto px-4 md:px-8">
+          <SystemsTopology />
+        </div>
 
-        {/* 5. PROFESSIONAL TIMELINE */}
-        <ExperienceTimelineModule />
+        {/* 6. PROFESSIONAL ENGINEERING TIMELINE */}
+        <div className="max-w-[1500px] mx-auto px-4 md:px-8">
+          <ExperienceTimelineModule />
+        </div>
 
-        {/* 6. EXPERIMENTAL DISCOVERY LAB (Playable 2D World) */}
-        <RetroPixelGameRoom
-          projects={projectsData}
-          onOpenCaseStudy={setSelectedProject}
-        />
+        {/* 7. EXPERIMENTAL DISCOVERY LAB (Playable 2D Developer Room) */}
+        <div className="max-w-[1500px] mx-auto px-4 md:px-8">
+          <RetroPixelGameRoom
+            projects={projectsData}
+            onOpenCaseStudy={setSelectedProject}
+          />
+        </div>
 
-        {/* 7. ACADEMIC FOUNDATION & HONORS */}
-        <section id="about" className="py-16 border-t border-[var(--border-color)]">
+        {/* 8. ACADEMIC FOUNDATION & HONORS */}
+        <div className="max-w-[1500px] mx-auto px-4 md:px-8 py-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
             <AboutEducationModule />
             <KeyMilestonesModule />
           </div>
-        </section>
+        </div>
 
-        {/* 8. CODING PROFILES & TELEMETRY */}
-        <CodingProfilesBento />
+        {/* 9. CODING PROFILES & ALGORITHMIC TELEMETRY */}
+        <div className="max-w-[1500px] mx-auto px-4 md:px-8">
+          <CodingProfilesBento />
+        </div>
 
-        {/* 9. ENCRYPTED TRANSMISSION & RESUME */}
-        <ContactResumePanel />
+        {/* 10. ENCRYPTED TRANSMISSION & CV DOWNLOAD */}
+        <div className="max-w-[1500px] mx-auto px-4 md:px-8">
+          <ContactResumePanel />
+        </div>
       </main>
 
       {/* Persistent Bottom Technical HUD Telemetry Bar */}
