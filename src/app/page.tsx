@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Terminal,
   Server,
@@ -15,6 +15,8 @@ import {
   X,
   Layers,
   Database,
+  Wrench,
+  BookOpen,
   ExternalLink,
 } from "lucide-react";
 import { FiGithub, FiLinkedin } from "react-icons/fi";
@@ -55,6 +57,16 @@ const ARCHITECTURE_STREAM_IMAGES = [
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const navLinks = [
     { label: "About", href: "#about" },
@@ -148,9 +160,9 @@ export default function Home() {
               elevation={-6}
               spinSpeed={0.04}
               doppler={0.25}
-              glow={0.7}
-              steps={160}
-              resolution={0.65}
+              glow={0.8}
+              steps={isMobile ? 180 : 280}
+              resolution={isMobile ? 0.6 : 0.7}
               hotColor="#E0F7FA"
               midColor="#00E5FF"
               coolColor="#006064"
@@ -164,7 +176,7 @@ export default function Home() {
           <div className="relative z-10 p-6 sm:p-12 md:p-16 flex flex-col justify-center space-y-8 min-h-[500px] sm:min-h-[560px]">
             <div className="space-y-4 max-w-3xl">
               <div className="flex items-center gap-2">
-                <Badge variant="cyan" className="text-xs uppercase tracking-wider py-1 px-3 border-cyan-500/40 bg-cyan-950/60 text-cyan-300">
+                <Badge variant="cyan" className="text-xs uppercase tracking-wider py-1 px-3 border-cyan-500/40 bg-cyan-950/60 text-cyan-300 font-mono">
                   DevOps & Cloud Infrastructure Engineer
                 </Badge>
               </div>
@@ -248,13 +260,13 @@ export default function Home() {
               <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
               <span>Systems Architecture & Workloads Stream</span>
             </div>
-            <span className="text-zinc-500 hidden sm:inline">LIVE 3D CORRIDOR // PERSPECTIVE RAILS</span>
+            <span className="text-zinc-500 hidden sm:inline font-mono">LIVE 3D CORRIDOR // PERSPECTIVE RAILS</span>
           </div>
 
           <ImageStreamHero
             images={ARCHITECTURE_STREAM_IMAGES}
-            cards={8}
-            speed={24}
+            cards={9}
+            speed={22}
             axis={52}
             className="h-[360px] sm:h-[400px] w-full rounded-xl border border-zinc-800 bg-zinc-950 relative shadow-lg"
           >
@@ -559,13 +571,13 @@ export default function Home() {
             <span>04 // Skills & Competencies</span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* 1. DevOps & Cloud */}
-            <Card className="border-zinc-800 bg-zinc-900/30">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* 1. Cloud & DevOps */}
+            <Card className="border-zinc-800 bg-zinc-900/30 md:col-span-2 lg:col-span-2">
               <CardHeader className="pb-3">
                 <CardTitle className="text-base font-mono text-cyan-400 flex items-center gap-2">
                   <Cloud size={18} />
-                  <span>DevOps & Cloud</span>
+                  <span>Cloud & DevOps</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="flex flex-wrap gap-2">
@@ -586,7 +598,7 @@ export default function Home() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="flex flex-wrap gap-2">
-                {["Pinecone", "MongoDB", "MySQL"].map((s) => (
+                {["MongoDB", "MySQL", "Pinecone"].map((s) => (
                   <Badge key={s} variant="outline" className="text-xs py-1 px-2.5 border-zinc-700 bg-zinc-900/60 text-zinc-200">
                     {s}
                   </Badge>
@@ -620,7 +632,7 @@ export default function Home() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="flex flex-wrap gap-2">
-                {["LangGraph", "RAG", "Model Context Protocol (MCP)", "LangChain"].map((s) => (
+                {["LangGraph", "RAG", "Model Context Protocol (MCP)"].map((s) => (
                   <Badge key={s} variant="outline" className="text-xs py-1 px-2.5 border-zinc-700 bg-zinc-900/60 text-zinc-200">
                     {s}
                   </Badge>
@@ -645,16 +657,33 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            {/* 6. Core CS & Tools */}
+            {/* 6. CS Fundamentals */}
             <Card className="border-zinc-800 bg-zinc-900/30">
               <CardHeader className="pb-3">
                 <CardTitle className="text-base font-mono text-cyan-400 flex items-center gap-2">
-                  <Terminal size={18} />
-                  <span>Core CS & Tools</span>
+                  <BookOpen size={18} />
+                  <span>CS Fundamentals</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="flex flex-wrap gap-2">
-                {["DSA (Data Structures & Algorithms)", "OOP", "DBMS", "OS", "Linux", "Git", "GitHub", "DockerHub", "Postman"].map((s) => (
+                {["DSA", "OOP", "DBMS", "Operating Systems", "Linux"].map((s) => (
+                  <Badge key={s} variant="outline" className="text-xs py-1 px-2.5 border-zinc-700 bg-zinc-900/60 text-zinc-200">
+                    {s}
+                  </Badge>
+                ))}
+              </CardContent>
+            </Card>
+
+            {/* 7. Tools & Platforms */}
+            <Card className="border-zinc-800 bg-zinc-900/30 md:col-span-2 lg:col-span-2">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base font-mono text-cyan-400 flex items-center gap-2">
+                  <Wrench size={18} />
+                  <span>Tools & Platforms</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="flex flex-wrap gap-2">
+                {["Git", "GitHub", "DockerHub", "Postman", "Linux CLI"].map((s) => (
                   <Badge key={s} variant="outline" className="text-xs py-1 px-2.5 border-zinc-700 bg-zinc-900/60 text-zinc-200">
                     {s}
                   </Badge>
@@ -677,7 +706,7 @@ export default function Home() {
             {/* B.Tech */}
             <Card className="border-zinc-800 bg-zinc-900/30">
               <CardHeader className="pb-2">
-                <Badge variant="cyan" className="w-fit text-xs mb-1.5 border-cyan-500/40 bg-cyan-950/60 text-cyan-300">
+                <Badge variant="cyan" className="w-fit text-xs mb-1.5 border-cyan-500/40 bg-cyan-950/60 text-cyan-300 font-mono">
                   CGPA: 8.48 / 10
                 </Badge>
                 <CardTitle className="text-base font-bold text-zinc-100">
@@ -695,7 +724,7 @@ export default function Home() {
             {/* HSC */}
             <Card className="border-zinc-800 bg-zinc-900/30">
               <CardHeader className="pb-2">
-                <Badge variant="outline" className="w-fit text-xs mb-1.5 border-zinc-700 text-zinc-300">
+                <Badge variant="outline" className="w-fit text-xs mb-1.5 border-zinc-700 text-zinc-300 font-mono">
                   84.17%
                 </Badge>
                 <CardTitle className="text-base font-bold text-zinc-100">
@@ -713,7 +742,7 @@ export default function Home() {
             {/* SSC */}
             <Card className="border-zinc-800 bg-zinc-900/30">
               <CardHeader className="pb-2">
-                <Badge variant="outline" className="w-fit text-xs mb-1.5 border-zinc-700 text-zinc-300">
+                <Badge variant="outline" className="w-fit text-xs mb-1.5 border-zinc-700 text-zinc-300 font-mono">
                   97.00%
                 </Badge>
                 <CardTitle className="text-base font-bold text-zinc-100">

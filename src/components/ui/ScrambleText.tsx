@@ -14,8 +14,11 @@ export default function ScrambleText({ text, speed = 35, className = "" }: Scram
   const [displayText, setDisplayText] = useState(text);
 
   useEffect(() => {
-    // Respect prefers-reduced-motion
-    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    // Check prefers-reduced-motion immediately
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
       setDisplayText(text);
       return;
     }
