@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { Canvas } from "@react-three/fiber";
 import {
   Cloud,
   Server,
@@ -21,7 +20,6 @@ import { FiGithub, FiLinkedin } from "react-icons/fi";
 
 // WebGL Scenes & Shaders
 import HeroAboutScene from "@/components/canvas/HeroAboutScene";
-import WarpCorridor from "@/components/canvas/WarpCorridor";
 import ContactGlassScene from "@/components/canvas/ContactGlassScene";
 
 // DOM & HUD Components
@@ -281,16 +279,9 @@ export default function PortfolioPage() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════
-          SECTION 4: FEATURED CLOUD & AI PROJECTS WITH PROCEDURAL 3D VELOCITY FLOW
+          SECTION 4: FEATURED CLOUD & AI PROJECTS
       ═══════════════════════════════════════════════════════════ */}
-      <section id="projects" className="relative z-10 min-h-screen bg-[#050505] px-8 py-24 md:px-14 border-t border-white/10 overflow-hidden">
-        {/* Dynamic Procedural 3D Velocity Warp Shader Layer */}
-        <div className="absolute inset-0 z-0 opacity-45 pointer-events-none">
-          <Canvas camera={{ position: [0, 0, 1] }}>
-            <WarpCorridor baseSpeed={0.9} intensity={0.8} />
-          </Canvas>
-        </div>
-
+      <section id="projects" className="relative z-10 min-h-screen bg-[#050505] px-8 py-24 md:px-14 border-t border-white/10">
         <div className="relative z-10 max-w-7xl mx-auto space-y-12">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6 bg-[#050505]/70 backdrop-blur-sm p-4 rounded-sm">
             <div>
@@ -717,41 +708,6 @@ export default function PortfolioPage() {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════
-          SECTION 7: HYPER-SPEED WARP CORRIDOR ("INNOVATE WITH PURPOSE")
-      ═══════════════════════════════════════════════════════════ */}
-      <section className="relative z-10 flex h-screen w-full items-center justify-center overflow-hidden border-t border-white/10 bg-[#050505]">
-        {/* Full-Intensity Procedural WebGL Warp Shader */}
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          <Canvas camera={{ position: [0, 0, 1] }}>
-            <WarpCorridor baseSpeed={1.4} intensity={1.2} />
-          </Canvas>
-        </div>
-
-        {/* Center Typography Lockup Matching Screenshot */}
-        <div className="relative z-10 text-center select-none px-6">
-          <h2 className="text-6xl sm:text-7xl md:text-9xl font-black uppercase tracking-tight text-white leading-none drop-shadow-2xl">
-            INNOVATE
-            <br />
-            WITH
-            <br />
-            PURPOSE
-          </h2>
-          <div className="mt-8">
-            <ScrambleText
-              text="HIGH-PERFORMANCE ARCHITECTURES & CLOUD INFRASTRUCTURE"
-              className="text-xs tracking-widest text-[#B4F342] font-bold"
-            />
-          </div>
-        </div>
-
-        {/* HUD Crosshairs Overlay */}
-        <div className="absolute inset-0 grid grid-cols-4 grid-rows-4 pointer-events-none opacity-20">
-          {Array.from({ length: 16 }).map((_, i) => (
-            <div key={i} className="border-[0.5px] border-white/40" />
-          ))}
-        </div>
-      </section>
 
       {/* ═══════════════════════════════════════════════════════════
           SECTION 8: FINAL CONTACT & CLOSING VIEWPORT
