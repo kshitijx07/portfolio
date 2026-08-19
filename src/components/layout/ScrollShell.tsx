@@ -11,6 +11,7 @@ import {
   prefersReducedMotion,
 } from "@/lib/bus";
 import { ChevronUp } from "lucide-react";
+import SystemBootLoader from "@/components/ui/SystemBootLoader";
 
 interface SectionAnchor {
   id: string;
@@ -35,8 +36,17 @@ export interface ScrollShellProps {
 export default function ScrollShell({ children }: ScrollShellProps) {
   const lenisRef = useRef<Lenis | null>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
-  // ── 1. LENIS SMOOTH SCROLL & ADAPTIVE FRAME BRIDGE ─────────────
+  // ── 1. ALWAYS START FROM TOP ON MOUNT / REFRESH ───────────────
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.history.scrollRestoration = "manual";
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
+    }
+  }, []);
+
+  // ── 2. LENIS SMOOTH SCROLL & ADAPTIVE FRAME BRIDGE ─────────────
   useEffect(() => {
     const isReduced = prefersReducedMotion();
     const isLowEnd = isLowPowerDevice();
@@ -54,6 +64,9 @@ export default function ScrollShell({ children }: ScrollShellProps) {
       infinite: false,
     });
     lenisRef.current = lenis;
+
+    // Reset scroll position in Lenis immediately
+    lenis.scrollTo(0, { immediate: true });
 
     // Bind Lenis to global single-source telemetry bus
     bindLenisScrollBus(lenis);
@@ -126,7 +139,7 @@ export default function ScrollShell({ children }: ScrollShellProps) {
     };
   }, []);
 
-  // ── 2. SCROLL MONITOR FOR BACK-TO-TOP TRIGGER ─────────────────
+  // ── 3. SCROLL MONITOR FOR BACK-TO-TOP TRIGGER ─────────────────
   useEffect(() => {
     const unsubscribeScroll = subscribeScroll((state: ScrollSnapshot) => {
       setShowBackToTop(state.scrollTop > 450);
@@ -137,7 +150,7 @@ export default function ScrollShell({ children }: ScrollShellProps) {
     };
   }, []);
 
-  // ── 3. PROGRAMMATIC SCROLL DISPATCHER ──────────────────────────
+  // ── 4. PROGRAMMATIC SCROLL DISPATCHER ──────────────────────────
   const scrollToTop = useCallback(() => {
     if (lenisRef.current) {
       lenisRef.current.scrollTo(0, { duration: 1.0 });
@@ -146,8 +159,21 @@ export default function ScrollShell({ children }: ScrollShellProps) {
     }
   }, []);
 
+  const handleBootComplete = useCallback(() => {
+    setIsLoaded(true);
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { immediate: true });
+    }
+    if (typeof window !== "undefined") {
+      window.scrollTo(0, 0);
+    }
+  }, []);
+
   return (
     <div className="relative w-full min-h-screen">
+      {/* ── One-Line Style System Boot Loader Badge ────────────────── */}
+      <SystemBootLoader onComplete={handleBootComplete} minDuration={1400} />
+
       {/* ── Main Page Content ──────────────────────────────────── */}
       {children}
 
@@ -161,10 +187,10 @@ export default function ScrollShell({ children }: ScrollShellProps) {
       >
         <button
           onClick={scrollToTop}
-          className="p-3 bg-black/85 hover:bg-[#B4F342] text-white hover:text-black border border-white/20 hover:border-[#B4F342] rounded-sm transition-all shadow-2xl flex items-center justify-center group backdrop-blur-md cursor-pointer"
+          className="p-3.5 bg-black/85 hover:bg-[#B4F342] text-white hover:text-black border border-white/20 hover:border-[#B4F342] rounded-xs transition-all shadow-2xl flex items-center justify-center group backdrop-blur-md cursor-pointer min-h-[44px] min-w-[44px]"
           title="Smooth scroll to top (Home key)"
         >
-          <ChevronUp className="w-4 h-4 transition-transform group-hover:-translate-y-0.5" />
+          <ChevronUp className="w-5 h-5 transition-transform group-hover:-translate-y-0.5" />
         </button>
       </div>
     </div>
