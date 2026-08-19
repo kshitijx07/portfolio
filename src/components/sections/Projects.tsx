@@ -241,19 +241,19 @@ export default function Projects() {
         </div>
 
         {/* ── 2. Category Filter Navigation Tabs ──────────────────── */}
-        <div className="flex flex-wrap items-center gap-1.5 font-mono text-xs">
-          <span className="text-white/40 mr-1.5 flex items-center gap-1 text-[11px]">
-            <Filter size={11} />
+        <div className="flex flex-wrap items-center gap-2.5 font-mono text-sm">
+          <span className="text-white/60 mr-2 flex items-center gap-1.5 text-xs font-bold">
+            <Filter size={14} className="text-[#4DEEEA]" />
             <span>FILTER:</span>
           </span>
           {categories.map((cat) => (
             <button
               key={cat.value}
               onClick={() => setActiveFilter(cat.value)}
-              className={`px-3 py-1 rounded-xs transition-all border font-bold uppercase text-[10px] cursor-pointer ${
+              className={`min-h-[44px] px-5 py-2.5 rounded-xs transition-all border font-mono font-bold uppercase text-xs cursor-pointer shadow-sm ${
                 activeFilter === cat.value
-                  ? "bg-[#B4F342] text-black border-[#B4F342] shadow-sm"
-                  : "bg-white/5 text-white/70 border-white/10 hover:border-white/30 hover:text-white"
+                  ? "bg-[#B4F342] text-black border-[#B4F342] shadow-[0_0_15px_rgba(180,243,66,0.3)]"
+                  : "bg-black/60 text-white/80 border-white/15 hover:border-white/40 hover:text-white hover:bg-white/10"
               }`}
             >
               {cat.label}

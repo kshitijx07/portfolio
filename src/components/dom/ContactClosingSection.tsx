@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, useId } from "react";
+import React, { useState, useEffect } from "react";
 import ContactGlassScene from "@/components/canvas/ContactGlassScene";
-import { subscribePointer, getPointerSnapshot } from "@/lib/bus";
+import { subscribePointer } from "@/lib/bus";
 import {
   Mail,
   Phone,
@@ -16,7 +16,6 @@ import {
   Terminal,
   ShieldCheck,
   Globe,
-  Sparkles,
   ExternalLink,
 } from "lucide-react";
 import { FiGithub, FiLinkedin } from "react-icons/fi";
@@ -91,7 +90,6 @@ export default function ContactClosingSection() {
 
     setFormStatus("sending");
 
-    // Construct mailto link
     const subject = encodeURIComponent(
       `[Portfolio Contact // ${formState.category}] from ${formState.name}`
     );
@@ -119,7 +117,7 @@ export default function ContactClosingSection() {
   return (
     <section
       id="contact"
-      className="relative min-h-screen w-full overflow-hidden bg-[#00104A] text-white selection:bg-[#B4F342] selection:text-black border-t border-white/10"
+      className="relative min-h-screen w-full overflow-hidden bg-[#00104A] text-white selection:bg-[#B4F342] selection:text-black border-t border-white/15"
     >
       {/* ── 1. 3D Stacked Glass Letters & Optical Star 6 Canvas ──── */}
       <div className="absolute inset-0 pointer-events-none z-0 opacity-80">
@@ -130,7 +128,7 @@ export default function ContactClosingSection() {
       <div className="absolute inset-0 grid grid-cols-4 grid-rows-4 pointer-events-none z-0 opacity-15">
         {Array.from({ length: 16 }).map((_, i) => (
           <div key={i} className="relative border-[0.5px] border-white/30">
-            <span className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 text-[9px] text-white/40 font-mono">
+            <span className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 text-xs text-white/40 font-mono">
               +
             </span>
           </div>
@@ -140,78 +138,78 @@ export default function ContactClosingSection() {
       {/* ── 3. Main Content Container ─────────────────────────────── */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 md:px-14 py-20 lg:py-28 flex flex-col justify-between min-h-screen space-y-16">
         {/* Top Header Telemetry */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/15 pb-6 bg-[#00104A]/80 backdrop-blur-md p-6 rounded-sm">
           <div className="space-y-1">
-            <div className="flex items-center gap-2 font-mono text-xs text-[#4DEEEA]">
+            <div className="flex items-center gap-2 font-mono text-xs text-[#4DEEEA] font-bold">
               <span className="w-2 h-2 rounded-full bg-[#B4F342] animate-pulse" />
-              <span>COMMUNICATION GATEWAY // SECURE CHANNEL</span>
+              <span>07 // SECURE DISPATCH GATEWAY</span>
             </div>
             <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-tight text-white">
               Initiate Contact
             </h2>
           </div>
 
-          <div className="flex flex-wrap items-center gap-4 font-mono text-xs text-white/60">
-            <div className="flex items-center gap-1.5 bg-black/40 px-3 py-1.5 rounded-sm border border-white/10 backdrop-blur-sm">
-              <Clock className="w-3.5 h-3.5 text-[#B4F342]" />
-              <span>{timeUtc || "00:00:00 IST"}</span>
+          <div className="flex flex-wrap items-center gap-3 font-mono text-xs sm:text-sm text-white/80">
+            <div className="flex items-center gap-2 bg-black/60 px-4 py-2 rounded-xs border border-white/15 backdrop-blur-sm">
+              <Clock className="w-4 h-4 text-[#B4F342]" />
+              <span className="font-semibold">{timeUtc || "00:00:00 IST"}</span>
             </div>
-            <div className="flex items-center gap-1.5 bg-black/40 px-3 py-1.5 rounded-sm border border-white/10 backdrop-blur-sm">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#4DEEEA]" />
-              <span>TLS 1.3 // 256-BIT</span>
+            <div className="flex items-center gap-2 bg-black/60 px-4 py-2 rounded-xs border border-white/15 backdrop-blur-sm">
+              <ShieldCheck className="w-4 h-4 text-[#4DEEEA]" />
+              <span className="font-semibold">TLS 1.3 SECURED</span>
             </div>
           </div>
         </div>
 
-        {/* Middle Two-Column Grid: Left Telemetry & Right Terminal Form */}
+        {/* Middle Two-Column Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
           {/* Left Column: Direct Coordinates & Status Directory */}
           <div className="lg:col-span-5 space-y-8">
             <div className="space-y-4">
               <ScrambleText
                 text="SYSTEMS ARCHITECTURE & CLOUD INFRASTRUCTURE"
-                className="text-xs font-mono text-[#B4F342] tracking-wider font-semibold"
+                className="text-xs sm:text-sm font-mono text-[#B4F342] tracking-wider font-bold"
               />
-              <h3 className="text-4xl sm:text-5xl font-extrabold uppercase leading-[1.05] tracking-tight text-white">
+              <h3 className="text-4xl sm:text-5xl font-black uppercase leading-[1.08] tracking-tight text-white">
                 Let's Build
                 <br />
                 Something
                 <br />
                 Scalable & Resilient
               </h3>
-              <p className="text-sm text-white/70 font-mono leading-relaxed max-w-md pt-2">
+              <p className="text-sm sm:text-base text-zinc-300 font-mono leading-relaxed max-w-md pt-2">
                 Available for full-time DevOps, Cloud Infrastructure, and
                 Distributed Systems engineering roles. Open to technical
                 consulting and production pipeline optimizations.
               </p>
             </div>
 
-            {/* Direct Copy Badges */}
-            <div className="space-y-3 font-mono text-xs">
+            {/* Direct Action Cards */}
+            <div className="space-y-3.5 font-mono text-sm">
               {/* Email Trigger */}
-              <div className="p-4 bg-black/50 border border-white/10 rounded-sm hover:border-[#4DEEEA] transition-colors flex items-center justify-between group backdrop-blur-md">
-                <div className="flex items-center gap-3">
-                  <Mail className="w-4 h-4 text-[#4DEEEA]" />
+              <div className="p-4 sm:p-5 bg-black/70 border border-white/15 rounded-sm hover:border-[#4DEEEA] transition-colors flex items-center justify-between group backdrop-blur-md shadow-lg min-h-[72px]">
+                <div className="flex items-center gap-3.5">
+                  <Mail className="w-5 h-5 text-[#4DEEEA] shrink-0" />
                   <div>
-                    <div className="text-[10px] text-white/40 uppercase">
-                      Direct Inquiries
+                    <div className="text-xs text-white/50 uppercase font-semibold">
+                      Direct Email Inquiries
                     </div>
-                    <div className="text-white font-bold">{email}</div>
+                    <div className="text-white font-bold text-sm sm:text-base">{email}</div>
                   </div>
                 </div>
                 <button
                   onClick={handleCopyEmail}
-                  className="px-3 py-1.5 bg-white/10 hover:bg-[#4DEEEA] hover:text-black rounded-sm transition-colors flex items-center gap-1.5 text-[11px] font-bold"
+                  className="min-h-[44px] px-4 py-2 bg-white/10 hover:bg-[#4DEEEA] hover:text-black rounded-xs transition-colors flex items-center gap-2 text-xs font-bold shrink-0 ml-2 cursor-pointer"
                   title="Copy email to clipboard"
                 >
                   {emailCopied ? (
                     <>
-                      <Check className="w-3.5 h-3.5 text-[#B4F342]" />
+                      <Check className="w-4 h-4 text-[#B4F342]" />
                       <span>COPIED</span>
                     </>
                   ) : (
                     <>
-                      <Copy className="w-3.5 h-3.5" />
+                      <Copy className="w-4 h-4" />
                       <span>COPY</span>
                     </>
                   )}
@@ -219,29 +217,29 @@ export default function ContactClosingSection() {
               </div>
 
               {/* Phone Trigger */}
-              <div className="p-4 bg-black/50 border border-white/10 rounded-sm hover:border-[#B4F342] transition-colors flex items-center justify-between group backdrop-blur-md">
-                <div className="flex items-center gap-3">
-                  <Phone className="w-4 h-4 text-[#B4F342]" />
+              <div className="p-4 sm:p-5 bg-black/70 border border-white/15 rounded-sm hover:border-[#B4F342] transition-colors flex items-center justify-between group backdrop-blur-md shadow-lg min-h-[72px]">
+                <div className="flex items-center gap-3.5">
+                  <Phone className="w-5 h-5 text-[#B4F342] shrink-0" />
                   <div>
-                    <div className="text-[10px] text-white/40 uppercase">
-                      Voice / WhatsApp
+                    <div className="text-xs text-white/50 uppercase font-semibold">
+                      Voice / WhatsApp Channel
                     </div>
-                    <div className="text-white font-bold">{phone}</div>
+                    <div className="text-white font-bold text-sm sm:text-base">{phone}</div>
                   </div>
                 </div>
                 <button
                   onClick={handleCopyPhone}
-                  className="px-3 py-1.5 bg-white/10 hover:bg-[#B4F342] hover:text-black rounded-sm transition-colors flex items-center gap-1.5 text-[11px] font-bold"
+                  className="min-h-[44px] px-4 py-2 bg-white/10 hover:bg-[#B4F342] hover:text-black rounded-xs transition-colors flex items-center gap-2 text-xs font-bold shrink-0 ml-2 cursor-pointer"
                   title="Copy phone to clipboard"
                 >
                   {phoneCopied ? (
                     <>
-                      <Check className="w-3.5 h-3.5 text-black" />
+                      <Check className="w-4 h-4 text-black" />
                       <span>COPIED</span>
                     </>
                   ) : (
                     <>
-                      <Copy className="w-3.5 h-3.5" />
+                      <Copy className="w-4 h-4" />
                       <span>COPY</span>
                     </>
                   )}
@@ -249,17 +247,17 @@ export default function ContactClosingSection() {
               </div>
 
               {/* Location Badge */}
-              <div className="p-4 bg-black/50 border border-white/10 rounded-sm flex items-center justify-between backdrop-blur-md">
-                <div className="flex items-center gap-3">
-                  <MapPin className="w-4 h-4 text-[#FF3E1D]" />
+              <div className="p-4 sm:p-5 bg-black/70 border border-white/15 rounded-sm flex items-center justify-between backdrop-blur-md shadow-lg min-h-[72px]">
+                <div className="flex items-center gap-3.5">
+                  <MapPin className="w-5 h-5 text-[#FF3E1D] shrink-0" />
                   <div>
-                    <div className="text-[10px] text-white/40 uppercase">
+                    <div className="text-xs text-white/50 uppercase font-semibold">
                       Operations Base
                     </div>
-                    <div className="text-white font-bold">{location}</div>
+                    <div className="text-white font-bold text-sm sm:text-base">{location}</div>
                   </div>
                 </div>
-                <span className="bg-[#B4F342]/10 text-[#B4F342] border border-[#B4F342]/30 px-2 py-0.5 rounded-xs text-[10px] font-bold">
+                <span className="bg-[#B4F342]/15 text-[#B4F342] border border-[#B4F342]/40 px-3 py-1 rounded-xs text-xs font-bold">
                   ACTIVE
                 </span>
               </div>
@@ -269,37 +267,37 @@ export default function ContactClosingSection() {
             <a
               href="/Kshitij_Kumbhar_Resume.pdf"
               download="Kshitij_Kumbhar_Resume.pdf"
-              className="inline-flex items-center justify-center gap-2.5 w-full py-3.5 bg-white/10 hover:bg-[#B4F342] hover:text-black border border-white/20 font-mono text-xs font-bold uppercase tracking-wider rounded-sm transition-all shadow-lg"
+              className="inline-flex items-center justify-center gap-3 w-full min-h-[52px] py-3.5 px-6 bg-white/10 hover:bg-[#B4F342] hover:text-black border border-white/25 font-mono text-sm font-black uppercase tracking-wider rounded-sm transition-all shadow-xl cursor-pointer"
             >
-              <Download className="w-4 h-4" />
+              <Download className="w-5 h-5" />
               <span>Download Verified Resume (PDF)</span>
             </a>
           </div>
 
-          {/* Right Column: Interactive Glassmorphic Dispatch Terminal Form */}
+          {/* Right Column: Interactive Dispatch Terminal Form */}
           <div className="lg:col-span-7">
-            <div className="border border-white/15 bg-black/60 backdrop-blur-xl p-8 md:p-10 rounded-sm shadow-2xl space-y-6">
+            <div className="border border-white/20 bg-black/80 backdrop-blur-xl p-8 sm:p-10 md:p-12 rounded-sm shadow-2xl space-y-7">
               {/* Terminal Window Header */}
-              <div className="flex items-center justify-between border-b border-white/10 pb-4 font-mono text-xs">
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#FF3E1D]" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#E5B53B]" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#B4F342]" />
-                  <span className="ml-2 text-white/50 text-[11px]">
+              <div className="flex items-center justify-between border-b border-white/15 pb-4 font-mono text-xs sm:text-sm">
+                <div className="flex items-center gap-2.5">
+                  <span className="w-3 h-3 rounded-full bg-[#FF3E1D]" />
+                  <span className="w-3 h-3 rounded-full bg-[#E5B53B]" />
+                  <span className="w-3 h-3 rounded-full bg-[#B4F342]" />
+                  <span className="ml-2 text-white/60 font-semibold">
                     TERMINAL_DISPATCH // v2.6.4
                   </span>
                 </div>
-                <div className="text-[#4DEEEA] font-bold text-[11px]">
+                <div className="text-[#4DEEEA] font-bold">
                   STATUS: 200 READY
                 </div>
               </div>
 
               {/* Form Body */}
-              <form onSubmit={handleFormSubmit} className="space-y-5 font-mono">
+              <form onSubmit={handleFormSubmit} className="space-y-6 font-mono">
                 {/* Name & Email Row */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div className="space-y-1.5">
-                    <label className="text-[11px] text-white/60 uppercase tracking-wider">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-xs text-white/80 uppercase font-bold tracking-wider">
                       // 01. Operator Name *
                     </label>
                     <input
@@ -310,12 +308,12 @@ export default function ContactClosingSection() {
                         setFormState({ ...formState, name: e.target.value })
                       }
                       placeholder="e.g. Alex Chen"
-                      className="w-full bg-white/5 border border-white/15 px-3.5 py-2.5 rounded-sm text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-[#4DEEEA] transition-colors"
+                      className="w-full min-h-[48px] bg-white/5 border border-white/20 px-4 py-3 rounded-sm text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-[#4DEEEA] focus:ring-1 focus:ring-[#4DEEEA] transition-all"
                     />
                   </div>
 
-                  <div className="space-y-1.5">
-                    <label className="text-[11px] text-white/60 uppercase tracking-wider">
+                  <div className="space-y-2">
+                    <label className="text-xs text-white/80 uppercase font-bold tracking-wider">
                       // 02. Email Address *
                     </label>
                     <input
@@ -326,14 +324,14 @@ export default function ContactClosingSection() {
                         setFormState({ ...formState, email: e.target.value })
                       }
                       placeholder="alex@enterprise.com"
-                      className="w-full bg-white/5 border border-white/15 px-3.5 py-2.5 rounded-sm text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-[#4DEEEA] transition-colors"
+                      className="w-full min-h-[48px] bg-white/5 border border-white/20 px-4 py-3 rounded-sm text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-[#4DEEEA] focus:ring-1 focus:ring-[#4DEEEA] transition-all"
                     />
                   </div>
                 </div>
 
                 {/* Scope Category */}
-                <div className="space-y-1.5">
-                  <label className="text-[11px] text-white/60 uppercase tracking-wider">
+                <div className="space-y-2">
+                  <label className="text-xs text-white/80 uppercase font-bold tracking-wider">
                     // 03. Engagement Scope
                   </label>
                   <select
@@ -341,7 +339,7 @@ export default function ContactClosingSection() {
                     onChange={(e) =>
                       setFormState({ ...formState, category: e.target.value })
                     }
-                    className="w-full bg-[#0D0D0D] border border-white/15 px-3.5 py-2.5 rounded-sm text-sm text-white focus:outline-none focus:border-[#B4F342] transition-colors"
+                    className="w-full min-h-[48px] bg-[#0D0D0D] border border-white/20 px-4 py-3 rounded-sm text-sm text-white focus:outline-none focus:border-[#B4F342] focus:ring-1 focus:ring-[#B4F342] transition-all"
                   >
                     <option value="DevOps Infrastructure">
                       DevOps Infrastructure (AWS, EKS, Terraform)
@@ -362,10 +360,10 @@ export default function ContactClosingSection() {
                 </div>
 
                 {/* Message Textarea */}
-                <div className="space-y-1.5">
-                  <div className="flex justify-between items-center text-[11px] text-white/60 uppercase tracking-wider">
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center text-xs text-white/80 uppercase font-bold tracking-wider">
                     <span>// 04. Transmission Payload *</span>
-                    <span className="text-white/40">{charCount}/1000</span>
+                    <span className="text-white/50">{charCount}/1000</span>
                   </div>
                   <textarea
                     required
@@ -377,7 +375,7 @@ export default function ContactClosingSection() {
                       setCharCount(e.target.value.length);
                     }}
                     placeholder="Provide context regarding your infrastructure challenges, project timeline, or team requirements..."
-                    className="w-full bg-white/5 border border-white/15 p-3.5 rounded-sm text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-[#B4F342] transition-colors resize-none"
+                    className="w-full min-h-[110px] bg-white/5 border border-white/20 p-4 rounded-sm text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-[#B4F342] focus:ring-1 focus:ring-[#B4F342] transition-all resize-none"
                   />
                 </div>
 
@@ -385,21 +383,21 @@ export default function ContactClosingSection() {
                 <button
                   type="submit"
                   disabled={formStatus === "sending"}
-                  className="w-full py-3.5 bg-[#B4F342] hover:bg-white text-black font-bold uppercase tracking-wider text-xs rounded-sm transition-colors flex items-center justify-center gap-2 shadow-lg disabled:opacity-50 cursor-pointer"
+                  className="w-full min-h-[52px] py-4 px-6 bg-[#B4F342] hover:bg-white text-black font-black uppercase tracking-wider text-sm rounded-sm transition-all flex items-center justify-center gap-2.5 shadow-xl disabled:opacity-50 cursor-pointer"
                 >
                   {formStatus === "sending" ? (
                     <>
-                      <span className="w-3.5 h-3.5 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                      <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
                       <span>ENCRYPTING & TRANSMITTING...</span>
                     </>
                   ) : formStatus === "success" ? (
                     <>
-                      <Check className="w-4 h-4 text-black" />
+                      <Check className="w-5 h-5 text-black" />
                       <span>TRANSMISSION DISPATCHED // 200 OK</span>
                     </>
                   ) : (
                     <>
-                      <Send className="w-4 h-4" />
+                      <Send className="w-5 h-5" />
                       <span>Dispatch Transmission via Mailto Gateway</span>
                     </>
                   )}
@@ -408,7 +406,7 @@ export default function ContactClosingSection() {
 
               {/* Status Message */}
               {formStatus === "success" && (
-                <div className="p-3 bg-[#B4F342]/10 border border-[#B4F342]/30 text-[#B4F342] text-xs font-mono rounded-sm text-center">
+                <div className="p-4 bg-[#B4F342]/15 border border-[#B4F342]/40 text-[#B4F342] text-sm font-mono rounded-sm text-center font-bold">
                   Your email client has been prepared. If it did not open
                   automatically, reach directly at {email}.
                 </div>
@@ -418,48 +416,47 @@ export default function ContactClosingSection() {
         </div>
 
         {/* ── 4. Footer Directory & Legal / Telemetry ─────────────── */}
-        <footer className="border-t border-white/10 pt-8 pb-4 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 font-mono text-xs text-white/70">
-          <div className="space-y-1">
-            <div className="text-white font-bold tracking-wider">
+        <footer className="border-t border-white/15 pt-8 pb-4 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 font-mono text-sm text-white/80">
+          <div className="space-y-1.5">
+            <div className="text-white font-extrabold tracking-wider text-sm sm:text-base">
               KSHITIJ KUMBHAR // DEVOPS & CLOUD ARCHITECT
             </div>
-            <div className="text-white/40 text-[10px]">
-              &copy; 2026 ALL RIGHTS RESERVED. LAT: 18.5204° N // LON: 73.8567°
-              E
+            <div className="text-white/50 text-xs">
+              &copy; 2026 ALL RIGHTS RESERVED. LAT: 18.5204° N // LON: 73.8567° E
             </div>
           </div>
 
           {/* Live Pointer Telemetry */}
-          <div className="hidden md:flex items-center gap-2 font-bold text-white tracking-widest bg-black/40 px-3 py-1.5 rounded-sm border border-white/10">
+          <div className="hidden md:flex items-center gap-2.5 font-bold text-white tracking-widest bg-black/60 px-4 py-2 rounded-xs border border-white/15">
             <span className="w-2 h-2 rounded-full bg-[#4DEEEA] animate-ping" />
             <span>{coords}</span>
           </div>
 
           {/* Social Channels */}
-          <div className="flex flex-wrap items-center gap-6 pointer-events-auto">
+          <div className="flex flex-wrap items-center gap-6 pointer-events-auto text-sm font-bold">
             <a
               href="https://github.com/kshitijx07"
               target="_blank"
               rel="noreferrer"
-              className="flex items-center gap-1 hover:text-[#4DEEEA] transition-colors"
+              className="min-h-[44px] flex items-center gap-1.5 hover:text-[#4DEEEA] transition-colors"
             >
-              <FiGithub size={14} />
+              <FiGithub size={16} />
               <span>GITHUB</span>
             </a>
             <a
               href="https://linkedin.com/in/kshitij-kumbhar"
               target="_blank"
               rel="noreferrer"
-              className="flex items-center gap-1 hover:text-[#4DEEEA] transition-colors"
+              className="min-h-[44px] flex items-center gap-1.5 hover:text-[#4DEEEA] transition-colors"
             >
-              <FiLinkedin size={14} />
+              <FiLinkedin size={16} />
               <span>LINKEDIN</span>
             </a>
             <a
               href="https://leetcode.com/u/kshitij72"
               target="_blank"
               rel="noreferrer"
-              className="hover:text-[#B4F342] transition-colors"
+              className="min-h-[44px] flex items-center hover:text-[#B4F342] transition-colors"
             >
               LEETCODE
             </a>
@@ -467,11 +464,11 @@ export default function ContactClosingSection() {
               href="https://codeforces.com/profile/kshitijx07"
               target="_blank"
               rel="noreferrer"
-              className="hover:text-[#FF3E1D] transition-colors"
+              className="min-h-[44px] flex items-center hover:text-[#FF3E1D] transition-colors"
             >
               CODEFORCES
             </a>
-            <Globe className="w-4 h-4 text-white/60 animate-spin-slow" />
+            <Globe className="w-5 h-5 text-white/70 animate-spin" />
           </div>
         </footer>
       </div>

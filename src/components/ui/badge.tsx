@@ -23,21 +23,21 @@ function Badge({
 }: BadgeProps) {
   const variantStyles = {
     default:
-      "border-transparent bg-zinc-900 text-zinc-100 border border-zinc-800",
-    secondary: "border-transparent bg-zinc-800 text-zinc-300",
-    outline: "text-zinc-400 border border-zinc-800 hover:border-zinc-600",
-    cyan: "border-[#4DEEEA]/30 bg-[#4DEEEA]/10 text-[#4DEEEA] hover:bg-[#4DEEEA]/20",
-    lime: "border-[#B4F342]/40 bg-[#B4F342]/10 text-[#B4F342] hover:bg-[#B4F342]/20",
+      "border-transparent bg-zinc-900 text-zinc-100 border border-zinc-700",
+    secondary: "border-transparent bg-zinc-800 text-zinc-200",
+    outline: "text-zinc-300 border border-white/20 hover:border-white/40 bg-black/40",
+    cyan: "border-[#4DEEEA]/40 bg-[#4DEEEA]/15 text-[#4DEEEA] hover:bg-[#4DEEEA]/25",
+    lime: "border-[#B4F342]/50 bg-[#B4F342]/15 text-[#B4F342] hover:bg-[#B4F342]/25",
     orange:
-      "border-[#FF3E1D]/40 bg-[#FF3E1D]/10 text-[#FF3E1D] hover:bg-[#FF3E1D]/20",
-    hud: "border-white/15 bg-black/60 text-white/80 backdrop-blur-sm hover:border-[#4DEEEA]",
-    glow: "border-[#B4F342] bg-[#B4F342] text-black font-bold shadow-[0_0_12px_rgba(180,243,66,0.5)]",
+      "border-[#FF3E1D]/50 bg-[#FF3E1D]/15 text-[#FF3E1D] hover:bg-[#FF3E1D]/25",
+    hud: "border-white/20 bg-black/70 text-white/90 backdrop-blur-sm hover:border-[#4DEEEA]",
+    glow: "border-[#B4F342] bg-[#B4F342] text-black font-bold shadow-[0_0_15px_rgba(180,243,66,0.5)]",
   };
 
   const dotColors = {
     default: "bg-white",
-    secondary: "bg-zinc-400",
-    outline: "bg-zinc-400",
+    secondary: "bg-zinc-300",
+    outline: "bg-zinc-300",
     cyan: "bg-[#4DEEEA]",
     lime: "bg-[#B4F342]",
     orange: "bg-[#FF3E1D]",
@@ -48,14 +48,14 @@ function Badge({
   return (
     <div
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-xs px-2.5 py-0.5 text-xs font-mono font-medium transition-all select-none tracking-tight",
+        "inline-flex items-center gap-2 rounded-xs px-3 py-1 text-xs font-mono font-medium transition-all select-none tracking-normal leading-normal",
         variantStyles[variant],
         className
       )}
       {...props}
     >
       {pulseDot && (
-        <span className="relative flex h-1.5 w-1.5">
+        <span className="relative flex h-2 w-2">
           <span
             className={cn(
               "absolute inline-flex h-full w-full animate-ping rounded-full opacity-75",
@@ -64,7 +64,7 @@ function Badge({
           />
           <span
             className={cn(
-              "relative inline-flex h-1.5 w-1.5 rounded-full",
+              "relative inline-flex h-2 w-2 rounded-full",
               dotColors[variant]
             )}
           />
