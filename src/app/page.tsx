@@ -18,11 +18,14 @@ import {
   Wrench,
   BookOpen,
   ExternalLink,
+  ShieldCheck,
+  Zap,
 } from "lucide-react";
 import { FiGithub, FiLinkedin } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { SpotlightCard } from "@/components/ui/spotlight-card";
 import { Separator } from "@/components/ui/separator";
 import ImageStreamHero from "@/components/ui/image-stream-hero";
 import BlackHoleHeroSection from "@/components/ui/blackhole-hero-section";
@@ -79,7 +82,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col selection:bg-cyan-500 selection:text-zinc-950 font-sans">
-      {/* ── Navigation ────────────────────────────────────────────── */}
+      {/* ── Navigation Header ──────────────────────────────────────── */}
       <header className="sticky top-0 z-50 w-full border-b border-zinc-800/80 bg-zinc-950/85 backdrop-blur-md">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <a
@@ -149,7 +152,7 @@ export default function Home() {
         )}
       </header>
 
-      {/* ── Main Content Flow ────────────────────────────────────── */}
+      {/* ── Main Content Container ────────────────────────────────── */}
       <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 space-y-20 sm:space-y-28 py-8 sm:py-12">
         {/* ── 1. Hero Section (#home) ──────────────────────────────── */}
         <section id="home" className="relative scroll-mt-24 rounded-2xl border border-zinc-800/80 overflow-hidden bg-zinc-950 shadow-2xl">
@@ -317,23 +320,21 @@ export default function Home() {
 
           <div className="space-y-6">
             {/* Colgate-Palmolive */}
-            <Card className="border-zinc-800 bg-zinc-900/40">
-              <CardHeader className="pb-3">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                  <div>
-                    <CardTitle className="text-lg sm:text-xl font-bold text-zinc-100">
-                      DevOps Intern
-                    </CardTitle>
-                    <p className="text-sm sm:text-base font-medium text-cyan-400">
-                      Colgate-Palmolive · Mumbai, Maharashtra, India (Hybrid)
-                    </p>
-                  </div>
-                  <Badge variant="outline" className="w-fit text-xs font-mono text-zinc-300 border-zinc-700">
-                    Jul 2026 – Present
-                  </Badge>
+            <SpotlightCard className="p-6 sm:p-8">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4">
+                <div>
+                  <h3 className="text-lg sm:text-xl font-bold text-zinc-100">
+                    DevOps Intern
+                  </h3>
+                  <p className="text-sm sm:text-base font-medium text-cyan-400">
+                    Colgate-Palmolive · Mumbai, Maharashtra, India (Hybrid)
+                  </p>
                 </div>
-              </CardHeader>
-              <CardContent className="space-y-3 text-sm sm:text-base text-zinc-300 leading-relaxed">
+                <Badge variant="outline" className="w-fit text-xs font-mono text-zinc-300 border-zinc-700">
+                  Jul 2026 – Present
+                </Badge>
+              </div>
+              <div className="space-y-3 text-sm sm:text-base text-zinc-300 leading-relaxed">
                 <p className="flex items-start gap-2.5">
                   <span className="text-cyan-400 font-bold mt-0.5">▹</span>
                   <span>Support application deployment and infrastructure automation workflows within a DevOps team, contributing to CI/CD pipelines built with Jenkins, Git, and GitHub.</span>
@@ -346,27 +347,25 @@ export default function Home() {
                   <span className="text-cyan-400 font-bold mt-0.5">▹</span>
                   <span>Collaborate with cross-functional engineering teams on deployment automation, contributing to Infrastructure as Code with Terraform and to monitoring initiatives.</span>
                 </p>
-              </CardContent>
-            </Card>
+              </div>
+            </SpotlightCard>
 
             {/* Campus Credential */}
-            <Card className="border-zinc-800 bg-zinc-900/40">
-              <CardHeader className="pb-3">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                  <div>
-                    <CardTitle className="text-lg sm:text-xl font-bold text-zinc-100">
-                      Full Stack Developer Intern
-                    </CardTitle>
-                    <p className="text-sm sm:text-base font-medium text-cyan-400">
-                      Campus Credential · Remote
-                    </p>
-                  </div>
-                  <Badge variant="outline" className="w-fit text-xs font-mono text-zinc-300 border-zinc-700">
-                    Jun 2025 – Aug 2025
-                  </Badge>
+            <SpotlightCard className="p-6 sm:p-8">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4">
+                <div>
+                  <h3 className="text-lg sm:text-xl font-bold text-zinc-100">
+                    Full Stack Developer Intern
+                  </h3>
+                  <p className="text-sm sm:text-base font-medium text-cyan-400">
+                    Campus Credential · Remote
+                  </p>
                 </div>
-              </CardHeader>
-              <CardContent className="space-y-3 text-sm sm:text-base text-zinc-300 leading-relaxed">
+                <Badge variant="outline" className="w-fit text-xs font-mono text-zinc-300 border-zinc-700">
+                  Jun 2025 – Aug 2025
+                </Badge>
+              </div>
+              <div className="space-y-3 text-sm sm:text-base text-zinc-300 leading-relaxed">
                 <p className="flex items-start gap-2.5">
                   <span className="text-cyan-400 font-bold mt-0.5">▹</span>
                   <span>Owned end-to-end delivery of the Grocito platform, from requirements gathering and system design through production deployment, within a six-week sprint.</span>
@@ -379,8 +378,8 @@ export default function Home() {
                   <span className="text-cyan-400 font-bold mt-0.5">▹</span>
                   <span>Facilitated daily standups and sprint reviews within an agile team of three, coordinating feature delivery and code reviews to maintain on-schedule releases.</span>
                 </p>
-              </CardContent>
-            </Card>
+              </div>
+            </SpotlightCard>
           </div>
         </section>
 
@@ -395,35 +394,34 @@ export default function Home() {
 
           <div className="space-y-6">
             {/* Project 1: HostelHub */}
-            <Card className="border-zinc-800 bg-zinc-900/30 hover:border-zinc-700 transition-colors">
-              <CardHeader className="pb-3">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                  <div>
-                    <CardTitle className="text-xl sm:text-2xl font-bold text-zinc-100 flex items-center gap-2">
-                      <span>HostelHub</span>
-                      <span className="text-xs font-mono font-normal text-zinc-400 bg-zinc-800/80 px-2 py-0.5 rounded">Jan 2026 – Mar 2026</span>
-                    </CardTitle>
-                    <CardDescription className="text-sm text-zinc-300 mt-1">
-                      Cloud-native hostel management platform with decoupled React frontend on S3 and Node.js REST API on AWS EKS.
-                    </CardDescription>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Button asChild variant="outline" size="sm" className="h-9 text-xs gap-1.5 border-zinc-700">
-                      <a href="https://github.com/kshitijx07/Hostelhub" target="_blank" rel="noopener noreferrer">
-                        <FiGithub size={14} />
-                        <span>GitHub</span>
-                      </a>
-                    </Button>
-                    <Button asChild variant="default" size="sm" className="h-9 text-xs gap-1.5 bg-cyan-500 text-zinc-950 hover:bg-cyan-400">
-                      <a href="https://hostelhub-ruby.vercel.app" target="_blank" rel="noopener noreferrer">
-                        <span>Live Demo</span>
-                        <ExternalLink size={14} />
-                      </a>
-                    </Button>
-                  </div>
+            <SpotlightCard className="p-6 sm:p-8">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4">
+                <div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-zinc-100 flex items-center gap-2">
+                    <span>HostelHub</span>
+                    <span className="text-xs font-mono font-normal text-zinc-400 bg-zinc-800/80 px-2 py-0.5 rounded">Jan 2026 – Mar 2026</span>
+                  </h3>
+                  <p className="text-sm text-zinc-300 mt-1">
+                    Cloud-native hostel management platform with decoupled React frontend on S3 and Node.js REST API on AWS EKS.
+                  </p>
                 </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <Button asChild variant="outline" size="sm" className="h-9 text-xs gap-1.5 border-zinc-700">
+                    <a href="https://github.com/kshitijx07/Hostelhub" target="_blank" rel="noopener noreferrer">
+                      <FiGithub size={14} />
+                      <span>GitHub</span>
+                    </a>
+                  </Button>
+                  <Button asChild variant="default" size="sm" className="h-9 text-xs gap-1.5 bg-cyan-500 text-zinc-950 hover:bg-cyan-400">
+                    <a href="https://hostelhub-ruby.vercel.app" target="_blank" rel="noopener noreferrer">
+                      <span>Live Demo</span>
+                      <ExternalLink size={14} />
+                    </a>
+                  </Button>
+                </div>
+              </div>
+
+              <div className="space-y-4">
                 <div className="space-y-2.5 text-sm sm:text-base text-zinc-300 leading-relaxed">
                   <p className="flex items-start gap-2.5">
                     <span className="text-cyan-400 font-bold mt-0.5">▹</span>
@@ -453,31 +451,30 @@ export default function Home() {
                     </Badge>
                   ))}
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </SpotlightCard>
 
             {/* Project 2: Serverless AI X-Ray Analyzer */}
-            <Card className="border-zinc-800 bg-zinc-900/30 hover:border-zinc-700 transition-colors">
-              <CardHeader className="pb-3">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                  <div>
-                    <CardTitle className="text-xl sm:text-2xl font-bold text-zinc-100 flex items-center gap-2">
-                      <span>Serverless AI X-Ray Analyzer</span>
-                      <span className="text-xs font-mono font-normal text-zinc-400 bg-zinc-800/80 px-2 py-0.5 rounded">Apr 2026 – May 2026</span>
-                    </CardTitle>
-                    <CardDescription className="text-sm text-zinc-300 mt-1">
-                      Event-driven medical imaging platform on AWS using MobileNet TFLite for &lt;1s inference at zero idle cost.
-                    </CardDescription>
-                  </div>
-                  <Button asChild variant="outline" size="sm" className="h-9 text-xs gap-1.5 border-zinc-700">
-                    <a href="https://github.com/kshitijx07/serverless-ai-xray" target="_blank" rel="noopener noreferrer">
-                      <FiGithub size={14} />
-                      <span>GitHub</span>
-                    </a>
-                  </Button>
+            <SpotlightCard className="p-6 sm:p-8">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4">
+                <div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-zinc-100 flex items-center gap-2">
+                    <span>Serverless AI X-Ray Analyzer</span>
+                    <span className="text-xs font-mono font-normal text-zinc-400 bg-zinc-800/80 px-2 py-0.5 rounded">Apr 2026 – May 2026</span>
+                  </h3>
+                  <p className="text-sm text-zinc-300 mt-1">
+                    Event-driven medical imaging platform on AWS using MobileNet TFLite for &lt;1s inference at zero idle cost.
+                  </p>
                 </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
+                <Button asChild variant="outline" size="sm" className="h-9 text-xs gap-1.5 border-zinc-700">
+                  <a href="https://github.com/kshitijx07/serverless-ai-xray" target="_blank" rel="noopener noreferrer">
+                    <FiGithub size={14} />
+                    <span>GitHub</span>
+                  </a>
+                </Button>
+              </div>
+
+              <div className="space-y-4">
                 <div className="space-y-2.5 text-sm sm:text-base text-zinc-300 leading-relaxed">
                   <p className="flex items-start gap-2.5">
                     <span className="text-cyan-400 font-bold mt-0.5">▹</span>
@@ -503,31 +500,30 @@ export default function Home() {
                     </Badge>
                   ))}
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </SpotlightCard>
 
             {/* Project 3: DSA Swarm AI */}
-            <Card className="border-zinc-800 bg-zinc-900/30 hover:border-zinc-700 transition-colors">
-              <CardHeader className="pb-3">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                  <div>
-                    <CardTitle className="text-xl sm:text-2xl font-bold text-zinc-100 flex items-center gap-2">
-                      <span>DSA Swarm AI</span>
-                      <span className="text-xs font-mono font-normal text-zinc-400 bg-zinc-800/80 px-2 py-0.5 rounded">2026</span>
-                    </CardTitle>
-                    <CardDescription className="text-sm text-zinc-300 mt-1">
-                      Distributed Multi-Agent RAG Swarm & Model Context Protocol (MCP) Server deployed on AWS EKS.
-                    </CardDescription>
-                  </div>
-                  <Button asChild variant="outline" size="sm" className="h-9 text-xs gap-1.5 border-zinc-700">
-                    <a href="https://github.com/kshitijx07" target="_blank" rel="noopener noreferrer">
-                      <FiGithub size={14} />
-                      <span>GitHub</span>
-                    </a>
-                  </Button>
+            <SpotlightCard className="p-6 sm:p-8">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4">
+                <div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-zinc-100 flex items-center gap-2">
+                    <span>DSA Swarm AI</span>
+                    <span className="text-xs font-mono font-normal text-zinc-400 bg-zinc-800/80 px-2 py-0.5 rounded">2026</span>
+                  </h3>
+                  <p className="text-sm text-zinc-300 mt-1">
+                    Distributed Multi-Agent RAG Swarm & Model Context Protocol (MCP) Server deployed on AWS EKS.
+                  </p>
                 </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
+                <Button asChild variant="outline" size="sm" className="h-9 text-xs gap-1.5 border-zinc-700">
+                  <a href="https://github.com/kshitijx07" target="_blank" rel="noopener noreferrer">
+                    <FiGithub size={14} />
+                    <span>GitHub</span>
+                  </a>
+                </Button>
+              </div>
+
+              <div className="space-y-4">
                 <div className="space-y-2.5 text-sm sm:text-base text-zinc-300 leading-relaxed">
                   <p className="flex items-start gap-2.5">
                     <span className="text-cyan-400 font-bold mt-0.5">▹</span>
@@ -557,8 +553,8 @@ export default function Home() {
                     </Badge>
                   ))}
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </SpotlightCard>
           </div>
         </section>
 
@@ -573,123 +569,109 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* 1. Cloud & DevOps */}
-            <Card className="border-zinc-800 bg-zinc-900/30 md:col-span-2 lg:col-span-2">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base font-mono text-cyan-400 flex items-center gap-2">
-                  <Cloud size={18} />
-                  <span>Cloud & DevOps</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="flex flex-wrap gap-2">
+            <SpotlightCard className="p-6 md:col-span-2 lg:col-span-2">
+              <h3 className="text-base font-mono text-cyan-400 flex items-center gap-2 pb-4">
+                <Cloud size={18} />
+                <span>Cloud & DevOps</span>
+              </h3>
+              <div className="flex flex-wrap gap-2">
                 {["AWS (EKS, ECR, CloudFront, VPC, ALB, IAM, EC2, S3, Auto Scaling)", "Terraform", "Docker", "Kubernetes", "Jenkins", "GitHub Actions", "CI/CD"].map((s) => (
                   <Badge key={s} variant="outline" className="text-xs py-1 px-2.5 border-zinc-700 bg-zinc-900/60 text-zinc-200">
                     {s}
                   </Badge>
                 ))}
-              </CardContent>
-            </Card>
+              </div>
+            </SpotlightCard>
 
             {/* 2. Databases & Vector Stores */}
-            <Card className="border-zinc-800 bg-zinc-900/30">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base font-mono text-cyan-400 flex items-center gap-2">
-                  <Database size={18} />
-                  <span>Databases & Vector Stores</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="flex flex-wrap gap-2">
+            <SpotlightCard className="p-6">
+              <h3 className="text-base font-mono text-cyan-400 flex items-center gap-2 pb-4">
+                <Database size={18} />
+                <span>Databases & Vector Stores</span>
+              </h3>
+              <div className="flex flex-wrap gap-2">
                 {["MongoDB", "MySQL", "Pinecone"].map((s) => (
                   <Badge key={s} variant="outline" className="text-xs py-1 px-2.5 border-zinc-700 bg-zinc-900/60 text-zinc-200">
                     {s}
                   </Badge>
                 ))}
-              </CardContent>
-            </Card>
+              </div>
+            </SpotlightCard>
 
             {/* 3. Backend */}
-            <Card className="border-zinc-800 bg-zinc-900/30">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base font-mono text-cyan-400 flex items-center gap-2">
-                  <Server size={18} />
-                  <span>Backend</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="flex flex-wrap gap-2">
+            <SpotlightCard className="p-6">
+              <h3 className="text-base font-mono text-cyan-400 flex items-center gap-2 pb-4">
+                <Server size={18} />
+                <span>Backend</span>
+              </h3>
+              <div className="flex flex-wrap gap-2">
                 {["Node.js", "Express.js", "Spring Boot", "REST APIs"].map((s) => (
                   <Badge key={s} variant="outline" className="text-xs py-1 px-2.5 border-zinc-700 bg-zinc-900/60 text-zinc-200">
                     {s}
                   </Badge>
                 ))}
-              </CardContent>
-            </Card>
+              </div>
+            </SpotlightCard>
 
             {/* 4. AI & Multi-Agent Systems */}
-            <Card className="border-zinc-800 bg-zinc-900/30">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base font-mono text-cyan-400 flex items-center gap-2">
-                  <Cpu size={18} />
-                  <span>AI & Multi-Agent Systems</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="flex flex-wrap gap-2">
+            <SpotlightCard className="p-6">
+              <h3 className="text-base font-mono text-cyan-400 flex items-center gap-2 pb-4">
+                <Cpu size={18} />
+                <span>AI & Multi-Agent Systems</span>
+              </h3>
+              <div className="flex flex-wrap gap-2">
                 {["LangGraph", "RAG", "Model Context Protocol (MCP)"].map((s) => (
                   <Badge key={s} variant="outline" className="text-xs py-1 px-2.5 border-zinc-700 bg-zinc-900/60 text-zinc-200">
                     {s}
                   </Badge>
                 ))}
-              </CardContent>
-            </Card>
+              </div>
+            </SpotlightCard>
 
             {/* 5. Frontend */}
-            <Card className="border-zinc-800 bg-zinc-900/30">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base font-mono text-cyan-400 flex items-center gap-2">
-                  <Layers size={18} />
-                  <span>Frontend</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="flex flex-wrap gap-2">
+            <SpotlightCard className="p-6">
+              <h3 className="text-base font-mono text-cyan-400 flex items-center gap-2 pb-4">
+                <Layers size={18} />
+                <span>Frontend</span>
+              </h3>
+              <div className="flex flex-wrap gap-2">
                 {["React.js", "Vite", "Tailwind CSS", "HTML", "CSS", "JavaScript"].map((s) => (
                   <Badge key={s} variant="outline" className="text-xs py-1 px-2.5 border-zinc-700 bg-zinc-900/60 text-zinc-200">
                     {s}
                   </Badge>
                 ))}
-              </CardContent>
-            </Card>
+              </div>
+            </SpotlightCard>
 
             {/* 6. CS Fundamentals */}
-            <Card className="border-zinc-800 bg-zinc-900/30">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base font-mono text-cyan-400 flex items-center gap-2">
-                  <BookOpen size={18} />
-                  <span>CS Fundamentals</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="flex flex-wrap gap-2">
+            <SpotlightCard className="p-6">
+              <h3 className="text-base font-mono text-cyan-400 flex items-center gap-2 pb-4">
+                <BookOpen size={18} />
+                <span>CS Fundamentals</span>
+              </h3>
+              <div className="flex flex-wrap gap-2">
                 {["DSA", "OOP", "DBMS", "Operating Systems", "Linux"].map((s) => (
                   <Badge key={s} variant="outline" className="text-xs py-1 px-2.5 border-zinc-700 bg-zinc-900/60 text-zinc-200">
                     {s}
                   </Badge>
                 ))}
-              </CardContent>
-            </Card>
+              </div>
+            </SpotlightCard>
 
             {/* 7. Tools & Platforms */}
-            <Card className="border-zinc-800 bg-zinc-900/30 md:col-span-2 lg:col-span-2">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base font-mono text-cyan-400 flex items-center gap-2">
-                  <Wrench size={18} />
-                  <span>Tools & Platforms</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="flex flex-wrap gap-2">
+            <SpotlightCard className="p-6 md:col-span-2 lg:col-span-2">
+              <h3 className="text-base font-mono text-cyan-400 flex items-center gap-2 pb-4">
+                <Wrench size={18} />
+                <span>Tools & Platforms</span>
+              </h3>
+              <div className="flex flex-wrap gap-2">
                 {["Git", "GitHub", "DockerHub", "Postman", "Linux CLI"].map((s) => (
                   <Badge key={s} variant="outline" className="text-xs py-1 px-2.5 border-zinc-700 bg-zinc-900/60 text-zinc-200">
                     {s}
                   </Badge>
                 ))}
-              </CardContent>
-            </Card>
+              </div>
+            </SpotlightCard>
           </div>
         </section>
 
@@ -704,58 +686,52 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* B.Tech */}
-            <Card className="border-zinc-800 bg-zinc-900/30">
-              <CardHeader className="pb-2">
-                <Badge variant="cyan" className="w-fit text-xs mb-1.5 border-cyan-500/40 bg-cyan-950/60 text-cyan-300 font-mono">
-                  CGPA: 8.48 / 10
-                </Badge>
-                <CardTitle className="text-base font-bold text-zinc-100">
-                  B.Tech in Computer Engineering
-                </CardTitle>
-                <CardDescription className="text-xs text-zinc-400">
-                  MIT Academy of Engineering, Pune
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="text-xs text-zinc-400 font-mono">
+            <SpotlightCard className="p-6">
+              <Badge variant="cyan" className="w-fit text-xs mb-2 border-cyan-500/40 bg-cyan-950/60 text-cyan-300 font-mono">
+                CGPA: 8.48 / 10
+              </Badge>
+              <h3 className="text-base font-bold text-zinc-100">
+                B.Tech in Computer Engineering
+              </h3>
+              <p className="text-xs text-zinc-400 mt-1">
+                MIT Academy of Engineering, Pune
+              </p>
+              <p className="text-xs text-zinc-500 font-mono mt-3">
                 2023 – 2027
-              </CardContent>
-            </Card>
+              </p>
+            </SpotlightCard>
 
             {/* HSC */}
-            <Card className="border-zinc-800 bg-zinc-900/30">
-              <CardHeader className="pb-2">
-                <Badge variant="outline" className="w-fit text-xs mb-1.5 border-zinc-700 text-zinc-300 font-mono">
-                  84.17%
-                </Badge>
-                <CardTitle className="text-base font-bold text-zinc-100">
-                  Higher Secondary Certificate (HSC)
-                </CardTitle>
-                <CardDescription className="text-xs text-zinc-400">
-                  Yashwantrao Chavan Institute of Science, Satara
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="text-xs text-zinc-400 font-mono">
+            <SpotlightCard className="p-6">
+              <Badge variant="outline" className="w-fit text-xs mb-2 border-zinc-700 text-zinc-300 font-mono">
+                84.17%
+              </Badge>
+              <h3 className="text-base font-bold text-zinc-100">
+                Higher Secondary Certificate (HSC)
+              </h3>
+              <p className="text-xs text-zinc-400 mt-1">
+                Yashwantrao Chavan Institute of Science, Satara
+              </p>
+              <p className="text-xs text-zinc-500 font-mono mt-3">
                 2021 – 2023
-              </CardContent>
-            </Card>
+              </p>
+            </SpotlightCard>
 
             {/* SSC */}
-            <Card className="border-zinc-800 bg-zinc-900/30">
-              <CardHeader className="pb-2">
-                <Badge variant="outline" className="w-fit text-xs mb-1.5 border-zinc-700 text-zinc-300 font-mono">
-                  97.00%
-                </Badge>
-                <CardTitle className="text-base font-bold text-zinc-100">
-                  Secondary School Certificate (SSC)
-                </CardTitle>
-                <CardDescription className="text-xs text-zinc-400">
-                  Maharaja Sayajirao Vidyalaya, Satara
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="text-xs text-zinc-400 font-mono">
+            <SpotlightCard className="p-6">
+              <Badge variant="outline" className="w-fit text-xs mb-2 border-zinc-700 text-zinc-300 font-mono">
+                97.00%
+              </Badge>
+              <h3 className="text-base font-bold text-zinc-100">
+                Secondary School Certificate (SSC)
+              </h3>
+              <p className="text-xs text-zinc-400 mt-1">
+                Maharaja Sayajirao Vidyalaya, Satara
+              </p>
+              <p className="text-xs text-zinc-500 font-mono mt-3">
                 2021
-              </CardContent>
-            </Card>
+              </p>
+            </SpotlightCard>
           </div>
         </section>
 
@@ -768,7 +744,7 @@ export default function Home() {
             <span>06 // Contact</span>
           </div>
 
-          <div className="border border-zinc-800 bg-zinc-900/40 rounded-xl p-8 sm:p-10 space-y-6">
+          <SpotlightCard className="p-8 sm:p-10 space-y-6">
             <div className="max-w-2xl space-y-3">
               <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-zinc-100">
                 Let's discuss infrastructure, automation, or engineering roles.
@@ -837,7 +813,7 @@ export default function Home() {
                 <span>Codeforces: @kshitijx07</span>
               </a>
             </div>
-          </div>
+          </SpotlightCard>
         </section>
       </main>
 
