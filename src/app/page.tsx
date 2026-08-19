@@ -11,12 +11,12 @@ import TechnicalGridShell from "@/components/ui/TechnicalGridShell";
 // Sections & Modules
 import TechnicalHeroSection from "@/components/sections/TechnicalHeroSection";
 import EditorialProjectsSection from "@/components/sections/EditorialProjectsSection";
+import SystemsTopology from "@/components/skills/SystemsTopology";
 import RetroPixelGameRoom from "@/components/bento/RetroPixelGameRoom";
 import PlatformUpdatesModule from "@/components/bento/PlatformUpdatesModule";
 import AboutEducationModule from "@/components/bento/AboutEducationModule";
 import KeyMilestonesModule from "@/components/bento/KeyMilestonesModule";
 import CodingProfilesBento from "@/components/bento/CodingProfilesBento";
-import Skills3DSphere from "@/components/ui/Skills3DSphere";
 import ExperienceTimelineModule from "@/components/bento/ExperienceTimelineModule";
 import ContactResumePanel from "@/components/bento/ContactResumePanel";
 import CaseStudyModal, { ProjectData } from "@/components/modals/CaseStudyModal";
@@ -111,22 +111,28 @@ export default function Home() {
         {/* 1. HERO SECTION */}
         <TechnicalHeroSection />
 
-        {/* 2. SELECTED WORK / EDITORIAL CASE STUDIES */}
+        {/* 2. LIVE PLATFORM TELEMETRY DECK */}
+        <PlatformUpdatesModule />
+
+        {/* 3. SELECTED WORK / EDITORIAL CASE STUDIES (With System Flow Diagrams) */}
         <EditorialProjectsSection
           projects={projectsData}
           onOpenCaseStudy={setSelectedProject}
         />
 
-        {/* 3. PLAYABLE RETRO PIXEL DEVELOPER ROOM */}
+        {/* 4. SYSTEMS TOPOLOGY (Replacing Generic Sphere) */}
+        <SystemsTopology />
+
+        {/* 5. PROFESSIONAL TIMELINE */}
+        <ExperienceTimelineModule />
+
+        {/* 6. EXPERIMENTAL DISCOVERY LAB (Playable 2D World) */}
         <RetroPixelGameRoom
           projects={projectsData}
           onOpenCaseStudy={setSelectedProject}
         />
 
-        {/* 4. LIVE PLATFORM TELEMETRY DECK */}
-        <PlatformUpdatesModule />
-
-        {/* 5. ACADEMIC FOUNDATION & HONORS */}
+        {/* 7. ACADEMIC FOUNDATION & HONORS */}
         <section id="about" className="py-16 border-t border-[var(--border-color)]">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
             <AboutEducationModule />
@@ -134,14 +140,8 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 6. CODING PROFILES & TELEMETRY */}
+        {/* 8. CODING PROFILES & TELEMETRY */}
         <CodingProfilesBento />
-
-        {/* 7. TECHNICAL SKILL CONSTELLATION (FIBONACCI 3D SPHERE) */}
-        <Skills3DSphere />
-
-        {/* 8. PROFESSIONAL TIMELINE */}
-        <ExperienceTimelineModule />
 
         {/* 9. ENCRYPTED TRANSMISSION & RESUME */}
         <ContactResumePanel />

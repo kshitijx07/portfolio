@@ -5,7 +5,7 @@ import { motion, useSpring, useMotionValue } from "framer-motion";
 
 export default function CustomCursor() {
   const [cursorLabel, setCursorLabel] = useState("");
-  const [isHovered, setIsHovered] = useState(false);
+  const [cursorMode, setCursorMode] = useState<"default" | "active" | "drag">("default");
   const [isTouchDevice, setIsTouchDevice] = useState(false);
 
   const mouseX = useMotionValue(-100);
@@ -31,11 +31,11 @@ export default function CustomCursor() {
       const cursorTarget = target?.closest("[data-cursor]") as HTMLElement | null;
 
       if (cursorTarget) {
-        const label = cursorTarget.getAttribute("data-cursor") || "View";
-        setCursorLabel(label);
-        setIsHovered(true);
+        const label = cursorTarget.getAttribute("data-cursor") || "VIEW";
+        setCursorLabel(label.toUpperCase());
+        setCursorMode(label.toLowerCase().includes("drag") ? "drag" : "active");
       } else {
-        setIsHovered(false);
+        setCursorMode("default");
         setCursorLabel("");
       }
     };
@@ -48,7 +48,7 @@ export default function CustomCursor() {
 
   return (
     <motion.div
-      className="pointer-events-none fixed top-0 left-0 z-50 flex items-center justify-center bg-[var(--accent-acid)] text-[#050505] font-mono text-[9px] uppercase font-extrabold tracking-wider shadow-[0_0_12px_rgba(183,255,0,0.5)]"
+      className="pointer-events-none fixed top-0 left-0 z-50 flex items-center justify-center bg-[var(--accent-acid)] text-[#050505] font-mono text-[9px] uppercase font-extrabold tracking-wider shadow-[0_0_15px_rgba(183,255,0,0.45)] select-none"
       style={{
         x: cursorX,
         y: cursorY,
@@ -56,19 +56,19 @@ export default function CustomCursor() {
         translateY: "-50%",
       }}
       animate={{
-        width: isHovered ? 56 : 8,
-        height: isHovered ? 56 : 8,
-        borderRadius: isHovered ? "4px" : "1px",
-        opacity: isHovered ? 0.95 : 0.75,
+        width: cursorMode !== "default" ? (cursorLabel.length > 6 ? 96 : 64) : 8,
+        height: cursorMode !== "default" ? 28 : 8,
+        borderRadius: cursorMode !== "default" ? "2px" : "1px",
+        opacity: cursorMode !== "default" ? 0.95 : 0.75,
       }}
       transition={{ type: "spring", damping: 24, stiffness: 350 }}
     >
-      {isHovered && (
+      {cursorMode !== "default" && (
         <motion.span
-          initial={{ opacity: 0, scale: 0.5 }}
+          initial={{ opacity: 0, scale: 0.7 }}
           animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.5 }}
-          className="text-center leading-none"
+          exit={{ opacity: 0, scale: 0.7 }}
+          className="text-center leading-none px-2 whitespace-nowrap"
         >
           {cursorLabel}
         </motion.span>

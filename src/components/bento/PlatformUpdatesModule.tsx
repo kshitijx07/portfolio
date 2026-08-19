@@ -28,11 +28,14 @@ export default function PlatformUpdatesModule() {
   const [leetcodeData, setLeetcodeData] = useState<any>(null);
   const [codeforcesData, setCodeforcesData] = useState<any>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isSynced, setIsSynced] = useState(false);
 
   useEffect(() => {
-    fetch("/api/github").then((res) => res.json()).then(setGithubData).catch(() => {});
-    fetch("/api/leetcode").then((res) => res.json()).then(setLeetcodeData).catch(() => {});
-    fetch("/api/codeforces").then((res) => res.json()).then(setCodeforcesData).catch(() => {});
+    Promise.all([
+      fetch("/api/github").then((res) => res.json()).then(setGithubData).catch(() => {}),
+      fetch("/api/leetcode").then((res) => res.json()).then(setLeetcodeData).catch(() => {}),
+      fetch("/api/codeforces").then((res) => res.json()).then(setCodeforcesData).catch(() => {}),
+    ]).then(() => setIsSynced(true));
   }, []);
 
   const cards: PlatformCardData[] = [
