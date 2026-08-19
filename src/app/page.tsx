@@ -90,14 +90,9 @@ export default function PortfolioPage() {
       ═══════════════════════════════════════════════════════════ */}
       <section id="about" className="relative z-10 flex min-h-screen w-full items-center bg-[#050505]/90 backdrop-blur-md px-8 py-24 md:px-14 border-t border-white/10 [content-visibility:auto] [contain-intrinsic-size:1px_800px]">
         <div className="grid w-full grid-cols-1 lg:grid-cols-12 gap-12 items-center max-w-7xl mx-auto">
-          {/* Left Column: Photo Card with Polarity Negative-to-Positive Entrance */}
-          <div className="lg:col-span-4 flex flex-col items-start space-y-4">
-            <PolarityCard src="/profile.webp" name="Kshitij" />
-            <div className="font-mono text-xs text-white/60 space-y-1">
-              <div>// OPERATOR: KSHITIJ KUMBHAR</div>
-              <div>// FOCUS: DEVOPS / CLOUD / DISTRIBUTED SYSTEMS</div>
-              <div>// LOCATION: PUNE, MAHARASHTRA, INDIA</div>
-            </div>
+          {/* Left Column: Minimalist 3D Portrait Card */}
+          <div className="lg:col-span-4 flex flex-col items-center lg:items-start space-y-4">
+            <PolarityCard src="/profile.webp" alt="Kshitij Kumbhar" />
           </div>
 
           {/* Right Column: Exact Resume Summary & Verification */}
