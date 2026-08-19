@@ -3,77 +3,34 @@
 import * as React from "react";
 import { useEffect, useRef } from "react";
 
-/* -------------------------------------------------------------------------- */
-/*  What this draws                                                           */
-/*                                                                            */
-/*  A black hole, with the light bent the way a black hole bends it.          */
-/*                                                                            */
-/*  Units are set by the horizon: r = 1 is the event horizon. Then the photon  */
-/*  sphere sits at 1.5, the shadow the camera sees is 2.6 across the radius,   */
-/*  and the disc starts at 3 — the innermost orbit gas can hold in this        */
-/*  geometry.                                                                 */
-/* -------------------------------------------------------------------------- */
-
-export interface BlackHoleHeroSectionProps
-  extends React.HTMLAttributes<HTMLDivElement> {
-  /** Camera distance from the hole, in horizon radii. */
+export interface BlackHoleHeroSectionProps extends React.HTMLAttributes<HTMLDivElement> {
   distance?: number;
-  /**
-   * How far the camera sits above the disc, in degrees. Near 0 the disc is
-   * edge-on and the far side arches over the shadow as a halo.
-   */
   elevation?: number;
-  /** Where the camera sits around the hole, in degrees. */
   azimuth?: number;
-  /** Degrees the camera swings around the hole each second. */
   orbitSpeed?: number;
-  /** Turns the picture about the line of sight, in degrees. */
   roll?: number;
-  /** Vertical field of view, in degrees. */
   fov?: number;
-  /** Inner edge of the disc, in horizon radii. */
   diskInner?: number;
-  /** Outer edge of the disc. */
   diskOuter?: number;
-  /** Half-thickness of the disc at its inner edge. */
   diskThickness?: number;
-  /** How much gas there is. */
   diskDensity?: number;
-  /** Overall brightness of the gas before tone mapping. */
   brightness?: number;
-  /** Turns of the inner rim per second. */
   spinSpeed?: number;
-  /** Size of the turbulence in the gas. Higher is finer. */
   grain?: number;
-  /** Relativistic beaming, 0 to 1. */
   doppler?: number;
-  /** Brightest gas, at the inner rim. */
   hotColor?: string;
-  /** Mid-disc. */
   midColor?: string;
-  /** Coolest gas, at the outer edge. */
   coolColor?: string;
-  /** Background stars, 0 to 2. */
   starBrightness?: number;
-  /** Bloom, 0 to 2. */
   glow?: number;
-  /** Exposure into the tone curve. */
   exposure?: number;
-  /** Corner darkening, 0 to 1. */
   vignette?: number;
-  /** Steps each ray may take. */
   steps?: number;
-  /** Render scale, 0.5 to 1. */
   resolution?: number;
-  /** Cap on device pixel ratio. */
   maxDpr?: number;
-  /** Focus [x, y] in fraction of viewport. */
   focus?: [number, number];
-  /** Lays a veil over one edge for text readability. */
   scrim?: "none" | "left" | "right" | "top" | "bottom";
-  /** How dark that edge gets, 0 to 1. */
   scrimStrength?: number;
-  /** Freeze on the current frame. */
   paused?: boolean;
   children?: React.ReactNode;
 }
@@ -89,12 +46,10 @@ void main() {
 
 const SCENE_FRAG = `
 precision highp float;
-
-#define MAX_STEPS 360
+#define MAX_STEPS 460
 #define WIND_CYCLE 46.0
 
 varying vec2 vUv;
-
 uniform vec2  uRes;
 uniform float uTime;
 uniform vec3  uCamPos;
@@ -172,13 +127,11 @@ void gasAt(vec3 p, float rd, float dt, out float dens, out vec3 tint, out float 
   float fB = fract(u + 0.5);
   float w = abs(2.0 * fA - 1.0);
 
-  float cloudsA = fbm(vec3(vec2(cos(phi + omega * fA * WIND_CYCLE),
-                                sin(phi + omega * fA * WIND_CYCLE)) * (rd * uGrain), lr), lod);
-  float cloudsB = fbm(vec3(vec2(cos(phi + omega * fB * WIND_CYCLE),
-                                sin(phi + omega * fB * WIND_CYCLE)) * (rd * uGrain), lr + 40.0), lod);
+  float cloudsA = fbm(vec3(vec2(cos(phi + omega * fA * WIND_CYCLE), sin(phi + omega * fA * WIND_CYCLE)) * (rd * uGrain), lr), lod);
+  float cloudsB = fbm(vec3(vec2(cos(phi + omega * fB * WIND_CYCLE), sin(phi + omega * fB * WIND_CYCLE)) * (rd * uGrain), lr + 40.0), lod);
   float clouds = mix(cloudsA, cloudsB, w);
-  float filaments = clouds * clouds * 1.75;
 
+  float filaments = clouds * clouds * 1.75;
   float inner = smoothstep(0.0, 0.07, rn);
   float outer = 1.0 - smoothstep(0.45, 1.0, rn);
   float prof = inner * outer * pow(uDiskIn / rd, 2.0);
@@ -224,6 +177,7 @@ void main() {
 
   vec3 pos = uCamPos;
   vec3 vel = dir;
+
   vec3 hv = cross(pos, vel);
   float h2 = dot(hv, hv);
   float h = sqrt(h2);
@@ -245,6 +199,7 @@ void main() {
     if (transmit < 0.004) break;
 
     float dt = clamp(0.14 * (r - 1.0), 0.025, 1.1);
+
     if (r < uDiskOut * 1.25) {
       float rn = clamp((r - uDiskIn) / max(0.001, uDiskOut - uDiskIn), 0.0, 1.0);
       float tk = uThick * (0.35 + 1.25 * rn);
@@ -405,8 +360,7 @@ const RAD = Math.PI / 180;
 
 function hexToLinear(hex: string): [number, number, number] {
   const h = hex.trim().replace("#", "");
-  const full =
-    h.length === 3 ? h[0] + h[0] + h[1] + h[1] + h[2] + h[2] : h.slice(0, 6);
+  const full = h.length === 3 ? h[0] + h[0] + h[1] + h[1] + h[2] + h[2] : h.slice(0, 6);
   const n = parseInt(full, 16);
   const srgb = [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
   return srgb.map((v) =>
@@ -436,21 +390,21 @@ export function BlackHoleHeroSection({
   diskInner = 3,
   diskOuter = 15,
   diskThickness = 0.26,
-  diskDensity = 0.85,
-  brightness = 0.9,
-  spinSpeed = 0.04,
+  diskDensity = 1,
+  brightness = 1,
+  spinSpeed = 0.06,
   grain = 0.48,
-  doppler = 0.25,
-  hotColor = "#E0F7FA",
-  midColor = "#00E5FF",
-  coolColor = "#006064",
+  doppler = 0.35,
+  hotColor = "#4DEEEA",
+  midColor = "#001B6B",
+  coolColor = "#050505",
   starBrightness = 0,
-  glow = 0.7,
-  exposure = 0.85,
-  vignette = 0.35,
-  steps = 180,
-  resolution = 0.65,
-  maxDpr = 1.5,
+  glow = 1,
+  exposure = 0.9,
+  vignette = 0.28,
+  steps = 300,
+  resolution = 0.7,
+  maxDpr = 1.75,
   focus = [0.72, 0.46],
   scrim = "none",
   scrimStrength = 0.9,
@@ -513,8 +467,7 @@ export function BlackHoleHeroSection({
       ? String(gl.getParameter((dbg as any).UNMASKED_RENDERER_WEBGL) || "")
       : "";
     const software = /swiftshader|llvmpipe|softpipe|software|microsoft basic/i.test(renderer);
-    const isGL2 = typeof WebGL2RenderingContext !== "undefined" &&
-      gl instanceof WebGL2RenderingContext;
+    const isGL2 = typeof WebGL2RenderingContext !== "undefined" && gl instanceof WebGL2RenderingContext;
 
     function compile(type: number, src: string): WebGLShader | null {
       const sh = gl!.createShader(type);
@@ -522,6 +475,7 @@ export function BlackHoleHeroSection({
       gl!.shaderSource(sh, src);
       gl!.compileShader(sh);
       if (!gl!.getShaderParameter(sh, gl!.COMPILE_STATUS)) {
+        console.error("blackhole: shader failed —", gl!.getShaderInfoLog(sh) || "no log (context lost?)");
         gl!.deleteShader(sh);
         return null;
       }
@@ -541,6 +495,7 @@ export function BlackHoleHeroSection({
       gl!.deleteShader(vs);
       gl!.deleteShader(fs);
       if (!gl!.getProgramParameter(program, gl!.LINK_STATUS)) {
+        console.error(gl!.getProgramInfoLog(program));
         return null;
       }
       const u: Record<string, WebGLUniformLocation | null> = {};
@@ -557,9 +512,7 @@ export function BlackHoleHeroSection({
     let internal: number = gl.RGBA;
     if (isGL2) {
       const g2 = gl as WebGL2RenderingContext;
-      const ok =
-        g2.getExtension("EXT_color_buffer_half_float") ||
-        g2.getExtension("EXT_color_buffer_float");
+      const ok = g2.getExtension("EXT_color_buffer_half_float") || g2.getExtension("EXT_color_buffer_float");
       if (ok) {
         texType = g2.HALF_FLOAT;
         internal = g2.RGBA16F;
@@ -574,10 +527,7 @@ export function BlackHoleHeroSection({
       texType = gl.UNSIGNED_BYTE;
       internal = gl.RGBA;
     }
-    const linearOK =
-      isGL2 ||
-      !!gl.getExtension("OES_texture_half_float_linear") ||
-      !hdr;
+    const linearOK = isGL2 || !!gl.getExtension("OES_texture_half_float_linear") || !hdr;
     const filter = linearOK ? gl.LINEAR : gl.NEAREST;
     const pack = hdr ? 1 : 0.12;
 
@@ -592,9 +542,7 @@ export function BlackHoleHeroSection({
       gl!.texParameteri(gl!.TEXTURE_2D, gl!.TEXTURE_WRAP_S, gl!.CLAMP_TO_EDGE);
       gl!.texParameteri(gl!.TEXTURE_2D, gl!.TEXTURE_WRAP_T, gl!.CLAMP_TO_EDGE);
       gl!.bindFramebuffer(gl!.FRAMEBUFFER, fb);
-      gl!.framebufferTexture2D(
-        gl!.FRAMEBUFFER, gl!.COLOR_ATTACHMENT0, gl!.TEXTURE_2D, tex, 0
-      );
+      gl!.framebufferTexture2D(gl!.FRAMEBUFFER, gl!.COLOR_ATTACHMENT0, gl!.TEXTURE_2D, tex, 0);
       const status = gl!.checkFramebufferStatus(gl!.FRAMEBUFFER);
       gl!.bindFramebuffer(gl!.FRAMEBUFFER, null);
       if (status !== gl!.FRAMEBUFFER_COMPLETE) {
@@ -633,11 +581,7 @@ export function BlackHoleHeroSection({
 
       vbo = gl!.createBuffer();
       gl!.bindBuffer(gl!.ARRAY_BUFFER, vbo);
-      gl!.bufferData(
-        gl!.ARRAY_BUFFER,
-        new Float32Array([-1, -1, 3, -1, -1, 3]),
-        gl!.STATIC_DRAW
-      );
+      gl!.bufferData(gl!.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl!.STATIC_DRAW);
       gl!.enableVertexAttribArray(0);
       gl!.vertexAttribPointer(0, 2, gl!.FLOAT, false, 0, 0);
       gl!.disable(gl!.DEPTH_TEST);
@@ -661,14 +605,10 @@ export function BlackHoleHeroSection({
 
     function resize() {
       const rect = host!.getBoundingClientRect();
-      const dpr = software
-        ? 1
-        : Math.min(window.devicePixelRatio || 1, Math.max(1, props.current.maxDpr));
+      const dpr = software ? 1 : Math.min(window.devicePixelRatio || 1, Math.max(1, props.current.maxDpr));
       const cssW = Math.max(1, Math.round(rect.width));
       const cssH = Math.max(1, Math.round(rect.height));
-      const scale = software
-        ? 0.34
-        : Math.min(1, Math.max(0.4, props.current.resolution));
+      const scale = software ? 0.34 : Math.min(1, Math.max(0.4, props.current.resolution));
       const w = Math.max(2, Math.round(cssW * dpr));
       const h = Math.max(2, Math.round(cssH * dpr));
       const sw = Math.max(2, Math.round(w * scale));
@@ -758,10 +698,7 @@ export function BlackHoleHeroSection({
       gl!.uniform3f(u.uFwd!, fx, fy, fz);
       gl!.uniform1f(u.uTanHalf!, Math.tan(Math.max(8, Math.min(110, C.fov)) * 0.5 * RAD));
       gl!.uniform2f(u.uFocus!, C.focus[0], 1 - C.focus[1]);
-      gl!.uniform1f(
-        u.uSteps!,
-        software ? 90 : Math.max(50, Math.min(360, Math.round(C.steps)))
-      );
+      gl!.uniform1f(u.uSteps!, software ? 130 : Math.max(60, Math.min(460, Math.round(C.steps))));
       gl!.uniform1f(u.uSkyR!, Math.max(dist * 1.35, outer * 2.4));
       gl!.uniform1f(u.uDiskIn!, Math.max(1.05, C.diskInner));
       gl!.uniform1f(u.uDiskOut!, outer);
@@ -915,7 +852,7 @@ export function BlackHoleHeroSection({
   return (
     <div
       ref={hostRef}
-      className={`relative isolate h-full w-full overflow-hidden bg-zinc-950 ${className}`}
+      className={`relative isolate h-full w-full overflow-hidden bg-black ${className}`}
       {...rest}
     >
       <canvas ref={canvasRef} aria-hidden="true" className="absolute inset-0 h-full w-full" />

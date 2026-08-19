@@ -31,7 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable} dark`}>
-      <body className="bg-[#0a0a0a] text-[#ededed] min-h-screen antialiased bg-dot-grid">
+      <body className="bg-zinc-950 text-zinc-100 min-h-screen antialiased bg-grid-pattern selection:bg-cyan-500 selection:text-zinc-950">
         {children}
         <Analytics />
       </body>
