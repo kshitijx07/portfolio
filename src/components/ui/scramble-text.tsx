@@ -1,44 +1,73 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { cn } from "@/lib/utils";
 
-const GLYPHS = "ABCDEF0123456789_//<>{}*=";
+const GLYPH_SETS = {
+  cyber: "ABCDEF0123456789_//<>{}*=",
+  matrix: "01アイウエオカキクケコサシスセソタチツテトナニヌネノ",
+  binary: "0101011001",
+  ascii: "!@#$%^&*()_+-=[]{}|;:,.<>?",
+};
 
 export interface ScrambleTextProps {
   text: string;
   className?: string;
   speed?: number;
+  trigger?: "inView" | "hover" | "always";
+  glyphSet?: keyof typeof GLYPH_SETS;
+  scrambleOnHover?: boolean;
 }
 
-export function ScrambleText({ text, className, speed = 40 }: ScrambleTextProps) {
+export function ScrambleText({
+  text,
+  className,
+  speed = 35,
+  trigger = "inView",
+  glyphSet = "cyber",
+  scrambleOnHover = true,
+}: ScrambleTextProps) {
   const [output, setOutput] = useState(text);
   const containerRef = useRef<HTMLSpanElement>(null);
-  const hasAnimated = useRef(false);
+  const isAnimating = useRef(false);
+  const glyphs = GLYPH_SETS[glyphSet] || GLYPH_SETS.cyber;
+
+  const runScramble = useCallback(() => {
+    if (isAnimating.current) return;
+    isAnimating.current = true;
+
+    let iteration = 0;
+    const interval = setInterval(() => {
+      setOutput(
+        text
+          .split("")
+          .map((char, idx) => {
+            if (char === " ") return " ";
+            if (idx < iteration) return text[idx];
+            return glyphs[Math.floor(Math.random() * glyphs.length)];
+          })
+          .join("")
+      );
+
+      if (iteration >= text.length) {
+        clearInterval(interval);
+        setOutput(text);
+        isAnimating.current = false;
+      }
+      iteration += 1 / 2;
+    }, speed);
+  }, [text, speed, glyphs]);
 
   useEffect(() => {
+    if (trigger === "always") {
+      runScramble();
+      return;
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0]?.isIntersecting && !hasAnimated.current) {
-          hasAnimated.current = true;
-          let iteration = 0;
-          const interval = setInterval(() => {
-            setOutput(
-              text
-                .split("")
-                .map((char, idx) => {
-                  if (char === " ") return " ";
-                  if (idx < iteration) return text[idx];
-                  return GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
-                })
-                .join("")
-            );
-
-            if (iteration >= text.length) {
-              clearInterval(interval);
-            }
-            iteration += 1 / 2;
-          }, speed);
+        if (entries[0]?.isIntersecting) {
+          runScramble();
         }
       },
       { threshold: 0.1 }
@@ -49,10 +78,20 @@ export function ScrambleText({ text, className, speed = 40 }: ScrambleTextProps)
     }
 
     return () => observer.disconnect();
-  }, [text, speed]);
+  }, [trigger, runScramble]);
+
+  const handleMouseEnter = () => {
+    if (scrambleOnHover) {
+      runScramble();
+    }
+  };
 
   return (
-    <span ref={containerRef} className={cn("font-mono", className)}>
+    <span
+      ref={containerRef}
+      onMouseEnter={handleMouseEnter}
+      className={cn("font-mono inline-block select-none", className)}
+    >
       {output}
     </span>
   );
