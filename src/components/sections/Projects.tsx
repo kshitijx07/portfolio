@@ -1,9 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Canvas } from "@react-three/fiber";
-import RetroDotMatrixBg from "@/components/canvas/RetroDotMatrixBg";
-import DomSyncProjectGrid from "@/components/canvas/DomSyncProjectGrid";
+import ProjectBlackHoleBg from "@/components/canvas/ProjectBlackHoleBg";
 import ProjectCardSync, {
   ProjectMetric,
 } from "@/components/dom/ProjectCardSync";
@@ -213,13 +211,8 @@ export default function Projects() {
       id="projects"
       className="relative z-10 min-h-screen bg-[#050505] px-6 sm:px-10 md:px-14 py-20 border-t border-white/10 overflow-hidden"
     >
-      {/* ── WebGL Retro Dot Matrix & Velocity UV Curl Layer ─────── */}
-      <div className="absolute inset-0 z-0 pointer-events-none opacity-60">
-        <Canvas camera={{ position: [0, 0, 1] }}>
-          <RetroDotMatrixBg />
-          <DomSyncProjectGrid />
-        </Canvas>
-      </div>
+      {/* ── Relativistic Black Hole Accretion & Velocity UV Curl Layer ── */}
+      <ProjectBlackHoleBg />
 
       <div className="relative z-10 max-w-7xl mx-auto space-y-8">
         {/* ── 1. Section Header & Telemetry Status ────────────────── */}
