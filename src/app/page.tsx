@@ -22,6 +22,8 @@ import { FiGithub, FiLinkedin } from "react-icons/fi";
 // WebGL Scenes & Shaders
 import HeroAboutScene from "@/components/canvas/HeroAboutScene";
 import ContactGlassScene from "@/components/canvas/ContactGlassScene";
+import RetroDotMatrixBg from "@/components/canvas/RetroDotMatrixBg";
+import DomSyncProjectGrid from "@/components/canvas/DomSyncProjectGrid";
 
 // DOM & HUD Components
 import HeroHUD from "@/components/dom/HeroHUD";
@@ -176,8 +178,16 @@ export default function PortfolioPage() {
       {/* ═══════════════════════════════════════════════════════════
           SECTION 3: PROFESSIONAL EXPERIENCE
       ═══════════════════════════════════════════════════════════ */}
-      <section id="experience" className="relative z-10 min-h-screen bg-[#080808] px-8 py-24 md:px-14 border-t border-white/10">
-        <div className="max-w-7xl mx-auto space-y-12">
+      <section id="experience" className="relative z-10 min-h-screen bg-[#080808] px-8 py-24 md:px-14 border-t border-white/10 overflow-hidden">
+        {/* WebGL Retro Dot Matrix & Velocity UV Semicircular Curl Layer */}
+        <div className="absolute inset-0 z-0 pointer-events-none opacity-60">
+          <Canvas camera={{ position: [0, 0, 1] }}>
+            <RetroDotMatrixBg />
+            <DomSyncProjectGrid />
+          </Canvas>
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto space-y-12">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6">
             <div>
               <div className="flex items-center gap-2 text-[#4DEEEA] font-mono text-xs uppercase tracking-wider font-semibold mb-2">
@@ -289,8 +299,16 @@ export default function PortfolioPage() {
       {/* ═══════════════════════════════════════════════════════════
           SECTION 5: TECHNICAL SKILLS MATRIX
       ═══════════════════════════════════════════════════════════ */}
-      <section id="skills" className="relative z-10 min-h-screen bg-[#080808] px-8 py-24 md:px-14 border-t border-white/10">
-        <div className="max-w-7xl mx-auto space-y-12">
+      <section id="skills" className="relative z-10 min-h-screen bg-[#080808] px-8 py-24 md:px-14 border-t border-white/10 overflow-hidden">
+        {/* WebGL Retro Dot Matrix & Velocity UV Semicircular Curl Layer */}
+        <div className="absolute inset-0 z-0 pointer-events-none opacity-60">
+          <Canvas camera={{ position: [0, 0, 1] }}>
+            <RetroDotMatrixBg />
+            <DomSyncProjectGrid />
+          </Canvas>
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto space-y-12">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6">
             <div>
               <div className="flex items-center gap-2 text-[#4DEEEA] font-mono text-xs uppercase tracking-wider font-semibold mb-2">
@@ -425,8 +443,16 @@ export default function PortfolioPage() {
       {/* ═══════════════════════════════════════════════════════════
           SECTION 6: EDUCATION & ACADEMIC STANDING
       ═══════════════════════════════════════════════════════════ */}
-      <section id="education" className="relative z-10 min-h-screen bg-[#050505] px-8 py-24 md:px-14 border-t border-white/10">
-        <div className="max-w-7xl mx-auto space-y-12">
+      <section id="education" className="relative z-10 min-h-screen bg-[#050505] px-8 py-24 md:px-14 border-t border-white/10 overflow-hidden">
+        {/* WebGL Retro Dot Matrix & Velocity UV Semicircular Curl Layer */}
+        <div className="absolute inset-0 z-0 pointer-events-none opacity-60">
+          <Canvas camera={{ position: [0, 0, 1] }}>
+            <RetroDotMatrixBg />
+            <DomSyncProjectGrid />
+          </Canvas>
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto space-y-12">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6">
             <div>
               <div className="flex items-center gap-2 text-[#4DEEEA] font-mono text-xs uppercase tracking-wider font-semibold mb-2">
