@@ -11,7 +11,6 @@ import {
   prefersReducedMotion,
 } from "@/lib/bus";
 import { ChevronUp } from "lucide-react";
-import SystemBootLoader from "@/components/ui/SystemBootLoader";
 
 interface SectionAnchor {
   id: string;
@@ -36,7 +35,6 @@ export interface ScrollShellProps {
 export default function ScrollShell({ children }: ScrollShellProps) {
   const lenisRef = useRef<Lenis | null>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
 
   // ── 1. ALWAYS START FROM TOP ON MOUNT / REFRESH ───────────────
   useEffect(() => {
@@ -159,21 +157,8 @@ export default function ScrollShell({ children }: ScrollShellProps) {
     }
   }, []);
 
-  const handleBootComplete = useCallback(() => {
-    setIsLoaded(true);
-    if (lenisRef.current) {
-      lenisRef.current.scrollTo(0, { immediate: true });
-    }
-    if (typeof window !== "undefined") {
-      window.scrollTo(0, 0);
-    }
-  }, []);
-
   return (
     <div className="relative w-full min-h-screen">
-      {/* ── One-Line Style System Boot Loader Badge ────────────────── */}
-      <SystemBootLoader onComplete={handleBootComplete} minDuration={8500} />
-
       {/* ── Main Page Content ──────────────────────────────────── */}
       {children}
 
