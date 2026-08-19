@@ -176,7 +176,7 @@ export default function PortfolioPage() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════
-          SECTION 3: PROFESSIONAL EXPERIENCE (Exact Resume History)
+          SECTION 3: PROFESSIONAL EXPERIENCE
       ═══════════════════════════════════════════════════════════ */}
       <section id="experience" className="relative z-10 min-h-screen bg-[#080808] px-8 py-24 md:px-14 border-t border-white/10">
         <div className="max-w-7xl mx-auto space-y-12">
@@ -284,18 +284,18 @@ export default function PortfolioPage() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════
-          SECTION 4: FEATURED CLOUD & AI PROJECTS WITH 3D VELOCITY WARP EFFECT
+          SECTION 4: FEATURED CLOUD & AI PROJECTS WITH PROCEDURAL 3D VELOCITY FLOW
       ═══════════════════════════════════════════════════════════ */}
       <section id="projects" className="relative z-10 min-h-screen bg-[#050505] px-8 py-24 md:px-14 border-t border-white/10 overflow-hidden">
-        {/* 3D Velocity Warp Shader Layer behind Project Cards */}
-        <div className="absolute inset-0 z-0 opacity-35 pointer-events-none">
+        {/* Dynamic Procedural 3D Velocity Warp Shader Layer */}
+        <div className="absolute inset-0 z-0 opacity-45 pointer-events-none">
           <Canvas camera={{ position: [0, 0, 1] }}>
-            <WarpCorridor baseSpeed={0.8} />
+            <WarpCorridor baseSpeed={0.9} intensity={0.8} />
           </Canvas>
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto space-y-12">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6 bg-[#050505]/70 backdrop-blur-sm p-4">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6 bg-[#050505]/70 backdrop-blur-sm p-4 rounded-sm">
             <div>
               <div className="flex items-center gap-2 text-[#4DEEEA] font-mono text-xs uppercase tracking-wider font-semibold mb-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#4DEEEA]" />
@@ -724,10 +724,10 @@ export default function PortfolioPage() {
           SECTION 7: HYPER-SPEED WARP CORRIDOR ("INNOVATE WITH PURPOSE")
       ═══════════════════════════════════════════════════════════ */}
       <section className="relative z-10 flex h-screen w-full items-center justify-center overflow-hidden border-t border-white/10 bg-[#050505]">
-        {/* WebGL Streak Shader Canvas */}
+        {/* Full-Intensity Procedural WebGL Warp Shader */}
         <div className="absolute inset-0 z-0 pointer-events-none">
           <Canvas camera={{ position: [0, 0, 1] }}>
-            <WarpCorridor baseSpeed={1.4} />
+            <WarpCorridor baseSpeed={1.4} intensity={1.2} />
           </Canvas>
         </div>
 
