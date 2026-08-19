@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import SmoothScrollProvider from "@/components/ui/SmoothScrollProvider";
+import ScrollShell from "@/components/webgl/CanvasRoot";
 import NoiseOverlay from "@/components/ui/NoiseOverlay";
 import CustomCursor from "@/components/ui/CustomCursor";
 import PixelCursorTrail from "@/components/ui/PixelCursorTrail";
@@ -41,9 +41,9 @@ export default function RootLayout({
         <NoiseOverlay />
         <PixelCursorTrail />
         <CustomCursor />
-        <SmoothScrollProvider>
+        <ScrollShell>
           <div className="relative z-10">{children}</div>
-        </SmoothScrollProvider>
+        </ScrollShell>
         <Analytics />
       </body>
     </html>

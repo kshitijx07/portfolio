@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useRef } from "react";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import ScrambleText from "@/components/ui/ScrambleText";
 
 export default function EditorialAboutSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -11,160 +12,108 @@ export default function EditorialAboutSection() {
     offset: ["start end", "end start"],
   });
 
-  const smoothProgress = useSpring(scrollYProgress, { damping: 25, stiffness: 200 });
-
-  // Progressive Portrait Development
-  const portraitScale = useTransform(smoothProgress, [0.1, 0.45], [0.92, 1.0]);
-  const portraitOpacity = useTransform(smoothProgress, [0.1, 0.4], [0.2, 1.0]);
-  const portraitY = useTransform(smoothProgress, [0.1, 0.45], [50, 0]);
-
-  // Narrative Typographic Scroll Reveal
-  const textY = useTransform(smoothProgress, [0.15, 0.45], [60, 0]);
-  const textOpacity = useTransform(smoothProgress, [0.15, 0.4], [0.1, 1.0]);
-
-  const pixelStaircase = [
-    { top: "8%", left: "4%" },
-    { top: "14%", left: "8%" },
-    { top: "20%", left: "12%" },
-    { top: "28%", left: "16%" },
-    { top: "36%", left: "20%" },
-    { top: "45%", left: "24%" },
-    { top: "54%", left: "28%" },
-  ];
+  const photoScale = useTransform(scrollYProgress, [0.1, 0.45], [0.92, 1.0]);
+  const photoBlur = useTransform(scrollYProgress, [0.1, 0.45], ["blur(8px)", "blur(0px)"]);
+  const signatureOpacity = useTransform(scrollYProgress, [0.25, 0.5], [0, 1]);
 
   return (
     <section
       ref={sectionRef}
       id="about"
-      className="py-24 md:py-36 border-t border-[var(--border-color)] relative overflow-hidden bg-[#050505]"
+      className="py-24 md:py-36 border-t border-[var(--border-color)] relative overflow-hidden bg-[var(--bg-primary)]"
+      data-cursor="About"
     >
-      {/* Generative Dotted Texture Background */}
-      <div className="absolute inset-0 opacity-20 hud-dot-grid pointer-events-none" />
-
-      {/* Cascading Acid-Lime Pixel Staircase Motif */}
-      <div className="absolute inset-0 pointer-events-none z-0 hidden md:block">
-        {pixelStaircase.map((step, idx) => (
-          <motion.div
-            key={idx}
-            initial={{ opacity: 0.3, scale: 0.8 }}
-            animate={{
-              opacity: [0.35, 1, 0.35],
-              scale: [0.9, 1.1, 0.9],
-              y: [0, -4, 0],
-            }}
-            transition={{
-              duration: 3 + idx * 0.4,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: idx * 0.25,
-            }}
-            style={{ top: step.top, left: step.left }}
-            className="absolute w-3.5 h-3.5 bg-[var(--accent-acid)] shadow-[0_0_14px_rgba(183,255,0,0.5)]"
-          />
-        ))}
-      </div>
-
       <div className="max-w-[1500px] mx-auto px-4 md:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-          {/* Left Column: Progressive Developing Portrait */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-16 items-center">
+          {/* Left Column: Developing Framed Portrait & Dotted Curve Trail */}
           <div className="lg:col-span-5 relative flex justify-center lg:justify-start">
-            <motion.div
-              style={{
-                scale: portraitScale,
-                opacity: portraitOpacity,
-                y: portraitY,
-              }}
-              className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 border border-white/15 bg-[#0D0D0D] p-3 shadow-2xl group"
-            >
-              <span className="absolute -top-2 -left-2 font-mono text-xs text-[var(--accent-acid)]">+</span>
-              <span className="absolute -top-2 -right-2 font-mono text-xs text-[var(--accent-acid)]">+</span>
-              <span className="absolute -bottom-2 -left-2 font-mono text-xs text-[var(--accent-acid)]">+</span>
-              <span className="absolute -bottom-2 -right-2 font-mono text-xs text-[var(--accent-acid)]">+</span>
-
-              <div className="w-full h-full relative overflow-hidden bg-black/40 border border-white/10">
+            <div className="relative w-full max-w-[360px] aspect-square">
+              {/* Developing Portrait Container */}
+              <motion.div
+                style={{ scale: photoScale, filter: photoBlur }}
+                className="relative w-full h-full border border-white/20 overflow-hidden bg-[#0D0D0D] shadow-2xl group"
+              >
                 <img
-                  src="/icon.png"
-                  alt="Kshitij Kumbhar Portrait"
-                  className="w-full h-full object-cover grayscale contrast-125 group-hover:grayscale-0 transition-all duration-500"
+                  src="/hero_profile.jpg"
+                  alt="Kshitij Kumbhar"
+                  className="w-full h-full object-cover grayscale contrast-125 group-hover:grayscale-0 transition-all duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-tr from-[#07145C]/40 via-transparent to-[var(--accent-acid)]/10 mix-blend-color-dodge pointer-events-none" />
-              </div>
 
-              {/* Neon Acid-Lime Handwritten Script Signature */}
-              <div className="absolute -top-5 -left-4 z-20 pointer-events-none rotate-[-12deg]">
-                <span className="text-3xl sm:text-4xl md:text-5xl font-serif italic text-[var(--accent-acid)] font-bold tracking-wide drop-shadow-[0_0_12px_rgba(183,255,0,0.6)]">
+                {/* Corner Technical Metadata */}
+                <div className="absolute top-2 left-2 px-1.5 py-0.5 bg-black/80 font-mono text-[9px] text-[var(--accent-acid)] font-bold">
+                  // KSHITIJ_PORTRAIT.RAW
+                </div>
+              </motion.div>
+
+              {/* Neon Lime Handwritten Signature (Kshitij) */}
+              <motion.div
+                style={{ opacity: signatureOpacity }}
+                className="absolute -top-6 -left-6 z-20 pointer-events-none select-none"
+              >
+                <span className="font-serif italic text-4xl md:text-5xl text-[var(--accent-acid)] drop-shadow-[0_0_15px_rgba(183,255,0,0.8)] font-bold">
                   Kshitij
                 </span>
-              </div>
+              </motion.div>
 
-              {/* Circular Progress & Telemetry Ring */}
-              <div className="absolute -bottom-3 -left-3 z-20 bg-[#050505] border border-white/20 p-1.5 flex items-center gap-1.5 font-mono text-[9px] text-white/80 shadow-md">
-                <span className="w-2.5 h-2.5 rounded-full border border-[var(--accent-acid)] border-t-transparent animate-spin" />
-                <span>12:22 31°C</span>
+              {/* Acid Lime Pixel Trail Curve (from reference screenshot) */}
+              <div className="absolute -bottom-10 -right-10 pointer-events-none hidden sm:flex flex-col gap-2 z-10">
+                <span className="w-2.5 h-2.5 bg-[var(--accent-acid)]" />
+                <span className="w-2.5 h-2.5 bg-[var(--accent-acid)] ml-3" />
+                <span className="w-2.5 h-2.5 bg-[var(--accent-acid)] ml-6" />
+                <span className="w-2.5 h-2.5 bg-[var(--accent-acid)] ml-9" />
               </div>
-
-              <div className="absolute -bottom-3 -right-3 flex gap-1 pointer-events-none">
-                <span className="w-2.5 h-2.5 bg-[var(--accent-acid)] shadow-[0_0_8px_rgba(183,255,0,0.5)]" />
-                <span className="w-2.5 h-2.5 bg-[var(--accent-acid)] shadow-[0_0_8px_rgba(183,255,0,0.5)]" />
-              </div>
-            </motion.div>
+            </div>
           </div>
 
-          {/* Right Column: Progressive Editorial Narrative */}
-          <motion.div
-            style={{
-              y: textY,
-              opacity: textOpacity,
-            }}
-            className="lg:col-span-7 space-y-6"
-          >
-            <div className="flex items-center gap-2 mb-2 font-mono text-xs text-[var(--accent-acid)] font-bold">
-              <span className="w-2 h-2 bg-[var(--accent-acid)]" />
-              <span>02 // SUMMARY & PROFILE</span>
-            </div>
+          {/* Right Column: Large Concise Editorial Narrative */}
+          <div className="lg:col-span-7 space-y-8">
+            <div className="space-y-4">
+              <h2 className="text-2xl sm:text-4xl md:text-5xl font-display font-extrabold text-[var(--text-primary)] leading-[1.12] tracking-tight">
+                <ScrambleText text="I explore how to shape cloud infrastructure & AI workflows with craft and taste, building the next generation of scalable systems." />
+              </h2>
 
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-4.5xl font-display font-extrabold text-white tracking-tight leading-[1.25]">
-              Computer Engineering student and DevOps Intern designing automated CI/CD pipelines, containerized microservices, and cloud infrastructure on AWS.
-            </h2>
-
-            <div className="text-base sm:text-lg md:text-xl text-white/70 font-display leading-relaxed space-y-4 pt-2">
-              <p>
-                Currently working as a{" "}
+              <p className="text-base sm:text-xl md:text-2xl text-[var(--text-secondary)] font-sans leading-relaxed">
+                I'm a DevOps Intern at{" "}
+                <span className="text-[var(--text-primary)] font-bold underline decoration-[var(--accent-acid)] decoration-2 underline-offset-4">
+                  Colgate-Palmolive
+                </span>
+                , and previously engineered distributed systems across{" "}
                 <a
-                  href="https://www.linkedin.com/in/kshitij-kumbhar"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-white font-bold underline underline-offset-4 decoration-[var(--accent-acid)] hover:text-[var(--accent-acid)] transition-colors"
+                  href="#work"
+                  className="text-[var(--text-primary)] hover:text-[var(--accent-acid)] underline underline-offset-4 transition-colors"
                 >
-                  DevOps Intern @ Colgate-Palmolive
-                </a>{" "}
-                (Mumbai Hybrid), automating deployment workflows with Jenkins, Docker, and Kubernetes on AWS.
-              </p>
-
-              <p>
-                Pursuing B.Tech in Computer Engineering at{" "}
-                <strong className="text-white underline underline-offset-4 decoration-white/30 font-semibold">
-                  MIT Academy of Engineering, Pune
-                </strong>{" "}
-                (CGPA: <span className="text-[var(--accent-acid)] font-bold">8.48 / 10</span>) with active competitive programming on LeetCode (@kshitij72) and Codeforces (@kshitijx07).
+                  DSA Swarm AI
+                </a>
+                ,{" "}
+                <a
+                  href="#work"
+                  className="text-[var(--text-primary)] hover:text-[var(--accent-acid)] underline underline-offset-4 transition-colors"
+                >
+                  HostelHub
+                </a>
+                , and{" "}
+                <a
+                  href="#work"
+                  className="text-[var(--text-primary)] hover:text-[var(--accent-acid)] underline underline-offset-4 transition-colors"
+                >
+                  Campus Credential
+                </a>
+                .
               </p>
             </div>
 
-            <div className="pt-4 flex flex-wrap gap-3 font-mono text-xs">
-              <div className="px-3 py-1.5 border border-white/15 bg-white/5 text-white flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-[var(--accent-acid)]" />
-                <span>AWS EKS & TERRAFORM</span>
+            {/* Micro Metadata Strip */}
+            <div className="flex flex-wrap items-center gap-6 pt-6 border-t border-[var(--border-color)] font-mono text-xs text-[var(--text-secondary)]">
+              <div>
+                <span className="text-[var(--text-muted)] block text-[10px] uppercase font-bold">ACADEMIC STANDING</span>
+                <span className="text-[var(--text-primary)] font-bold">B.Tech CS @ MIT AOE (CGPA 8.48/10)</span>
               </div>
-              <div className="px-3 py-1.5 border border-white/15 bg-white/5 text-white flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-[var(--accent-acid)]" />
-                <span>LEETCODE @kshitij72</span>
-              </div>
-              <div className="px-3 py-1.5 border border-white/15 bg-white/5 text-white flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-[var(--accent-acid)]" />
-                <span>CODEFORCES @kshitijx07</span>
+              <div>
+                <span className="text-[var(--text-muted)] block text-[10px] uppercase font-bold">CORE DOMAINS</span>
+                <span className="text-[var(--accent-acid)] font-bold">AWS EKS • TERRAFORM • RAG AI</span>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
