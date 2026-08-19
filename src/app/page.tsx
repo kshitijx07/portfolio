@@ -9,20 +9,13 @@ import {
   Cpu,
   Terminal,
   Code2,
-  GitBranch,
   ArrowUpRight,
-  ExternalLink,
-  ChevronDown,
-  ChevronUp,
   Download,
-  GraduationCap,
-  Briefcase,
-  Layers,
-  Check,
-  Copy,
   Mail,
   Phone,
   Globe,
+  Check,
+  Copy,
 } from "lucide-react";
 import { FiGithub, FiLinkedin } from "react-icons/fi";
 
@@ -35,22 +28,14 @@ import ContactGlassScene from "@/components/canvas/ContactGlassScene";
 import HeroHUD from "@/components/dom/HeroHUD";
 import PolarityCard from "@/components/dom/PolarityCard";
 import { ScrambleText } from "@/components/ui/scramble-text";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 
 export default function PortfolioPage() {
-  const [expandedProject, setExpandedProject] = useState<string | null>(null);
   const [emailCopied, setEmailCopied] = useState(false);
   const [phoneCopied, setPhoneCopied] = useState(false);
 
   const email = "kshitijkumbhar007@gmail.com";
   const phone = "+91-7058157357";
-
-  const toggleProject = (id: string) => {
-    setExpandedProject(expandedProject === id ? null : id);
-  };
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(email);
@@ -299,11 +284,18 @@ export default function PortfolioPage() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════
-          SECTION 4: FEATURED CLOUD & AI PROJECTS
+          SECTION 4: FEATURED CLOUD & AI PROJECTS WITH 3D VELOCITY WARP EFFECT
       ═══════════════════════════════════════════════════════════ */}
-      <section id="projects" className="relative z-10 min-h-screen bg-[#050505] px-8 py-24 md:px-14 border-t border-white/10">
-        <div className="max-w-7xl mx-auto space-y-12">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6">
+      <section id="projects" className="relative z-10 min-h-screen bg-[#050505] px-8 py-24 md:px-14 border-t border-white/10 overflow-hidden">
+        {/* 3D Velocity Warp Shader Layer behind Project Cards */}
+        <div className="absolute inset-0 z-0 opacity-35 pointer-events-none">
+          <Canvas camera={{ position: [0, 0, 1] }}>
+            <WarpCorridor baseSpeed={0.8} />
+          </Canvas>
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto space-y-12">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6 bg-[#050505]/70 backdrop-blur-sm p-4">
             <div>
               <div className="flex items-center gap-2 text-[#4DEEEA] font-mono text-xs uppercase tracking-wider font-semibold mb-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#4DEEEA]" />
@@ -318,7 +310,7 @@ export default function PortfolioPage() {
 
           <div className="space-y-8">
             {/* Project 1: HostelHub */}
-            <div className="border border-white/10 bg-[#0A0A0A] p-8 md:p-10 rounded-sm hover:border-[#B4F342] transition-colors">
+            <div className="border border-white/10 bg-[#0A0A0A]/85 backdrop-blur-md p-8 md:p-10 rounded-sm hover:border-[#B4F342] transition-colors shadow-2xl">
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-white/10">
                 <div>
                   <div className="flex items-center gap-3">
@@ -389,7 +381,7 @@ export default function PortfolioPage() {
             </div>
 
             {/* Project 2: Serverless AI X-Ray Analyzer */}
-            <div className="border border-white/10 bg-[#0A0A0A] p-8 md:p-10 rounded-sm hover:border-[#FF3E1D] transition-colors">
+            <div className="border border-white/10 bg-[#0A0A0A]/85 backdrop-blur-md p-8 md:p-10 rounded-sm hover:border-[#FF3E1D] transition-colors shadow-2xl">
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-white/10">
                 <div>
                   <div className="flex items-center gap-3">
@@ -445,7 +437,7 @@ export default function PortfolioPage() {
             </div>
 
             {/* Project 3: DSA Swarm AI */}
-            <div className="border border-white/10 bg-[#0A0A0A] p-8 md:p-10 rounded-sm hover:border-[#4DEEEA] transition-colors">
+            <div className="border border-white/10 bg-[#0A0A0A]/85 backdrop-blur-md p-8 md:p-10 rounded-sm hover:border-[#4DEEEA] transition-colors shadow-2xl">
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-white/10">
                 <div>
                   <div className="flex items-center gap-3">
@@ -508,7 +500,7 @@ export default function PortfolioPage() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════
-          SECTION 5: TECHNICAL SKILLS MATRIX (Grouped by Category)
+          SECTION 5: TECHNICAL SKILLS MATRIX
       ═══════════════════════════════════════════════════════════ */}
       <section id="skills" className="relative z-10 min-h-screen bg-[#080808] px-8 py-24 md:px-14 border-t border-white/10">
         <div className="max-w-7xl mx-auto space-y-12">
@@ -644,7 +636,7 @@ export default function PortfolioPage() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════
-          SECTION 6: EDUCATION & ACADEMIC MERIT
+          SECTION 6: EDUCATION & ACADEMIC STANDING
       ═══════════════════════════════════════════════════════════ */}
       <section id="education" className="relative z-10 min-h-screen bg-[#050505] px-8 py-24 md:px-14 border-t border-white/10">
         <div className="max-w-7xl mx-auto space-y-12">
@@ -729,19 +721,19 @@ export default function PortfolioPage() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════
-          SECTION 7: HYPER-SPEED WARP TUNNEL
+          SECTION 7: HYPER-SPEED WARP CORRIDOR ("INNOVATE WITH PURPOSE")
       ═══════════════════════════════════════════════════════════ */}
       <section className="relative z-10 flex h-screen w-full items-center justify-center overflow-hidden border-t border-white/10 bg-[#050505]">
         {/* WebGL Streak Shader Canvas */}
         <div className="absolute inset-0 z-0 pointer-events-none">
           <Canvas camera={{ position: [0, 0, 1] }}>
-            <WarpCorridor />
+            <WarpCorridor baseSpeed={1.4} />
           </Canvas>
         </div>
 
-        {/* Center Typography Lockup */}
+        {/* Center Typography Lockup Matching Screenshot */}
         <div className="relative z-10 text-center select-none px-6">
-          <h2 className="text-6xl sm:text-7xl md:text-9xl font-black uppercase tracking-tight text-white leading-none">
+          <h2 className="text-6xl sm:text-7xl md:text-9xl font-black uppercase tracking-tight text-white leading-none drop-shadow-2xl">
             INNOVATE
             <br />
             WITH
@@ -751,7 +743,7 @@ export default function PortfolioPage() {
           <div className="mt-8">
             <ScrambleText
               text="HIGH-PERFORMANCE ARCHITECTURES & CLOUD INFRASTRUCTURE"
-              className="text-xs tracking-widest text-[#B4F342]"
+              className="text-xs tracking-widest text-[#B4F342] font-bold"
             />
           </div>
         </div>
