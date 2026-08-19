@@ -113,12 +113,9 @@ export default function PortfolioPage() {
       ═══════════════════════════════════════════════════════════ */}
       <section id="about" className="relative z-10 flex min-h-screen w-full items-center bg-[#050505]/90 backdrop-blur-md px-8 py-24 md:px-14 border-t border-white/10">
         <div className="grid w-full grid-cols-1 lg:grid-cols-12 gap-12 items-center max-w-7xl mx-auto">
-          {/* Left Column: Photo with Polarity Negative-to-Positive Entrance */}
+          {/* Left Column: Photo Card with Polarity Negative-to-Positive Entrance (100% Procedural Generative) */}
           <div className="lg:col-span-4 flex flex-col items-start space-y-4">
-            <PolarityCard
-              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800&auto=format&fit=crop"
-              name="Kshitij"
-            />
+            <PolarityCard name="Kshitij" />
             <div className="font-mono text-[11px] text-white/50 space-y-1">
               <div>// OPERATOR: KSHITIJ KUMBHAR</div>
               <div>// FOCUS: DEVOPS / CLOUD / DISTRIBUTED SYSTEMS</div>
