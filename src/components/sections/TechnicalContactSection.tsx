@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Mail, Phone, ArrowUpRight, Send, Download } from "lucide-react";
 import { FiGithub, FiLinkedin } from "react-icons/fi";
-import HyperspaceCanvas from "@/components/ui/HyperspaceCanvas";
+import BlackHoleHeroSection from "@/components/ui/blackhole-hero-section";
 import MagneticButton from "@/components/ui/MagneticButton";
 
 export default function TechnicalContactSection() {
@@ -32,18 +32,31 @@ export default function TechnicalContactSection() {
   };
 
   return (
-    <section id="contact" className="py-20 md:py-28 border-t border-[var(--border-color)] relative overflow-hidden">
-      {/* Scroll-Velocity Reactive Hyperspace Starfield Canvas */}
-      <HyperspaceCanvas />
+    <section id="contact" className="py-20 md:py-28 border-t border-[var(--border-color)] relative overflow-hidden bg-[#050505]">
+      {/* Relativistic Schwarzschild Black Hole Gravitational Lensing Canvas */}
+      <div className="absolute inset-0 opacity-45 pointer-events-none z-0">
+        <BlackHoleHeroSection
+          distance={26}
+          elevation={-7}
+          spinSpeed={0.05}
+          doppler={0.35}
+          glow={0.9}
+          steps={180}
+          resolution={0.65}
+          focus={[0.82, 0.5]}
+          scrim="left"
+          scrimStrength={0.92}
+        />
+      </div>
 
-      <div className="w-full border border-[var(--border-color)] bg-[var(--bg-surface)]/90 backdrop-blur-md p-6 md:p-10 space-y-10 relative z-10" data-cursor="Contact">
+      <div className="w-full border border-[var(--border-color)] bg-[var(--bg-surface)]/85 backdrop-blur-xl p-6 md:p-10 space-y-10 relative z-10" data-cursor="Contact">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-[var(--border-color)]">
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span className="w-2.5 h-2.5 bg-[var(--accent-acid)] shadow-[0_0_8px_rgba(183,255,0,0.6)]" />
               <span className="font-mono text-xs text-[var(--accent-acid)] tracking-wider uppercase font-extrabold">
-                05 // TRANSMISSION CHANNEL & HYPERSPACE
+                06 // TRANSMISSION CHANNEL & SPACETIME RELAY
               </span>
             </div>
             <h2 className="text-3xl sm:text-5xl md:text-6xl font-display font-extrabold tracking-tight text-[var(--text-primary)] uppercase leading-[0.95]">

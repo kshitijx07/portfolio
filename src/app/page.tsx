@@ -11,6 +11,7 @@ import TechnicalGridShell from "@/components/ui/TechnicalGridShell";
 import TechnicalHeroSection from "@/components/sections/TechnicalHeroSection";
 import EditorialAboutSection from "@/components/sections/EditorialAboutSection";
 import EditorialProjectsSection from "@/components/sections/EditorialProjectsSection";
+import SystemCorridorSection from "@/components/sections/SystemCorridorSection";
 import SystemsTopology from "@/components/skills/SystemsTopology";
 import ExperienceTimelineModule from "@/components/bento/ExperienceTimelineModule";
 import EducationMetadataSection from "@/components/sections/EducationMetadataSection";
@@ -126,34 +127,37 @@ export default function Home() {
 
       {/* Main Editorial Multi-Environment Content Flow */}
       <main className="relative z-10 space-y-0">
-        {/* 1. HERO: 170vh SPATIAL TIMELINE (Electric Blue + 3D Liquid Ribbon) */}
+        {/* 1. HERO: 170vh SPATIAL TIMELINE (Electric Blue + 3D Glass Sculpture) */}
         <TechnicalHeroSection />
 
         {/* 2. EDITORIAL BIO: DARK VOID + DEVELOPING PORTRAIT */}
         <EditorialAboutSection />
 
-        {/* 3. SELECTED WORKS: PINNED 320vh DIGITAL ARCHIVE STAGE */}
+        {/* 3. 3D PERSPECTIVE ARTIFACTS STREAM CORRIDOR */}
+        <SystemCorridorSection />
+
+        {/* 4. SELECTED WORKS: PINNED 4-VIEWPORT DIGITAL ARCHIVE STAGE */}
         <EditorialProjectsSection
           projects={projectsData}
           onOpenCaseStudy={setSelectedProject}
         />
 
-        {/* 4. SYSTEMS TOPOLOGY GRAPH (Interactive Infrastructure Architecture) */}
+        {/* 5. SYSTEMS TOPOLOGY GRAPH (Interactive Infrastructure Architecture) */}
         <div className="max-w-[1500px] mx-auto px-4 md:px-8">
           <SystemsTopology />
         </div>
 
-        {/* 5. PROFESSIONAL ENGINEERING TIMELINE */}
+        {/* 6. PROFESSIONAL ENGINEERING TIMELINE */}
         <div className="max-w-[1500px] mx-auto px-4 md:px-8">
           <ExperienceTimelineModule />
         </div>
 
-        {/* 6. ACADEMIC STANDING & SCIENTIFIC MERIT */}
+        {/* 7. ACADEMIC STANDING & SCIENTIFIC MERIT */}
         <div className="max-w-[1500px] mx-auto px-4 md:px-8">
           <EducationMetadataSection />
         </div>
 
-        {/* 7. EXPERIMENTAL DISCOVERY LAB (Expandable 2D Developer Room) */}
+        {/* 8. EXPERIMENTAL DISCOVERY LAB (Expandable 2D Developer Room) */}
         <div className="max-w-[1500px] mx-auto px-4 md:px-8">
           <RetroPixelGameRoom
             projects={projectsData}
@@ -161,7 +165,7 @@ export default function Home() {
           />
         </div>
 
-        {/* 8. DIRECT TRANSMISSION CHANNEL / CONTACT & CV DOWNLOAD */}
+        {/* 9. DIRECT TRANSMISSION CHANNEL / BLACK HOLE SPACETIME RELAY */}
         <div className="max-w-[1500px] mx-auto px-4 md:px-8">
           <TechnicalContactSection />
         </div>
