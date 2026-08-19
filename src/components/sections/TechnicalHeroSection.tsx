@@ -10,7 +10,7 @@ export default function TechnicalHeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const [isLowPower, setIsLowPower] = useState(false);
   const { scrollY } = useScroll();
-  const yParallax = useTransform(scrollY, [0, 600], [0, 60]);
+  const yParallax = useTransform(scrollY, [0, 600], [0, 50]);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -29,7 +29,7 @@ export default function TechnicalHeroSection() {
     });
     if (sectionRef.current) observer.observe(sectionRef.current);
 
-    // Three.js Scene Setup
+    // Three.js Scene Setup for Glossy Liquid Blue Sculpture
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
     camera.position.z = 5.2;
@@ -38,7 +38,7 @@ export default function TechnicalHeroSection() {
     renderer.setSize(canvas.clientWidth, canvas.clientHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    const geometry = new THREE.TorusKnotGeometry(1.4, 0.42, 140, 36, 2, 3);
+    const geometry = new THREE.TorusKnotGeometry(1.35, 0.4, 140, 36, 2, 3);
     const material = new THREE.MeshPhysicalMaterial({
       color: 0x1A44FF,
       emissive: 0x07145C,
@@ -52,7 +52,7 @@ export default function TechnicalHeroSection() {
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
 
-    const particleCount = 70;
+    const particleCount = 60;
     const particleGeo = new THREE.BufferGeometry();
     const particlePositions = new Float32Array(particleCount * 3);
 
@@ -157,25 +157,24 @@ export default function TechnicalHeroSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative -mx-4 md:-mx-8 px-4 md:px-8 pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden bg-gradient-to-b from-[#07145C] via-[#091967] to-[#050505] text-white border-b border-[var(--border-color)]"
+      className="relative -mx-4 md:-mx-8 px-4 md:px-8 pt-24 md:pt-32 pb-16 md:pb-24 overflow-hidden bg-gradient-to-b from-[#07145C] via-[#091967] to-[#050505] text-white border-b border-[var(--border-color)]"
     >
-      {/* Volumetric Radial Glow */}
+      {/* Volumetric Radial Glow Mesh */}
       <div className="absolute inset-0 pointer-events-none z-0">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-[#203DFF]/30 blur-[130px] rounded-full" />
-        <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] bg-[#6F82FF]/20 blur-[100px] rounded-full" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[450px] bg-[#203DFF]/30 blur-[130px] rounded-full" />
+        <div className="absolute top-1/3 right-1/4 w-[350px] h-[350px] bg-[#6F82FF]/20 blur-[100px] rounded-full" />
       </div>
 
       <div className="max-w-[1500px] mx-auto relative z-10 space-y-8">
-        {/* 3-Column Header Strip (Cleaned per user reference image) */}
+        {/* 3-Column Editorial Asymmetric Header Strip */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 pb-6 border-b border-white/15 font-mono text-xs text-white/80">
-          {/* Column 1: Brand & Role */}
+          {/* Column 1: Role & Category */}
           <div className="md:col-span-4 space-y-1">
-            <div className="flex items-center gap-1.5">
-              <span className="font-bold text-white tracking-wider">KSHITIJ.DESIGN</span>
-              <span className="w-2 h-2 bg-[var(--accent-acid)] inline-block" />
-            </div>
             <span className="text-[var(--accent-acid)] font-bold block">
               // DEVOPS & CLOUD ENGINEER
+            </span>
+            <span className="text-white/60 text-[11px] block">
+              Cloud Infrastructure • Multi-Agent AI • CI/CD
             </span>
           </div>
 
@@ -197,25 +196,25 @@ export default function TechnicalHeroSection() {
           </div>
         </div>
 
-        {/* Massive Editorial Headline & Interactive 3D Canvas Stage */}
-        <div className="relative mt-6 md:mt-10 min-h-[380px] md:min-h-[460px] flex flex-col justify-between">
-          {/* 3D Glossy Liquid Sculpture Canvas */}
+        {/* Headline & 3D Centerpiece Stage */}
+        <div className="relative mt-6 md:mt-10 min-h-[360px] md:min-h-[440px] flex flex-col justify-between">
+          {/* 3D Liquid Canvas */}
           {!isLowPower ? (
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 opacity-95">
               <canvas
                 ref={canvasRef}
-                className="w-full max-w-[650px] h-[380px] md:h-[460px] pointer-events-auto cursor-grab active:cursor-grabbing"
+                className="w-full max-w-[620px] h-[360px] md:h-[430px] pointer-events-auto cursor-grab active:cursor-grabbing"
               />
             </div>
           ) : (
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 opacity-30">
-              <div className="w-64 h-64 border-2 border-dashed border-[#203DFF] rounded-full animate-spin-slow" />
+              <div className="w-60 h-60 border-2 border-dashed border-[#203DFF] rounded-full animate-spin-slow" />
             </div>
           )}
 
-          {/* Massive Editorial Typography */}
+          {/* Massive Editorial Headline */}
           <motion.div style={{ y: yParallax }} className="relative z-10 space-y-4 pointer-events-none">
-            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[5.75rem] font-display font-extrabold tracking-tighter text-white leading-[0.93] max-w-5xl uppercase select-none drop-shadow-sm">
+            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-display font-extrabold tracking-tighter text-white leading-[0.93] max-w-5xl uppercase select-none drop-shadow-sm">
               I BUILD DIGITAL & CLOUD SYSTEMS THAT FEEL ALIVE.
             </h1>
           </motion.div>
