@@ -27,6 +27,7 @@ import ContactGlassScene from "@/components/canvas/ContactGlassScene";
 import HeroHUD from "@/components/dom/HeroHUD";
 import PolarityCard from "@/components/dom/PolarityCard";
 import Projects from "@/components/sections/Projects";
+import ContactClosingSection from "@/components/dom/ContactClosingSection";
 import { ScrambleText } from "@/components/ui/scramble-text";
 import { Badge } from "@/components/ui/badge";
 
@@ -508,106 +509,9 @@ export default function PortfolioPage() {
 
 
       {/* ═══════════════════════════════════════════════════════════
-          SECTION 8: FINAL CONTACT & CLOSING VIEWPORT
+          SECTION 7: FINAL CONTACT & CLOSING VIEWPORT
       ═══════════════════════════════════════════════════════════ */}
-      <section id="contact" className="relative h-screen w-full overflow-hidden bg-[#00104A] text-white select-none border-t border-white/10">
-        {/* 1. 3D Stacked Glass Letters & Stickers Canvas */}
-        <ContactGlassScene />
-
-        {/* 2. Foreground Bold Display Copy */}
-        <div className="relative z-10 flex h-full w-full items-center justify-center pointer-events-none px-6">
-          <h2 className="text-5xl sm:text-7xl md:text-8xl font-black uppercase tracking-tight text-center leading-[0.95] max-w-5xl">
-            Let's Create
-            <br />
-            Something
-            <br />
-            Extraordinary
-          </h2>
-        </div>
-
-        {/* 3. HUD Crosshair Wireframe Overlay */}
-        <div className="absolute inset-0 grid grid-cols-4 grid-rows-3 pointer-events-none">
-          {Array.from({ length: 12 }).map((_, i) => (
-            <div key={i} className="relative border-[0.5px] border-white/5">
-              <span className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 text-[10px] text-white/20 font-mono">+</span>
-            </div>
-          ))}
-        </div>
-
-        {/* 4. Footer Telemetry & Interactive Actions */}
-        <footer className="absolute bottom-0 left-0 w-full z-20 flex flex-col md:flex-row justify-between items-start md:items-end p-8 md:p-12 gap-6 font-mono text-xs text-white/80 border-t border-white/10">
-          {/* Email & Phone Copy Triggers */}
-          <div className="flex flex-col gap-2">
-            <div className="flex flex-wrap items-center gap-4">
-              <button
-                onClick={handleCopyEmail}
-                className="flex items-center gap-2 text-white hover:text-[#B4F342] transition-colors pointer-events-auto group"
-              >
-                <Mail size={13} className="text-[#4DEEEA]" />
-                <span className="underline underline-offset-4">{email}</span>
-                {emailCopied ? (
-                  <Check className="w-3.5 h-3.5 text-[#B4F342]" />
-                ) : (
-                  <Copy className="w-3.5 h-3.5 text-white/40 group-hover:text-[#B4F342]" />
-                )}
-              </button>
-
-              <button
-                onClick={handleCopyPhone}
-                className="flex items-center gap-2 text-white hover:text-[#B4F342] transition-colors pointer-events-auto group"
-              >
-                <Phone size={13} className="text-[#B4F342]" />
-                <span className="underline underline-offset-4">{phone}</span>
-                {phoneCopied ? (
-                  <Check className="w-3.5 h-3.5 text-[#B4F342]" />
-                ) : (
-                  <Copy className="w-3.5 h-3.5 text-white/40 group-hover:text-[#B4F342]" />
-                )}
-              </button>
-            </div>
-            <div className="text-white/40 text-[10px]">KSHITIJ KUMBHAR (C) 2026 // SYSTEM TERMINAL</div>
-          </div>
-
-          {/* Social Links & Globe Status */}
-          <div className="flex items-center gap-6 pointer-events-auto">
-            <a
-              href="https://github.com/kshitijx07"
-              target="_blank"
-              rel="noreferrer"
-              className="hover:text-white transition-colors flex items-center gap-1.5"
-            >
-              <FiGithub size={14} />
-              <span>GITHUB</span>
-            </a>
-            <a
-              href="https://linkedin.com/in/kshitij-kumbhar"
-              target="_blank"
-              rel="noreferrer"
-              className="hover:text-white transition-colors flex items-center gap-1.5"
-            >
-              <FiLinkedin size={14} />
-              <span>LINKEDIN</span>
-            </a>
-            <a
-              href="https://leetcode.com/u/kshitij72"
-              target="_blank"
-              rel="noreferrer"
-              className="hover:text-white transition-colors"
-            >
-              LEETCODE
-            </a>
-            <a
-              href="https://codeforces.com/profile/kshitijx07"
-              target="_blank"
-              rel="noreferrer"
-              className="hover:text-white transition-colors"
-            >
-              CODEFORCES
-            </a>
-            <Globe className="w-4 h-4 text-white/60 animate-spin" />
-          </div>
-        </footer>
-      </section>
+      <ContactClosingSection />
     </div>
   );
 }
