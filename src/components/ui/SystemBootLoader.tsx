@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Terminal, ShieldCheck, Sparkles } from "lucide-react";
+import { Terminal, ShieldCheck, Sparkles, Activity } from "lucide-react";
 
 export interface SystemBootLoaderProps {
   onComplete?: () => void;
@@ -56,7 +56,7 @@ export default function SystemBootLoader({
             window.scrollTo(0, 0);
           }
           if (onComplete) onComplete();
-        }, 300);
+        }, 350);
       }
     }, 25);
 
@@ -76,51 +76,69 @@ export default function SystemBootLoader({
           initial={{ opacity: 1 }}
           exit={{
             opacity: 0,
-            y: -12,
-            transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] },
+            scale: 0.98,
+            y: -16,
+            transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
           }}
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#00081C] text-white select-none px-6"
+          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#00081C]/95 backdrop-blur-md text-white select-none px-6"
         >
-          {/* Subtle Ambient Grid in Background */}
-          <div className="absolute inset-0 bg-[radial-gradient(#ffffff08_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
+          {/* Subtle Ambient Background Mesh */}
+          <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:32px_32px] pointer-events-none" />
 
-          {/* Center One-Line Style Loading Terminal Badge */}
-          <div className="relative w-full max-w-md space-y-4">
-            {/* Top Bar Status */}
-            <div className="flex items-center justify-between font-mono text-xs text-white/70">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#B4F342] animate-ping" />
-                <span className="font-bold text-white tracking-widest uppercase">
-                  KSHITIJ.ENG // BOOT
+          {/* ── Glassmorphic Minimalist Rounded Capsule Badge ─────────────── */}
+          <motion.div
+            initial={{ scale: 0.94, opacity: 0, y: 10 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="relative w-full max-w-md rounded-3xl bg-black/60 sm:bg-white/[0.04] backdrop-blur-2xl border border-white/20 sm:border-white/25 p-6 sm:p-7 shadow-[0_30px_70px_-15px_rgba(0,0,0,0.85),inset_0_1px_2px_rgba(255,255,255,0.25)] space-y-5 overflow-hidden"
+          >
+            {/* Frosted Glass Top Corner Glare Accent */}
+            <div className="absolute -top-12 -left-12 w-36 h-36 bg-[#4DEEEA]/15 rounded-full blur-2xl pointer-events-none" />
+            <div className="absolute -bottom-12 -right-12 w-36 h-36 bg-[#B4F342]/15 rounded-full blur-2xl pointer-events-none" />
+
+            {/* Top Bar Header */}
+            <div className="relative z-10 flex items-center justify-between font-mono text-xs text-white/80">
+              <div className="flex items-center gap-2.5">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#B4F342] opacity-75" />
+                  <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#B4F342]" />
                 </span>
+                <span className="font-bold text-white tracking-widest uppercase text-xs sm:text-sm">
+                  KSHITIJ.ENG
+                </span>
+                <span className="text-white/40 text-xs hidden sm:inline">// BOOT</span>
               </div>
-              <div className="font-bold text-[#4DEEEA] tracking-wider">
+
+              {/* Progress Percentage Badge */}
+              <div className="px-2.5 py-0.5 rounded-full bg-white/10 border border-white/20 font-bold text-[#4DEEEA] text-xs tracking-wider shadow-inner">
                 {progress.toString().padStart(3, "0")}%
               </div>
             </div>
 
-            {/* High-Tech Ultra-Sleek One-Line Loading Bar */}
-            <div className="relative h-[3px] w-full bg-white/10 rounded-full overflow-hidden">
+            {/* Ultra-Sleek Glassmorphic Progress Line Track */}
+            <div className="relative z-10 h-[4px] w-full bg-black/50 border border-white/10 rounded-full overflow-hidden p-[0.5px]">
               <motion.div
-                className="h-full bg-gradient-to-r from-[#4DEEEA] via-[#B4F342] to-[#4DEEEA] rounded-full"
+                className="h-full bg-gradient-to-r from-[#4DEEEA] via-[#B4F342] to-[#4DEEEA] rounded-full shadow-[0_0_12px_rgba(180,243,66,0.8)]"
                 style={{ width: `${progress}%` }}
                 transition={{ ease: "easeOut" }}
               />
             </div>
 
             {/* Bottom Real-time Telemetry & Log Output */}
-            <div className="flex items-center justify-between font-mono text-xs text-white/50">
-              <div className="flex items-center gap-1.5 truncate">
-                <Terminal size={12} className="text-[#4DEEEA] shrink-0" />
-                <span className="truncate text-[11px] text-zinc-300">
+            <div className="relative z-10 flex items-center justify-between font-mono text-xs text-white/70 pt-1">
+              <div className="flex items-center gap-2 truncate">
+                <Terminal size={14} className="text-[#4DEEEA] shrink-0" />
+                <span className="truncate text-xs text-zinc-300 font-medium">
                   {BOOT_LOGS[logIndex]}
                 </span>
               </div>
-              <span className="text-[10px] text-[#B4F342] font-semibold shrink-0 ml-2">
-                TLS_OK
-              </span>
+
+              <div className="flex items-center gap-1 text-xs text-[#B4F342] font-semibold shrink-0 ml-2">
+                <Activity size={12} className="animate-pulse" />
+                <span>ONLINE</span>
+              </div>
             </div>
-          </div>
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>
