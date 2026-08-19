@@ -5,6 +5,7 @@ import HeroAboutScene from "@/components/canvas/HeroAboutScene";
 import WarpCorridor from "@/components/canvas/WarpCorridor";
 import PolarityCard from "@/components/dom/PolarityCard";
 import HeroHUD from "@/components/dom/HeroHUD";
+import ContactClosingSection from "@/components/dom/ContactClosingSection";
 import { ScrambleText } from "@/components/ui/scramble-text";
 
 export default function PortfolioPage() {
@@ -17,7 +18,7 @@ export default function PortfolioPage() {
       <HeroHUD />
 
       {/* SECTION 1: HERO VIEWPORT */}
-      <section className="relative z-10 flex h-screen w-full flex-col justify-end p-8 md:p-14 pb-20">
+      <section id="home" className="relative z-10 flex h-screen w-full flex-col justify-end p-8 md:p-14 pb-20">
         <div className="max-w-3xl">
           <div className="mb-4">
             <ScrambleText
@@ -36,7 +37,7 @@ export default function PortfolioPage() {
       </section>
 
       {/* SECTION 2: ABOUT / BIO VIEWPORT */}
-      <section className="relative z-10 flex min-h-screen w-full items-center bg-[#050505]/85 backdrop-blur-md px-8 py-20 md:px-14 border-t border-white/10">
+      <section id="about" className="relative z-10 flex min-h-screen w-full items-center bg-[#050505]/85 backdrop-blur-md px-8 py-20 md:px-14 border-t border-white/10">
         <div className="grid w-full grid-cols-1 md:grid-cols-12 gap-12 items-center">
           {/* Left Column: Photo with Polarity Negative-to-Positive Entrance */}
           <div className="md:col-span-4 flex flex-col items-start">
@@ -75,7 +76,7 @@ export default function PortfolioPage() {
       </section>
 
       {/* SECTION 3: DOM PROJECT GRID */}
-      <section className="relative z-10 min-h-screen bg-[#050505] px-6 py-24 md:px-14 border-t border-white/10">
+      <section id="work" className="relative z-10 min-h-screen bg-[#050505] px-6 py-24 md:px-14 border-t border-white/10">
         <div className="flex justify-between items-center mb-12 border-b border-white/10 pb-4 font-mono text-xs text-[#8A8F98]">
           <div className="text-white font-bold tracking-widest">PROJECT PORTALS</div>
           <div>2024–2026</div>
@@ -161,6 +162,9 @@ export default function PortfolioPage() {
           ))}
         </div>
       </section>
+
+      {/* SECTION 5: CONTACT & CLOSING VIEWPORT */}
+      <ContactClosingSection />
     </div>
   );
 }
