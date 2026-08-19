@@ -1,794 +1,661 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import {
-  Terminal,
-  Server,
-  Cloud,
-  Cpu,
-  ArrowUpRight,
-  Mail,
-  Phone,
-  Download,
-  Code2,
-  Menu,
-  X,
-  Layers,
-  Database,
-  ExternalLink,
-  GitBranch,
-  ShieldCheck,
-  CheckCircle2,
+  Terminal, Cloud, Server, Database, Cpu, Layers,
+  ArrowUpRight, Mail, Phone, Download, Code2,
+  Menu, X, ExternalLink, ChevronDown, Globe
 } from "lucide-react";
 import { FiGithub, FiLinkedin } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import ImageStreamHero from "@/components/ui/image-stream-hero";
 import BlackHoleHeroSection from "@/components/ui/blackhole-hero-section";
 import ScrambleText from "@/components/ui/ScrambleText";
-import SpotlightCard from "@/components/ui/SpotlightCard";
 
-const ARCHITECTURE_STREAM_IMAGES = [
+/* ── Technical Images for Corridor ── */
+const ARCH_IMAGES = [
+  { src: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop", alt: "Cloud Infrastructure" },
+  { src: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=800&auto=format&fit=crop", alt: "Server Rack Grid" },
+  { src: "https://images.unsplash.com/photo-1607799279861-4dd421887fb3?q=80&w=800&auto=format&fit=crop", alt: "Kubernetes Pods Orchestration" },
+  { src: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?q=80&w=800&auto=format&fit=crop", alt: "AI Multi-Agent RAG Swarms" },
+  { src: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop", alt: "Distributed Cloud Topology" },
+  { src: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?q=80&w=800&auto=format&fit=crop", alt: "Enterprise Systems Network" },
+  { src: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop", alt: "Global Cloud CDN Backbone" },
+  { src: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=800&auto=format&fit=crop", alt: "Abstract Systems Matrix" },
+];
+
+/* ── Resume Projects ── */
+const PROJECTS = [
   {
-    src: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop",
-    alt: "Cloud Infrastructure & Distributed Networks",
+    index: "/01",
+    badge: "CLOUD DEVOPS",
+    title: "HostelHub",
+    period: "Jan – Mar 2026",
+    tags: ["AWS EKS", "Kubernetes", "Jenkins", "Docker", "CloudFront", "S3", "ALB", "Node.js", "React.js", "MongoDB Atlas"],
+    summary: "Cloud-native hostel management platform with decoupled React frontend on S3 and Node.js REST API on AWS EKS with role-based access control. Unified CloudFront distribution routing static and API traffic through OAC-secured S3 and an NGINX Ingress-backed ALB, eliminating CORS overhead. Docker multi-stage builds with HPA scaling 2→5 replicas at 70% CPU. Split Jenkins CI/CD pipeline covering full frontend S3 sync/invalidation and backend DockerHub/kubectl rollout.",
+    github: "https://github.com/kshitijx07/Hostelhub",
+    live: "https://hostelhub-ruby.vercel.app",
   },
   {
-    src: "https://images.unsplash.com/photo-1607799279861-4dd421887fb3?q=80&w=800&auto=format&fit=crop",
-    alt: "Automated Kubernetes Pod Orchestration & CI/CD Pipeline",
+    index: "/02",
+    badge: "SERVERLESS AI",
+    title: "Serverless AI X-Ray Analyzer",
+    period: "Apr – May 2026",
+    tags: ["AWS Lambda", "Terraform", "GitHub Actions", "API Gateway", "S3", "DynamoDB", "MobileNet TFLite"],
+    summary: "Event-driven medical imaging platform using MobileNet TFLite for chest X-ray classification in under 1 second at zero idle cost. Three-Lambda backend behind API Gateway with CORS enforcement and per-second throttling. S3 presigned-URL upload flow increasing effective limit 5× (10MB → 50MB). Fully automated Terraform IaC with GitHub Actions CI/CD pipeline and real-time DynamoDB polling for AI confidence scores.",
+    github: "https://github.com/kshitijx07/serverless-ai-xray",
+    live: null,
   },
   {
-    src: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?q=80&w=800&auto=format&fit=crop",
-    alt: "AI Multi-Agent RAG Swarm & Vector Index Architecture",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=800&auto=format&fit=crop",
-    alt: "High-Availability Serverless Cloud Infrastructure",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=800&auto=format&fit=crop",
-    alt: "Abstract Gravitational Gradient Field & System Telemetry",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?q=80&w=800&auto=format&fit=crop",
-    alt: "Production Server Rack & Enterprise Network Grid",
+    index: "/03",
+    badge: "MULTI-AGENT RAG",
+    title: "DSA Swarm AI",
+    period: "2026",
+    tags: ["AWS EKS", "LangGraph", "MCP Server", "Pinecone", "RAG", "Gemini 2.5 Flash", "Terraform", "Docker", "GitHub Actions", "Node.js"],
+    summary: "Distributed Multi-Agent RAG Swarm and Model Context Protocol (MCP) Server using LangGraph, Gemini 2.5 Flash, and Pinecone (768-dim vector store) with autonomous Supervisor routing and sub-second retrieval. 4-key API rotation pool multiplying throughput from 15 RPM to 60 RPM (4× quota expansion). Sub-6s end-to-end latency on AWS EKS behind CloudFront CDN with automated GitOps CI/CD to Amazon ECR.",
+    github: "https://github.com/kshitijx07",
+    live: null,
   },
 ];
 
-export default function Home() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+/* ── 6 Categorized Bento Skills ── */
+const SKILLS = [
+  {
+    icon: Cloud,
+    category: "DevOps & Cloud Infrastructure",
+    items: ["AWS (EKS, ECR, CloudFront, VPC, ALB, IAM, EC2, S3, Auto Scaling)", "Terraform (IaC)", "Docker", "Kubernetes", "Jenkins", "GitHub Actions", "CI/CD Pipelines"],
+  },
+  {
+    icon: Database,
+    category: "Databases & Vector Stores",
+    items: ["Pinecone (Vector DB)", "MongoDB Atlas", "MySQL"],
+  },
+  {
+    icon: Server,
+    category: "Backend Engineering",
+    items: ["Node.js", "Express.js", "Spring Boot", "RESTful APIs", "Microservices"],
+  },
+  {
+    icon: Cpu,
+    category: "AI & Multi-Agent Systems",
+    items: ["LangGraph", "RAG (Retrieval-Augmented Generation)", "Model Context Protocol (MCP)", "LangChain"],
+  },
+  {
+    icon: Layers,
+    category: "Frontend Development",
+    items: ["React.js", "Vite", "Tailwind CSS", "HTML5", "CSS3", "JavaScript (ES6+)"],
+  },
+  {
+    icon: Terminal,
+    category: "Core CS & Toolchain",
+    items: ["Data Structures & Algorithms (DSA)", "OOP", "DBMS", "Operating Systems", "Linux CLI", "Git", "GitHub", "DockerHub", "Postman"],
+  },
+];
 
-  const navLinks = [
-    { label: "About", href: "#about" },
-    { label: "Experience", href: "#experience" },
-    { label: "Projects", href: "#projects" },
-    { label: "Skills", href: "#skills" },
-    { label: "Education", href: "#education" },
-    { label: "Contact", href: "#contact" },
-  ];
+const NAV_LINKS = [
+  { href: "#about", label: "ABOUT" },
+  { href: "#experience", label: "EXPERIENCE" },
+  { href: "#projects", label: "PROJECTS" },
+  { href: "#skills", label: "SKILLS" },
+  { href: "#education", label: "EDUCATION" },
+  { href: "#contact", label: "CONTACT" },
+];
+
+function SectionHeader({ index, title, subtitle }: { index: string; title: string; subtitle?: string }) {
+  return (
+    <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 pb-6 mb-10 sm:mb-14 border-b border-white/10">
+      <div className="flex items-center gap-3">
+        <span className="font-mono text-xs text-[#C0FE04] font-bold tracking-[0.2em]">{index}</span>
+        <span className="w-6 h-px bg-[#C0FE04]/40" />
+        <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white uppercase font-sans">{title}</h2>
+      </div>
+      {subtitle && <span className="font-mono text-xs text-[#6b6b6b] uppercase tracking-widest">{subtitle}</span>}
+    </div>
+  );
+}
+
+function ProjectArchiveCard({ project }: { project: typeof PROJECTS[0] }) {
+  const [hovered, setHovered] = useState(false);
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col selection:bg-cyan-500 selection:text-zinc-950 font-sans">
-      {/* ── Navigation ────────────────────────────────────────────── */}
-      <header className="sticky top-0 z-50 w-full border-b border-zinc-800/80 bg-zinc-950/85 backdrop-blur-md">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <a
-            href="#home"
-            className="flex items-center gap-2.5 font-mono text-sm font-semibold tracking-tight text-zinc-100 hover:text-cyan-400 transition-colors py-2"
-          >
-            <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
-            <span className="text-base font-bold tracking-tight">Kshitij Kumbhar</span>
-            <span className="text-zinc-500 hidden sm:inline text-xs font-mono">/ DevOps & Cloud</span>
-          </a>
+    <div
+      className="relative border border-white/10 bg-[#0d0d0d] p-6 sm:p-8 rounded-none transition-all duration-300"
+      style={{ borderColor: hovered ? "rgba(192,254,4,0.4)" : "rgba(255,255,255,0.08)" }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      {/* Top right HAOQI Neon Tag */}
+      <div className="absolute top-0 right-0 bg-[#C0FE04] text-black font-mono font-bold text-[10px] sm:text-xs px-3 py-1 uppercase tracking-wider shadow-[0_0_12px_rgba(192,254,4,0.4)]">
+        {project.badge}
+      </div>
 
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-zinc-400">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="hover:text-zinc-100 transition-colors py-2"
-              >
-                {link.label}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2 pb-4">
+        <div className="flex items-baseline gap-4">
+          <span className="font-mono text-sm text-[#6b6b6b]">{project.index}</span>
+          <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+            {project.title}
+          </h3>
+        </div>
+        <div className="flex items-center gap-3">
+          <span className="font-mono text-xs text-[#6b6b6b]">{project.period}</span>
+          <a
+            href={project.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-2 border border-white/10 text-[#6b6b6b] hover:text-[#C0FE04] hover:border-[#C0FE04]/40 transition-colors flex items-center justify-center min-w-[36px] min-h-[36px]"
+            aria-label={`${project.title} GitHub`}
+          >
+            <FiGithub size={15} />
+          </a>
+          {project.live && (
+            <a
+              href={project.live}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 border border-white/10 text-[#6b6b6b] hover:text-[#C0FE04] hover:border-[#C0FE04]/40 transition-colors flex items-center justify-center min-w-[36px] min-h-[36px]"
+              aria-label={`${project.title} Live`}
+            >
+              <ExternalLink size={15} />
+            </a>
+          )}
+        </div>
+      </div>
+
+      <p className="text-sm sm:text-base text-[#8a8a8a] leading-relaxed mb-6 max-w-4xl">
+        {project.summary}
+      </p>
+
+      <div className="flex flex-wrap gap-2 pt-4 border-t border-white/5">
+        {project.tags.map((tag) => (
+          <span
+            key={tag}
+            className="text-[11px] font-mono px-2.5 py-1 bg-white/5 border border-white/10 text-[#ededed]"
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default function Home() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [pointer, setPointer] = useState({ x: 124, y: 63 });
+  const [timeString, setTimeString] = useState("");
+
+  /* Live Pointer Coordinate Bus */
+  useEffect(() => {
+    const handlePointer = (e: MouseEvent) => {
+      setPointer({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener("mousemove", handlePointer);
+    return () => window.removeEventListener("mousemove", handlePointer);
+  }, []);
+
+  /* Live Clock */
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, "0");
+      const mins = String(now.getMinutes()).padStart(2, "0");
+      setTimeString(`IST IN ${hours}:${mins} 28°C`);
+    };
+    updateTime();
+    const interval = setInterval(updateTime, 10000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const { scrollY } = useScroll();
+  const navBg = useTransform(scrollY, [0, 80], ["rgba(10,10,10,0)", "rgba(10,10,10,0.95)"]);
+  const navBorder = useTransform(scrollY, [0, 80], ["rgba(255,255,255,0)", "rgba(255,255,255,0.08)"]);
+
+  return (
+    <div className="min-h-screen bg-[#0a0a0a] text-[#ededed] font-sans selection:bg-[#C0FE04] selection:text-black relative pb-20">
+      
+      {/* ── Fixed Technical Background Crosshairs Grid ── */}
+      <div className="fixed inset-0 pointer-events-none z-0 bg-dot-grid opacity-50" />
+
+      {/* ── Fixed Bottom HUD Bar (HAOQI Signature) ── */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 bg-[#0a0a0a]/90 backdrop-blur-md border-t border-white/10 px-4 sm:px-8 py-2.5 flex items-center justify-between font-mono text-[11px] text-[#6b6b6b] select-none">
+        <div className="flex items-center gap-3">
+          <span className="w-2 h-2 rounded-full bg-[#C0FE04] animate-pulse" />
+          <span className="text-[#ededed] font-medium">{timeString || "IST IN 15:21 28°C"}</span>
+        </div>
+        
+        <div className="hidden sm:flex items-center gap-2 font-mono text-zinc-400 bg-white/5 px-3 py-0.5 rounded border border-white/5">
+          <span>{String(pointer.x).padStart(4, '0')} X {String(pointer.y).padStart(4, '0')} Y</span>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <span className="text-[#ededed] hidden md:inline">SYSTEM[OK]</span>
+          <Globe size={14} className="text-[#C0FE04] animate-spin-slow" />
+        </div>
+      </div>
+
+      {/* ── Persistent Top Nav ── */}
+      <motion.header
+        style={{ backgroundColor: navBg, borderColor: navBorder }}
+        className="fixed top-0 left-0 right-0 z-50 border-b backdrop-blur-md"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-6">
+            <a href="#" className="font-bold font-mono text-sm tracking-tight text-white flex items-center gap-2">
+              <span className="bg-[#C0FE04] text-black px-1.5 py-0.5 font-extrabold text-xs">KK</span>
+              <span className="tracking-wider">KSHITIJ.DESIGN</span>
+            </a>
+            <span className="hidden lg:inline font-mono text-xs text-[#6b6b6b] border-l border-white/10 pl-6">
+              Thinking in systems. Automating with precision.
+            </span>
+          </div>
+
+          <nav className="hidden md:flex items-center gap-6 font-mono text-xs text-[#6b6b6b]">
+            {NAV_LINKS.map((l) => (
+              <a key={l.href} href={l.href} className="hover:text-[#C0FE04] transition-colors tracking-widest py-2">
+                [{l.label}]
               </a>
             ))}
             <a
               href="/Kshitij_Kumbhar_Resume.pdf"
               download="Kshitij_Kumbhar_Resume.pdf"
-              className="text-xs font-mono px-3 py-1.5 rounded-md bg-zinc-900 border border-zinc-800 text-cyan-400 hover:bg-zinc-800 hover:border-cyan-500/50 transition-all flex items-center gap-1.5 min-h-[36px]"
+              className="bg-[#C0FE04] text-black font-bold px-3 py-1.5 hover:bg-[#d4ff1a] transition-all flex items-center gap-1.5 min-h-[34px]"
             >
-              <span>Resume PDF</span>
-              <Download size={13} />
+              <span>RESUME</span>
+              <Download size={12} />
             </a>
           </nav>
 
-          {/* Mobile Menu Toggle Button (44px touch target) */}
           <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2.5 text-zinc-400 hover:text-zinc-100 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-md border border-zinc-800/60"
-            aria-label="Toggle navigation menu"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="md:hidden p-2 text-[#6b6b6b] hover:text-white min-w-[44px] min-h-[44px] flex items-center justify-center"
+            aria-label="Toggle Menu"
           >
-            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
 
-        {/* Mobile Menu Drawer */}
-        {mobileMenuOpen && (
-          <div className="md:hidden border-b border-zinc-800 bg-zinc-950/95 px-5 py-5 space-y-4 backdrop-blur-lg">
-            {navLinks.map((link) => (
+        <AnimatePresence>
+          {mobileOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              className="md:hidden border-b border-white/10 bg-[#0a0a0a] px-6 py-6 space-y-4"
+            >
+              {NAV_LINKS.map((l) => (
+                <a
+                  key={l.href}
+                  href={l.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="block font-mono text-sm text-[#8a8a8a] hover:text-[#C0FE04] py-1"
+                >
+                  [{l.label}]
+                </a>
+              ))}
+              <div className="pt-3 border-t border-white/10">
+                <a
+                  href="/Kshitij_Kumbhar_Resume.pdf"
+                  download="Kshitij_Kumbhar_Resume.pdf"
+                  className="flex items-center justify-center gap-2 bg-[#C0FE04] text-black font-bold font-mono text-xs py-3 w-full min-h-[44px]"
+                >
+                  DOWNLOAD RESUME (PDF) <Download size={14} />
+                </a>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.header>
+
+      {/* ── § 1 HERO SECTION ── */}
+      <section id="home" className="relative min-h-[100svh] flex items-center overflow-hidden pt-16">
+        {/* Calibrated Spacetime Raymarched Backdrop */}
+        <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
+          <BlackHoleHeroSection
+            distance={26}
+            elevation={-6}
+            spinSpeed={0.04}
+            doppler={0.28}
+            glow={0.7}
+            steps={160}
+            resolution={0.65}
+            hotColor="#E0F7FA"
+            midColor="#00E5FF"
+            coolColor="#006064"
+            focus={[0.74, 0.44]}
+            scrim="left"
+            scrimStrength={0.92}
+          />
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 w-full py-16 sm:py-24">
+          <div className="max-w-3xl space-y-6">
+            <div className="flex items-center gap-2">
+              <span className="bg-[#C0FE04]/10 border border-[#C0FE04]/30 text-[#C0FE04] font-mono text-xs px-3 py-1 font-bold uppercase tracking-wider">
+                DEVOPS & CLOUD INFRASTRUCTURE
+              </span>
+            </div>
+
+            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tight text-white leading-[0.96]">
+              I BUILD <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-zinc-200 to-zinc-500">
+                SCALABLE SYSTEMS
+              </span> <br />
+              <span className="text-white">& CLOUD PIPELINES</span>
+            </h1>
+
+            <div className="font-mono text-sm sm:text-base text-[#C0FE04] font-semibold pt-1">
+              <ScrambleText text="Kshitij Kumbhar — DevOps & Cloud Infrastructure Engineer" speed={28} />
+            </div>
+
+            <p className="text-base sm:text-lg text-[#8a8a8a] leading-relaxed max-w-2xl">
+              Computer Engineering student who has shipped fully automated Jenkins/Docker/Kubernetes deployment pipelines on AWS across production-style projects, with a strong DSA/OOP/SQL foundation and active competitive programming on LeetCode and Codeforces.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-4 pt-4">
               <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="block text-base font-medium text-zinc-300 hover:text-cyan-400 py-1.5"
+                href="#projects"
+                className="bg-[#C0FE04] text-black font-bold font-mono text-xs sm:text-sm px-7 py-3.5 hover:bg-[#d4ff1a] transition-all min-h-[44px] flex items-center justify-center shadow-[0_0_20px_rgba(192,254,4,0.25)]"
               >
-                {link.label}
+                EXPLORE WORK
               </a>
-            ))}
-            <div className="pt-2 border-t border-zinc-800/80">
+              <a
+                href="#contact"
+                className="border border-white/20 bg-black/40 text-white font-mono text-xs sm:text-sm px-6 py-3.5 hover:border-[#C0FE04] hover:text-[#C0FE04] transition-all min-h-[44px] flex items-center justify-center"
+              >
+                CONTACT ME
+              </a>
               <a
                 href="/Kshitij_Kumbhar_Resume.pdf"
                 download="Kshitij_Kumbhar_Resume.pdf"
-                className="inline-flex items-center justify-center gap-2 text-sm font-mono px-4 py-2.5 rounded-md bg-zinc-900 border border-zinc-800 text-cyan-400 w-full min-h-[44px]"
+                className="border border-white/10 bg-white/5 text-[#ededed] font-mono text-xs sm:text-sm px-6 py-3.5 hover:bg-white/10 transition-all min-h-[44px] flex items-center gap-2 justify-center"
               >
-                <span>Download Resume (PDF)</span>
-                <Download size={15} />
+                <Download size={14} className="text-[#C0FE04]" />
+                <span>RESUME PDF</span>
+              </a>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-6 pt-4 font-mono text-xs text-[#6b6b6b]">
+              <a href="https://github.com/kshitijx07" target="_blank" rel="noopener noreferrer" className="hover:text-[#C0FE04] flex items-center gap-1.5 py-1">
+                <FiGithub size={14} /> <span>@kshitijx07</span>
+              </a>
+              <a href="https://linkedin.com/in/kshitij-kumbhar" target="_blank" rel="noopener noreferrer" className="hover:text-[#C0FE04] flex items-center gap-1.5 py-1">
+                <FiLinkedin size={14} /> <span>/kshitij-kumbhar</span>
+              </a>
+              <a href="https://leetcode.com/u/kshitij72/" target="_blank" rel="noopener noreferrer" className="hover:text-[#C0FE04] flex items-center gap-1.5 py-1">
+                <Code2 size={14} /> <span>LeetCode @kshitij72</span>
+              </a>
+              <a href="https://codeforces.com/profile/kshitijx07" target="_blank" rel="noopener noreferrer" className="hover:text-[#C0FE04] flex items-center gap-1.5 py-1">
+                <Terminal size={14} /> <span>Codeforces @kshitijx07</span>
               </a>
             </div>
           </div>
-        )}
-      </header>
+        </div>
+      </section>
 
-      {/* ── Main Content Flow ────────────────────────────────────── */}
-      <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 space-y-20 sm:space-y-28 py-8 sm:py-12">
-        {/* ── 1. Hero Section (#home) ──────────────────────────────── */}
-        <section id="home" className="relative scroll-mt-24 rounded-2xl border border-zinc-800/80 overflow-hidden bg-zinc-950 shadow-2xl">
-          {/* Calibrated Spacetime Raymarched Backdrop (Cool Cyan/Zinc Palette) */}
-          <div className="absolute inset-0 opacity-30 pointer-events-none z-0">
-            <BlackHoleHeroSection
-              distance={26}
-              elevation={-6}
-              spinSpeed={0.04}
-              doppler={0.25}
-              glow={0.7}
-              steps={160}
-              resolution={0.65}
-              hotColor="#E0F7FA"
-              midColor="#00E5FF"
-              coolColor="#006064"
-              focus={[0.8, 0.45]}
-              scrim="left"
-              scrimStrength={0.92}
-            />
+      {/* ── § 2 ARCHITECTURE CORRIDOR (ImageStreamHero) ── */}
+      <section className="border-y border-white/10 bg-[#080808]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 py-3 flex items-center justify-between font-mono text-[10px] text-[#6b6b6b] uppercase tracking-widest">
+          <div className="flex items-center gap-2 text-[#C0FE04]">
+            <span className="w-1.5 h-1.5 bg-[#C0FE04]" />
+            <span>LIVE 3D PERSPECTIVE STREAM // CONTAINERIZED WORKLOADS</span>
           </div>
+          <span className="hidden sm:inline">SYSTEMS • CLOUD • AUTOMATION</span>
+        </div>
 
-          {/* Hero Foreground Content */}
-          <div className="relative z-10 p-6 sm:p-12 md:p-16 flex flex-col justify-center space-y-8 min-h-[500px] sm:min-h-[560px]">
-            <div className="space-y-4 max-w-3xl">
-              <div className="flex items-center gap-2">
-                <Badge variant="cyan" className="text-xs uppercase tracking-wider py-1 px-3 border-cyan-500/40 bg-cyan-950/60 text-cyan-300">
-                  DevOps & Cloud Infrastructure Engineer
-                </Badge>
+        <ImageStreamHero
+          images={ARCH_IMAGES}
+          cards={9}
+          speed={28}
+          axis={50}
+          className="h-[320px] sm:h-[380px] w-full bg-[#0a0a0a]"
+        >
+          <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 pointer-events-none select-none">
+            <span className="font-mono text-xs text-[#C0FE04] tracking-[0.3em] uppercase mb-2">
+              DISTRIBUTED TOPOLOGY
+            </span>
+            <h3 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+              AWS EKS • KUBERNETES • MULTI-AGENT RAG
+            </h3>
+          </div>
+        </ImageStreamHero>
+      </section>
+
+      {/* ── MAIN CONTENT CONTAINER ── */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-8 py-16 sm:py-24 space-y-28 sm:space-y-36">
+
+        {/* ── § 3 ABOUT SECTION ── */}
+        <section id="about" className="scroll-mt-24">
+          <SectionHeader index="01" title="About Me" subtitle="SYSTEMS & PHILOSOPHY" />
+
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-8 lg:gap-16 items-start">
+            <div className="space-y-4">
+              <div className="font-mono text-6xl sm:text-8xl font-light text-white/5 select-none">
+                01
               </div>
-
-              <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-zinc-100 leading-[1.08]">
-                <span className="block text-zinc-100 mb-1">Kshitij Kumbhar</span>
-                <span className="text-xl sm:text-2xl md:text-3xl font-mono text-cyan-400 font-semibold block mt-2">
-                  <ScrambleText text="DevOps Engineer & Cloud Infrastructure Developer" speed={30} />
-                </span>
-              </h1>
-
-              <p className="text-base sm:text-lg text-zinc-300 leading-relaxed max-w-2xl pt-2">
-                Computer Engineering student who has shipped fully automated Jenkins/Docker/Kubernetes deployment pipelines on AWS across production-style projects, with a strong DSA/OOP/SQL foundation and active competitive programming on LeetCode and Codeforces.
+              <p className="font-mono text-xs text-[#C0FE04] uppercase tracking-widest">
+                AUTOMATION • SCALABILITY • RELIABILITY
               </p>
             </div>
 
-            {/* CTAs & Quick Direct Actions */}
-            <div className="space-y-4 pt-2">
-              <div className="flex flex-wrap items-center gap-3.5">
-                <Button asChild size="lg" className="min-h-[44px] px-6 text-sm font-semibold bg-cyan-500 text-zinc-950 hover:bg-cyan-400">
-                  <a href="#projects">View Projects</a>
-                </Button>
-                <Button asChild variant="outline" size="lg" className="min-h-[44px] px-6 text-sm font-medium border-zinc-700 bg-zinc-900/60 hover:bg-zinc-800 text-zinc-100">
-                  <a href="#contact">Contact Me</a>
-                </Button>
-                <Button asChild variant="secondary" size="lg" className="min-h-[44px] px-5 text-sm font-medium border-zinc-800 bg-zinc-900 hover:bg-zinc-800 text-zinc-200">
-                  <a href="/Kshitij_Kumbhar_Resume.pdf" download="Kshitij_Kumbhar_Resume.pdf">
-                    <Download className="mr-2 h-4 w-4 text-cyan-400" />
-                    Resume PDF
-                  </a>
-                </Button>
-              </div>
-
-              {/* Verified Handles & Direct Coordinates */}
-              <div className="flex flex-wrap items-center gap-4 sm:gap-6 pt-3 font-mono text-xs text-zinc-400">
-                <a
-                  href="https://github.com/kshitijx07"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 py-1"
-                >
-                  <FiGithub size={15} className="text-cyan-400" />
-                  <span>GitHub: @kshitijx07</span>
-                </a>
-                <a
-                  href="https://linkedin.com/in/kshitij-kumbhar"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 py-1"
-                >
-                  <FiLinkedin size={15} className="text-cyan-400" />
-                  <span>LinkedIn: /kshitij-kumbhar</span>
-                </a>
-                <a
-                  href="https://leetcode.com/u/kshitij72/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 py-1"
-                >
-                  <Code2 size={15} className="text-cyan-400" />
-                  <span>LeetCode: @kshitij72</span>
-                </a>
-                <a
-                  href="https://codeforces.com/profile/kshitijx07"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 py-1"
-                >
-                  <Terminal size={15} className="text-cyan-400" />
-                  <span>Codeforces: @kshitijx07</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ── 2. Systems Architecture Corridor (ImageStreamHero) ─────── */}
-        <section className="space-y-4">
-          <div className="flex items-center justify-between pb-2 border-b border-zinc-800/80 font-mono text-xs">
-            <div className="flex items-center gap-2 text-cyan-400 font-semibold uppercase tracking-wider">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-              <span>Systems Architecture & Workloads Stream</span>
-            </div>
-            <span className="text-zinc-500 hidden sm:inline">LIVE 3D CORRIDOR // PERSPECTIVE RAILS</span>
-          </div>
-
-          <ImageStreamHero
-            images={ARCHITECTURE_STREAM_IMAGES}
-            cards={8}
-            speed={24}
-            axis={52}
-            className="h-[360px] sm:h-[400px] w-full rounded-xl border border-zinc-800 bg-zinc-950 relative shadow-lg"
-          >
-            <div className="relative z-10 flex h-full flex-col items-center justify-between py-8 px-6 text-center pointer-events-none select-none">
-              <div className="space-y-2">
-                <Badge variant="cyan" className="text-[10px] uppercase font-mono">
-                  CLOUD INFRASTRUCTURE & ARTIFACTS
-                </Badge>
-                <h3 className="text-2xl sm:text-4xl font-bold text-zinc-100 tracking-tight max-w-xl">
-                  Automated Pipelines & Distributed Topologies
-                </h3>
-              </div>
-              <p className="max-w-md font-mono text-xs text-zinc-300 bg-zinc-950/80 px-3 py-1.5 rounded border border-zinc-800/80 backdrop-blur-md">
-                Continuous 3D perspective stream of containerized services, Kubernetes clusters, and AI RAG pipelines.
+            <div className="space-y-6 text-base sm:text-lg text-[#8a8a8a] leading-relaxed max-w-3xl">
+              <p>
+                Computer Engineering student and DevOps Intern with hands-on experience designing CI/CD pipelines, containerized microservices, and cloud infrastructure on AWS. I have delivered fully automated deployment workflows using Jenkins, Docker, and Kubernetes across production-style projects, removing manual release effort entirely.
+              </p>
+              <p>
+                My foundation spans Data Structures, Object-Oriented Programming, and SQL — sharpened through active competitive programming on LeetCode and Codeforces. I am currently seeking DevOps and cloud infrastructure roles focused on automation, scalability, and system reliability.
               </p>
             </div>
-          </ImageStreamHero>
-        </section>
-
-        {/* ── 3. About Section (#about) ────────────────────────────── */}
-        <section id="about" className="scroll-mt-24 space-y-6">
-          <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs uppercase tracking-wider font-semibold">
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-            <span>01 // About</span>
-          </div>
-
-          <div className="space-y-5 max-w-3xl">
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-100">
-              Engineering reliable infrastructure and automated cloud workflows.
-            </h2>
-            <p className="text-base text-zinc-300 leading-relaxed">
-              Computer Engineering student and DevOps Intern with hands-on experience designing CI/CD pipelines, containerized microservices, and cloud infrastructure on AWS. I've delivered fully automated deployment workflows using Jenkins, Docker, and Kubernetes across two production-style projects, removing manual release effort entirely.
-            </p>
-            <p className="text-base text-zinc-300 leading-relaxed">
-              My foundation spans Data Structures, Object-Oriented Programming, and SQL, sharpened through active competitive programming on LeetCode and Codeforces. I'm currently looking for DevOps and cloud infrastructure roles focused on automation, scalability, and system reliability.
-            </p>
           </div>
         </section>
 
-        <Separator className="bg-zinc-800/80" />
+        {/* ── § 4 EXPERIENCE SECTION ── */}
+        <section id="experience" className="scroll-mt-24">
+          <SectionHeader index="02" title="Experience" subtitle="PRODUCTION & INDUSTRY" />
 
-        {/* ── 4. Experience Section (#experience) ──────────────────── */}
-        <section id="experience" className="scroll-mt-24 space-y-8">
-          <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs uppercase tracking-wider font-semibold">
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-            <span>02 // Experience</span>
-          </div>
-
-          <div className="space-y-6">
+          <div className="space-y-10">
             {/* Colgate-Palmolive */}
-            <SpotlightCard className="p-6 sm:p-8">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-zinc-800/80">
+            <div className="border border-white/10 bg-[#0d0d0d] p-6 sm:p-8 space-y-4 relative">
+              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-white/10 pb-4">
                 <div>
-                  <h3 className="text-lg sm:text-xl font-bold text-zinc-100">
-                    DevOps Intern
-                  </h3>
-                  <p className="text-sm sm:text-base font-medium text-cyan-400">
-                    Colgate-Palmolive · Mumbai, Maharashtra, India (Hybrid)
-                  </p>
+                  <h3 className="text-2xl font-bold text-white">DevOps Intern</h3>
+                  <p className="font-mono text-sm text-[#C0FE04]">Colgate-Palmolive • Mumbai, Maharashtra (Hybrid)</p>
                 </div>
-                <Badge variant="outline" className="w-fit text-xs font-mono text-zinc-300 border-zinc-700">
+                <span className="font-mono text-xs text-[#8a8a8a] bg-white/5 px-3 py-1 border border-white/10 w-fit">
                   Jul 2026 – Present
-                </Badge>
+                </span>
               </div>
-              <div className="space-y-3 text-sm sm:text-base text-zinc-300 leading-relaxed pt-4">
-                <p className="flex items-start gap-2.5">
-                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
+              <ul className="space-y-2.5 text-sm sm:text-base text-[#8a8a8a] leading-relaxed pt-2">
+                <li className="flex items-start gap-3">
+                  <span className="text-[#C0FE04] font-bold mt-0.5">▹</span>
                   <span>Support application deployment and infrastructure automation workflows within a DevOps team, contributing to CI/CD pipelines built with Jenkins, Git, and GitHub.</span>
-                </p>
-                <p className="flex items-start gap-2.5">
-                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-[#C0FE04] font-bold mt-0.5">▹</span>
                   <span>Assist with AWS cloud infrastructure management and containerized application deployment using Docker across Linux-based staging and production environments.</span>
-                </p>
-                <p className="flex items-start gap-2.5">
-                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-[#C0FE04] font-bold mt-0.5">▹</span>
                   <span>Collaborate with cross-functional engineering teams on deployment automation, contributing to Infrastructure as Code with Terraform and to monitoring initiatives.</span>
-                </p>
-              </div>
-            </SpotlightCard>
+                </li>
+              </ul>
+            </div>
 
             {/* Campus Credential */}
-            <SpotlightCard className="p-6 sm:p-8">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-zinc-800/80">
+            <div className="border border-white/10 bg-[#0d0d0d] p-6 sm:p-8 space-y-4 relative">
+              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-white/10 pb-4">
                 <div>
-                  <h3 className="text-lg sm:text-xl font-bold text-zinc-100">
-                    Full Stack Developer Intern
-                  </h3>
-                  <p className="text-sm sm:text-base font-medium text-cyan-400">
-                    Campus Credential · Remote
-                  </p>
+                  <h3 className="text-2xl font-bold text-white">Full Stack Developer Intern</h3>
+                  <p className="font-mono text-sm text-[#C0FE04]">Campus Credential • Remote</p>
                 </div>
-                <Badge variant="outline" className="w-fit text-xs font-mono text-zinc-300 border-zinc-700">
+                <span className="font-mono text-xs text-[#8a8a8a] bg-white/5 px-3 py-1 border border-white/10 w-fit">
                   Jun 2025 – Aug 2025
-                </Badge>
+                </span>
               </div>
-              <div className="space-y-3 text-sm sm:text-base text-zinc-300 leading-relaxed pt-4">
-                <p className="flex items-start gap-2.5">
-                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
+              <ul className="space-y-2.5 text-sm sm:text-base text-[#8a8a8a] leading-relaxed pt-2">
+                <li className="flex items-start gap-3">
+                  <span className="text-[#C0FE04] font-bold mt-0.5">▹</span>
                   <span>Owned end-to-end delivery of the Grocito platform, from requirements gathering and system design through production deployment, within a six-week sprint.</span>
-                </p>
-                <p className="flex items-start gap-2.5">
-                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-[#C0FE04] font-bold mt-0.5">▹</span>
                   <span>Led backend architecture decisions using Spring Boot and MySQL, establishing a modular MVC structure that supported parallel development across three portals.</span>
-                </p>
-                <p className="flex items-start gap-2.5">
-                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-[#C0FE04] font-bold mt-0.5">▹</span>
                   <span>Facilitated daily standups and sprint reviews within an agile team of three, coordinating feature delivery and code reviews to maintain on-schedule releases.</span>
-                </p>
-              </div>
-            </SpotlightCard>
+                </li>
+              </ul>
+            </div>
           </div>
         </section>
 
-        <Separator className="bg-zinc-800/80" />
+        {/* ── § 5 PROJECTS SECTION ── */}
+        <section id="projects" className="scroll-mt-24">
+          <SectionHeader index="03" title="Featured Work" subtitle="SYSTEMS & ARCHITECTURE ARCHIVE" />
 
-        {/* ── 5. Projects Section (#projects) ──────────────────────── */}
-        <section id="projects" className="scroll-mt-24 space-y-8">
-          <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs uppercase tracking-wider font-semibold">
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-            <span>03 // Featured Projects</span>
-          </div>
-
-          <div className="space-y-6">
-            {/* Project 1: HostelHub */}
-            <SpotlightCard className="p-6 sm:p-8">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-zinc-800/80">
-                <div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-zinc-100 flex items-center gap-2">
-                    <span>HostelHub</span>
-                    <span className="text-xs font-mono font-normal text-zinc-400 bg-zinc-800/80 px-2 py-0.5 rounded">Jan 2026 – Mar 2026</span>
-                  </h3>
-                  <p className="text-sm text-zinc-300 mt-1">
-                    Cloud-native hostel management platform with decoupled React frontend on S3 and Node.js REST API on AWS EKS.
-                  </p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Button asChild variant="outline" size="sm" className="h-9 text-xs gap-1.5 border-zinc-700">
-                    <a href="https://github.com/kshitijx07/Hostelhub" target="_blank" rel="noopener noreferrer">
-                      <FiGithub size={14} />
-                      <span>GitHub</span>
-                    </a>
-                  </Button>
-                  <Button asChild variant="default" size="sm" className="h-9 text-xs gap-1.5 bg-cyan-500 text-zinc-950 hover:bg-cyan-400">
-                    <a href="https://hostelhub-ruby.vercel.app" target="_blank" rel="noopener noreferrer">
-                      <span>Live Demo</span>
-                      <ExternalLink size={14} />
-                    </a>
-                  </Button>
-                </div>
-              </div>
-              <div className="space-y-2.5 text-sm sm:text-base text-zinc-300 leading-relaxed pt-4">
-                <p className="flex items-start gap-2.5">
-                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
-                  <span>Built a cloud-native hostel management platform with a decoupled React frontend on Amazon S3 and a Node.js REST API on AWS EKS, with role-based access control for students and administrators.</span>
-                </p>
-                <p className="flex items-start gap-2.5">
-                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
-                  <span>Designed a unified CloudFront distribution routing static and API traffic through OAC-secured S3 and an NGINX Ingress-backed ALB, eliminating CORS overhead.</span>
-                </p>
-                <p className="flex items-start gap-2.5">
-                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
-                  <span>Containerized the backend with Docker multi-stage builds and a Horizontal Pod Autoscaler (2→5 replicas at 70% CPU) for zero-downtime rolling updates.</span>
-                </p>
-                <p className="flex items-start gap-2.5">
-                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
-                  <span>Engineered a split Jenkins CI/CD pipeline: frontend build → S3 sync → CloudFront invalidation; backend → DockerHub image → kubectl rollout.</span>
-                </p>
-                <p className="flex items-start gap-2.5">
-                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
-                  <span>Secured workloads with Kubernetes Secrets and a CloudFront OAC policy, removing public bucket exposure.</span>
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-2 pt-4 mt-4 border-t border-zinc-800/80">
-                {["AWS EKS", "Kubernetes", "CloudFront", "S3", "ALB", "Jenkins", "Docker", "React.js", "Node.js", "MongoDB Atlas"].map((tech) => (
-                  <Badge key={tech} variant="secondary" className="text-xs bg-zinc-800 text-zinc-200 border-zinc-700">
-                    {tech}
-                  </Badge>
-                ))}
-              </div>
-            </SpotlightCard>
-
-            {/* Project 2: Serverless AI X-Ray Analyzer */}
-            <SpotlightCard className="p-6 sm:p-8">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-zinc-800/80">
-                <div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-zinc-100 flex items-center gap-2">
-                    <span>Serverless AI X-Ray Analyzer</span>
-                    <span className="text-xs font-mono font-normal text-zinc-400 bg-zinc-800/80 px-2 py-0.5 rounded">Apr 2026 – May 2026</span>
-                  </h3>
-                  <p className="text-sm text-zinc-300 mt-1">
-                    Event-driven medical imaging platform on AWS using MobileNet TFLite for &lt;1s inference at zero idle cost.
-                  </p>
-                </div>
-                <Button asChild variant="outline" size="sm" className="h-9 text-xs gap-1.5 border-zinc-700">
-                  <a href="https://github.com/kshitijx07/serverless-ai-xray" target="_blank" rel="noopener noreferrer">
-                    <FiGithub size={14} />
-                    <span>GitHub</span>
-                  </a>
-                </Button>
-              </div>
-              <div className="space-y-2.5 text-sm sm:text-base text-zinc-300 leading-relaxed pt-4">
-                <p className="flex items-start gap-2.5">
-                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
-                  <span>Built a serverless, event-driven medical imaging platform using a pre-trained MobileNet TFLite model to classify chest X-rays in under 1 second at zero idle cost.</span>
-                </p>
-                <p className="flex items-start gap-2.5">
-                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
-                  <span>Deployed a three-Lambda backend behind API Gateway with CORS enforcement and per-second request throttling.</span>
-                </p>
-                <p className="flex items-start gap-2.5">
-                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
-                  <span>Implemented an S3 presigned-URL upload flow, increasing the effective upload limit 5x (10MB → 50MB) while bypassing the API Gateway payload cap.</span>
-                </p>
-                <p className="flex items-start gap-2.5">
-                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
-                  <span>Automated all infrastructure with modular Terraform and a GitHub Actions pipeline; built a React UI with drag-and-drop uploads and real-time DynamoDB polling for AI confidence scores.</span>
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-2 pt-4 mt-4 border-t border-zinc-800/80">
-                {["AWS Lambda", "Terraform", "GitHub Actions", "API Gateway", "S3", "DynamoDB", "MobileNet TFLite"].map((tech) => (
-                  <Badge key={tech} variant="secondary" className="text-xs bg-zinc-800 text-zinc-200 border-zinc-700">
-                    {tech}
-                  </Badge>
-                ))}
-              </div>
-            </SpotlightCard>
-
-            {/* Project 3: DSA Swarm AI */}
-            <SpotlightCard className="p-6 sm:p-8">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-zinc-800/80">
-                <div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-zinc-100 flex items-center gap-2">
-                    <span>DSA Swarm AI</span>
-                    <span className="text-xs font-mono font-normal text-zinc-400 bg-zinc-800/80 px-2 py-0.5 rounded">2026</span>
-                  </h3>
-                  <p className="text-sm text-zinc-300 mt-1">
-                    Distributed Multi-Agent RAG Swarm & Model Context Protocol (MCP) Server deployed on AWS EKS.
-                  </p>
-                </div>
-                <Button asChild variant="outline" size="sm" className="h-9 text-xs gap-1.5 border-zinc-700">
-                  <a href="https://github.com/kshitijx07" target="_blank" rel="noopener noreferrer">
-                    <FiGithub size={14} />
-                    <span>GitHub</span>
-                  </a>
-                </Button>
-              </div>
-              <div className="space-y-2.5 text-sm sm:text-base text-zinc-300 leading-relaxed pt-4">
-                <p className="flex items-start gap-2.5">
-                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
-                  <span>Architected a distributed Multi-Agent RAG Swarm and MCP Server using LangGraph, Gemini 2.5 Flash, and Pinecone (768-dim vector store) for autonomous DSA query routing with sub-second retrieval.</span>
-                </p>
-                <p className="flex items-start gap-2.5">
-                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
-                  <span>Provisioned AWS EKS infrastructure via Terraform, deploying multi-stage unprivileged Docker containers behind an ALB and CloudFront CDN — under 6-second end-to-end latency.</span>
-                </p>
-                <p className="flex items-start gap-2.5">
-                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
-                  <span>Built a 4-key API rotation pool with exponential backoff, taking Gemini throughput from 15 RPM to 60 RPM (4x quota expansion).</span>
-                </p>
-                <p className="flex items-start gap-2.5">
-                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
-                  <span>Optimized RAG search with custom 768-dim Gemini embeddings, Pinecone cosine similarity (topK=6), and output-token capping to eliminate CloudFront 504 timeouts.</span>
-                </p>
-                <p className="flex items-start gap-2.5">
-                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
-                  <span>Automated GitOps CI/CD to Amazon ECR with cross-Security-Group ingress rules and Kubernetes Secrets for key management.</span>
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-2 pt-4 mt-4 border-t border-zinc-800/80">
-                {["AWS EKS", "Kubernetes", "Terraform", "CloudFront", "LangGraph", "MCP Server", "Pinecone", "RAG", "Docker", "GitHub Actions", "Node.js"].map((tech) => (
-                  <Badge key={tech} variant="secondary" className="text-xs bg-zinc-800 text-zinc-200 border-zinc-700">
-                    {tech}
-                  </Badge>
-                ))}
-              </div>
-            </SpotlightCard>
+          <div className="space-y-8">
+            {PROJECTS.map((p) => (
+              <ProjectArchiveCard key={p.index} project={p} />
+            ))}
           </div>
         </section>
 
-        <Separator className="bg-zinc-800/80" />
+        {/* ── § 6 SKILLS BENTO SECTION ── */}
+        <section id="skills" className="scroll-mt-24">
+          <SectionHeader index="04" title="Skills & Tools" subtitle="TECHNICAL COMPETENCIES" />
 
-        {/* ── 6. Skills Section (#skills) ──────────────────────────── */}
-        <section id="skills" className="scroll-mt-24 space-y-8">
-          <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs uppercase tracking-wider font-semibold">
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-            <span>04 // Skills & Competencies</span>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* 1. DevOps & Cloud */}
-            <SpotlightCard className="p-6">
-              <h3 className="text-base font-mono text-cyan-400 flex items-center gap-2 pb-3 font-semibold">
-                <Cloud size={18} />
-                <span>DevOps & Cloud</span>
-              </h3>
-              <div className="flex flex-wrap gap-2 pt-1">
-                {["AWS (EKS, ECR, CloudFront, VPC, ALB, IAM, EC2, S3, Auto Scaling)", "Terraform", "Docker", "Kubernetes", "Jenkins", "GitHub Actions", "CI/CD"].map((s) => (
-                  <Badge key={s} variant="outline" className="text-xs py-1 px-2.5 border-zinc-700 bg-zinc-900/60 text-zinc-200">
-                    {s}
-                  </Badge>
-                ))}
-              </div>
-            </SpotlightCard>
-
-            {/* 2. Databases & Vector Stores */}
-            <SpotlightCard className="p-6">
-              <h3 className="text-base font-mono text-cyan-400 flex items-center gap-2 pb-3 font-semibold">
-                <Database size={18} />
-                <span>Databases & Vector Stores</span>
-              </h3>
-              <div className="flex flex-wrap gap-2 pt-1">
-                {["Pinecone", "MongoDB", "MySQL"].map((s) => (
-                  <Badge key={s} variant="outline" className="text-xs py-1 px-2.5 border-zinc-700 bg-zinc-900/60 text-zinc-200">
-                    {s}
-                  </Badge>
-                ))}
-              </div>
-            </SpotlightCard>
-
-            {/* 3. Backend */}
-            <SpotlightCard className="p-6">
-              <h3 className="text-base font-mono text-cyan-400 flex items-center gap-2 pb-3 font-semibold">
-                <Server size={18} />
-                <span>Backend</span>
-              </h3>
-              <div className="flex flex-wrap gap-2 pt-1">
-                {["Node.js", "Express.js", "Spring Boot", "REST APIs"].map((s) => (
-                  <Badge key={s} variant="outline" className="text-xs py-1 px-2.5 border-zinc-700 bg-zinc-900/60 text-zinc-200">
-                    {s}
-                  </Badge>
-                ))}
-              </div>
-            </SpotlightCard>
-
-            {/* 4. AI & Multi-Agent Systems */}
-            <SpotlightCard className="p-6">
-              <h3 className="text-base font-mono text-cyan-400 flex items-center gap-2 pb-3 font-semibold">
-                <Cpu size={18} />
-                <span>AI & Multi-Agent Systems</span>
-              </h3>
-              <div className="flex flex-wrap gap-2 pt-1">
-                {["LangGraph", "RAG", "Model Context Protocol (MCP)", "LangChain"].map((s) => (
-                  <Badge key={s} variant="outline" className="text-xs py-1 px-2.5 border-zinc-700 bg-zinc-900/60 text-zinc-200">
-                    {s}
-                  </Badge>
-                ))}
-              </div>
-            </SpotlightCard>
-
-            {/* 5. Frontend */}
-            <SpotlightCard className="p-6">
-              <h3 className="text-base font-mono text-cyan-400 flex items-center gap-2 pb-3 font-semibold">
-                <Layers size={18} />
-                <span>Frontend</span>
-              </h3>
-              <div className="flex flex-wrap gap-2 pt-1">
-                {["React.js", "Vite", "Tailwind CSS", "HTML", "CSS", "JavaScript"].map((s) => (
-                  <Badge key={s} variant="outline" className="text-xs py-1 px-2.5 border-zinc-700 bg-zinc-900/60 text-zinc-200">
-                    {s}
-                  </Badge>
-                ))}
-              </div>
-            </SpotlightCard>
-
-            {/* 6. Core CS & Tools */}
-            <SpotlightCard className="p-6">
-              <h3 className="text-base font-mono text-cyan-400 flex items-center gap-2 pb-3 font-semibold">
-                <Terminal size={18} />
-                <span>Core CS & Tools</span>
-              </h3>
-              <div className="flex flex-wrap gap-2 pt-1">
-                {["DSA (Data Structures & Algorithms)", "OOP", "DBMS", "OS", "Linux", "Git", "GitHub", "DockerHub", "Postman"].map((s) => (
-                  <Badge key={s} variant="outline" className="text-xs py-1 px-2.5 border-zinc-700 bg-zinc-900/60 text-zinc-200">
-                    {s}
-                  </Badge>
-                ))}
-              </div>
-            </SpotlightCard>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {SKILLS.map((s) => {
+              const Icon = s.icon;
+              return (
+                <div key={s.category} className="border border-white/10 bg-[#0d0d0d] p-6 space-y-4 hover:border-[#C0FE04]/40 transition-colors">
+                  <div className="flex items-center gap-2.5 border-b border-white/10 pb-3">
+                    <Icon size={16} className="text-[#C0FE04] shrink-0" />
+                    <h3 className="font-mono text-xs font-bold text-white uppercase tracking-wider">
+                      {s.category}
+                    </h3>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {s.items.map((item) => (
+                      <span key={item} className="text-xs font-mono px-2.5 py-1 bg-white/5 border border-white/10 text-[#ededed]">
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </section>
 
-        <Separator className="bg-zinc-800/80" />
+        {/* ── § 7 EDUCATION SECTION ── */}
+        <section id="education" className="scroll-mt-24">
+          <SectionHeader index="05" title="Education" subtitle="ACADEMIC BACKGROUND" />
 
-        {/* ── 7. Education Section (#education) ────────────────────── */}
-        <section id="education" className="scroll-mt-24 space-y-6">
-          <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs uppercase tracking-wider font-semibold">
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-            <span>05 // Education</span>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* B.Tech */}
-            <SpotlightCard className="p-5">
-              <Badge variant="cyan" className="w-fit text-xs mb-2 border-cyan-500/40 bg-cyan-950/60 text-cyan-300">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="border border-white/10 bg-[#0d0d0d] p-6 space-y-2">
+              <div className="bg-[#C0FE04]/10 border border-[#C0FE04]/30 text-[#C0FE04] font-mono text-xs px-2.5 py-1 w-fit font-bold">
                 CGPA: 8.48 / 10
-              </Badge>
-              <h3 className="text-base font-bold text-zinc-100">
-                B.Tech in Computer Engineering
-              </h3>
-              <p className="text-xs text-zinc-400 mt-1">
-                MIT Academy of Engineering, Pune
-              </p>
-              <p className="text-xs text-zinc-400 font-mono mt-3">
-                2023 – 2027
-              </p>
-            </SpotlightCard>
+              </div>
+              <h3 className="text-lg font-bold text-white pt-2">B.Tech in Computer Engineering</h3>
+              <p className="text-xs text-[#8a8a8a]">MIT Academy of Engineering, Pune</p>
+              <p className="font-mono text-xs text-[#6b6b6b]">2023 – 2027</p>
+            </div>
 
-            {/* HSC */}
-            <SpotlightCard className="p-5">
-              <Badge variant="outline" className="w-fit text-xs mb-2 border-zinc-700 text-zinc-300">
+            <div className="border border-white/10 bg-[#0d0d0d] p-6 space-y-2">
+              <div className="bg-white/5 border border-white/10 text-white font-mono text-xs px-2.5 py-1 w-fit">
                 84.17%
-              </Badge>
-              <h3 className="text-base font-bold text-zinc-100">
-                Higher Secondary Certificate (HSC)
-              </h3>
-              <p className="text-xs text-zinc-400 mt-1">
-                Yashwantrao Chavan Institute of Science, Satara
-              </p>
-              <p className="text-xs text-zinc-400 font-mono mt-3">
-                2021 – 2023
-              </p>
-            </SpotlightCard>
+              </div>
+              <h3 className="text-lg font-bold text-white pt-2">Higher Secondary Certificate (HSC)</h3>
+              <p className="text-xs text-[#8a8a8a]">YCIS, Satara</p>
+              <p className="font-mono text-xs text-[#6b6b6b]">2021 – 2023</p>
+            </div>
 
-            {/* SSC */}
-            <SpotlightCard className="p-5">
-              <Badge variant="outline" className="w-fit text-xs mb-2 border-zinc-700 text-zinc-300">
+            <div className="border border-white/10 bg-[#0d0d0d] p-6 space-y-2">
+              <div className="bg-white/5 border border-white/10 text-white font-mono text-xs px-2.5 py-1 w-fit">
                 97.00%
-              </Badge>
-              <h3 className="text-base font-bold text-zinc-100">
-                Secondary School Certificate (SSC)
-              </h3>
-              <p className="text-xs text-zinc-400 mt-1">
-                Maharaja Sayajirao Vidyalaya, Satara
-              </p>
-              <p className="text-xs text-zinc-400 font-mono mt-3">
-                2021
-              </p>
-            </SpotlightCard>
+              </div>
+              <h3 className="text-lg font-bold text-white pt-2">Secondary School Certificate (SSC)</h3>
+              <p className="text-xs text-[#8a8a8a]">Maharaja Sayajirao Vidyalaya, Satara</p>
+              <p className="font-mono text-xs text-[#6b6b6b]">2021</p>
+            </div>
           </div>
         </section>
 
-        <Separator className="bg-zinc-800/80" />
+        {/* ── § 8 CONTACT SECTION (HAOQI Closing Moment) ── */}
+        <section id="contact" className="scroll-mt-24 border border-white/10 bg-[#0d0d0d] p-8 sm:p-14 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-[#C0FE04]/10 blur-3xl pointer-events-none" />
 
-        {/* ── 8. Contact & Footer (#contact) ──────────────────────── */}
-        <section id="contact" className="scroll-mt-24 space-y-8 pb-12">
-          <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs uppercase tracking-wider font-semibold">
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-            <span>06 // Contact</span>
-          </div>
+          <div className="space-y-8 max-w-3xl relative z-10">
+            <SectionHeader index="06" title="Contact" subtitle="GET IN TOUCH" />
 
-          <div className="border border-zinc-800 bg-zinc-900/40 rounded-xl p-8 sm:p-10 space-y-6">
-            <div className="max-w-2xl space-y-3">
-              <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-zinc-100">
-                Let's discuss infrastructure, automation, or engineering roles.
-              </h2>
-              <p className="text-base text-zinc-300 leading-relaxed">
-                Open for DevOps, Cloud Infrastructure, Multi-Agent AI, and Systems Engineering opportunities. Reach out directly via email or telephone.
-              </p>
-            </div>
+            <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
+              INNOVATE WITH <span className="bg-[#C0FE04] text-black px-2 py-0.5">PURPOSE</span> & AUTOMATION
+            </h2>
 
-            <div className="flex flex-wrap items-center gap-3.5 pt-2">
-              <Button asChild size="lg" className="min-h-[44px] bg-cyan-500 text-zinc-950 hover:bg-cyan-400 font-semibold">
-                <a href="mailto:kshitijkumbhar007@gmail.com">
-                  <Mail className="mr-2 h-4 w-4" />
-                  kshitijkumbhar007@gmail.com
-                </a>
-              </Button>
+            <p className="text-base text-[#8a8a8a] leading-relaxed max-w-xl">
+              Open for DevOps, Cloud Infrastructure, Multi-Agent AI, and Systems Engineering opportunities. Let&apos;s build reliable, automated infrastructure together.
+            </p>
 
-              <Button asChild variant="outline" size="lg" className="min-h-[44px] border-zinc-700 bg-zinc-900/60 hover:bg-zinc-800 text-zinc-100">
-                <a href="tel:+917058157357">
-                  <Phone className="mr-2 h-4 w-4 text-cyan-400" />
-                  +91-7058157357
-                </a>
-              </Button>
-
-              <Button asChild variant="outline" size="lg" className="min-h-[44px] border-zinc-700 bg-zinc-900/60 hover:bg-zinc-800 text-zinc-100">
-                <a
-                  href="https://linkedin.com/in/kshitij-kumbhar"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FiLinkedin className="mr-2 h-4 w-4 text-cyan-400" />
-                  LinkedIn
-                </a>
-              </Button>
-
-              <Button asChild variant="outline" size="lg" className="min-h-[44px] border-zinc-700 bg-zinc-900/60 hover:bg-zinc-800 text-zinc-100">
-                <a
-                  href="https://github.com/kshitijx07"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FiGithub className="mr-2 h-4 w-4 text-cyan-400" />
-                  GitHub
-                </a>
-              </Button>
-            </div>
-
-            {/* Competitive Programming Coordinates */}
-            <div className="pt-6 border-t border-zinc-800 flex flex-wrap items-center gap-6 font-mono text-xs text-zinc-400">
+            <div className="flex flex-wrap items-center gap-4 pt-4">
               <a
-                href="https://leetcode.com/u/kshitij72/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 py-1"
+                href="mailto:kshitijkumbhar007@gmail.com"
+                className="bg-[#C0FE04] text-black font-bold font-mono text-xs sm:text-sm px-6 py-3.5 hover:bg-[#d4ff1a] transition-all flex items-center gap-2 min-h-[44px]"
               >
-                <Code2 size={14} className="text-cyan-400" />
-                <span>LeetCode: @kshitij72</span>
+                <Mail size={16} />
+                <span>kshitijkumbhar007@gmail.com</span>
               </a>
+
               <a
-                href="https://codeforces.com/profile/kshitijx07"
+                href="tel:+917058157357"
+                className="border border-white/20 bg-black/40 text-white font-mono text-xs sm:text-sm px-6 py-3.5 hover:border-[#C0FE04] hover:text-[#C0FE04] transition-all flex items-center gap-2 min-h-[44px]"
+              >
+                <Phone size={16} />
+                <span>+91-7058157357</span>
+              </a>
+
+              <a
+                href="https://linkedin.com/in/kshitij-kumbhar"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 py-1"
+                className="border border-white/10 bg-white/5 text-[#ededed] font-mono text-xs sm:text-sm px-5 py-3.5 hover:bg-white/10 transition-all flex items-center gap-2 min-h-[44px]"
               >
-                <Terminal size={14} className="text-cyan-400" />
-                <span>Codeforces: @kshitijx07</span>
+                <FiLinkedin size={16} className="text-[#C0FE04]" />
+                <span>LinkedIn</span>
+              </a>
+
+              <a
+                href="https://github.com/kshitijx07"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border border-white/10 bg-white/5 text-[#ededed] font-mono text-xs sm:text-sm px-5 py-3.5 hover:bg-white/10 transition-all flex items-center gap-2 min-h-[44px]"
+              >
+                <FiGithub size={16} className="text-[#C0FE04]" />
+                <span>GitHub</span>
+              </a>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-6 pt-6 border-t border-white/10 font-mono text-xs text-[#6b6b6b]">
+              <a href="https://leetcode.com/u/kshitij72/" target="_blank" rel="noopener noreferrer" className="hover:text-[#C0FE04] flex items-center gap-1.5 py-1">
+                <Code2 size={14} className="text-[#C0FE04]" /> <span>LeetCode: @kshitij72</span>
+              </a>
+              <a href="https://codeforces.com/profile/kshitijx07" target="_blank" rel="noopener noreferrer" className="hover:text-[#C0FE04] flex items-center gap-1.5 py-1">
+                <Terminal size={14} className="text-[#C0FE04]" /> <span>Codeforces: @kshitijx07</span>
               </a>
             </div>
           </div>
         </section>
+
       </main>
 
-      {/* ── Minimal Footer ────────────────────────────────────────── */}
-      <footer className="border-t border-zinc-800/80 py-6 text-center text-xs font-mono text-zinc-400 bg-zinc-950">
-        <div className="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <span>© {new Date().getFullYear()} Kshitij Kumbhar — DevOps & Cloud Engineering</span>
-          <span>Next.js · TypeScript · Tailwind CSS · shadcn/ui · Aceternity UI</span>
-        </div>
+      {/* ── Minimal Footer ── */}
+      <footer className="max-w-7xl mx-auto px-4 sm:px-8 py-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-[#6b6b6b]">
+        <span>© {new Date().getFullYear()} KSHITIJ KUMBHAR • DEVOPS & CLOUD</span>
+        <span>NEXT.JS • TYPESCRIPT • TAILWIND CSS • THREE.JS</span>
       </footer>
+
     </div>
   );
 }

@@ -2,15 +2,17 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: "default" | "secondary" | "outline" | "cyan";
+  variant?: "default" | "secondary" | "outline" | "cyan" | "accent" | "mono";
 }
 
 function Badge({ className, variant = "default", ...props }: BadgeProps) {
   const variantStyles = {
-    default: "border-transparent bg-zinc-900 text-zinc-100 border border-zinc-800",
-    secondary: "border-transparent bg-zinc-800 text-zinc-300",
-    outline: "text-zinc-400 border border-zinc-800",
+    default: "border border-white/10 bg-white/5 text-[#ededed]",
+    secondary: "border border-white/8 bg-white/4 text-[#6b6b6b]",
+    outline: "text-[#6b6b6b] border border-white/10",
     cyan: "border-cyan-500/30 bg-cyan-950/40 text-cyan-300 font-mono",
+    accent: "border-[rgba(192,254,4,0.3)] bg-[rgba(192,254,4,0.08)] text-[#C0FE04] font-mono",
+    mono: "border border-white/8 bg-transparent text-[#6b6b6b] font-mono",
   };
 
   return (
