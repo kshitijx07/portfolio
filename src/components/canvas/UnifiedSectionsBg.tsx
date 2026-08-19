@@ -200,21 +200,28 @@ export interface UnifiedSectionsBgProps {
   opacity?: number;
 }
 
+import ViewportLazyScene from "./ViewportLazyScene";
+
 export default function UnifiedSectionsBg({
   variant = "experience",
   accent = "cyan",
   opacity = 0.7,
 }: UnifiedSectionsBgProps) {
   return (
-    <div
+    <ViewportLazyScene
       className="absolute inset-0 z-0 pointer-events-none"
-      style={{ opacity }}
+      rootMargin="400px 0px"
     >
-      <Canvas camera={{ position: [0, 0, 4.5], fov: 45 }} dpr={[1, 1.5]}>
-        <UnifiedMatrixMesh accent={accent} />
-        <DomSyncProjectGrid />
-        <FloatingDataNodes variant={variant} />
-      </Canvas>
-    </div>
+      <div
+        className="absolute inset-0 z-0 pointer-events-none"
+        style={{ opacity }}
+      >
+        <Canvas camera={{ position: [0, 0, 4.5], fov: 45 }} dpr={[1, 1.5]}>
+          <UnifiedMatrixMesh accent={accent} />
+          <DomSyncProjectGrid />
+          <FloatingDataNodes variant={variant} />
+        </Canvas>
+      </div>
+    </ViewportLazyScene>
   );
 }
