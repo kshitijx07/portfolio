@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Terminal,
   Server,
@@ -15,9 +15,10 @@ import {
   X,
   Layers,
   Database,
-  Wrench,
-  BookOpen,
   ExternalLink,
+  GitBranch,
+  ShieldCheck,
+  CheckCircle2,
 } from "lucide-react";
 import { FiGithub, FiLinkedin } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
@@ -27,6 +28,7 @@ import { Separator } from "@/components/ui/separator";
 import ImageStreamHero from "@/components/ui/image-stream-hero";
 import BlackHoleHeroSection from "@/components/ui/blackhole-hero-section";
 import ScrambleText from "@/components/ui/ScrambleText";
+import SpotlightCard from "@/components/ui/SpotlightCard";
 
 const ARCHITECTURE_STREAM_IMAGES = [
   {
@@ -57,16 +59,6 @@ const ARCHITECTURE_STREAM_IMAGES = [
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
 
   const navLinks = [
     { label: "About", href: "#about" },
@@ -84,10 +76,10 @@ export default function Home() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <a
             href="#home"
-            className="flex items-center gap-2 font-mono text-sm font-semibold tracking-tight text-zinc-100 hover:text-cyan-400 transition-colors py-2"
+            className="flex items-center gap-2.5 font-mono text-sm font-semibold tracking-tight text-zinc-100 hover:text-cyan-400 transition-colors py-2"
           >
             <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
-            <span className="text-base font-bold">Kshitij Kumbhar</span>
+            <span className="text-base font-bold tracking-tight">Kshitij Kumbhar</span>
             <span className="text-zinc-500 hidden sm:inline text-xs font-mono">/ DevOps & Cloud</span>
           </a>
 
@@ -160,9 +152,9 @@ export default function Home() {
               elevation={-6}
               spinSpeed={0.04}
               doppler={0.25}
-              glow={0.8}
-              steps={isMobile ? 180 : 280}
-              resolution={isMobile ? 0.6 : 0.7}
+              glow={0.7}
+              steps={160}
+              resolution={0.65}
               hotColor="#E0F7FA"
               midColor="#00E5FF"
               coolColor="#006064"
@@ -176,23 +168,19 @@ export default function Home() {
           <div className="relative z-10 p-6 sm:p-12 md:p-16 flex flex-col justify-center space-y-8 min-h-[500px] sm:min-h-[560px]">
             <div className="space-y-4 max-w-3xl">
               <div className="flex items-center gap-2">
-                <Badge variant="cyan" className="text-xs uppercase tracking-wider py-1 px-3 border-cyan-500/40 bg-cyan-950/60 text-cyan-300 font-mono">
+                <Badge variant="cyan" className="text-xs uppercase tracking-wider py-1 px-3 border-cyan-500/40 bg-cyan-950/60 text-cyan-300">
                   DevOps & Cloud Infrastructure Engineer
                 </Badge>
               </div>
 
-              <h1 className="text-4xl sm:text-6xl md:text-[72px] lg:text-[74px] font-bold tracking-tight text-zinc-100 leading-[1.04]">
-                <span className="block text-zinc-100">Kshitij Kumbhar</span>
-                <span className="text-lg sm:text-2xl md:text-3xl font-mono text-cyan-400 font-semibold block mt-3">
+              <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-zinc-100 leading-[1.08]">
+                <span className="block text-zinc-100 mb-1">Kshitij Kumbhar</span>
+                <span className="text-xl sm:text-2xl md:text-3xl font-mono text-cyan-400 font-semibold block mt-2">
                   <ScrambleText text="DevOps Engineer & Cloud Infrastructure Developer" speed={30} />
                 </span>
               </h1>
 
-              <p className="text-base sm:text-lg text-cyan-300/90 font-mono font-medium leading-relaxed max-w-2xl pt-1">
-                Building automated, containerized, cloud-native systems — from CI/CD pipelines to Kubernetes-orchestrated microservices on AWS.
-              </p>
-
-              <p className="text-base sm:text-lg text-zinc-300 leading-relaxed max-w-2xl">
+              <p className="text-base sm:text-lg text-zinc-300 leading-relaxed max-w-2xl pt-2">
                 Computer Engineering student who has shipped fully automated Jenkins/Docker/Kubernetes deployment pipelines on AWS across production-style projects, with a strong DSA/OOP/SQL foundation and active competitive programming on LeetCode and Codeforces.
               </p>
             </div>
@@ -264,13 +252,13 @@ export default function Home() {
               <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
               <span>Systems Architecture & Workloads Stream</span>
             </div>
-            <span className="text-zinc-500 hidden sm:inline font-mono">LIVE 3D CORRIDOR // PERSPECTIVE RAILS</span>
+            <span className="text-zinc-500 hidden sm:inline">LIVE 3D CORRIDOR // PERSPECTIVE RAILS</span>
           </div>
 
           <ImageStreamHero
             images={ARCHITECTURE_STREAM_IMAGES}
-            cards={9}
-            speed={22}
+            cards={8}
+            speed={24}
             axis={52}
             className="h-[360px] sm:h-[400px] w-full rounded-xl border border-zinc-800 bg-zinc-950 relative shadow-lg"
           >
@@ -321,23 +309,21 @@ export default function Home() {
 
           <div className="space-y-6">
             {/* Colgate-Palmolive */}
-            <Card className="border-zinc-800 bg-zinc-900/40">
-              <CardHeader className="pb-3">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                  <div>
-                    <CardTitle className="text-lg sm:text-xl font-bold text-zinc-100">
-                      DevOps Intern
-                    </CardTitle>
-                    <p className="text-sm sm:text-base font-medium text-cyan-400">
-                      Colgate-Palmolive · Mumbai, Maharashtra, India (Hybrid)
-                    </p>
-                  </div>
-                  <Badge variant="outline" className="w-fit text-xs font-mono text-zinc-300 border-zinc-700">
-                    Jul 2026 – Present
-                  </Badge>
+            <SpotlightCard className="p-6 sm:p-8">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-zinc-800/80">
+                <div>
+                  <h3 className="text-lg sm:text-xl font-bold text-zinc-100">
+                    DevOps Intern
+                  </h3>
+                  <p className="text-sm sm:text-base font-medium text-cyan-400">
+                    Colgate-Palmolive · Mumbai, Maharashtra, India (Hybrid)
+                  </p>
                 </div>
-              </CardHeader>
-              <CardContent className="space-y-3 text-sm sm:text-base text-zinc-300 leading-relaxed">
+                <Badge variant="outline" className="w-fit text-xs font-mono text-zinc-300 border-zinc-700">
+                  Jul 2026 – Present
+                </Badge>
+              </div>
+              <div className="space-y-3 text-sm sm:text-base text-zinc-300 leading-relaxed pt-4">
                 <p className="flex items-start gap-2.5">
                   <span className="text-cyan-400 font-bold mt-0.5">▹</span>
                   <span>Support application deployment and infrastructure automation workflows within a DevOps team, contributing to CI/CD pipelines built with Jenkins, Git, and GitHub.</span>
@@ -350,27 +336,25 @@ export default function Home() {
                   <span className="text-cyan-400 font-bold mt-0.5">▹</span>
                   <span>Collaborate with cross-functional engineering teams on deployment automation, contributing to Infrastructure as Code with Terraform and to monitoring initiatives.</span>
                 </p>
-              </CardContent>
-            </Card>
+              </div>
+            </SpotlightCard>
 
             {/* Campus Credential */}
-            <Card className="border-zinc-800 bg-zinc-900/40">
-              <CardHeader className="pb-3">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                  <div>
-                    <CardTitle className="text-lg sm:text-xl font-bold text-zinc-100">
-                      Full Stack Developer Intern
-                    </CardTitle>
-                    <p className="text-sm sm:text-base font-medium text-cyan-400">
-                      Campus Credential · Remote
-                    </p>
-                  </div>
-                  <Badge variant="outline" className="w-fit text-xs font-mono text-zinc-300 border-zinc-700">
-                    Jun 2025 – Aug 2025
-                  </Badge>
+            <SpotlightCard className="p-6 sm:p-8">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-zinc-800/80">
+                <div>
+                  <h3 className="text-lg sm:text-xl font-bold text-zinc-100">
+                    Full Stack Developer Intern
+                  </h3>
+                  <p className="text-sm sm:text-base font-medium text-cyan-400">
+                    Campus Credential · Remote
+                  </p>
                 </div>
-              </CardHeader>
-              <CardContent className="space-y-3 text-sm sm:text-base text-zinc-300 leading-relaxed">
+                <Badge variant="outline" className="w-fit text-xs font-mono text-zinc-300 border-zinc-700">
+                  Jun 2025 – Aug 2025
+                </Badge>
+              </div>
+              <div className="space-y-3 text-sm sm:text-base text-zinc-300 leading-relaxed pt-4">
                 <p className="flex items-start gap-2.5">
                   <span className="text-cyan-400 font-bold mt-0.5">▹</span>
                   <span>Owned end-to-end delivery of the Grocito platform, from requirements gathering and system design through production deployment, within a six-week sprint.</span>
@@ -383,8 +367,8 @@ export default function Home() {
                   <span className="text-cyan-400 font-bold mt-0.5">▹</span>
                   <span>Facilitated daily standups and sprint reviews within an agile team of three, coordinating feature delivery and code reviews to maintain on-schedule releases.</span>
                 </p>
-              </CardContent>
-            </Card>
+              </div>
+            </SpotlightCard>
           </div>
         </section>
 
@@ -399,170 +383,158 @@ export default function Home() {
 
           <div className="space-y-6">
             {/* Project 1: HostelHub */}
-            <Card className="border-zinc-800 bg-zinc-900/30 hover:border-zinc-700 transition-colors">
-              <CardHeader className="pb-3">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                  <div>
-                    <CardTitle className="text-xl sm:text-2xl font-bold text-zinc-100 flex items-center gap-2">
-                      <span>HostelHub</span>
-                      <span className="text-xs font-mono font-normal text-zinc-400 bg-zinc-800/80 px-2 py-0.5 rounded">Jan 2026 – Mar 2026</span>
-                    </CardTitle>
-                    <CardDescription className="text-sm text-zinc-300 mt-1">
-                      Cloud-native hostel management platform with decoupled React frontend on S3 and Node.js REST API on AWS EKS.
-                    </CardDescription>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Button asChild variant="outline" size="sm" className="h-9 text-xs gap-1.5 border-zinc-700">
-                      <a href="https://github.com/kshitijx07/Hostelhub" target="_blank" rel="noopener noreferrer">
-                        <FiGithub size={14} />
-                        <span>GitHub</span>
-                      </a>
-                    </Button>
-                    <Button asChild variant="default" size="sm" className="h-9 text-xs gap-1.5 bg-cyan-500 text-zinc-950 hover:bg-cyan-400">
-                      <a href="https://hostelhub-ruby.vercel.app" target="_blank" rel="noopener noreferrer">
-                        <span>Live Demo</span>
-                        <ExternalLink size={14} />
-                      </a>
-                    </Button>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2.5 text-sm sm:text-base text-zinc-300 leading-relaxed">
-                  <p className="flex items-start gap-2.5">
-                    <span className="text-cyan-400 font-bold mt-0.5">▹</span>
-                    <span>Built a cloud-native hostel management platform with a decoupled React frontend on Amazon S3 and a Node.js REST API on AWS EKS, with role-based access control for students and administrators.</span>
-                  </p>
-                  <p className="flex items-start gap-2.5">
-                    <span className="text-cyan-400 font-bold mt-0.5">▹</span>
-                    <span>Designed a unified CloudFront distribution routing static and API traffic through OAC-secured S3 and an NGINX Ingress-backed ALB, eliminating CORS overhead.</span>
-                  </p>
-                  <p className="flex items-start gap-2.5">
-                    <span className="text-cyan-400 font-bold mt-0.5">▹</span>
-                    <span>Containerized the backend with Docker multi-stage builds and a Horizontal Pod Autoscaler (2→5 replicas at 70% CPU) for zero-downtime rolling updates.</span>
-                  </p>
-                  <p className="flex items-start gap-2.5">
-                    <span className="text-cyan-400 font-bold mt-0.5">▹</span>
-                    <span>Engineered a split Jenkins CI/CD pipeline: frontend build → S3 sync → CloudFront invalidation; backend → DockerHub image → kubectl rollout.</span>
-                  </p>
-                  <p className="flex items-start gap-2.5">
-                    <span className="text-cyan-400 font-bold mt-0.5">▹</span>
-                    <span>Secured workloads with Kubernetes Secrets and a CloudFront OAC policy, removing public bucket exposure.</span>
+            <SpotlightCard className="p-6 sm:p-8">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-zinc-800/80">
+                <div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-zinc-100 flex items-center gap-2">
+                    <span>HostelHub</span>
+                    <span className="text-xs font-mono font-normal text-zinc-400 bg-zinc-800/80 px-2 py-0.5 rounded">Jan 2026 – Mar 2026</span>
+                  </h3>
+                  <p className="text-sm text-zinc-300 mt-1">
+                    Cloud-native hostel management platform with decoupled React frontend on S3 and Node.js REST API on AWS EKS.
                   </p>
                 </div>
-                <div className="flex flex-wrap gap-2 pt-3 border-t border-zinc-800/80">
-                  {["AWS EKS", "Kubernetes", "CloudFront", "S3", "ALB", "Jenkins", "Docker", "React.js", "Node.js", "MongoDB Atlas"].map((tech) => (
-                    <Badge key={tech} variant="secondary" className="text-xs bg-zinc-800 text-zinc-200 border-zinc-700">
-                      {tech}
-                    </Badge>
-                  ))}
+                <div className="flex items-center gap-2">
+                  <Button asChild variant="outline" size="sm" className="h-9 text-xs gap-1.5 border-zinc-700">
+                    <a href="https://github.com/kshitijx07/Hostelhub" target="_blank" rel="noopener noreferrer">
+                      <FiGithub size={14} />
+                      <span>GitHub</span>
+                    </a>
+                  </Button>
+                  <Button asChild variant="default" size="sm" className="h-9 text-xs gap-1.5 bg-cyan-500 text-zinc-950 hover:bg-cyan-400">
+                    <a href="https://hostelhub-ruby.vercel.app" target="_blank" rel="noopener noreferrer">
+                      <span>Live Demo</span>
+                      <ExternalLink size={14} />
+                    </a>
+                  </Button>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+              <div className="space-y-2.5 text-sm sm:text-base text-zinc-300 leading-relaxed pt-4">
+                <p className="flex items-start gap-2.5">
+                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
+                  <span>Built a cloud-native hostel management platform with a decoupled React frontend on Amazon S3 and a Node.js REST API on AWS EKS, with role-based access control for students and administrators.</span>
+                </p>
+                <p className="flex items-start gap-2.5">
+                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
+                  <span>Designed a unified CloudFront distribution routing static and API traffic through OAC-secured S3 and an NGINX Ingress-backed ALB, eliminating CORS overhead.</span>
+                </p>
+                <p className="flex items-start gap-2.5">
+                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
+                  <span>Containerized the backend with Docker multi-stage builds and a Horizontal Pod Autoscaler (2→5 replicas at 70% CPU) for zero-downtime rolling updates.</span>
+                </p>
+                <p className="flex items-start gap-2.5">
+                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
+                  <span>Engineered a split Jenkins CI/CD pipeline: frontend build → S3 sync → CloudFront invalidation; backend → DockerHub image → kubectl rollout.</span>
+                </p>
+                <p className="flex items-start gap-2.5">
+                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
+                  <span>Secured workloads with Kubernetes Secrets and a CloudFront OAC policy, removing public bucket exposure.</span>
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-2 pt-4 mt-4 border-t border-zinc-800/80">
+                {["AWS EKS", "Kubernetes", "CloudFront", "S3", "ALB", "Jenkins", "Docker", "React.js", "Node.js", "MongoDB Atlas"].map((tech) => (
+                  <Badge key={tech} variant="secondary" className="text-xs bg-zinc-800 text-zinc-200 border-zinc-700">
+                    {tech}
+                  </Badge>
+                ))}
+              </div>
+            </SpotlightCard>
 
             {/* Project 2: Serverless AI X-Ray Analyzer */}
-            <Card className="border-zinc-800 bg-zinc-900/30 hover:border-zinc-700 transition-colors">
-              <CardHeader className="pb-3">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                  <div>
-                    <CardTitle className="text-xl sm:text-2xl font-bold text-zinc-100 flex items-center gap-2">
-                      <span>Serverless AI X-Ray Analyzer</span>
-                      <span className="text-xs font-mono font-normal text-zinc-400 bg-zinc-800/80 px-2 py-0.5 rounded">Apr 2026 – May 2026</span>
-                    </CardTitle>
-                    <CardDescription className="text-sm text-zinc-300 mt-1">
-                      Event-driven medical imaging platform on AWS using MobileNet TFLite for &lt;1s inference at zero idle cost.
-                    </CardDescription>
-                  </div>
-                  <Button asChild variant="outline" size="sm" className="h-9 text-xs gap-1.5 border-zinc-700">
-                    <a href="https://github.com/kshitijx07/serverless-ai-xray" target="_blank" rel="noopener noreferrer">
-                      <FiGithub size={14} />
-                      <span>GitHub</span>
-                    </a>
-                  </Button>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2.5 text-sm sm:text-base text-zinc-300 leading-relaxed">
-                  <p className="flex items-start gap-2.5">
-                    <span className="text-cyan-400 font-bold mt-0.5">▹</span>
-                    <span>Built a serverless, event-driven medical imaging platform using a pre-trained MobileNet TFLite model to classify chest X-rays in under 1 second at zero idle cost.</span>
-                  </p>
-                  <p className="flex items-start gap-2.5">
-                    <span className="text-cyan-400 font-bold mt-0.5">▹</span>
-                    <span>Deployed a three-Lambda backend behind API Gateway with CORS enforcement and per-second request throttling.</span>
-                  </p>
-                  <p className="flex items-start gap-2.5">
-                    <span className="text-cyan-400 font-bold mt-0.5">▹</span>
-                    <span>Implemented an S3 presigned-URL upload flow, increasing the effective upload limit 5x (10MB → 50MB) while bypassing the API Gateway payload cap.</span>
-                  </p>
-                  <p className="flex items-start gap-2.5">
-                    <span className="text-cyan-400 font-bold mt-0.5">▹</span>
-                    <span>Automated all infrastructure with modular Terraform and a GitHub Actions pipeline; built a React UI with drag-and-drop uploads and real-time DynamoDB polling for AI confidence scores.</span>
+            <SpotlightCard className="p-6 sm:p-8">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-zinc-800/80">
+                <div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-zinc-100 flex items-center gap-2">
+                    <span>Serverless AI X-Ray Analyzer</span>
+                    <span className="text-xs font-mono font-normal text-zinc-400 bg-zinc-800/80 px-2 py-0.5 rounded">Apr 2026 – May 2026</span>
+                  </h3>
+                  <p className="text-sm text-zinc-300 mt-1">
+                    Event-driven medical imaging platform on AWS using MobileNet TFLite for &lt;1s inference at zero idle cost.
                   </p>
                 </div>
-                <div className="flex flex-wrap gap-2 pt-3 border-t border-zinc-800/80">
-                  {["AWS Lambda", "Terraform", "GitHub Actions", "API Gateway", "S3", "DynamoDB", "MobileNet TFLite"].map((tech) => (
-                    <Badge key={tech} variant="secondary" className="text-xs bg-zinc-800 text-zinc-200 border-zinc-700">
-                      {tech}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+                <Button asChild variant="outline" size="sm" className="h-9 text-xs gap-1.5 border-zinc-700">
+                  <a href="https://github.com/kshitijx07/serverless-ai-xray" target="_blank" rel="noopener noreferrer">
+                    <FiGithub size={14} />
+                    <span>GitHub</span>
+                  </a>
+                </Button>
+              </div>
+              <div className="space-y-2.5 text-sm sm:text-base text-zinc-300 leading-relaxed pt-4">
+                <p className="flex items-start gap-2.5">
+                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
+                  <span>Built a serverless, event-driven medical imaging platform using a pre-trained MobileNet TFLite model to classify chest X-rays in under 1 second at zero idle cost.</span>
+                </p>
+                <p className="flex items-start gap-2.5">
+                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
+                  <span>Deployed a three-Lambda backend behind API Gateway with CORS enforcement and per-second request throttling.</span>
+                </p>
+                <p className="flex items-start gap-2.5">
+                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
+                  <span>Implemented an S3 presigned-URL upload flow, increasing the effective upload limit 5x (10MB → 50MB) while bypassing the API Gateway payload cap.</span>
+                </p>
+                <p className="flex items-start gap-2.5">
+                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
+                  <span>Automated all infrastructure with modular Terraform and a GitHub Actions pipeline; built a React UI with drag-and-drop uploads and real-time DynamoDB polling for AI confidence scores.</span>
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-2 pt-4 mt-4 border-t border-zinc-800/80">
+                {["AWS Lambda", "Terraform", "GitHub Actions", "API Gateway", "S3", "DynamoDB", "MobileNet TFLite"].map((tech) => (
+                  <Badge key={tech} variant="secondary" className="text-xs bg-zinc-800 text-zinc-200 border-zinc-700">
+                    {tech}
+                  </Badge>
+                ))}
+              </div>
+            </SpotlightCard>
 
             {/* Project 3: DSA Swarm AI */}
-            <Card className="border-zinc-800 bg-zinc-900/30 hover:border-zinc-700 transition-colors">
-              <CardHeader className="pb-3">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                  <div>
-                    <CardTitle className="text-xl sm:text-2xl font-bold text-zinc-100 flex items-center gap-2">
-                      <span>DSA Swarm AI</span>
-                      <span className="text-xs font-mono font-normal text-zinc-400 bg-zinc-800/80 px-2 py-0.5 rounded">2026</span>
-                    </CardTitle>
-                    <CardDescription className="text-sm text-zinc-300 mt-1">
-                      Distributed Multi-Agent RAG Swarm & Model Context Protocol (MCP) Server deployed on AWS EKS.
-                    </CardDescription>
-                  </div>
-                  <Button asChild variant="outline" size="sm" className="h-9 text-xs gap-1.5 border-zinc-700">
-                    <a href="https://github.com/kshitijx07" target="_blank" rel="noopener noreferrer">
-                      <FiGithub size={14} />
-                      <span>GitHub</span>
-                    </a>
-                  </Button>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2.5 text-sm sm:text-base text-zinc-300 leading-relaxed">
-                  <p className="flex items-start gap-2.5">
-                    <span className="text-cyan-400 font-bold mt-0.5">▹</span>
-                    <span>Architected a distributed Multi-Agent RAG Swarm and MCP Server using LangGraph, Gemini 2.5 Flash, and Pinecone (768-dim vector store) for autonomous DSA query routing with sub-second retrieval.</span>
-                  </p>
-                  <p className="flex items-start gap-2.5">
-                    <span className="text-cyan-400 font-bold mt-0.5">▹</span>
-                    <span>Provisioned AWS EKS infrastructure via Terraform, deploying multi-stage unprivileged Docker containers behind an ALB and CloudFront CDN — under 6-second end-to-end latency.</span>
-                  </p>
-                  <p className="flex items-start gap-2.5">
-                    <span className="text-cyan-400 font-bold mt-0.5">▹</span>
-                    <span>Built a 4-key API rotation pool with exponential backoff, taking Gemini throughput from 15 RPM to 60 RPM (4x quota expansion).</span>
-                  </p>
-                  <p className="flex items-start gap-2.5">
-                    <span className="text-cyan-400 font-bold mt-0.5">▹</span>
-                    <span>Optimized RAG search with custom 768-dim Gemini embeddings, Pinecone cosine similarity (topK=6), and output-token capping to eliminate CloudFront 504 timeouts.</span>
-                  </p>
-                  <p className="flex items-start gap-2.5">
-                    <span className="text-cyan-400 font-bold mt-0.5">▹</span>
-                    <span>Automated GitOps CI/CD to Amazon ECR with cross-Security-Group ingress rules and Kubernetes Secrets for key management.</span>
+            <SpotlightCard className="p-6 sm:p-8">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-zinc-800/80">
+                <div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-zinc-100 flex items-center gap-2">
+                    <span>DSA Swarm AI</span>
+                    <span className="text-xs font-mono font-normal text-zinc-400 bg-zinc-800/80 px-2 py-0.5 rounded">2026</span>
+                  </h3>
+                  <p className="text-sm text-zinc-300 mt-1">
+                    Distributed Multi-Agent RAG Swarm & Model Context Protocol (MCP) Server deployed on AWS EKS.
                   </p>
                 </div>
-                <div className="flex flex-wrap gap-2 pt-3 border-t border-zinc-800/80">
-                  {["AWS EKS", "Kubernetes", "Terraform", "CloudFront", "LangGraph", "MCP Server", "Pinecone", "RAG", "Docker", "GitHub Actions", "Node.js"].map((tech) => (
-                    <Badge key={tech} variant="secondary" className="text-xs bg-zinc-800 text-zinc-200 border-zinc-700">
-                      {tech}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+                <Button asChild variant="outline" size="sm" className="h-9 text-xs gap-1.5 border-zinc-700">
+                  <a href="https://github.com/kshitijx07" target="_blank" rel="noopener noreferrer">
+                    <FiGithub size={14} />
+                    <span>GitHub</span>
+                  </a>
+                </Button>
+              </div>
+              <div className="space-y-2.5 text-sm sm:text-base text-zinc-300 leading-relaxed pt-4">
+                <p className="flex items-start gap-2.5">
+                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
+                  <span>Architected a distributed Multi-Agent RAG Swarm and MCP Server using LangGraph, Gemini 2.5 Flash, and Pinecone (768-dim vector store) for autonomous DSA query routing with sub-second retrieval.</span>
+                </p>
+                <p className="flex items-start gap-2.5">
+                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
+                  <span>Provisioned AWS EKS infrastructure via Terraform, deploying multi-stage unprivileged Docker containers behind an ALB and CloudFront CDN — under 6-second end-to-end latency.</span>
+                </p>
+                <p className="flex items-start gap-2.5">
+                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
+                  <span>Built a 4-key API rotation pool with exponential backoff, taking Gemini throughput from 15 RPM to 60 RPM (4x quota expansion).</span>
+                </p>
+                <p className="flex items-start gap-2.5">
+                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
+                  <span>Optimized RAG search with custom 768-dim Gemini embeddings, Pinecone cosine similarity (topK=6), and output-token capping to eliminate CloudFront 504 timeouts.</span>
+                </p>
+                <p className="flex items-start gap-2.5">
+                  <span className="text-cyan-400 font-bold mt-0.5">▹</span>
+                  <span>Automated GitOps CI/CD to Amazon ECR with cross-Security-Group ingress rules and Kubernetes Secrets for key management.</span>
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-2 pt-4 mt-4 border-t border-zinc-800/80">
+                {["AWS EKS", "Kubernetes", "Terraform", "CloudFront", "LangGraph", "MCP Server", "Pinecone", "RAG", "Docker", "GitHub Actions", "Node.js"].map((tech) => (
+                  <Badge key={tech} variant="secondary" className="text-xs bg-zinc-800 text-zinc-200 border-zinc-700">
+                    {tech}
+                  </Badge>
+                ))}
+              </div>
+            </SpotlightCard>
           </div>
         </section>
 
@@ -575,125 +547,96 @@ export default function Home() {
             <span>04 // Skills & Competencies</span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* 1. Cloud & DevOps */}
-            <Card className="border-zinc-800 bg-zinc-900/30 md:col-span-2 lg:col-span-2">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base font-mono text-cyan-400 flex items-center gap-2">
-                  <Cloud size={18} />
-                  <span>Cloud & DevOps</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="flex flex-wrap gap-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* 1. DevOps & Cloud */}
+            <SpotlightCard className="p-6">
+              <h3 className="text-base font-mono text-cyan-400 flex items-center gap-2 pb-3 font-semibold">
+                <Cloud size={18} />
+                <span>DevOps & Cloud</span>
+              </h3>
+              <div className="flex flex-wrap gap-2 pt-1">
                 {["AWS (EKS, ECR, CloudFront, VPC, ALB, IAM, EC2, S3, Auto Scaling)", "Terraform", "Docker", "Kubernetes", "Jenkins", "GitHub Actions", "CI/CD"].map((s) => (
                   <Badge key={s} variant="outline" className="text-xs py-1 px-2.5 border-zinc-700 bg-zinc-900/60 text-zinc-200">
                     {s}
                   </Badge>
                 ))}
-              </CardContent>
-            </Card>
+              </div>
+            </SpotlightCard>
 
             {/* 2. Databases & Vector Stores */}
-            <Card className="border-zinc-800 bg-zinc-900/30">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base font-mono text-cyan-400 flex items-center gap-2">
-                  <Database size={18} />
-                  <span>Databases & Vector Stores</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="flex flex-wrap gap-2">
-                {["MongoDB", "MySQL", "Pinecone"].map((s) => (
+            <SpotlightCard className="p-6">
+              <h3 className="text-base font-mono text-cyan-400 flex items-center gap-2 pb-3 font-semibold">
+                <Database size={18} />
+                <span>Databases & Vector Stores</span>
+              </h3>
+              <div className="flex flex-wrap gap-2 pt-1">
+                {["Pinecone", "MongoDB", "MySQL"].map((s) => (
                   <Badge key={s} variant="outline" className="text-xs py-1 px-2.5 border-zinc-700 bg-zinc-900/60 text-zinc-200">
                     {s}
                   </Badge>
                 ))}
-              </CardContent>
-            </Card>
+              </div>
+            </SpotlightCard>
 
             {/* 3. Backend */}
-            <Card className="border-zinc-800 bg-zinc-900/30">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base font-mono text-cyan-400 flex items-center gap-2">
-                  <Server size={18} />
-                  <span>Backend</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="flex flex-wrap gap-2">
+            <SpotlightCard className="p-6">
+              <h3 className="text-base font-mono text-cyan-400 flex items-center gap-2 pb-3 font-semibold">
+                <Server size={18} />
+                <span>Backend</span>
+              </h3>
+              <div className="flex flex-wrap gap-2 pt-1">
                 {["Node.js", "Express.js", "Spring Boot", "REST APIs"].map((s) => (
                   <Badge key={s} variant="outline" className="text-xs py-1 px-2.5 border-zinc-700 bg-zinc-900/60 text-zinc-200">
                     {s}
                   </Badge>
                 ))}
-              </CardContent>
-            </Card>
+              </div>
+            </SpotlightCard>
 
             {/* 4. AI & Multi-Agent Systems */}
-            <Card className="border-zinc-800 bg-zinc-900/30">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base font-mono text-cyan-400 flex items-center gap-2">
-                  <Cpu size={18} />
-                  <span>AI & Multi-Agent Systems</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="flex flex-wrap gap-2">
-                {["LangGraph", "RAG", "Model Context Protocol (MCP)"].map((s) => (
+            <SpotlightCard className="p-6">
+              <h3 className="text-base font-mono text-cyan-400 flex items-center gap-2 pb-3 font-semibold">
+                <Cpu size={18} />
+                <span>AI & Multi-Agent Systems</span>
+              </h3>
+              <div className="flex flex-wrap gap-2 pt-1">
+                {["LangGraph", "RAG", "Model Context Protocol (MCP)", "LangChain"].map((s) => (
                   <Badge key={s} variant="outline" className="text-xs py-1 px-2.5 border-zinc-700 bg-zinc-900/60 text-zinc-200">
                     {s}
                   </Badge>
                 ))}
-              </CardContent>
-            </Card>
+              </div>
+            </SpotlightCard>
 
             {/* 5. Frontend */}
-            <Card className="border-zinc-800 bg-zinc-900/30">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base font-mono text-cyan-400 flex items-center gap-2">
-                  <Layers size={18} />
-                  <span>Frontend</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="flex flex-wrap gap-2">
+            <SpotlightCard className="p-6">
+              <h3 className="text-base font-mono text-cyan-400 flex items-center gap-2 pb-3 font-semibold">
+                <Layers size={18} />
+                <span>Frontend</span>
+              </h3>
+              <div className="flex flex-wrap gap-2 pt-1">
                 {["React.js", "Vite", "Tailwind CSS", "HTML", "CSS", "JavaScript"].map((s) => (
                   <Badge key={s} variant="outline" className="text-xs py-1 px-2.5 border-zinc-700 bg-zinc-900/60 text-zinc-200">
                     {s}
                   </Badge>
                 ))}
-              </CardContent>
-            </Card>
+              </div>
+            </SpotlightCard>
 
-            {/* 6. CS Fundamentals */}
-            <Card className="border-zinc-800 bg-zinc-900/30">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base font-mono text-cyan-400 flex items-center gap-2">
-                  <BookOpen size={18} />
-                  <span>CS Fundamentals</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="flex flex-wrap gap-2">
-                {["DSA", "OOP", "DBMS", "Operating Systems", "Linux"].map((s) => (
+            {/* 6. Core CS & Tools */}
+            <SpotlightCard className="p-6">
+              <h3 className="text-base font-mono text-cyan-400 flex items-center gap-2 pb-3 font-semibold">
+                <Terminal size={18} />
+                <span>Core CS & Tools</span>
+              </h3>
+              <div className="flex flex-wrap gap-2 pt-1">
+                {["DSA (Data Structures & Algorithms)", "OOP", "DBMS", "OS", "Linux", "Git", "GitHub", "DockerHub", "Postman"].map((s) => (
                   <Badge key={s} variant="outline" className="text-xs py-1 px-2.5 border-zinc-700 bg-zinc-900/60 text-zinc-200">
                     {s}
                   </Badge>
                 ))}
-              </CardContent>
-            </Card>
-
-            {/* 7. Tools & Platforms */}
-            <Card className="border-zinc-800 bg-zinc-900/30 md:col-span-2 lg:col-span-2">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base font-mono text-cyan-400 flex items-center gap-2">
-                  <Wrench size={18} />
-                  <span>Tools & Platforms</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="flex flex-wrap gap-2">
-                {["Git", "GitHub", "DockerHub", "Postman", "Linux CLI"].map((s) => (
-                  <Badge key={s} variant="outline" className="text-xs py-1 px-2.5 border-zinc-700 bg-zinc-900/60 text-zinc-200">
-                    {s}
-                  </Badge>
-                ))}
-              </CardContent>
-            </Card>
+              </div>
+            </SpotlightCard>
           </div>
         </section>
 
@@ -708,58 +651,52 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* B.Tech */}
-            <Card className="border-zinc-800 bg-zinc-900/30">
-              <CardHeader className="pb-2">
-                <Badge variant="cyan" className="w-fit text-xs mb-1.5 border-cyan-500/40 bg-cyan-950/60 text-cyan-300 font-mono">
-                  CGPA: 8.48 / 10
-                </Badge>
-                <CardTitle className="text-base font-bold text-zinc-100">
-                  B.Tech in Computer Engineering
-                </CardTitle>
-                <CardDescription className="text-xs text-zinc-400">
-                  MIT Academy of Engineering, Pune
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="text-xs text-zinc-400 font-mono">
+            <SpotlightCard className="p-5">
+              <Badge variant="cyan" className="w-fit text-xs mb-2 border-cyan-500/40 bg-cyan-950/60 text-cyan-300">
+                CGPA: 8.48 / 10
+              </Badge>
+              <h3 className="text-base font-bold text-zinc-100">
+                B.Tech in Computer Engineering
+              </h3>
+              <p className="text-xs text-zinc-400 mt-1">
+                MIT Academy of Engineering, Pune
+              </p>
+              <p className="text-xs text-zinc-400 font-mono mt-3">
                 2023 – 2027
-              </CardContent>
-            </Card>
+              </p>
+            </SpotlightCard>
 
             {/* HSC */}
-            <Card className="border-zinc-800 bg-zinc-900/30">
-              <CardHeader className="pb-2">
-                <Badge variant="outline" className="w-fit text-xs mb-1.5 border-zinc-700 text-zinc-300 font-mono">
-                  84.17%
-                </Badge>
-                <CardTitle className="text-base font-bold text-zinc-100">
-                  Higher Secondary Certificate (HSC)
-                </CardTitle>
-                <CardDescription className="text-xs text-zinc-400">
-                  Yashwantrao Chavan Institute of Science, Satara
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="text-xs text-zinc-400 font-mono">
+            <SpotlightCard className="p-5">
+              <Badge variant="outline" className="w-fit text-xs mb-2 border-zinc-700 text-zinc-300">
+                84.17%
+              </Badge>
+              <h3 className="text-base font-bold text-zinc-100">
+                Higher Secondary Certificate (HSC)
+              </h3>
+              <p className="text-xs text-zinc-400 mt-1">
+                Yashwantrao Chavan Institute of Science, Satara
+              </p>
+              <p className="text-xs text-zinc-400 font-mono mt-3">
                 2021 – 2023
-              </CardContent>
-            </Card>
+              </p>
+            </SpotlightCard>
 
             {/* SSC */}
-            <Card className="border-zinc-800 bg-zinc-900/30">
-              <CardHeader className="pb-2">
-                <Badge variant="outline" className="w-fit text-xs mb-1.5 border-zinc-700 text-zinc-300 font-mono">
-                  97.00%
-                </Badge>
-                <CardTitle className="text-base font-bold text-zinc-100">
-                  Secondary School Certificate (SSC)
-                </CardTitle>
-                <CardDescription className="text-xs text-zinc-400">
-                  Maharaja Sayajirao Vidyalaya, Satara
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="text-xs text-zinc-400 font-mono">
+            <SpotlightCard className="p-5">
+              <Badge variant="outline" className="w-fit text-xs mb-2 border-zinc-700 text-zinc-300">
+                97.00%
+              </Badge>
+              <h3 className="text-base font-bold text-zinc-100">
+                Secondary School Certificate (SSC)
+              </h3>
+              <p className="text-xs text-zinc-400 mt-1">
+                Maharaja Sayajirao Vidyalaya, Satara
+              </p>
+              <p className="text-xs text-zinc-400 font-mono mt-3">
                 2021
-              </CardContent>
-            </Card>
+              </p>
+            </SpotlightCard>
           </div>
         </section>
 
@@ -849,7 +786,7 @@ export default function Home() {
       <footer className="border-t border-zinc-800/80 py-6 text-center text-xs font-mono text-zinc-400 bg-zinc-950">
         <div className="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
           <span>© {new Date().getFullYear()} Kshitij Kumbhar — DevOps & Cloud Engineering</span>
-          <span>Next.js · TypeScript · Tailwind CSS · shadcn/ui</span>
+          <span>Next.js · TypeScript · Tailwind CSS · shadcn/ui · Aceternity UI</span>
         </div>
       </footer>
     </div>

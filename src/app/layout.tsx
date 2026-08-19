@@ -16,57 +16,10 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://kshitijkumbhar.vercel.app"),
-  title: "Kshitij Kumbhar — DevOps & Cloud Infrastructure Engineer",
-  description:
-    "Computer Engineering student and DevOps Intern building automated CI/CD pipelines, containerized microservices, and Kubernetes-orchestrated cloud infrastructure on AWS.",
-  keywords: [
-    "Kshitij Kumbhar",
-    "DevOps Engineer",
-    "Cloud Infrastructure",
-    "AWS EKS",
-    "Kubernetes",
-    "Terraform",
-    "Docker",
-    "CI/CD",
-    "Jenkins",
-    "LangGraph",
-    "Pinecone",
-    "RAG",
-    "Computer Engineering",
-  ],
-  authors: [{ name: "Kshitij Kumbhar", url: "https://github.com/kshitijx07" }],
-  creator: "Kshitij Kumbhar",
-  openGraph: {
-    title: "Kshitij Kumbhar — DevOps & Cloud Infrastructure Engineer",
-    description:
-      "Automated CI/CD pipelines, Kubernetes microservices on AWS, and Multi-Agent AI systems.",
-    url: "https://kshitijkumbhar.vercel.app",
-    siteName: "Kshitij Kumbhar Portfolio",
-    images: [
-      {
-        url: "/serverless_xray_ui.png",
-        width: 1200,
-        height: 630,
-        alt: "Kshitij Kumbhar — DevOps & Cloud Engineering Portfolio",
-      },
-    ],
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Kshitij Kumbhar — DevOps & Cloud Infrastructure Engineer",
-    description:
-      "Automated CI/CD pipelines, Kubernetes microservices on AWS, and Multi-Agent AI systems.",
-    images: ["/serverless_xray_ui.png"],
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  title: "Kshitij Kumbhar — DevOps Engineer & Cloud Infrastructure Developer",
+  description: "DevOps Engineer & Cloud Infrastructure Developer building automated, containerized, cloud-native systems — from CI/CD pipelines to Kubernetes-orchestrated microservices on AWS.",
   icons: {
-    icon: "/favicon.ico",
+    icon: "/icon.png",
     apple: "/apple-icon.png",
   },
 };
