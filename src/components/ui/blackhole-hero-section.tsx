@@ -3,35 +3,77 @@
 import * as React from "react";
 import { useEffect, useRef } from "react";
 
+/* -------------------------------------------------------------------------- */
+/*  What this draws                                                           */
+/*                                                                            */
+/*  A black hole, with the light bent the way a black hole bends it.          */
+/*                                                                            */
+/*  Units are set by the horizon: r = 1 is the event horizon. Then the photon  */
+/*  sphere sits at 1.5, the shadow the camera sees is 2.6 across the radius,   */
+/*  and the disc starts at 3 — the innermost orbit gas can hold in this        */
+/*  geometry.                                                                 */
+/* -------------------------------------------------------------------------- */
+
 export interface BlackHoleHeroSectionProps
   extends React.HTMLAttributes<HTMLDivElement> {
+  /** Camera distance from the hole, in horizon radii. */
   distance?: number;
+  /**
+   * How far the camera sits above the disc, in degrees. Near 0 the disc is
+   * edge-on and the far side arches over the shadow as a halo.
+   */
   elevation?: number;
+  /** Where the camera sits around the hole, in degrees. */
   azimuth?: number;
+  /** Degrees the camera swings around the hole each second. */
   orbitSpeed?: number;
+  /** Turns the picture about the line of sight, in degrees. */
   roll?: number;
+  /** Vertical field of view, in degrees. */
   fov?: number;
+  /** Inner edge of the disc, in horizon radii. */
   diskInner?: number;
+  /** Outer edge of the disc. */
   diskOuter?: number;
+  /** Half-thickness of the disc at its inner edge. */
   diskThickness?: number;
+  /** How much gas there is. */
   diskDensity?: number;
+  /** Overall brightness of the gas before tone mapping. */
   brightness?: number;
+  /** Turns of the inner rim per second. */
   spinSpeed?: number;
+  /** Size of the turbulence in the gas. Higher is finer. */
   grain?: number;
+  /** Relativistic beaming, 0 to 1. */
   doppler?: number;
+  /** Brightest gas, at the inner rim. */
   hotColor?: string;
+  /** Mid-disc. */
   midColor?: string;
+  /** Coolest gas, at the outer edge. */
   coolColor?: string;
+  /** Background stars, 0 to 2. */
   starBrightness?: number;
+  /** Bloom, 0 to 2. */
   glow?: number;
+  /** Exposure into the tone curve. */
   exposure?: number;
+  /** Corner darkening, 0 to 1. */
   vignette?: number;
+  /** Steps each ray may take. */
   steps?: number;
+  /** Render scale, 0.5 to 1. */
   resolution?: number;
+  /** Cap on device pixel ratio. */
   maxDpr?: number;
+  /** Focus [x, y] in fraction of viewport. */
   focus?: [number, number];
+  /** Lays a veil over one edge for text readability. */
   scrim?: "none" | "left" | "right" | "top" | "bottom";
+  /** How dark that edge gets, 0 to 1. */
   scrimStrength?: number;
+  /** Freeze on the current frame. */
   paused?: boolean;
   children?: React.ReactNode;
 }
@@ -48,7 +90,7 @@ void main() {
 const SCENE_FRAG = `
 precision highp float;
 
-#define MAX_STEPS 460
+#define MAX_STEPS 360
 #define WIND_CYCLE 46.0
 
 varying vec2 vUv;
@@ -121,7 +163,6 @@ void gasAt(vec3 p, float rd, float dt, out float dens, out vec3 tint, out float 
   float v = p.y / tk;
   float sheet = exp(-v * v);
   float lod = clamp(1.0 - dt * uGrain * 14.0, 0.0, 1.0);
-
   float phi = atan(p.z, p.x);
   float omega = uSpin * pow(uDiskIn / rd, 1.5);
   float lr = log(rd) * 1.1 + uSpin * uTime * 0.05;
@@ -183,7 +224,6 @@ void main() {
 
   vec3 pos = uCamPos;
   vec3 vel = dir;
-
   vec3 hv = cross(pos, vel);
   float h2 = dot(hv, hv);
   float h = sqrt(h2);
@@ -192,7 +232,6 @@ void main() {
   vec3 col = vec3(0.0);
   float transmit = 1.0;
   bool captured = false;
-
   float jitter = fract(sin(dot(gl_FragCoord.xy + uSeed, vec2(12.9898, 78.233))) * 43758.5453);
 
   for (int i = 0; i < MAX_STEPS; i++) {
@@ -206,7 +245,6 @@ void main() {
     if (transmit < 0.004) break;
 
     float dt = clamp(0.14 * (r - 1.0), 0.025, 1.1);
-
     if (r < uDiskOut * 1.25) {
       float rn = clamp((r - uDiskIn) / max(0.001, uDiskOut - uDiskIn), 0.0, 1.0);
       float tk = uThick * (0.35 + 1.25 * rn);
@@ -400,20 +438,20 @@ export function BlackHoleHeroSection({
   diskThickness = 0.26,
   diskDensity = 0.85,
   brightness = 0.9,
-  spinSpeed = 0.05,
+  spinSpeed = 0.04,
   grain = 0.48,
-  doppler = 0.35,
+  doppler = 0.25,
   hotColor = "#E0F7FA",
-  midColor = "#00B4D8",
-  coolColor = "#0077B6",
-  starBrightness = 0.05,
-  glow = 0.8,
+  midColor = "#00E5FF",
+  coolColor = "#006064",
+  starBrightness = 0,
+  glow = 0.7,
   exposure = 0.85,
   vignette = 0.35,
-  steps = 220,
+  steps = 180,
   resolution = 0.65,
   maxDpr = 1.5,
-  focus = [0.75, 0.48],
+  focus = [0.72, 0.46],
   scrim = "none",
   scrimStrength = 0.9,
   paused = false,
@@ -484,7 +522,6 @@ export function BlackHoleHeroSection({
       gl!.shaderSource(sh, src);
       gl!.compileShader(sh);
       if (!gl!.getShaderParameter(sh, gl!.COMPILE_STATUS)) {
-        console.error("blackhole: shader failed —", gl!.getShaderInfoLog(sh) || "no log (context lost?)");
         gl!.deleteShader(sh);
         return null;
       }
@@ -504,7 +541,6 @@ export function BlackHoleHeroSection({
       gl!.deleteShader(vs);
       gl!.deleteShader(fs);
       if (!gl!.getProgramParameter(program, gl!.LINK_STATUS)) {
-        console.error(gl!.getProgramInfoLog(program));
         return null;
       }
       const u: Record<string, WebGLUniformLocation | null> = {};
@@ -724,7 +760,7 @@ export function BlackHoleHeroSection({
       gl!.uniform2f(u.uFocus!, C.focus[0], 1 - C.focus[1]);
       gl!.uniform1f(
         u.uSteps!,
-        software ? 130 : Math.max(60, Math.min(460, Math.round(C.steps)))
+        software ? 90 : Math.max(50, Math.min(360, Math.round(C.steps)))
       );
       gl!.uniform1f(u.uSkyR!, Math.max(dist * 1.35, outer * 2.4));
       gl!.uniform1f(u.uDiskIn!, Math.max(1.05, C.diskInner));
@@ -879,7 +915,7 @@ export function BlackHoleHeroSection({
   return (
     <div
       ref={hostRef}
-      className={`relative isolate h-full w-full overflow-hidden bg-black ${className}`}
+      className={`relative isolate h-full w-full overflow-hidden bg-zinc-950 ${className}`}
       {...rest}
     >
       <canvas ref={canvasRef} aria-hidden="true" className="absolute inset-0 h-full w-full" />

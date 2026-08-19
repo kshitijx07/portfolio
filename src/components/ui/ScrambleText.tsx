@@ -1,66 +1,51 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
+
+const CHARS = "ABCDEF0123456789!@#$%^&*<>[]{}/*-+=~";
 
 interface ScrambleTextProps {
   text: string;
+  speed?: number;
   className?: string;
-  delay?: number;
-  trigger?: boolean;
 }
 
-const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_#@/\\<>";
-
-export default function ScrambleText({
-  text,
-  className = "",
-  delay = 100,
-  trigger = true,
-}: ScrambleTextProps) {
+export default function ScrambleText({ text, speed = 35, className = "" }: ScrambleTextProps) {
   const [displayText, setDisplayText] = useState(text);
-  const elementRef = useRef<HTMLSpanElement>(null);
-  const hasAnimated = useRef(false);
 
   useEffect(() => {
-    if (!trigger || hasAnimated.current) return;
+    // Respect prefers-reduced-motion
+    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setDisplayText(text);
+      return;
+    }
 
-    let frame = 0;
-    const totalFrames = text.length * 2.5;
-    let timer: NodeJS.Timeout;
+    let iteration = 0;
+    const maxIterations = text.length;
 
-    const timeout = setTimeout(() => {
-      timer = setInterval(() => {
-        frame++;
-        const progress = frame / totalFrames;
-
-        const scrambled = text
+    const interval = setInterval(() => {
+      setDisplayText(() =>
+        text
           .split("")
           .map((char, index) => {
-            if (char === " " || char === "\n") return char;
-            if (index / text.length < progress) return char;
-            return GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+            if (char === " ") return " ";
+            if (index < iteration) {
+              return text[index];
+            }
+            return CHARS[Math.floor(Math.random() * CHARS.length)];
           })
-          .join("");
+          .join("")
+      );
 
-        setDisplayText(scrambled);
+      if (iteration >= maxIterations) {
+        clearInterval(interval);
+      }
 
-        if (frame >= totalFrames) {
-          clearInterval(timer);
-          setDisplayText(text);
-          hasAnimated.current = true;
-        }
-      }, 35);
-    }, delay);
+      iteration += 1 / 2;
+    }, speed);
 
-    return () => {
-      clearTimeout(timeout);
-      clearInterval(timer);
-    };
-  }, [text, trigger, delay]);
+    return () => clearInterval(interval);
+  }, [text, speed]);
 
-  return (
-    <span ref={elementRef} className={className}>
-      {displayText}
-    </span>
-  );
+  return <span className={className}>{displayText}</span>;
 }
