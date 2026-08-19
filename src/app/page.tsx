@@ -6,24 +6,33 @@ import {
   Server,
   Cloud,
   Cpu,
+  Database,
   ArrowUpRight,
   Mail,
+  Phone,
   Download,
   Code2,
   Menu,
   X,
+  GraduationCap,
+  Briefcase,
+  Layers,
+  Sparkles,
+  ExternalLink,
 } from "lucide-react";
 import { FiGithub, FiLinkedin } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import BlackHoleHeroSection from "@/components/ui/blackhole-hero-section";
 import ImageStreamHero from "@/components/ui/image-stream-hero";
+import ScrambleText from "@/components/ui/ScrambleText";
 
-const HERO_STREAM_IMAGES = [
+const SYSTEM_STREAM_IMAGES = [
   {
     src: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop",
-    alt: "Cloud Infrastructure & Distributed Networks",
+    alt: "Distributed Cloud Mesh & High Throughput Networking",
   },
   {
     src: "https://images.unsplash.com/photo-1607799279861-4dd421887fb3?q=80&w=800&auto=format&fit=crop",
@@ -52,9 +61,9 @@ export default function Home() {
 
   const navLinks = [
     { label: "About", href: "#about" },
+    { label: "Skills", href: "#skills" },
     { label: "Experience", href: "#experience" },
     { label: "Projects", href: "#projects" },
-    { label: "Skills", href: "#skills" },
     { label: "Education", href: "#education" },
     { label: "Contact", href: "#contact" },
   ];
@@ -62,7 +71,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col selection:bg-cyan-500 selection:text-zinc-950">
       {/* ── Navigation ────────────────────────────────────────────── */}
-      <header className="sticky top-0 z-50 w-full border-b border-zinc-800/80 bg-zinc-950/80 backdrop-blur-md">
+      <header className="sticky top-0 z-50 w-full border-b border-zinc-800/80 bg-zinc-950/85 backdrop-blur-md">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
           <a
             href="#home"
@@ -73,13 +82,13 @@ export default function Home() {
             <span className="text-zinc-500 hidden sm:inline">/ DevOps & Cloud</span>
           </a>
 
-          {/* Desktop Nav */}
+          {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-zinc-400">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className="hover:text-zinc-100 transition-colors"
+                className="hover:text-zinc-100 transition-colors focus-visible:text-cyan-400 focus-visible:outline-none"
               >
                 {link.label}
               </a>
@@ -87,17 +96,17 @@ export default function Home() {
             <a
               href="/Kshitij_Kumbhar_Resume.pdf"
               download="Kshitij_Kumbhar_Resume.pdf"
-              className="text-xs font-mono px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 text-cyan-400 hover:bg-zinc-800 hover:border-cyan-500/50 transition-all flex items-center gap-1.5"
+              className="text-xs font-mono px-3 py-1.5 rounded-md bg-zinc-900 border border-zinc-800 text-cyan-400 hover:bg-zinc-800 hover:border-cyan-500/50 transition-all flex items-center gap-1.5 focus-visible:ring-1 focus-visible:ring-cyan-400"
             >
-              <span>CV</span>
+              <span>Resume PDF</span>
               <Download size={12} />
             </a>
           </nav>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Toggle */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-1.5 text-zinc-400 hover:text-zinc-100"
+            className="md:hidden p-2 text-zinc-400 hover:text-zinc-100 min-h-[44px] min-w-[44px] flex items-center justify-center"
             aria-label="Toggle navigation menu"
           >
             {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -112,7 +121,7 @@ export default function Home() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="block text-sm font-medium text-zinc-300 hover:text-cyan-400"
+                className="block text-base font-medium text-zinc-300 hover:text-cyan-400 py-1"
               >
                 {link.label}
               </a>
@@ -120,10 +129,10 @@ export default function Home() {
             <a
               href="/Kshitij_Kumbhar_Resume.pdf"
               download="Kshitij_Kumbhar_Resume.pdf"
-              className="inline-flex items-center gap-1.5 text-xs font-mono px-3 py-1.5 rounded bg-zinc-900 border border-zinc-800 text-cyan-400"
+              className="inline-flex items-center gap-2 text-sm font-mono px-4 py-2.5 rounded-md bg-zinc-900 border border-zinc-800 text-cyan-400 w-full justify-center mt-2"
             >
               <span>Download Resume PDF</span>
-              <Download size={12} />
+              <Download size={14} />
             </a>
           </div>
         )}
@@ -132,50 +141,129 @@ export default function Home() {
       {/* ── Main Content Flow ────────────────────────────────────── */}
       <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 space-y-20 sm:space-y-28 py-10 sm:py-16">
         {/* ── 1. Hero Section (#home) ──────────────────────────────── */}
-        <section id="home" className="pt-4 sm:pt-8 scroll-mt-20">
-          <ImageStreamHero
-            images={HERO_STREAM_IMAGES}
-            cards={8}
-            speed={22}
-            axis={52}
-            className="h-[460px] sm:h-[520px] w-full rounded-xl border border-zinc-800/90 bg-zinc-950 relative shadow-2xl"
-          >
-            {/* Scrim overlay for crisp text contrast */}
-            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/75 to-zinc-950/40 z-0 pointer-events-none" />
+        <section id="home" className="scroll-mt-20 relative rounded-2xl overflow-hidden border border-zinc-800/90 bg-zinc-950 shadow-2xl">
+          {/* Calibrated Cool Spacetime Gravitational Lensing Backdrop */}
+          <div className="absolute inset-0 opacity-40 pointer-events-none z-0">
+            <BlackHoleHeroSection
+              distance={26}
+              elevation={-6}
+              spinSpeed={0.04}
+              doppler={0.3}
+              glow={0.8}
+              steps={180}
+              resolution={0.65}
+              hotColor="#E0F7FA"
+              midColor="#00B4D8"
+              coolColor="#0077B6"
+              focus={[0.8, 0.48]}
+              scrim="left"
+              scrimStrength={0.9}
+            />
+          </div>
 
-            <div className="relative z-10 flex h-full flex-col items-center justify-center text-center px-4 sm:px-8 space-y-6 max-w-3xl mx-auto">
-              <div className="space-y-3">
-                <Badge variant="cyan" className="text-[11px] uppercase tracking-wider py-1 px-3">
-                  DevOps Engineer & Cloud Infrastructure Developer
+          <div className="relative z-10 p-6 sm:p-12 md:p-16 flex flex-col justify-center space-y-8 max-w-3xl">
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-cyan-400" />
+                <Badge variant="cyan" className="text-xs uppercase tracking-wider py-1 px-3">
+                  DevOps & Cloud Infrastructure Engineer
                 </Badge>
-                <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-zinc-100 leading-[1.08]">
-                  Kshitij Kumbhar
-                </h1>
-                <p className="text-sm sm:text-base md:text-lg text-zinc-300 max-w-2xl leading-relaxed">
-                  Building automated, containerized, cloud-native systems — from CI/CD pipelines to Kubernetes-orchestrated microservices on AWS.
-                </p>
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-                <Button asChild size="default">
-                  <a href="#projects">View Projects</a>
-                </Button>
-                <Button asChild variant="outline" size="default">
-                  <a href="/Kshitij_Kumbhar_Resume.pdf" download="Kshitij_Kumbhar_Resume.pdf">
-                    <Download className="mr-2 h-4 w-4" />
-                    Resume
-                  </a>
-                </Button>
-                <Button asChild variant="secondary" size="default">
-                  <a href="#contact">Contact</a>
-                </Button>
+              <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-zinc-100 leading-[1.08]">
+                Kshitij Kumbhar
+              </h1>
+
+              <div className="font-mono text-sm sm:text-base text-cyan-400 font-semibold tracking-wide">
+                <ScrambleText text="Building Scalable Cloud Infrastructure & Automated Pipelines" />
               </div>
+
+              <p className="text-base sm:text-lg text-zinc-300 leading-relaxed max-w-2xl">
+                Computer Engineering student who has shipped fully automated Jenkins/Docker/Kubernetes deployment pipelines on AWS across production-style projects, with a strong DSA/OOP/SQL foundation and active competitive programming on LeetCode and Codeforces.
+              </p>
+            </div>
+
+            {/* Primary Action Buttons */}
+            <div className="flex flex-wrap items-center gap-3 pt-2">
+              <Button asChild size="lg" className="min-h-[44px] min-w-[120px]">
+                <a href="#projects">View Projects</a>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="min-h-[44px] min-w-[120px]">
+                <a href="#contact">Contact Me</a>
+              </Button>
+              <Button asChild variant="secondary" size="lg" className="min-h-[44px] min-w-[120px]">
+                <a href="/Kshitij_Kumbhar_Resume.pdf" download="Kshitij_Kumbhar_Resume.pdf">
+                  <Download className="mr-2 h-4 w-4 text-cyan-400" />
+                  Resume PDF
+                </a>
+              </Button>
+            </div>
+
+            {/* Quick Coordinate Badges */}
+            <div className="pt-4 border-t border-zinc-800/80 flex flex-wrap items-center gap-4 text-xs font-mono text-zinc-400">
+              <a
+                href="mailto:kshitijkumbhar007@gmail.com"
+                className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 py-1"
+              >
+                <Mail size={14} className="text-cyan-400" />
+                <span>kshitijkumbhar007@gmail.com</span>
+              </a>
+              <a
+                href="tel:+917058157357"
+                className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 py-1"
+              >
+                <Phone size={14} className="text-cyan-400" />
+                <span>+91-7058157357</span>
+              </a>
+              <a
+                href="https://github.com/kshitijx07"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 py-1"
+              >
+                <FiGithub size={14} className="text-cyan-400" />
+                <span>GitHub</span>
+              </a>
+              <a
+                href="https://linkedin.com/in/kshitij-kumbhar"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 py-1"
+              >
+                <FiLinkedin size={14} className="text-cyan-400" />
+                <span>LinkedIn</span>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* ── 2. System Artifacts Corridor (Secondary Signature Element) ── */}
+        <section className="space-y-4">
+          <div className="flex items-center justify-between text-xs font-mono text-zinc-400">
+            <span className="flex items-center gap-2 text-cyan-400 uppercase tracking-wider font-semibold">
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+              <span>System Artifacts & Architecture Stream</span>
+            </span>
+            <span className="text-zinc-600 hidden sm:inline">LIVE PERSPECTIVE CORRIDOR</span>
+          </div>
+
+          <ImageStreamHero
+            images={SYSTEM_STREAM_IMAGES}
+            cards={8}
+            speed={24}
+            axis={52}
+            className="h-[280px] sm:h-[340px] w-full rounded-xl border border-zinc-800/80 bg-zinc-950 relative"
+          >
+            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/40 to-transparent pointer-events-none" />
+            <div className="relative z-10 flex h-full flex-col items-center justify-end p-6 text-center pointer-events-none">
+              <p className="font-mono text-xs text-zinc-400 bg-zinc-950/80 px-3 py-1.5 rounded-md border border-zinc-800 backdrop-blur-sm">
+                Containerized workloads, Kubernetes microservices, and AI vector search topologies.
+              </p>
             </div>
           </ImageStreamHero>
         </section>
 
-        {/* ── 2. About Section (#about) ────────────────────────────── */}
+        {/* ── 3. About Section (#about) ────────────────────────────── */}
         <section id="about" className="scroll-mt-20 space-y-6">
           <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs uppercase tracking-wider font-semibold">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
@@ -197,11 +285,133 @@ export default function Home() {
 
         <Separator />
 
-        {/* ── 3. Experience Section (#experience) ──────────────────── */}
+        {/* ── 4. Skills Section (#skills) ──────────────────────────── */}
+        <section id="skills" className="scroll-mt-20 space-y-8">
+          <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs uppercase tracking-wider font-semibold">
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+            <span>02 // Skills & Competencies</span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Cloud & DevOps */}
+            <Card className="border-zinc-800 bg-zinc-900/40 hover:border-zinc-700 transition-colors">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm font-mono text-cyan-400 flex items-center gap-2">
+                  <Cloud size={16} />
+                  <span>DevOps & Cloud</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="flex flex-wrap gap-2">
+                {[
+                  "AWS (EKS, ECR, CloudFront, VPC, ALB, IAM, EC2, S3, Auto Scaling)",
+                  "Terraform",
+                  "Docker",
+                  "Kubernetes",
+                  "Jenkins",
+                  "GitHub Actions",
+                  "CI/CD",
+                ].map((s) => (
+                  <Badge key={s} variant="outline" className="text-xs">
+                    {s}
+                  </Badge>
+                ))}
+              </CardContent>
+            </Card>
+
+            {/* Databases & Vector Stores */}
+            <Card className="border-zinc-800 bg-zinc-900/40 hover:border-zinc-700 transition-colors">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm font-mono text-cyan-400 flex items-center gap-2">
+                  <Database size={16} />
+                  <span>Databases & Vector Stores</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="flex flex-wrap gap-2">
+                {["Pinecone", "MongoDB", "MySQL"].map((s) => (
+                  <Badge key={s} variant="outline" className="text-xs">
+                    {s}
+                  </Badge>
+                ))}
+              </CardContent>
+            </Card>
+
+            {/* Backend */}
+            <Card className="border-zinc-800 bg-zinc-900/40 hover:border-zinc-700 transition-colors">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm font-mono text-cyan-400 flex items-center gap-2">
+                  <Server size={16} />
+                  <span>Backend</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="flex flex-wrap gap-2">
+                {["Node.js", "Express.js", "Spring Boot", "REST APIs"].map((s) => (
+                  <Badge key={s} variant="outline" className="text-xs">
+                    {s}
+                  </Badge>
+                ))}
+              </CardContent>
+            </Card>
+
+            {/* AI & Multi-Agent Systems */}
+            <Card className="border-zinc-800 bg-zinc-900/40 hover:border-zinc-700 transition-colors">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm font-mono text-cyan-400 flex items-center gap-2">
+                  <Cpu size={16} />
+                  <span>AI & Multi-Agent Systems</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="flex flex-wrap gap-2">
+                {["LangGraph", "RAG", "Model Context Protocol (MCP)"].map((s) => (
+                  <Badge key={s} variant="outline" className="text-xs">
+                    {s}
+                  </Badge>
+                ))}
+              </CardContent>
+            </Card>
+
+            {/* Frontend */}
+            <Card className="border-zinc-800 bg-zinc-900/40 hover:border-zinc-700 transition-colors">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm font-mono text-cyan-400 flex items-center gap-2">
+                  <Layers size={16} />
+                  <span>Frontend</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="flex flex-wrap gap-2">
+                {["React.js", "Vite", "Tailwind CSS", "HTML/CSS/JS"].map((s) => (
+                  <Badge key={s} variant="outline" className="text-xs">
+                    {s}
+                  </Badge>
+                ))}
+              </CardContent>
+            </Card>
+
+            {/* Core CS */}
+            <Card className="border-zinc-800 bg-zinc-900/40 hover:border-zinc-700 transition-colors">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm font-mono text-cyan-400 flex items-center gap-2">
+                  <Terminal size={16} />
+                  <span>Core CS</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="flex flex-wrap gap-2">
+                {["DSA", "OOP", "DBMS", "OS", "Linux"].map((s) => (
+                  <Badge key={s} variant="outline" className="text-xs">
+                    {s}
+                  </Badge>
+                ))}
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        <Separator />
+
+        {/* ── 5. Experience Section (#experience) ──────────────────── */}
         <section id="experience" className="scroll-mt-20 space-y-8">
           <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs uppercase tracking-wider font-semibold">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-            <span>02 // Experience</span>
+            <span>03 // Experience</span>
           </div>
 
           <div className="space-y-6">
@@ -210,10 +420,11 @@ export default function Home() {
               <CardHeader className="pb-3">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                   <div>
-                    <CardTitle className="text-lg font-bold text-zinc-100">
-                      DevOps Intern
+                    <CardTitle className="text-lg font-bold text-zinc-100 flex items-center gap-2">
+                      <Briefcase size={16} className="text-cyan-400" />
+                      <span>DevOps Intern</span>
                     </CardTitle>
-                    <p className="text-sm font-medium text-cyan-400">
+                    <p className="text-sm font-medium text-cyan-400 mt-0.5">
                       Colgate-Palmolive · Mumbai, Maharashtra, India (Hybrid)
                     </p>
                   </div>
@@ -243,10 +454,11 @@ export default function Home() {
               <CardHeader className="pb-3">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                   <div>
-                    <CardTitle className="text-lg font-bold text-zinc-100">
-                      Full Stack Developer Intern
+                    <CardTitle className="text-lg font-bold text-zinc-100 flex items-center gap-2">
+                      <Briefcase size={16} className="text-cyan-400" />
+                      <span>Full Stack Developer Intern</span>
                     </CardTitle>
-                    <p className="text-sm font-medium text-cyan-400">
+                    <p className="text-sm font-medium text-cyan-400 mt-0.5">
                       Campus Credential · Remote
                     </p>
                   </div>
@@ -275,11 +487,11 @@ export default function Home() {
 
         <Separator />
 
-        {/* ── 4. Projects Section (#projects) ──────────────────────── */}
+        {/* ── 6. Projects Section (#projects) ──────────────────────── */}
         <section id="projects" className="scroll-mt-20 space-y-8">
           <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs uppercase tracking-wider font-semibold">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-            <span>03 // Featured Projects</span>
+            <span>04 // Featured Projects</span>
           </div>
 
           <div className="space-y-6">
@@ -297,13 +509,13 @@ export default function Home() {
                     </CardDescription>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Button asChild variant="outline" size="sm" className="h-8 text-xs gap-1.5">
+                    <Button asChild variant="outline" size="sm" className="h-8 text-xs gap-1.5 min-h-[36px]">
                       <a href="https://github.com/kshitijx07/Hostelhub" target="_blank" rel="noopener noreferrer">
                         <FiGithub size={13} />
                         <span>Code</span>
                       </a>
                     </Button>
-                    <Button asChild variant="default" size="sm" className="h-8 text-xs gap-1.5">
+                    <Button asChild variant="default" size="sm" className="h-8 text-xs gap-1.5 min-h-[36px]">
                       <a href="https://hostelhub-ruby.vercel.app" target="_blank" rel="noopener noreferrer">
                         <span>Live Demo</span>
                         <ArrowUpRight size={13} />
@@ -358,7 +570,7 @@ export default function Home() {
                       Event-driven serverless medical imaging inference pipeline on AWS.
                     </CardDescription>
                   </div>
-                  <Button asChild variant="outline" size="sm" className="h-8 text-xs gap-1.5">
+                  <Button asChild variant="outline" size="sm" className="h-8 text-xs gap-1.5 min-h-[36px]">
                     <a href="https://github.com/kshitijx07/serverless-ai-xray" target="_blank" rel="noopener noreferrer">
                       <FiGithub size={13} />
                       <span>Code</span>
@@ -408,7 +620,7 @@ export default function Home() {
                       Distributed Multi-Agent RAG Swarm & Model Context Protocol (MCP) Server on AWS EKS.
                     </CardDescription>
                   </div>
-                  <Button asChild variant="outline" size="sm" className="h-8 text-xs gap-1.5">
+                  <Button asChild variant="outline" size="sm" className="h-8 text-xs gap-1.5 min-h-[36px]">
                     <a href="https://github.com/kshitijx07" target="_blank" rel="noopener noreferrer">
                       <FiGithub size={13} />
                       <span>Code</span>
@@ -453,87 +665,7 @@ export default function Home() {
 
         <Separator />
 
-        {/* ── 5. Skills Section (#skills) ──────────────────────────── */}
-        <section id="skills" className="scroll-mt-20 space-y-8">
-          <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs uppercase tracking-wider font-semibold">
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-            <span>04 // Skills & Competencies</span>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Cloud & DevOps */}
-            <Card className="border-zinc-800 bg-zinc-900/30">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-sm font-mono text-cyan-400 flex items-center gap-2">
-                  <Cloud size={16} />
-                  <span>Cloud & DevOps</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="flex flex-wrap gap-1.5">
-                {["AWS (EKS, ECR, CloudFront, VPC, ALB, IAM, EC2, S3, Auto Scaling)", "Terraform (IaC)", "Docker", "Kubernetes", "Jenkins", "GitHub Actions", "CI/CD Pipelines"].map((s) => (
-                  <Badge key={s} variant="outline" className="text-xs">
-                    {s}
-                  </Badge>
-                ))}
-              </CardContent>
-            </Card>
-
-            {/* Backend & Databases */}
-            <Card className="border-zinc-800 bg-zinc-900/30">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-sm font-mono text-cyan-400 flex items-center gap-2">
-                  <Server size={16} />
-                  <span>Backend & Databases</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="flex flex-wrap gap-1.5">
-                {["Node.js", "Express.js", "Spring Boot", "REST APIs", "Pinecone (Vector Store)", "MongoDB Atlas", "MySQL"].map((s) => (
-                  <Badge key={s} variant="outline" className="text-xs">
-                    {s}
-                  </Badge>
-                ))}
-              </CardContent>
-            </Card>
-
-            {/* AI & Multi-Agent */}
-            <Card className="border-zinc-800 bg-zinc-900/30">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-sm font-mono text-cyan-400 flex items-center gap-2">
-                  <Cpu size={16} />
-                  <span>AI & Multi-Agent Systems</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="flex flex-wrap gap-1.5">
-                {["LangGraph", "RAG (Retrieval-Augmented Generation)", "Model Context Protocol (MCP)", "LangChain", "Vector Embeddings"].map((s) => (
-                  <Badge key={s} variant="outline" className="text-xs">
-                    {s}
-                  </Badge>
-                ))}
-              </CardContent>
-            </Card>
-
-            {/* CS Fundamentals & Tools */}
-            <Card className="border-zinc-800 bg-zinc-900/30">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-sm font-mono text-cyan-400 flex items-center gap-2">
-                  <Terminal size={16} />
-                  <span>CS Fundamentals & Tools</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="flex flex-wrap gap-1.5">
-                {["Data Structures & Algorithms (DSA)", "Object-Oriented Programming (OOP)", "DBMS", "Operating Systems", "Linux CLI", "Git", "GitHub", "DockerHub", "Postman"].map((s) => (
-                  <Badge key={s} variant="outline" className="text-xs">
-                    {s}
-                  </Badge>
-                ))}
-              </CardContent>
-            </Card>
-          </div>
-        </section>
-
-        <Separator />
-
-        {/* ── 6. Education Section (#education) ────────────────────── */}
+        {/* ── 7. Education Section (#education) ────────────────────── */}
         <section id="education" className="scroll-mt-20 space-y-6">
           <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs uppercase tracking-wider font-semibold">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
@@ -547,8 +679,9 @@ export default function Home() {
                 <Badge variant="cyan" className="w-fit text-[10px] mb-1">
                   CGPA: 8.48 / 10
                 </Badge>
-                <CardTitle className="text-sm font-bold text-zinc-100">
-                  B.Tech in Computer Engineering
+                <CardTitle className="text-sm font-bold text-zinc-100 flex items-center gap-1.5">
+                  <GraduationCap size={15} className="text-cyan-400" />
+                  <span>B.Tech Computer Engineering</span>
                 </CardTitle>
                 <CardDescription className="text-xs text-zinc-400">
                   MIT Academy of Engineering, Pune
@@ -599,7 +732,7 @@ export default function Home() {
 
         <Separator />
 
-        {/* ── 7. Contact / Footer (#contact) ──────────────────────── */}
+        {/* ── 8. Contact / Footer (#contact) ──────────────────────── */}
         <section id="contact" className="scroll-mt-20 space-y-8 pb-12">
           <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs uppercase tracking-wider font-semibold">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
@@ -609,21 +742,27 @@ export default function Home() {
           <div className="border border-zinc-800 bg-zinc-900/40 rounded-xl p-8 sm:p-10 space-y-6">
             <div className="max-w-2xl space-y-3">
               <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-zinc-100">
-                Let's discuss infrastructure, automation, or engineering roles.
+                Let's build reliable cloud infrastructure.
               </h2>
               <p className="text-sm sm:text-base text-zinc-400 leading-relaxed">
-                I am actively seeking DevOps and Cloud Engineering opportunities. Feel free to reach out directly via email or connect on LinkedIn and GitHub.
+                I am actively seeking DevOps and Cloud Engineering opportunities. Reach out directly via email, phone, or connect on LinkedIn and GitHub.
               </p>
             </div>
 
             <div className="flex flex-wrap items-center gap-3 pt-2">
-              <Button asChild size="lg">
+              <Button asChild size="lg" className="min-h-[44px]">
                 <a href="mailto:kshitijkumbhar007@gmail.com">
                   <Mail className="mr-2 h-4 w-4" />
                   kshitijkumbhar007@gmail.com
                 </a>
               </Button>
-              <Button asChild variant="outline" size="lg">
+              <Button asChild variant="outline" size="lg" className="min-h-[44px]">
+                <a href="tel:+917058157357">
+                  <Phone className="mr-2 h-4 w-4 text-cyan-400" />
+                  +91-7058157357
+                </a>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="min-h-[44px]">
                 <a
                   href="https://linkedin.com/in/kshitij-kumbhar"
                   target="_blank"
@@ -633,7 +772,7 @@ export default function Home() {
                   LinkedIn
                 </a>
               </Button>
-              <Button asChild variant="outline" size="lg">
+              <Button asChild variant="outline" size="lg" className="min-h-[44px]">
                 <a
                   href="https://github.com/kshitijx07"
                   target="_blank"
@@ -651,7 +790,7 @@ export default function Home() {
                 href="https://leetcode.com/u/kshitij72/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-cyan-400 transition-colors flex items-center gap-1.5"
+                className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 py-1"
               >
                 <Code2 size={14} className="text-cyan-400" />
                 <span>LeetCode: @kshitij72</span>
@@ -660,7 +799,7 @@ export default function Home() {
                 href="https://codeforces.com/profile/kshitijx07"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-cyan-400 transition-colors flex items-center gap-1.5"
+                className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 py-1"
               >
                 <Terminal size={14} className="text-cyan-400" />
                 <span>Codeforces: @kshitijx07</span>
@@ -670,11 +809,11 @@ export default function Home() {
         </section>
       </main>
 
-      {/* ── Minimal Footer ────────────────────────────────────────── */}
+      {/* ── Footer ────────────────────────────────────────────────── */}
       <footer className="border-t border-zinc-800/80 py-6 text-center text-xs font-mono text-zinc-500">
         <div className="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
           <span>© {new Date().getFullYear()} Kshitij Kumbhar</span>
-          <span>Built with Next.js, Tailwind CSS & shadcn/ui</span>
+          <span>DevOps & Cloud Infrastructure Portfolio</span>
         </div>
       </footer>
     </div>
