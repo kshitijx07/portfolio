@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
+import ScrollShell from "@/components/layout/ScrollShell";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -32,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable} dark`}>
       <body className="bg-zinc-950 text-zinc-100 min-h-screen antialiased bg-grid-pattern selection:bg-cyan-500 selection:text-zinc-950">
-        {children}
+        <ScrollShell>{children}</ScrollShell>
         <Analytics />
       </body>
     </html>
