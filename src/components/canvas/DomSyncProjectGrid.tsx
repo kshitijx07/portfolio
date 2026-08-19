@@ -1,13 +1,13 @@
 "use client";
 
-import { useRef, useMemo } from "react";
+import React, { useRef, useMemo } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { getScrollSnapshot } from "@/lib/bus";
 
 const DomSyncShader = {
   uniforms: {
-    uResolution: { value: new THREE.Vector2() },
+    uResolution: { value: new THREE.Vector2(1920, 1080) },
     uCurlStrength: { value: 0.0 },
     uTime: { value: 0.0 },
     uDotPixelSize: { value: 8.0 },
@@ -29,32 +29,26 @@ const DomSyncShader = {
 
     // Semicircular Shader Deformation
     vec2 applyCurl(vec2 screenUv) {
-      // Center Y coordinate: top/bottom are -1.0 and +1.0, center is 0.0
       float centeredY = 2.0 * screenUv.y - 1.0;
-      
-      // Semicircular curvature factor: 0.0 at center, 1.0 at top/bottom edges
       float profile = 1.0 - sqrt(max(0.0, 1.0 - centeredY * centeredY));
-
-      // Compress X coordinates inward based on velocity strength
       float uvScale = 1.0 - profile * uCurlStrength;
       float distortedX = (screenUv.x - 0.5) * uvScale + 0.5;
-
       return vec2(distortedX, screenUv.y);
     }
 
     void main() {
-      vec2 screenUv = gl_FragCoord.xy / uResolution;
+      vec2 screenUv = gl_FragCoord.xy / max(uResolution, vec2(1.0));
       vec2 distortedUv = applyCurl(screenUv);
 
-      // Subtle dynamic grid distortion trail on velocity
+      // Kinetic grid distortion trail on velocity
       vec2 cellSizeUv = vec2(max(2.0, uDotPixelSize)) / uResolution;
       vec2 cellUv = fract(distortedUv / cellSizeUv);
       float squareDist = max(abs(cellUv.x - 0.5), abs(cellUv.y - 0.5));
       float dotMask = 1.0 - smoothstep(0.18, 0.22, squareDist);
 
-      vec3 traceColor = vec3(0.705, 0.952, 0.258) * dotMask * (uCurlStrength * 4.0);
+      vec3 traceColor = vec3(0.705, 0.952, 0.258) * dotMask * (uCurlStrength * 4.5);
 
-      gl_FragColor = vec4(traceColor, uCurlStrength * 1.5);
+      gl_FragColor = vec4(traceColor, uCurlStrength * 1.6);
     }
   `,
 };
@@ -74,7 +68,6 @@ export default function DomSyncProjectGrid() {
     const scrollY = getScrollSnapshot().scrollTop;
     const dt = THREE.MathUtils.clamp(delta, 1 / 240, 0.1);
 
-    // Calculate scroll velocity
     const velocity =
       previousScrollY.current == null
         ? 0
@@ -87,7 +80,6 @@ export default function DomSyncProjectGrid() {
     const alpha = 1.0 - Math.exp(-dt / tau);
     activity.current += (target - activity.current) * alpha;
 
-    // Semicircular Curl Strength
     uniforms.uCurlStrength.value = 0.06 * activity.current;
     uniforms.uTime.value = state.clock.getElapsedTime();
     uniforms.uResolution.value.set(size.width, size.height);

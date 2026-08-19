@@ -3,10 +3,11 @@ import * as THREE from "three";
 export const Star6FlareShader = {
   uniforms: {
     tDiffuse: { value: null as THREE.Texture | null },
-    uResolution: { value: new THREE.Vector2() },
+    uResolution: { value: new THREE.Vector2(1920, 1080) },
     uThreshold: { value: 0.78 },
     uStreakScale: { value: 2.2 },
     uGlowIntensity: { value: 1.4 },
+    uAberration: { value: 1.05 },
   },
   vertexShader: `
     varying vec2 vUv;
@@ -21,9 +22,11 @@ export const Star6FlareShader = {
     uniform float uThreshold;
     uniform float uStreakScale;
     uniform float uGlowIntensity;
+    uniform float uAberration;
 
     varying vec2 vUv;
 
+    // Rec. 709 Luminance
     float luma(vec3 color) {
       return dot(color, vec3(0.2126, 0.7152, 0.0722));
     }
@@ -35,7 +38,7 @@ export const Star6FlareShader = {
     }
 
     vec3 sampleBright(vec2 uv) {
-      vec3 col = texture2D(tDiffuse, uv).rgb;
+      vec3 col = texture2D(tDiffuse, clamp(uv, 0.0, 1.0)).rgb;
       return col * brightMask(luma(col));
     }
 
@@ -43,11 +46,13 @@ export const Star6FlareShader = {
       vec3 result = vec3(0.0);
       for (int i = 1; i <= 8; i++) {
         float distPx = float(i) * 1.6;
-        float weight = 1.0 / (1.0 + distPx * 0.22);
+        float weight = 1.0 / (1.0 + distPx * 0.20);
         weight *= weight;
         vec2 offset = direction * distPx;
-        result += sampleBright(vUv + offset) * weight;
-        result += sampleBright(vUv - offset) * weight;
+
+        vec3 colA = sampleBright(vUv + offset * uAberration);
+        vec3 colB = sampleBright(vUv - offset * uAberration);
+        result += (colA + colB) * weight;
       }
       return result;
     }
@@ -55,16 +60,18 @@ export const Star6FlareShader = {
     void main() {
       vec3 base = texture2D(tDiffuse, vUv).rgb;
       float brightness = brightMask(luma(base));
-      vec3 flare = base * brightness * uGlowIntensity;
+      vec3 coreFlare = base * brightness * uGlowIntensity;
 
-      vec2 px = (1.0 / uResolution) * uStreakScale;
+      vec2 px = (1.0 / max(uResolution, vec2(1.0))) * uStreakScale;
 
-      // 3 Axes produce 6 distinct starburst rays
-      flare += streak(vec2(0.0, px.y));
-      flare += streak(vec2(px.x * 0.8660254, px.y * 0.5));
-      flare += streak(vec2(px.x * 0.8660254, -px.y * 0.5));
+      // 3 Axes produce 6 distinct optical starburst rays
+      vec3 rays = vec3(0.0);
+      rays += streak(vec2(0.0, px.y));
+      rays += streak(vec2(px.x * 0.8660254, px.y * 0.5));
+      rays += streak(vec2(px.x * 0.8660254, -px.y * 0.5));
 
-      gl_FragColor = vec4(base + flare * 0.85, 1.0);
+      vec3 totalFlare = (coreFlare + rays) * 0.85;
+      gl_FragColor = vec4(base + totalFlare, 1.0);
     }
   `,
 };

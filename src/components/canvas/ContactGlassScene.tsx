@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useMemo } from "react";
+import React, { useRef, useMemo } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useFBO } from "@react-three/drei";
 import * as THREE from "three";
@@ -13,38 +13,38 @@ function FloatingStickers() {
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
     if (!groupRef.current) return;
-    
-    // Smooth harmonic floating motion
+
     groupRef.current.children.forEach((child, index) => {
-      child.position.y += Math.sin(t * 1.5 + index * 1.2) * 0.003;
-      child.rotation.z += Math.cos(t * 1.2 + index) * 0.002;
+      child.position.y += Math.sin(t * 1.6 + index * 1.3) * 0.003;
+      child.position.x += Math.cos(t * 1.2 + index * 0.9) * 0.002;
+      child.rotation.z += Math.cos(t * 1.1 + index) * 0.002;
     });
   });
 
   return (
     <group ref={groupRef}>
       {/* 1. Yellow Star Sticker */}
-      <mesh position={[-0.5, -2.1, -0.8]} scale={0.75}>
+      <mesh position={[-2.4, 1.6, -0.8]} scale={0.75}>
         <planeGeometry args={[1, 1]} />
-        <meshBasicMaterial color="#FFDF00" transparent opacity={0.9} />
+        <meshBasicMaterial color="#FFDF00" transparent opacity={0.85} />
       </mesh>
 
-      {/* 2. Happy Smiley Face Sticker */}
-      <mesh position={[1.2, -2.3, -0.9]} scale={0.8}>
+      {/* 2. Neon Smiley Face Sticker */}
+      <mesh position={[2.5, -1.8, -0.9]} scale={0.8}>
         <circleGeometry args={[0.5, 32]} />
-        <meshBasicMaterial color="#FFA500" transparent opacity={0.9} />
+        <meshBasicMaterial color="#FFA500" transparent opacity={0.85} />
       </mesh>
 
-      {/* 3. Neon Green Tag (Right) */}
-      <mesh position={[2.6, 0.2, -0.7]} rotation={[0, 0, 0.15]} scale={0.7}>
+      {/* 3. Neon Green Tag */}
+      <mesh position={[2.8, 1.2, -0.7]} rotation={[0, 0, 0.15]} scale={0.7}>
         <planeGeometry args={[1.4, 0.7]} />
-        <meshBasicMaterial color="#B4F342" transparent opacity={0.85} />
+        <meshBasicMaterial color="#B4F342" transparent opacity={0.8} />
       </mesh>
 
       {/* 4. Retro Pixel Cursor Icon */}
-      <mesh position={[1.9, 0.8, -0.6]} rotation={[0, 0, -0.2]} scale={0.6}>
+      <mesh position={[-2.6, -1.4, -0.6]} rotation={[0, 0, -0.2]} scale={0.6}>
         <planeGeometry args={[0.8, 0.8]} />
-        <meshBasicMaterial color="#4DEEEA" transparent opacity={0.85} />
+        <meshBasicMaterial color="#4DEEEA" transparent opacity={0.8} />
       </mesh>
     </group>
   );
@@ -60,22 +60,22 @@ function StackedGlassText() {
   // Top Loop geometry: "CRAFT"
   const topCurve = useMemo(() => {
     return new THREE.CatmullRomCurve3([
-      new THREE.Vector3(-2.8, 1.8, 0.0),
-      new THREE.Vector3(-1.4, 2.4, 0.3),
+      new THREE.Vector3(-3.0, 1.8, 0.0),
+      new THREE.Vector3(-1.5, 2.5, 0.3),
       new THREE.Vector3(0.0, 1.2, -0.2),
-      new THREE.Vector3(1.5, 2.5, 0.2),
-      new THREE.Vector3(2.8, 1.6, 0.0),
+      new THREE.Vector3(1.5, 2.6, 0.2),
+      new THREE.Vector3(3.0, 1.6, 0.0),
     ]);
   }, []);
 
   // Bottom Loop geometry: "TASTE"
   const botCurve = useMemo(() => {
     return new THREE.CatmullRomCurve3([
-      new THREE.Vector3(-2.6, -0.4, 0.0),
-      new THREE.Vector3(-1.2, -1.6, 0.3),
-      new THREE.Vector3(0.2, 0.2, -0.2),
-      new THREE.Vector3(1.6, -1.8, 0.2),
-      new THREE.Vector3(2.7, -0.6, 0.0),
+      new THREE.Vector3(-2.8, -0.4, 0.0),
+      new THREE.Vector3(-1.4, -1.8, 0.3),
+      new THREE.Vector3(0.2, 0.1, -0.2),
+      new THREE.Vector3(1.6, -1.9, 0.2),
+      new THREE.Vector3(2.9, -0.6, 0.0),
     ]);
   }, []);
 
@@ -105,7 +105,7 @@ function StackedGlassText() {
       Math.sin(targetAngle - currentAngle.current),
       Math.cos(targetAngle - currentAngle.current)
     );
-    currentAngle.current += shortest * (1 - Math.exp(-6 * delta));
+    currentAngle.current += shortest * (1.0 - Math.exp(-6.0 * delta));
 
     const radius = Math.min(size.width, size.height) * 0.44;
     const lightX = size.width * 0.5 + radius * Math.cos(currentAngle.current);
@@ -119,11 +119,11 @@ function StackedGlassText() {
   return (
     <>
       <mesh ref={topMeshRef}>
-        <tubeGeometry args={[topCurve, 120, 0.32, 24, false]} />
+        <tubeGeometry args={[topCurve, 140, 0.32, 24, false]} />
         <shaderMaterial args={[GlassMaterialShader]} uniforms={uniforms} />
       </mesh>
       <mesh ref={botMeshRef}>
-        <tubeGeometry args={[botCurve, 120, 0.32, 24, false]} />
+        <tubeGeometry args={[botCurve, 140, 0.32, 24, false]} />
         <shaderMaterial args={[GlassMaterialShader]} uniforms={uniforms} />
       </mesh>
     </>
@@ -134,7 +134,11 @@ export default function ContactGlassScene() {
   return (
     <div className="absolute inset-0 pointer-events-none z-0">
       <Canvas
-        gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+        gl={{
+          antialias: true,
+          alpha: true,
+          powerPreference: "high-performance",
+        }}
         camera={{ position: [0, 0, 5.0], fov: 42 }}
       >
         <ambientLight intensity={0.65} />
