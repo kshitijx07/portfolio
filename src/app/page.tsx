@@ -113,7 +113,7 @@ export default function PortfolioPage() {
       {/* ═══════════════════════════════════════════════════════════
           SECTION 2: ABOUT / BIO & RESUME SUMMARY
       ═══════════════════════════════════════════════════════════ */}
-      <section id="about" className="relative z-10 flex min-h-screen w-full items-center bg-[#050505]/90 backdrop-blur-md px-8 py-24 md:px-14 border-t border-white/10">
+      <section id="about" className="relative z-10 flex min-h-screen w-full items-center bg-[#050505]/90 backdrop-blur-md px-8 py-24 md:px-14 border-t border-white/10 [content-visibility:auto] [contain-intrinsic-size:1px_800px]">
         <div className="grid w-full grid-cols-1 lg:grid-cols-12 gap-12 items-center max-w-7xl mx-auto">
           {/* Left Column: Photo Card with Polarity Negative-to-Positive Entrance */}
           <div className="lg:col-span-4 flex flex-col items-start space-y-4">
@@ -189,7 +189,7 @@ export default function PortfolioPage() {
       {/* ═══════════════════════════════════════════════════════════
           SECTION 3: PROFESSIONAL EXPERIENCE
       ═══════════════════════════════════════════════════════════ */}
-      <section id="experience" className="relative z-10 min-h-screen bg-[#080808] px-6 sm:px-10 md:px-14 py-24 border-t border-white/10 overflow-hidden">
+      <section id="experience" className="relative z-10 min-h-screen bg-[#080808] px-6 sm:px-10 md:px-14 py-24 border-t border-white/10 overflow-hidden [content-visibility:auto] [contain-intrinsic-size:1px_900px]">
         {/* Unified Lightweight 3D Dot-Matrix Background with Floating Polyhedra */}
         <UnifiedSectionsBg variant="experience" accent="lime" opacity={0.7} />
 
@@ -305,7 +305,7 @@ export default function PortfolioPage() {
       {/* ═══════════════════════════════════════════════════════════
           SECTION 5: TECHNICAL SKILLS MATRIX
       ═══════════════════════════════════════════════════════════ */}
-      <section id="skills" className="relative z-10 min-h-screen bg-[#080808] px-6 sm:px-10 md:px-14 py-24 border-t border-white/10 overflow-hidden">
+      <section id="skills" className="relative z-10 min-h-screen bg-[#080808] px-6 sm:px-10 md:px-14 py-24 border-t border-white/10 overflow-hidden [content-visibility:auto] [contain-intrinsic-size:1px_900px]">
         {/* Unified Lightweight 3D Dot-Matrix Background with Floating Polyhedra */}
         <UnifiedSectionsBg variant="skills" accent="lime" opacity={0.7} />
 
@@ -444,7 +444,7 @@ export default function PortfolioPage() {
       {/* ═══════════════════════════════════════════════════════════
           SECTION 6: EDUCATION & ACADEMIC STANDING
       ═══════════════════════════════════════════════════════════ */}
-      <section id="education" className="relative z-10 min-h-screen bg-[#050505] px-6 sm:px-10 md:px-14 py-24 border-t border-white/10 overflow-hidden">
+      <section id="education" className="relative z-10 min-h-screen bg-[#050505] px-6 sm:px-10 md:px-14 py-24 border-t border-white/10 overflow-hidden [content-visibility:auto] [contain-intrinsic-size:1px_800px]">
         {/* Unified Lightweight 3D Dot-Matrix Background with Floating Polyhedra */}
         <UnifiedSectionsBg variant="education" accent="cyan" opacity={0.7} />
 

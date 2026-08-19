@@ -210,7 +210,7 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="relative z-10 min-h-screen bg-[#050505] px-6 sm:px-10 md:px-14 py-20 border-t border-white/10 overflow-hidden"
+      className="relative z-10 min-h-screen bg-[#050505] px-6 sm:px-10 md:px-14 py-20 border-t border-white/10 overflow-hidden [content-visibility:auto] [contain-intrinsic-size:1px_1100px]"
     >
       {/* ── Unified 3D Dot-Matrix Grid & Floating Data Nodes Layer ── */}
       <UnifiedSectionsBg variant="projects" accent="cyan" opacity={0.75} />
