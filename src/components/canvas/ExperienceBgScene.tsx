@@ -6,6 +6,7 @@ import * as THREE from "three";
 import RetroDotMatrixBg from "./RetroDotMatrixBg";
 import DomSyncProjectGrid from "./DomSyncProjectGrid";
 import { pointerUv, pointerState } from "@/lib/bus";
+import ViewportLazyScene from "./ViewportLazyScene";
 
 function FloatingCloudNodes() {
   const groupRef = useRef<THREE.Group>(null!);
@@ -28,7 +29,6 @@ function FloatingCloudNodes() {
       child.rotation.y += delta * 0.5 * (i % 2 === 0 ? 1 : -1);
       child.position.y += Math.sin(t * 1.5 + i * 1.4) * 0.002;
 
-      // Parallax shift from pointer
       if (pointerState.inside) {
         const targetX = (pointerUv.x - 0.5) * 0.8;
         const targetY = (pointerUv.y - 0.5) * 0.6;
@@ -51,12 +51,12 @@ function FloatingCloudNodes() {
 
 export default function ExperienceBgScene() {
   return (
-    <div className="absolute inset-0 z-0 pointer-events-none opacity-70">
-      <Canvas camera={{ position: [0, 0, 4.5], fov: 45 }}>
+    <ViewportLazyScene className="absolute inset-0 z-0 pointer-events-none opacity-70">
+      <Canvas camera={{ position: [0, 0, 4.5], fov: 45 }} dpr={[1, 1.5]}>
         <RetroDotMatrixBg />
         <DomSyncProjectGrid />
         <FloatingCloudNodes />
       </Canvas>
-    </div>
+    </ViewportLazyScene>
   );
 }

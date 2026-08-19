@@ -130,21 +130,24 @@ function StackedGlassText() {
   );
 }
 
+import ViewportLazyScene from "./ViewportLazyScene";
+
 export default function ContactGlassScene() {
   return (
-    <div className="absolute inset-0 pointer-events-none z-0">
+    <ViewportLazyScene className="absolute inset-0 pointer-events-none z-0">
       <Canvas
         gl={{
           antialias: true,
           alpha: true,
           powerPreference: "high-performance",
         }}
+        dpr={[1, 1.5]}
         camera={{ position: [0, 0, 5.0], fov: 42 }}
       >
         <ambientLight intensity={0.65} />
         <FloatingStickers />
         <StackedGlassText />
       </Canvas>
-    </div>
+    </ViewportLazyScene>
   );
 }

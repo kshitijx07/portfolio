@@ -56,14 +56,16 @@ function FloatingTechPolyhedra() {
   );
 }
 
+import ViewportLazyScene from "./ViewportLazyScene";
+
 export default function SkillsMatrixBgScene() {
   return (
-    <div className="absolute inset-0 z-0 pointer-events-none opacity-65">
-      <Canvas camera={{ position: [0, 0, 4.5], fov: 45 }}>
+    <ViewportLazyScene className="absolute inset-0 z-0 pointer-events-none opacity-65">
+      <Canvas camera={{ position: [0, 0, 4.5], fov: 45 }} dpr={[1, 1.5]}>
         <RetroDotMatrixBg />
         <DomSyncProjectGrid />
         <FloatingTechPolyhedra />
       </Canvas>
-    </div>
+    </ViewportLazyScene>
   );
 }

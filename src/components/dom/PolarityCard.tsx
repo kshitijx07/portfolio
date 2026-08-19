@@ -11,7 +11,7 @@ export interface PolarityCardProps {
 }
 
 export default function PolarityCard({
-  src = "/profile.png",
+  src = "/profile.webp",
   name = "Kshitij",
   prn = "202301040119",
   role = "DEVOPS & CLOUD ARCHITECT",
