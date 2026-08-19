@@ -6,6 +6,7 @@ import { useFBO } from "@react-three/drei";
 import * as THREE from "three";
 import { pointerUv, pointerState } from "@/lib/bus";
 import { GlassMaterialShader } from "./GlassMaterial";
+import ViewportLazyScene from "./ViewportLazyScene";
 
 function FloatingStickers() {
   const groupRef = useRef<THREE.Group>(null!);
@@ -130,11 +131,13 @@ function StackedGlassText() {
   );
 }
 
-import ViewportLazyScene from "./ViewportLazyScene";
-
 export default function ContactGlassScene() {
   return (
-    <ViewportLazyScene className="absolute inset-0 pointer-events-none z-0">
+    <ViewportLazyScene
+      className="absolute inset-0 pointer-events-none z-0"
+      rootMargin="1200px 0px"
+      idleTimeout={200}
+    >
       <Canvas
         gl={{
           antialias: true,

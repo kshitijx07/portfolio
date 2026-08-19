@@ -119,7 +119,7 @@ export default function ContactClosingSection() {
   return (
     <section
       id="contact"
-      className="relative min-h-screen w-full overflow-hidden bg-[#00104A] text-white selection:bg-[#B4F342] selection:text-black border-t border-white/15 [content-visibility:auto] [contain-intrinsic-size:1px_900px]"
+      className="relative min-h-screen w-full overflow-hidden bg-[#00104A] text-white selection:bg-[#B4F342] selection:text-black border-t border-white/15"
     >
       {/* ── 1. 3D Stacked Glass Letters & Optical Star 6 Canvas ──── */}
       <div className="absolute inset-0 pointer-events-none z-0 opacity-80">
