@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useRef, useMemo } from "react";
+import React, { useRef, useMemo, useEffect } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useFBO } from "@react-three/drei";
 import * as THREE from "three";
-import { getScrollSnapshot, pointerUv, pointerState } from "@/lib/bus";
+import { getScrollSnapshot, pointerUv, pointerState, subscribeScroll } from "@/lib/bus";
 import { GlassMaterialShader } from "./GlassMaterial";
 
 function HelloModelInteractive() {
@@ -41,12 +41,30 @@ function HelloModelInteractive() {
 
     const scrollY = getScrollSnapshot().scrollTop;
     const windowH = typeof window !== "undefined" ? window.innerHeight : 900;
-    const scrollProgress = THREE.MathUtils.clamp(scrollY / windowH, 0, 1);
 
-    // Dynamic scale, depth push, and parallax as scroll progresses
-    meshRef.current.position.y = -0.2 + scrollProgress * 1.5;
-    meshRef.current.position.z = -scrollProgress * 3.5;
+    // ── HIDE AFTER LANDING & ABOUT: Complete exit past section 2 ──
+    if (scrollY > windowH * 1.7) {
+      if (meshRef.current.visible) {
+        meshRef.current.visible = false;
+      }
+      return;
+    }
+
+    meshRef.current.visible = true;
+
+    const scrollProgress = THREE.MathUtils.clamp(scrollY / windowH, 0, 1);
+    const fadeOutProgress = THREE.MathUtils.clamp(
+      (scrollY - windowH * 1.0) / (windowH * 0.6),
+      0,
+      1
+    );
+
+    // Dynamic scale, depth push, and smooth fade-out parallax as user leaves landing
+    meshRef.current.position.y = -0.2 + scrollProgress * 1.5 - fadeOutProgress * 2.5;
+    meshRef.current.position.z = -scrollProgress * 3.5 - fadeOutProgress * 6.0;
     meshRef.current.rotation.x = scrollProgress * 0.4;
+    const scale = Math.max(0.001, 1.0 - fadeOutProgress * 0.95);
+    meshRef.current.scale.set(scale, scale, scale);
 
     // Two-pass FBO scene render
     meshRef.current.visible = false;
@@ -90,8 +108,34 @@ function HelloModelInteractive() {
 }
 
 export default function HeroAboutScene() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const unsub = subscribeScroll((snap) => {
+      if (!containerRef.current) return;
+      const windowH = typeof window !== "undefined" ? window.innerHeight : 900;
+      // Fade out and disable pointer events when scrolling past landing/about
+      if (snap.scrollTop > windowH * 1.7) {
+        containerRef.current.style.opacity = "0";
+        containerRef.current.style.visibility = "hidden";
+      } else if (snap.scrollTop > windowH * 1.0) {
+        const opacity = 1.0 - (snap.scrollTop - windowH * 1.0) / (windowH * 0.7);
+        containerRef.current.style.opacity = Math.max(0, Math.min(1, opacity)).toString();
+        containerRef.current.style.visibility = "visible";
+      } else {
+        containerRef.current.style.opacity = "1";
+        containerRef.current.style.visibility = "visible";
+      }
+    });
+
+    return unsub;
+  }, []);
+
   return (
-    <div className="fixed inset-0 pointer-events-none z-0">
+    <div
+      ref={containerRef}
+      className="fixed inset-0 pointer-events-none z-0 transition-opacity duration-300"
+    >
       <Canvas
         gl={{
           antialias: true,
