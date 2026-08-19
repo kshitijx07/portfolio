@@ -1,33 +1,38 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import HeroCanvas from "@/components/canvas/HeroCanvas";
-import { subscribePointer } from "@/lib/bus";
-import { ScrambleText } from "@/components/ui/scramble-text";
-import PolarityCard from "@/components/dom/PolarityCard";
-import ProjectCardSync from "@/components/dom/ProjectCardSync";
-import RetroDotMatrixBg from "@/components/canvas/RetroDotMatrixBg";
-import DomSyncProjectGrid from "@/components/canvas/DomSyncProjectGrid";
+import React, { useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import {
-  Globe,
-  ArrowUpRight,
   Cloud,
-  Database,
   Server,
+  Database,
   Cpu,
   Terminal,
   Code2,
-  Check,
-  Copy,
+  ArrowUpRight,
+  Download,
   Mail,
   Phone,
+  Globe,
+  Check,
+  Copy,
 } from "lucide-react";
 import { FiGithub, FiLinkedin } from "react-icons/fi";
+
+// WebGL Scenes & Shaders
+import HeroAboutScene from "@/components/canvas/HeroAboutScene";
+import ContactGlassScene from "@/components/canvas/ContactGlassScene";
+import RetroDotMatrixBg from "@/components/canvas/RetroDotMatrixBg";
+import DomSyncProjectGrid from "@/components/canvas/DomSyncProjectGrid";
+
+// DOM & HUD Components
+import HeroHUD from "@/components/dom/HeroHUD";
+import PolarityCard from "@/components/dom/PolarityCard";
+import ProjectCardSync from "@/components/dom/ProjectCardSync";
+import { ScrambleText } from "@/components/ui/scramble-text";
 import { Badge } from "@/components/ui/badge";
 
 export default function PortfolioPage() {
-  const [coords, setCoords] = useState("0124 X 0063 Y");
   const [emailCopied, setEmailCopied] = useState(false);
   const [phoneCopied, setPhoneCopied] = useState(false);
 
@@ -46,72 +51,71 @@ export default function PortfolioPage() {
     setTimeout(() => setPhoneCopied(false), 2000);
   };
 
-  useEffect(() => {
-    return subscribePointer((state) => {
-      const x = Math.round(state.x * 1000).toString().padStart(4, "0");
-      const y = Math.round((1.0 - state.y) * 1000).toString().padStart(4, "0");
-      setCoords(`${x} X ${y} Y`);
-    });
-  }, []);
-
   return (
-    <main className="relative min-h-screen w-full bg-[#00104A] text-white selection:bg-[#B4F342] selection:text-black">
-      {/* ── 1. Synchronized WebGL Layer ───────────────────────── */}
-      <HeroCanvas />
+    <div className="relative w-full bg-[#00104A] text-white selection:bg-[#B4F342] selection:text-black">
+      {/* ── Fixed 3D Canvas Scene for Hero & About Morph ───────── */}
+      <HeroAboutScene />
 
-      {/* ── 2. Retro Crosshair Grid ──────────────────────────── */}
-      <div className="fixed inset-0 grid grid-cols-4 grid-rows-4 pointer-events-none z-10 opacity-20">
-        {Array.from({ length: 16 }).map((_, i) => (
-          <div key={i} className="border-[0.5px] border-white/30" />
-        ))}
-      </div>
-
-      {/* ── 3. Top Header HUD ─────────────────────────────────── */}
-      <header className="fixed top-0 left-0 w-full z-20 flex justify-between items-center p-6 md:p-10 font-mono text-xs text-white/80 backdrop-blur-xs">
-        <div className="font-bold tracking-wider">KSHITIJ.ENG // SYSTEM ARCHITECT</div>
-        <div className="hidden md:flex gap-8 text-[11px] text-white/60">
-          <span>LAT: 18.5204° N</span>
-          <span>LON: 73.8567° E</span>
-          <span className="text-[#B4F342] font-semibold">STATUS: RUNNING (AWS EKS)</span>
-        </div>
-        <div className="flex gap-6 pointer-events-auto text-[11px]">
-          <a href="#about" className="hover:text-[#B4F342] transition-colors">ABOUT</a>
-          <a href="#experience" className="hover:text-[#B4F342] transition-colors">EXP</a>
-          <a href="#projects" className="hover:text-[#B4F342] transition-colors">WORK</a>
-          <a href="#skills" className="hover:text-[#B4F342] transition-colors">SKILLS</a>
-          <a href="#contact" className="hover:text-[#B4F342] transition-colors">CONTACT</a>
-        </div>
-      </header>
+      {/* ── Fixed HUD Overlay (Coordinates, Nav, Weather, Grid) ── */}
+      <HeroHUD />
 
       {/* ═══════════════════════════════════════════════════════════
           SECTION 1: HERO VIEWPORT
       ═══════════════════════════════════════════════════════════ */}
-      <section id="home" className="relative z-10 flex h-screen w-full flex-col justify-end p-8 md:p-16 pb-20">
+      <section id="home" className="relative z-10 flex h-screen w-full flex-col justify-end p-8 md:p-14 pb-20">
         <div className="max-w-4xl space-y-4">
-          <div className="mb-2">
+          <div className="flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-[#B4F342] animate-pulse" />
             <ScrambleText
-              text="DEVOPS & CLOUD INFRASTRUCTURE SPECIALIST"
+              text="DEVOPS ENGINEER & CLOUD INFRASTRUCTURE DEVELOPER"
               className="text-xs tracking-widest text-[#4DEEEA] font-bold"
             />
           </div>
+
           <h1 className="text-5xl sm:text-7xl md:text-8xl font-black uppercase tracking-tight leading-[0.98]">
             I Bring
             <br />
-            Scale & Craft
+            Craft & Taste
             <br />
-            To Cloud Work
+            To Digital Work
           </h1>
-          <div className="pt-2 font-mono text-xs text-white/60 max-w-lg">
-            Engineering resilient CI/CD pipelines, containerized microservices, and automated AWS infrastructure with zero release friction.
+
+          <p className="text-sm sm:text-base text-white/70 max-w-xl font-mono leading-relaxed pt-2">
+            Building automated, containerized, cloud-native systems — from CI/CD pipelines to Kubernetes-orchestrated microservices on AWS.
+          </p>
+
+          <div className="flex flex-wrap items-center gap-3 pt-4 pointer-events-auto">
+            <a
+              href="#projects"
+              className="px-5 py-2.5 bg-[#4DEEEA] text-black font-mono text-xs font-bold uppercase tracking-wider hover:bg-[#B4F342] transition-colors rounded-sm flex items-center gap-2"
+            >
+              <span>Explore Projects</span>
+              <ArrowUpRight size={14} />
+            </a>
+            <a
+              href="/Kshitij_Kumbhar_Resume.pdf"
+              download="Kshitij_Kumbhar_Resume.pdf"
+              className="px-5 py-2.5 bg-white/10 border border-white/20 text-white font-mono text-xs font-bold uppercase tracking-wider hover:bg-white/20 transition-colors rounded-sm flex items-center gap-2"
+            >
+              <span>Download CV (PDF)</span>
+              <Download size={14} />
+            </a>
+            <a
+              href="#contact"
+              className="px-5 py-2.5 bg-transparent border border-white/20 text-white/80 font-mono text-xs font-bold uppercase tracking-wider hover:border-[#4DEEEA] hover:text-[#4DEEEA] transition-colors rounded-sm"
+            >
+              Contact
+            </a>
           </div>
         </div>
       </section>
 
       {/* ═══════════════════════════════════════════════════════════
-          SECTION 2: PROFESSIONAL SUMMARY & POLARITY BIO
+          SECTION 2: ABOUT / BIO & RESUME SUMMARY
       ═══════════════════════════════════════════════════════════ */}
-      <section id="about" className="relative z-10 min-h-screen bg-[#050505]/95 backdrop-blur-md px-8 py-24 md:px-16 border-t border-white/10">
+      <section id="about" className="relative z-10 flex min-h-screen w-full items-center bg-[#050505]/90 backdrop-blur-md px-8 py-24 md:px-14 border-t border-white/10">
         <div className="grid w-full grid-cols-1 lg:grid-cols-12 gap-12 items-center max-w-7xl mx-auto">
+          {/* Left Column: Photo Card with Polarity Negative-to-Positive Entrance */}
           <div className="lg:col-span-4 flex flex-col items-start space-y-4">
             <PolarityCard src="/profile.png" name="Kshitij" />
             <div className="font-mono text-[11px] text-white/50 space-y-1">
@@ -121,34 +125,49 @@ export default function PortfolioPage() {
             </div>
           </div>
 
-          <div className="lg:col-span-8 space-y-6 text-white">
-            <div className="flex items-center gap-2 text-[#B4F342] font-mono text-xs uppercase tracking-wider font-semibold">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#B4F342]" />
-              <span>01 // PROFESSIONAL PROFILE</span>
+          {/* Right Column: Exact Resume Summary & Verification */}
+          <div className="lg:col-span-8 space-y-6">
+            <div className="flex items-center gap-2 text-[#4DEEEA] font-mono text-xs uppercase tracking-wider font-semibold">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#4DEEEA]" />
+              <span>01 // PROFESSIONAL SUMMARY</span>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl font-extrabold uppercase tracking-tight leading-snug">
-              DevOps & Cloud Engineer specializing in Kubernetes, AWS, and Infrastructure Automation.
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-light leading-snug tracking-tight text-white/95">
+              I explore how to shape <span className="font-semibold text-white">cloud infrastructure</span> and <span className="font-semibold text-white">microservices</span> with craft and taste, building the next generation of scalable architectures.
             </h2>
 
-            <p className="text-sm md:text-base text-zinc-300 leading-relaxed font-sans">
-              Computer Engineering student and DevOps Intern with hands-on experience designing CI/CD pipelines, containerized microservices, and cloud infrastructure on AWS. Delivered fully automated deployment workflows using Jenkins, Docker, and Kubernetes across production-style projects, removing manual release effort entirely.
-            </p>
+            <div className="space-y-4 text-sm sm:text-base text-[#8A8F98] leading-relaxed">
+              <p>
+                Computer Engineering student and DevOps Intern with hands-on experience designing CI/CD pipelines, containerized microservices, and cloud infrastructure on AWS. Delivered fully automated deployment workflows using Jenkins, Docker, and Kubernetes across two production-style projects, removing manual release effort entirely.
+              </p>
+              <p>
+                Strong foundation in Data Structures, Object-Oriented Programming, and SQL, with active competitive programming practice on LeetCode and Codeforces. Seeking DevOps and cloud infrastructure roles focused on automation, scalability, and system reliability.
+              </p>
+            </div>
 
-            <p className="text-sm md:text-base text-zinc-300 leading-relaxed font-sans">
-              Strong foundation in Data Structures, Object-Oriented Programming, and SQL, with active competitive programming practice on LeetCode and Codeforces. Seeking DevOps and cloud infrastructure roles focused on automation, scalability, and system reliability.
-            </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 font-mono text-xs">
-              <div className="border border-white/10 p-4 rounded-sm bg-[#0D0D0D]">
-                <div className="text-white/50 text-[10px] uppercase">Competitive Practice</div>
-                <div className="text-white font-bold mt-1">LeetCode: @kshitij72</div>
-                <div className="text-white font-bold">Codeforces: @kshitijx07</div>
+            {/* Competitive Programming & Direct Channels */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 border-t border-white/10 pt-6 font-mono text-xs text-[#8A8F98]">
+              <div>
+                <span className="block text-white font-bold">LEETCODE</span>
+                <a href="https://leetcode.com/u/kshitij72/" target="_blank" rel="noreferrer" className="text-[#4DEEEA] hover:underline">
+                  @kshitij72
+                </a>
               </div>
-              <div className="border border-white/10 p-4 rounded-sm bg-[#0D0D0D]">
-                <div className="text-white/50 text-[10px] uppercase">Infrastructure Philosophy</div>
-                <div className="text-[#B4F342] font-bold mt-1">Zero-Downtime Releases</div>
-                <div className="text-white/70">Terraform IaC & EKS GitOps</div>
+              <div>
+                <span className="block text-white font-bold">CODEFORCES</span>
+                <a href="https://codeforces.com/profile/kshitijx07" target="_blank" rel="noreferrer" className="text-[#4DEEEA] hover:underline">
+                  @kshitijx07
+                </a>
+              </div>
+              <div>
+                <span className="block text-white font-bold">GITHUB</span>
+                <a href="https://github.com/kshitijx07" target="_blank" rel="noreferrer" className="text-[#4DEEEA] hover:underline">
+                  @kshitijx07
+                </a>
+              </div>
+              <div>
+                <span className="block text-white font-bold">STATUS</span>
+                <span className="text-[#B4F342]">OPEN TO ROLES</span>
               </div>
             </div>
           </div>
@@ -158,48 +177,48 @@ export default function PortfolioPage() {
       {/* ═══════════════════════════════════════════════════════════
           SECTION 3: PROFESSIONAL EXPERIENCE
       ═══════════════════════════════════════════════════════════ */}
-      <section id="experience" className="relative z-10 min-h-screen bg-[#080808] px-8 py-24 md:px-16 border-t border-white/10">
+      <section id="experience" className="relative z-10 min-h-screen bg-[#080808] px-8 py-24 md:px-14 border-t border-white/10">
         <div className="max-w-7xl mx-auto space-y-12">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6">
             <div>
-              <div className="flex items-center gap-2 text-[#B4F342] font-mono text-xs uppercase tracking-wider font-semibold mb-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#B4F342]" />
-                <span>02 // PRODUCTION HISTORY</span>
+              <div className="flex items-center gap-2 text-[#4DEEEA] font-mono text-xs uppercase tracking-wider font-semibold mb-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#4DEEEA]" />
+                <span>02 // WORK EXPERIENCE</span>
               </div>
               <h2 className="text-3xl sm:text-5xl font-extrabold uppercase tracking-tight text-white">
-                Work Experience
+                Production Experience
               </h2>
             </div>
-            <span className="font-mono text-xs text-white/50">ENTERPRISE & DISTRIBUTED SYSTEMS</span>
+            <span className="font-mono text-xs text-white/50">2025 — PRESENT</span>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Experience 1: Colgate-Palmolive */}
             <div className="border border-white/10 bg-[#0D0D0D] p-8 flex flex-col justify-between space-y-6 hover:border-[#B4F342] transition-colors rounded-sm">
               <div className="space-y-4">
                 <div className="flex justify-between items-start">
                   <div>
                     <span className="bg-[#B4F342] text-black font-mono text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider">
-                      HYBRID INTERNSHIP
+                      ENTERPRISE HYBRID
                     </span>
                     <h3 className="text-2xl font-bold text-white mt-2">Colgate-Palmolive</h3>
-                    <p className="font-mono text-sm text-[#B4F342] font-semibold">DevOps Intern</p>
+                    <p className="font-mono text-sm text-[#4DEEEA] font-semibold">DevOps Intern</p>
                   </div>
                   <span className="font-mono text-xs text-white/50">Jul 2026 – Present</span>
                 </div>
 
                 <div className="font-mono text-xs text-white/40">
-                  Mumbai, Maharashtra, India // Enterprise DevOps
+                  Mumbai, Maharashtra, India (Hybrid)
                 </div>
 
                 <ul className="space-y-3 text-sm text-zinc-300 leading-relaxed pt-2">
                   <li className="flex items-start gap-2">
                     <span className="text-[#B4F342] mt-1">▹</span>
-                    <span>Design, build, and maintain automated CI/CD pipelines using Jenkins and GitHub Actions, supporting consistent and repeatable software releases across hybrid environments.</span>
+                    <span>Support application deployment and infrastructure automation workflows within a DevOps team, contributing to CI/CD pipelines built with Jenkins, Git, and GitHub.</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-[#B4F342] mt-1">▹</span>
-                    <span>Containerize internal applications and microservices using Docker, streamlining local development workflows and standardizing staging runtime environments.</span>
+                    <span>Assist with AWS cloud infrastructure management and containerized application deployment using Docker across Linux-based staging and production environments.</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-[#B4F342] mt-1">▹</span>
@@ -246,7 +265,7 @@ export default function PortfolioPage() {
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-[#4DEEEA] mt-1">▹</span>
-                    <span>Developed interactive frontend modules in React.js and designed normalized database schemas with foreign key constraints, indexing, and transactional integrity.</span>
+                    <span>Facilitated daily standups and sprint reviews within an agile team of three, coordinating feature delivery and code reviews to maintain on-schedule releases.</span>
                   </li>
                 </ul>
               </div>
@@ -264,11 +283,11 @@ export default function PortfolioPage() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════
-          SECTION 4: FEATURED PROJECTS (DOM-Sync + Retro Dot Matrix)
+          SECTION 4: FEATURED CLOUD & AI PROJECTS (DOM-Sync + Retro Dot Matrix)
       ═══════════════════════════════════════════════════════════ */}
-      <section id="projects" className="relative z-10 min-h-screen bg-[#050505] px-8 py-24 md:px-16 border-t border-white/10 overflow-hidden">
+      <section id="projects" className="relative z-10 min-h-screen bg-[#050505] px-8 py-24 md:px-14 border-t border-white/10 overflow-hidden">
         {/* WebGL Retro Dot Matrix & Velocity UV Semicircular Curl Layer */}
-        <div className="absolute inset-0 z-0 pointer-events-none opacity-50">
+        <div className="absolute inset-0 z-0 pointer-events-none opacity-60">
           <Canvas camera={{ position: [0, 0, 1] }}>
             <RetroDotMatrixBg />
             <DomSyncProjectGrid />
@@ -293,10 +312,10 @@ export default function PortfolioPage() {
             {/* Project 1: HostelHub */}
             <ProjectCardSync
               id="project-hostelhub"
-              tag="AWS EKS + JENKINS"
+              tag="EKS + KUBERNETES + JENKINS"
               year="2026"
               title="HostelHub"
-              description="Cloud-native platform with NGINX Ingress-backed ALB, HPA auto-scaling (2-5 replicas), OAC-secured S3 caching, and split Jenkins CI/CD pipelines."
+              description="Cloud-native hostel management platform with a decoupled React frontend hosted on Amazon S3 and a Node.js REST API deployed on AWS EKS (Kubernetes), implementing role-based access control."
               technologies={[
                 "AWS EKS",
                 "Kubernetes",
@@ -322,11 +341,11 @@ export default function PortfolioPage() {
             {/* Project 2: DSA Swarm AI */}
             <ProjectCardSync
               id="project-dsa-swarm"
-              tag="LANGGRAPH + MCP"
+              tag="LANGGRAPH + MCP + PINECONE RAG"
               year="2026"
               title="DSA Swarm AI"
               bannerText="npx @kshitij/dsa-swarm-ai"
-              bgColor="bg-[#FF3E1D]"
+              bgColor="bg-[#0D0D0D]"
               description="Distributed Multi-Agent RAG Swarm and Model Context Protocol (MCP) Server using LangGraph, Google Gemini 2.5 Flash, and Pinecone (768-dim vector store) on AWS EKS."
               technologies={[
                 "AWS EKS",
@@ -378,9 +397,9 @@ export default function PortfolioPage() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════
-          SECTION 5: TECHNICAL SKILLS DIRECTORY
+          SECTION 5: TECHNICAL SKILLS MATRIX
       ═══════════════════════════════════════════════════════════ */}
-      <section id="skills" className="relative z-10 min-h-screen bg-[#080808] px-8 py-24 md:px-16 border-t border-white/10">
+      <section id="skills" className="relative z-10 min-h-screen bg-[#080808] px-8 py-24 md:px-14 border-t border-white/10">
         <div className="max-w-7xl mx-auto space-y-12">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6">
             <div>
@@ -426,7 +445,7 @@ export default function PortfolioPage() {
                 <span>Databases & Vector Stores</span>
               </div>
               <div className="flex flex-wrap gap-2">
-                {["Pinecone", "MongoDB", "MySQL", "DynamoDB", "PostgreSQL"].map((skill) => (
+                {["Pinecone (Vector Store)", "MongoDB Atlas", "MySQL"].map((skill) => (
                   <span key={skill} className="bg-white/5 border border-white/10 px-2.5 py-1 font-mono text-xs text-white/80 rounded-sm">
                     {skill}
                   </span>
@@ -435,13 +454,13 @@ export default function PortfolioPage() {
             </div>
 
             {/* 3. Backend Development */}
-            <div className="border border-white/10 bg-[#0D0D0D] p-6 space-y-4 rounded-sm hover:border-[#B4F342] transition-colors">
-              <div className="flex items-center gap-2 font-mono text-sm font-bold text-[#B4F342]">
+            <div className="border border-white/10 bg-[#0D0D0D] p-6 space-y-4 rounded-sm hover:border-[#4DEEEA] transition-colors">
+              <div className="flex items-center gap-2 font-mono text-sm font-bold text-[#4DEEEA]">
                 <Server size={18} />
                 <span>Backend Development</span>
               </div>
               <div className="flex flex-wrap gap-2">
-                {["Node.js", "Express.js", "Spring Boot", "RESTful APIs", "Microservices Architecture"].map((skill) => (
+                {["Node.js", "Express.js", "Spring Boot", "RESTful APIs"].map((skill) => (
                   <span key={skill} className="bg-white/5 border border-white/10 px-2.5 py-1 font-mono text-xs text-white/80 rounded-sm">
                     {skill}
                   </span>
@@ -449,16 +468,15 @@ export default function PortfolioPage() {
               </div>
             </div>
 
-            {/* 4. AI Engineering */}
-            <div className="border border-white/10 bg-[#0D0D0D] p-6 space-y-4 rounded-sm hover:border-[#4DEEEA] transition-colors">
-              <div className="flex items-center gap-2 font-mono text-sm font-bold text-[#4DEEEA]">
+            {/* 4. AI & Multi-Agent Systems */}
+            <div className="border border-white/10 bg-[#0D0D0D] p-6 space-y-4 rounded-sm hover:border-[#FF3E1D] transition-colors">
+              <div className="flex items-center gap-2 font-mono text-sm font-bold text-[#FF3E1D]">
                 <Cpu size={18} />
-                <span>AI Engineering & Multi-Agent</span>
+                <span>AI & Multi-Agent Systems</span>
               </div>
               <div className="flex flex-wrap gap-2">
                 {[
                   "LangGraph",
-                  "Google Gemini 2.5 Flash API",
                   "RAG (Retrieval-Augmented Generation)",
                   "Model Context Protocol (MCP)",
                   "LangChain",
@@ -517,40 +535,40 @@ export default function PortfolioPage() {
       {/* ═══════════════════════════════════════════════════════════
           SECTION 6: EDUCATION & ACADEMIC STANDING
       ═══════════════════════════════════════════════════════════ */}
-      <section id="education" className="relative z-10 min-h-screen bg-[#050505] px-8 py-24 md:px-16 border-t border-white/10">
+      <section id="education" className="relative z-10 min-h-screen bg-[#050505] px-8 py-24 md:px-14 border-t border-white/10">
         <div className="max-w-7xl mx-auto space-y-12">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6">
             <div>
               <div className="flex items-center gap-2 text-[#4DEEEA] font-mono text-xs uppercase tracking-wider font-semibold mb-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#4DEEEA]" />
-                <span>05 // ACADEMIC FOUNDATIONS</span>
+                <span>05 // ACADEMIC PROFILE</span>
               </div>
               <h2 className="text-3xl sm:text-5xl font-extrabold uppercase tracking-tight text-white">
                 Education
               </h2>
             </div>
-            <span className="font-mono text-xs text-white/50">VERIFIED ACADEMIC RECORDS</span>
+            <span className="font-mono text-xs text-white/50">VERIFIED ACADEMIC RECORD</span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* 1. B.Tech */}
+            {/* 1. B.Tech Computer Engineering */}
             <div className="border border-white/10 bg-[#0D0D0D] p-8 space-y-4 rounded-sm hover:border-[#4DEEEA] transition-colors flex flex-col justify-between">
               <div className="space-y-3">
                 <div className="flex justify-between items-start">
                   <span className="bg-[#4DEEEA] text-black font-mono text-[10px] font-bold px-2 py-0.5 uppercase">
-                    B.TECH // UNDERGRADUATE
+                    UNDERGRADUATE
                   </span>
                   <span className="font-mono text-xs text-white/50">2023 – 2027</span>
                 </div>
-                <h3 className="text-xl font-bold text-white">B.Tech in Computer Engineering</h3>
+                <h3 className="text-xl font-bold text-white">Bachelor of Technology in Computer Engineering</h3>
                 <p className="text-sm text-white/70 font-mono">
                   MIT Academy of Engineering, Pune, Maharashtra
                 </p>
               </div>
 
               <div className="pt-4 border-t border-white/10 font-mono text-sm">
-                <span className="text-white/50">Cumulative CGPA: </span>
-                <span className="text-[#4DEEEA] font-bold">8.48 / 10.0</span>
+                <span className="text-white/50">CGPA: </span>
+                <span className="text-[#4DEEEA] font-bold">8.48 / 10</span>
               </div>
             </div>
 
@@ -558,8 +576,8 @@ export default function PortfolioPage() {
             <div className="border border-white/10 bg-[#0D0D0D] p-8 space-y-4 rounded-sm hover:border-[#B4F342] transition-colors flex flex-col justify-between">
               <div className="space-y-3">
                 <div className="flex justify-between items-start">
-                  <span className="bg-[#B4F342] text-black font-mono text-[10px] font-bold px-2 py-0.5 uppercase">
-                    HSC // HIGHER SECONDARY
+                  <span className="bg-white/10 text-white font-mono text-[10px] font-bold px-2 py-0.5 uppercase">
+                    HSC // STATE BOARD
                   </span>
                   <span className="font-mono text-xs text-white/50">2023</span>
                 </div>
@@ -599,77 +617,108 @@ export default function PortfolioPage() {
         </div>
       </section>
 
+
       {/* ═══════════════════════════════════════════════════════════
-          SECTION 7: CONTACT & FOOTER TELEMETRY
+          SECTION 8: FINAL CONTACT & CLOSING VIEWPORT
       ═══════════════════════════════════════════════════════════ */}
-      <footer id="contact" className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-end p-8 md:p-16 gap-6 font-mono text-xs text-white/80 border-t border-white/10 bg-[#00104A]">
-        <div className="space-y-2">
-          <div className="flex items-center gap-3">
+      <section id="contact" className="relative h-screen w-full overflow-hidden bg-[#00104A] text-white select-none border-t border-white/10">
+        {/* 1. 3D Stacked Glass Letters & Stickers Canvas */}
+        <ContactGlassScene />
+
+        {/* 2. Foreground Bold Display Copy */}
+        <div className="relative z-10 flex h-full w-full items-center justify-center pointer-events-none px-6">
+          <h2 className="text-5xl sm:text-7xl md:text-8xl font-black uppercase tracking-tight text-center leading-[0.95] max-w-5xl">
+            Let's Create
+            <br />
+            Something
+            <br />
+            Extraordinary
+          </h2>
+        </div>
+
+        {/* 3. HUD Crosshair Wireframe Overlay */}
+        <div className="absolute inset-0 grid grid-cols-4 grid-rows-3 pointer-events-none">
+          {Array.from({ length: 12 }).map((_, i) => (
+            <div key={i} className="relative border-[0.5px] border-white/5">
+              <span className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 text-[10px] text-white/20 font-mono">+</span>
+            </div>
+          ))}
+        </div>
+
+        {/* 4. Footer Telemetry & Interactive Actions */}
+        <footer className="absolute bottom-0 left-0 w-full z-20 flex flex-col md:flex-row justify-between items-start md:items-end p-8 md:p-12 gap-6 font-mono text-xs text-white/80 border-t border-white/10">
+          {/* Email & Phone Copy Triggers */}
+          <div className="flex flex-col gap-2">
+            <div className="flex flex-wrap items-center gap-4">
+              <button
+                onClick={handleCopyEmail}
+                className="flex items-center gap-2 text-white hover:text-[#B4F342] transition-colors pointer-events-auto group"
+              >
+                <Mail size={13} className="text-[#4DEEEA]" />
+                <span className="underline underline-offset-4">{email}</span>
+                {emailCopied ? (
+                  <Check className="w-3.5 h-3.5 text-[#B4F342]" />
+                ) : (
+                  <Copy className="w-3.5 h-3.5 text-white/40 group-hover:text-[#B4F342]" />
+                )}
+              </button>
+
+              <button
+                onClick={handleCopyPhone}
+                className="flex items-center gap-2 text-white hover:text-[#B4F342] transition-colors pointer-events-auto group"
+              >
+                <Phone size={13} className="text-[#B4F342]" />
+                <span className="underline underline-offset-4">{phone}</span>
+                {phoneCopied ? (
+                  <Check className="w-3.5 h-3.5 text-[#B4F342]" />
+                ) : (
+                  <Copy className="w-3.5 h-3.5 text-white/40 group-hover:text-[#B4F342]" />
+                )}
+              </button>
+            </div>
+            <div className="text-white/40 text-[10px]">KSHITIJ KUMBHAR (C) 2026 // SYSTEM TERMINAL</div>
+          </div>
+
+          {/* Social Links & Globe Status */}
+          <div className="flex items-center gap-6 pointer-events-auto">
             <a
-              href={`mailto:${email}`}
-              className="text-white hover:text-[#B4F342] underline underline-offset-4 transition-colors font-bold text-sm"
+              href="https://github.com/kshitijx07"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-white transition-colors flex items-center gap-1.5"
             >
-              {email}
+              <FiGithub size={14} />
+              <span>GITHUB</span>
             </a>
-            <button
-              onClick={handleCopyEmail}
-              className="p-1 text-white/60 hover:text-white transition-colors"
-              title="Copy Email"
+            <a
+              href="https://linkedin.com/in/kshitij-kumbhar"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-white transition-colors flex items-center gap-1.5"
             >
-              {emailCopied ? <Check size={14} className="text-[#B4F342]" /> : <Copy size={14} />}
-            </button>
-          </div>
-
-          <div className="flex items-center gap-3 text-white/70">
-            <span>{phone}</span>
-            <button
-              onClick={handleCopyPhone}
-              className="p-1 text-white/60 hover:text-white transition-colors"
-              title="Copy Phone"
+              <FiLinkedin size={14} />
+              <span>LINKEDIN</span>
+            </a>
+            <a
+              href="https://leetcode.com/u/kshitij72"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-white transition-colors"
             >
-              {phoneCopied ? <Check size={14} className="text-[#B4F342]" /> : <Copy size={14} />}
-            </button>
+              LEETCODE
+            </a>
+            <a
+              href="https://codeforces.com/profile/kshitijx07"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-white transition-colors"
+            >
+              CODEFORCES
+            </a>
+            <Globe className="w-4 h-4 text-white/60 animate-spin" />
           </div>
-
-          <div className="text-white/40 text-[10px] pt-2">
-            KSHITIJ KUMBHAR (C) 2026 // PUNE, MAHARASHTRA, INDIA
-          </div>
-        </div>
-
-        <div className="hidden md:block font-bold text-white tracking-widest text-sm bg-black/40 px-4 py-2 border border-white/10 rounded-xs">
-          {coords}
-        </div>
-
-        <div className="flex items-center gap-6 pointer-events-auto">
-          <a
-            href="https://github.com/kshitijx07"
-            target="_blank"
-            rel="noreferrer"
-            className="hover:text-[#B4F342] transition-colors flex items-center gap-1"
-          >
-            <FiGithub size={14} />
-            <span>GITHUB</span>
-          </a>
-          <a
-            href="https://linkedin.com/in/kshitij-kumbhar"
-            target="_blank"
-            rel="noreferrer"
-            className="hover:text-[#B4F342] transition-colors flex items-center gap-1"
-          >
-            <FiLinkedin size={14} />
-            <span>LINKEDIN</span>
-          </a>
-          <a
-            href="https://leetcode.com/u/kshitij72"
-            target="_blank"
-            rel="noreferrer"
-            className="hover:text-[#B4F342] transition-colors"
-          >
-            LEETCODE
-          </a>
-          <Globe className="w-4 h-4 text-white/60 animate-spin" />
-        </div>
-      </footer>
-    </main>
+        </footer>
+      </section>
+    </div>
   );
 }

@@ -37,6 +37,7 @@ function CursiveGlass() {
 
   useFrame((_, delta) => {
     if (!meshRef.current) return;
+
     meshRef.current.visible = false;
     gl.setRenderTarget(fbo);
     gl.render(scene, camera);

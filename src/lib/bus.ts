@@ -4,6 +4,8 @@ import type Lenis from "lenis";
 export type ScrollSnapshot = {
   scrollTop: number;
   velocity: number;
+  progress?: number;
+  limit?: number;
 };
 
 export type PointerSnapshot = {
@@ -21,7 +23,13 @@ export const bindLenisScrollBus = (lenis: Lenis | null) => {
   unbindLenis = null;
   if (!lenis) return;
 
-  const onScroll = ({ scroll, velocity }: { scroll: number; velocity: number }) => {
+  const onScroll = ({
+    scroll,
+    velocity,
+  }: {
+    scroll: number;
+    velocity: number;
+  }) => {
     scrollSnapshot = { scrollTop: scroll, velocity };
     for (const listener of scrollListeners) listener();
   };
@@ -36,10 +44,9 @@ export const getLenisScrollSnapshot = () => scrollSnapshot;
 
 export const subscribeScroll = (listener: () => void) => {
   scrollListeners.add(listener);
-  return () => {
-    scrollListeners.delete(listener);
-  };
+  return () => scrollListeners.delete(listener);
 };
+
 export const subscribeLenisScroll = subscribeScroll;
 
 export const pointerUv = new THREE.Vector2(0.5, 0.5);
@@ -51,7 +58,10 @@ if (typeof window !== "undefined") {
     pointerState.rawX = e.clientX;
     pointerState.rawY = e.clientY;
     pointerState.inside = true;
-    pointerUv.set(e.clientX / window.innerWidth, 1.0 - e.clientY / window.innerHeight);
+    pointerUv.set(
+      e.clientX / window.innerWidth,
+      1.0 - e.clientY / window.innerHeight
+    );
     pointerListeners.forEach((fn) =>
       fn({ x: pointerUv.x, y: pointerUv.y, inside: true })
     );
@@ -62,17 +72,9 @@ if (typeof window !== "undefined") {
     pointerUv.set(0.5, 0.5);
     pointerListeners.forEach((fn) => fn({ x: 0.5, y: 0.5, inside: false }));
   });
-
-  window.addEventListener("blur", () => {
-    pointerState.inside = false;
-    pointerUv.set(0.5, 0.5);
-    pointerListeners.forEach((fn) => fn({ x: 0.5, y: 0.5, inside: false }));
-  });
 }
 
 export const subscribePointer = (fn: (state: PointerSnapshot) => void) => {
   pointerListeners.add(fn);
-  return () => {
-    pointerListeners.delete(fn);
-  };
+  return () => pointerListeners.delete(fn);
 };

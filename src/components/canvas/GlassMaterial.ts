@@ -65,5 +65,3 @@ export const GlassMaterialShader = {
     }
   `,
 };
-
-export default GlassMaterialShader;

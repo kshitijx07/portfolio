@@ -88,5 +88,3 @@ export const DomSyncShader = {
     }
   `,
 };
-
-export default DomSyncShader;

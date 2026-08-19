@@ -62,5 +62,3 @@ export const Star6FlareShader = {
     }
   `,
 };
-
-export default Star6FlareShader;
