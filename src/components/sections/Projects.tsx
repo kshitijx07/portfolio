@@ -189,8 +189,6 @@ const PROJECTS_REGISTRY: ProjectData[] = [
   },
 ];
 
-import UnifiedSectionsBg from "@/components/canvas/UnifiedSectionsBg";
-
 export default function Projects() {
   const [activeFilter, setActiveFilter] = useState<ProjectCategory>("ALL");
 
@@ -210,11 +208,8 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="relative z-10 min-h-screen bg-[#050505] px-6 sm:px-10 md:px-14 py-20 border-t border-white/10 overflow-hidden [content-visibility:auto] [contain-intrinsic-size:1px_1100px]"
+      className="relative z-10 min-h-screen bg-[#050505]/80 px-6 sm:px-10 md:px-14 py-20 border-t border-white/10 overflow-hidden [content-visibility:auto] [contain-intrinsic-size:1px_1100px]"
     >
-      {/* ── Unified 3D Dot-Matrix Grid & Floating Data Nodes Layer ── */}
-      <UnifiedSectionsBg variant="projects" accent="cyan" opacity={0.75} />
-
       <div className="relative z-10 max-w-7xl mx-auto space-y-8">
         {/* ── 1. Section Header & Telemetry Status ────────────────── */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6 bg-[#050505]/85 backdrop-blur-md p-5 sm:p-6 rounded-sm">
