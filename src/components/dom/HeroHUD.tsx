@@ -35,34 +35,7 @@ export default function HeroHUD() {
   }, []);
 
   return (
-    <div className="pointer-events-none absolute inset-0 z-10 flex flex-col justify-between p-6 sm:p-8 md:p-12 font-mono text-xs sm:text-sm uppercase tracking-wider text-white/90 select-none">
-      {/* Top Navigation Bar */}
-      <div className="flex justify-between items-center w-full">
-        <div>
-          <span className="font-bold text-white text-sm sm:text-base tracking-widest block">
-            KSHITIJ.ENG
-          </span>
-          <div className="text-[#B4F342] text-xs font-medium mt-0.5">
-            DevOps & Cloud Systems
-          </div>
-        </div>
-
-        <div className="flex items-center gap-6 sm:gap-8 pointer-events-auto">
-          <a
-            href="#projects"
-            className="text-white/70 hover:text-white font-bold hover:underline transition-colors text-xs sm:text-sm"
-          >
-            PROJECTS
-          </a>
-          <a
-            href="#contact"
-            className="text-white/70 hover:text-[#4DEEEA] font-bold hover:underline transition-colors text-xs sm:text-sm"
-          >
-            CONTACT
-          </a>
-        </div>
-      </div>
-
+    <div className="pointer-events-none absolute inset-0 z-10 flex flex-col justify-end p-6 sm:p-8 md:p-12 font-mono text-xs sm:text-sm uppercase tracking-wider text-white/90 select-none">
       {/* Floating 3D Vector Cursor Decorative Icon */}
       <a
         href="#projects"

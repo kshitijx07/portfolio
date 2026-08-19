@@ -39,13 +39,6 @@ export default function PortfolioPage() {
       ═══════════════════════════════════════════════════════════ */}
       <section id="home" className="relative z-10 flex h-screen w-full flex-col justify-end p-8 md:p-14 pb-20">
         <div className="max-w-4xl space-y-4">
-          <div className="flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-[#B4F342] animate-pulse" />
-            <span className="text-xs sm:text-sm tracking-widest text-[#4DEEEA] font-bold font-mono">
-              DEVOPS ENGINEER & CLOUD INFRASTRUCTURE DEVELOPER
-            </span>
-          </div>
-
           <h1 className="text-5xl sm:text-7xl md:text-8xl font-black uppercase tracking-tight leading-[0.98] text-white">
             I Bring
             <br />
