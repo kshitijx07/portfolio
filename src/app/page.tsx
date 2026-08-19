@@ -70,11 +70,11 @@ export default function PortfolioPage() {
             <span className="h-2 w-2 rounded-full bg-[#B4F342] animate-pulse" />
             <ScrambleText
               text="DEVOPS ENGINEER & CLOUD INFRASTRUCTURE DEVELOPER"
-              className="text-xs tracking-widest text-[#4DEEEA] font-bold"
+              className="text-xs sm:text-sm tracking-widest text-[#4DEEEA] font-bold"
             />
           </div>
 
-          <h1 className="text-5xl sm:text-7xl md:text-8xl font-black uppercase tracking-tight leading-[0.98]">
+          <h1 className="text-5xl sm:text-7xl md:text-8xl font-black uppercase tracking-tight leading-[0.98] text-white">
             I Bring
             <br />
             Craft & Taste
@@ -82,29 +82,29 @@ export default function PortfolioPage() {
             To Digital Work
           </h1>
 
-          <p className="text-sm sm:text-base text-white/70 max-w-xl font-mono leading-relaxed pt-2">
+          <p className="text-sm sm:text-base text-zinc-300 max-w-xl font-mono leading-relaxed pt-2">
             Building automated, containerized, cloud-native systems — from CI/CD pipelines to Kubernetes-orchestrated microservices on AWS.
           </p>
 
           <div className="flex flex-wrap items-center gap-3 pt-4 pointer-events-auto">
             <a
               href="#projects"
-              className="px-5 py-2.5 bg-[#4DEEEA] text-black font-mono text-xs font-bold uppercase tracking-wider hover:bg-[#B4F342] transition-colors rounded-sm flex items-center gap-2"
+              className="min-h-[46px] px-6 py-3 bg-[#4DEEEA] text-black font-mono text-xs font-black uppercase tracking-wider hover:bg-[#B4F342] transition-colors rounded-xs flex items-center gap-2 shadow-lg cursor-pointer"
             >
               <span>Explore Projects</span>
-              <ArrowUpRight size={14} />
+              <ArrowUpRight size={15} />
             </a>
             <a
               href="/Kshitij_Kumbhar_Resume.pdf"
               download="Kshitij_Kumbhar_Resume.pdf"
-              className="px-5 py-2.5 bg-white/10 border border-white/20 text-white font-mono text-xs font-bold uppercase tracking-wider hover:bg-white/20 transition-colors rounded-sm flex items-center gap-2"
+              className="min-h-[46px] px-6 py-3 bg-white/10 border border-white/20 text-white font-mono text-xs font-black uppercase tracking-wider hover:bg-white/20 transition-colors rounded-xs flex items-center gap-2 shadow-lg cursor-pointer"
             >
               <span>Download CV (PDF)</span>
-              <Download size={14} />
+              <Download size={15} />
             </a>
             <a
               href="#contact"
-              className="px-5 py-2.5 bg-transparent border border-white/20 text-white/80 font-mono text-xs font-bold uppercase tracking-wider hover:border-[#4DEEEA] hover:text-[#4DEEEA] transition-colors rounded-sm"
+              className="min-h-[46px] px-6 py-3 bg-transparent border border-white/20 text-white/80 font-mono text-xs font-black uppercase tracking-wider hover:border-[#4DEEEA] hover:text-[#4DEEEA] transition-colors rounded-xs cursor-pointer"
             >
               Contact
             </a>
@@ -119,8 +119,8 @@ export default function PortfolioPage() {
         <div className="grid w-full grid-cols-1 lg:grid-cols-12 gap-12 items-center max-w-7xl mx-auto">
           {/* Left Column: Photo Card with Polarity Negative-to-Positive Entrance */}
           <div className="lg:col-span-4 flex flex-col items-start space-y-4">
-            <PolarityCard src="/profile.png" name="Kshitij" />
-            <div className="font-mono text-[11px] text-white/50 space-y-1">
+            <PolarityCard src="/profile.webp" name="Kshitij" />
+            <div className="font-mono text-xs text-white/60 space-y-1">
               <div>// OPERATOR: KSHITIJ KUMBHAR</div>
               <div>// FOCUS: DEVOPS / CLOUD / DISTRIBUTED SYSTEMS</div>
               <div>// LOCATION: PUNE, MAHARASHTRA, INDIA</div>

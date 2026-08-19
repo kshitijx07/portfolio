@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Terminal, ShieldCheck, Sparkles, Activity } from "lucide-react";
+import { Terminal, Activity, ShieldCheck, ArrowUpRight } from "lucide-react";
 
 export interface SystemBootLoaderProps {
   onComplete?: () => void;
@@ -10,24 +10,25 @@ export interface SystemBootLoaderProps {
 }
 
 const BOOT_LOGS = [
-  "SYSTEM_INIT // ARCHITECTURE_V2.6",
-  "COMPILING_GLSL_SHADERS // THREE.JS",
-  "HYDRATING_TELEMETRY_BUS // BUS.TS",
-  "PRE-WARMING_OPTICAL_GLASS_FBO",
-  "CALIBRATING_VIEWPORT_MATRICES",
-  "SYSTEM_ONLINE // DISPATCHING_UI",
+  "INITIALIZING GRAPHICS ENGINE & HARDWARE MATRICES",
+  "COMPILING OPTICAL FBO GLASS SHADERS",
+  "HYDRATING SINGLE-SOURCE TELEMETRY BUS",
+  "PRE-WARMING RETRO MATRIX DOT GRID",
+  "SYNCHRONIZING REALTIME DOM UV COORDINATES",
+  "BOOT SEQUENCE COMPLETE // SYSTEM DISPATCHED",
 ];
 
 export default function SystemBootLoader({
   onComplete,
-  minDuration = 1600,
+  minDuration = 1500,
 }: SystemBootLoaderProps) {
   const [progress, setProgress] = useState(0);
   const [logIndex, setLogIndex] = useState(0);
   const [isDone, setIsDone] = useState(false);
+  const [isExiting, setIsExiting] = useState(false);
 
   useEffect(() => {
-    // 1. Force viewport to top immediately on boot
+    // 1. Guarantee top scroll immediately
     if (typeof window !== "undefined") {
       window.history.scrollRestoration = "manual";
       window.scrollTo(0, 0);
@@ -50,13 +51,16 @@ export default function SystemBootLoader({
       if (pct >= 100) {
         clearInterval(interval);
         setTimeout(() => {
-          setIsDone(true);
-          if (typeof window !== "undefined") {
-            document.body.style.overflow = "";
-            window.scrollTo(0, 0);
-          }
-          if (onComplete) onComplete();
-        }, 350);
+          setIsExiting(true);
+          setTimeout(() => {
+            setIsDone(true);
+            if (typeof window !== "undefined") {
+              document.body.style.overflow = "";
+              window.scrollTo(0, 0);
+            }
+            if (onComplete) onComplete();
+          }, 600); // Allow optical distortion shutter to sweep
+        }, 200);
       }
     }, 25);
 
@@ -74,71 +78,142 @@ export default function SystemBootLoader({
         <motion.div
           key="system-boot-loader"
           initial={{ opacity: 1 }}
+          animate={{ opacity: 1 }}
           exit={{
             opacity: 0,
-            scale: 0.98,
-            y: -16,
-            transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+            transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
           }}
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#00081C]/95 backdrop-blur-md text-white select-none px-6"
+          className="fixed inset-0 z-50 flex flex-col justify-between p-6 sm:p-10 md:p-14 bg-[#00104A] text-white select-none overflow-hidden"
         >
-          {/* Subtle Ambient Background Mesh */}
-          <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:32px_32px] pointer-events-none" />
-
-          {/* ── Glassmorphic Minimalist Rounded Capsule Badge ─────────────── */}
-          <motion.div
-            initial={{ scale: 0.94, opacity: 0, y: 10 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="relative w-full max-w-md rounded-3xl bg-black/60 sm:bg-white/[0.04] backdrop-blur-2xl border border-white/20 sm:border-white/25 p-6 sm:p-7 shadow-[0_30px_70px_-15px_rgba(0,0,0,0.85),inset_0_1px_2px_rgba(255,255,255,0.25)] space-y-5 overflow-hidden"
-          >
-            {/* Frosted Glass Top Corner Glare Accent */}
-            <div className="absolute -top-12 -left-12 w-36 h-36 bg-[#4DEEEA]/15 rounded-full blur-2xl pointer-events-none" />
-            <div className="absolute -bottom-12 -right-12 w-36 h-36 bg-[#B4F342]/15 rounded-full blur-2xl pointer-events-none" />
-
-            {/* Top Bar Header */}
-            <div className="relative z-10 flex items-center justify-between font-mono text-xs text-white/80">
-              <div className="flex items-center gap-2.5">
-                <span className="relative flex h-2.5 w-2.5">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#B4F342] opacity-75" />
-                  <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#B4F342]" />
+          {/* ── 1. Retro Grid Lines & Subtle Crosshairs matching Landing Page ── */}
+          <div className="absolute inset-0 grid grid-cols-3 grid-rows-3 pointer-events-none z-0 opacity-20">
+            {Array.from({ length: 9 }).map((_, i) => (
+              <div key={i} className="relative border-[0.5px] border-white/20">
+                <span className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 text-xs text-white/40 font-mono">
+                  +
                 </span>
-                <span className="font-bold text-white tracking-widest uppercase text-xs sm:text-sm">
-                  KSHITIJ.ENG
-                </span>
-                <span className="text-white/40 text-xs hidden sm:inline">// BOOT</span>
               </div>
+            ))}
+          </div>
 
-              {/* Progress Percentage Badge */}
-              <div className="px-2.5 py-0.5 rounded-full bg-white/10 border border-white/20 font-bold text-[#4DEEEA] text-xs tracking-wider shadow-inner">
-                {progress.toString().padStart(3, "0")}%
+          {/* Ambient Royal Navy Glow */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-600/15 rounded-full blur-3xl pointer-events-none" />
+
+          {/* ── 2. Top Header HUD matching Landing Page ────────────── */}
+          <div className="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-4 items-start font-mono uppercase tracking-wider text-xs">
+            <div>
+              <span className="font-bold text-white text-sm sm:text-base tracking-widest block">
+                KSHITIJ.ENG
+              </span>
+              <div className="text-[#B4F342] text-xs font-bold mt-1">
+                DEVOPS & CLOUD SYSTEMS
               </div>
             </div>
 
-            {/* Ultra-Sleek Glassmorphic Progress Line Track */}
-            <div className="relative z-10 h-[4px] w-full bg-black/50 border border-white/10 rounded-full overflow-hidden p-[0.5px]">
-              <motion.div
-                className="h-full bg-gradient-to-r from-[#4DEEEA] via-[#B4F342] to-[#4DEEEA] rounded-full shadow-[0_0_12px_rgba(180,243,66,0.8)]"
-                style={{ width: `${progress}%` }}
-                transition={{ ease: "easeOut" }}
-              />
+            <div className="hidden md:block text-zinc-300 text-xs leading-relaxed">
+              THINKING IN SYSTEMS.
+              <br />
+              DESIGNING WITH SCALE.
             </div>
 
-            {/* Bottom Real-time Telemetry & Log Output */}
-            <div className="relative z-10 flex items-center justify-between font-mono text-xs text-white/70 pt-1">
-              <div className="flex items-center gap-2 truncate">
-                <Terminal size={14} className="text-[#4DEEEA] shrink-0" />
-                <span className="truncate text-xs text-zinc-300 font-medium">
+            <div className="hidden md:block text-zinc-300 text-xs leading-relaxed">
+              BRIDGING HIGH-PERFORMANCE MICROSERVICES, CI/CD AUTOMATION, AND CLOUD INFRASTRUCTURE.
+            </div>
+
+            <div className="flex justify-end items-center gap-3">
+              <span className="px-3 py-1 bg-white/10 border border-white/20 rounded-xs text-[#4DEEEA] font-bold text-xs">
+                {progress < 100 ? `INITIALIZING // ${progress}%` : "SYSTEM_READY"}
+              </span>
+            </div>
+          </div>
+
+          {/* ── 3. Center Glassmorphic One-Line Style Loading Capsule ── */}
+          <div className="relative z-10 max-w-xl mx-auto w-full space-y-6 my-auto">
+            {/* Tagline pill matching landing hero */}
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-900/60 border border-[#4DEEEA]/30 text-[#4DEEEA] font-mono text-xs font-bold tracking-wider">
+              <span className="w-2 h-2 rounded-full bg-[#B4F342] animate-pulse" />
+              <span>DEVOPS ENGINEER & CLOUD INFRASTRUCTURE DEVELOPER</span>
+            </div>
+
+            {/* Title Mock Silhouette */}
+            <div className="space-y-1">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight text-white leading-none">
+                I BRING <span className="text-[#B4F342]">CRAFT</span> &{" "}
+                <span className="text-[#4DEEEA]">TASTE</span>
+              </h2>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight text-white/40 leading-none">
+                TO DIGITAL WORK
+              </h2>
+            </div>
+
+            {/* High-Tech Glassmorphic Line Loading Box */}
+            <div className="relative rounded-2xl bg-black/60 backdrop-blur-2xl border border-white/20 p-5 sm:p-6 shadow-[0_20px_50px_rgba(0,0,0,0.7),inset_0_1px_1px_rgba(255,255,255,0.2)] space-y-4">
+              {/* Top Row: Progress & Status */}
+              <div className="flex items-center justify-between font-mono text-xs text-white/80">
+                <div className="flex items-center gap-2">
+                  <Terminal size={14} className="text-[#4DEEEA]" />
+                  <span className="font-bold text-zinc-200">BOOT SEQUENCE</span>
+                </div>
+                <div className="font-black text-[#B4F342] text-sm tracking-widest">
+                  {progress.toString().padStart(3, "0")}%
+                </div>
+              </div>
+
+              {/* Glowing High-Precision Progress Line */}
+              <div className="relative h-[4px] w-full bg-white/10 rounded-full overflow-hidden">
+                <motion.div
+                  className="h-full bg-gradient-to-r from-[#4DEEEA] via-[#B4F342] to-[#4DEEEA] rounded-full shadow-[0_0_15px_rgba(180,243,66,0.9)]"
+                  style={{ width: `${progress}%` }}
+                  transition={{ ease: "easeOut" }}
+                />
+              </div>
+
+              {/* Terminal Log Ticker */}
+              <div className="flex items-center justify-between font-mono text-xs text-white/60">
+                <div className="truncate text-xs text-zinc-300 font-medium pr-2">
                   {BOOT_LOGS[logIndex]}
-                </span>
-              </div>
-
-              <div className="flex items-center gap-1 text-xs text-[#B4F342] font-semibold shrink-0 ml-2">
-                <Activity size={12} className="animate-pulse" />
-                <span>ONLINE</span>
+                </div>
+                <div className="flex items-center gap-1.5 text-xs text-[#B4F342] font-bold shrink-0">
+                  <Activity size={12} className="animate-spin" />
+                  <span>{progress < 100 ? "SYNCING" : "READY"}</span>
+                </div>
               </div>
             </div>
-          </motion.div>
+          </div>
+
+          {/* ── 4. Bottom Telemetry Bar ────────────────────────────── */}
+          <div className="relative z-10 flex justify-between items-center border-t border-white/15 pt-4 font-mono text-xs text-white/70">
+            <div>UTC+5:30 // IST 17:40</div>
+            <div className="font-bold text-[#4DEEEA] tracking-widest hidden sm:inline">
+              SECURE TLS 1.3 // 256-BIT
+            </div>
+            <div className="flex items-center gap-2 text-[#B4F342] font-bold">
+              <ShieldCheck size={14} />
+              <span>SYSTEM ARMED</span>
+            </div>
+          </div>
+
+          {/* ── 5. Optical Distortion & Shutter Curtain Reveal Animation on Complete ── */}
+          {isExiting && (
+            <>
+              {/* Top Shutter Curtain wiping up */}
+              <motion.div
+                initial={{ scaleY: 1 }}
+                animate={{ scaleY: 0 }}
+                transition={{ duration: 0.55, ease: [0.77, 0, 0.175, 1] }}
+                style={{ originY: 0 }}
+                className="absolute inset-0 bg-[#00104A] z-40 border-b-2 border-[#4DEEEA]"
+              />
+
+              {/* Laser Scanline Flash Distortion Bar */}
+              <motion.div
+                initial={{ y: "-100%", opacity: 1 }}
+                animate={{ y: "200%", opacity: 0 }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+                className="absolute inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#B4F342] to-transparent z-50 shadow-[0_0_25px_#B4F342]"
+              />
+            </>
+          )}
         </motion.div>
       )}
     </AnimatePresence>
