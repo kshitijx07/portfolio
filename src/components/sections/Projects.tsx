@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import ProjectBlackHoleBg from "@/components/canvas/ProjectBlackHoleBg";
+import ProjectCyberGridBg from "@/components/canvas/ProjectCyberGridBg";
 import ProjectCardSync, {
   ProjectMetric,
 } from "@/components/dom/ProjectCardSync";
@@ -211,8 +211,8 @@ export default function Projects() {
       id="projects"
       className="relative z-10 min-h-screen bg-[#050505] px-6 sm:px-10 md:px-14 py-20 border-t border-white/10 overflow-hidden"
     >
-      {/* ── Relativistic Black Hole Accretion & Velocity UV Curl Layer ── */}
-      <ProjectBlackHoleBg />
+      {/* ── 3D Perspective Cyber Grid & Velocity UV Curl Layer ── */}
+      <ProjectCyberGridBg />
 
       <div className="relative z-10 max-w-7xl mx-auto space-y-8">
         {/* ── 1. Section Header & Telemetry Status ────────────────── */}
@@ -261,8 +261,8 @@ export default function Projects() {
           ))}
         </div>
 
-        {/* ── 3. Pinterest-Style Masonry Grid ─────────────────────── */}
-        <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+        {/* ── 3. Balanced 2x2 Grid Covering the Viewport ──────────── */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
           {filteredProjects.map((project) => (
             <ProjectCardSync
               key={project.id}
