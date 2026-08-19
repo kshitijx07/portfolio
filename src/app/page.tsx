@@ -7,18 +7,15 @@ import TechnicalHeader from "@/components/ui/TechnicalHeader";
 import TechnicalHUDBar from "@/components/ui/TechnicalHUDBar";
 import TechnicalGridShell from "@/components/ui/TechnicalGridShell";
 
-// Multi-Environment Sections (Inspired by HAOQI.DESIGN)
+// Multi-Environment Sections (HAOQI.DESIGN Architecture)
 import TechnicalHeroSection from "@/components/sections/TechnicalHeroSection";
 import EditorialAboutSection from "@/components/sections/EditorialAboutSection";
-import PlatformUpdatesModule from "@/components/bento/PlatformUpdatesModule";
 import EditorialProjectsSection from "@/components/sections/EditorialProjectsSection";
 import SystemsTopology from "@/components/skills/SystemsTopology";
 import ExperienceTimelineModule from "@/components/bento/ExperienceTimelineModule";
+import EducationMetadataSection from "@/components/sections/EducationMetadataSection";
 import RetroPixelGameRoom from "@/components/bento/RetroPixelGameRoom";
-import AboutEducationModule from "@/components/bento/AboutEducationModule";
-import KeyMilestonesModule from "@/components/bento/KeyMilestonesModule";
-import CodingProfilesBento from "@/components/bento/CodingProfilesBento";
-import ContactResumePanel from "@/components/bento/ContactResumePanel";
+import TechnicalContactSection from "@/components/sections/TechnicalContactSection";
 import CaseStudyModal, { ProjectData } from "@/components/modals/CaseStudyModal";
 
 const projectsData: ProjectData[] = [
@@ -129,34 +126,34 @@ export default function Home() {
 
       {/* Main Editorial Multi-Environment Content Flow */}
       <main className="relative z-10 space-y-0">
-        {/* 1. HERO: ELECTRIC BLUE IMMERSIVE ENVIRONMENT */}
+        {/* 1. HERO: 170vh SPATIAL TIMELINE (Electric Blue + 3D Liquid Ribbon) */}
         <TechnicalHeroSection />
 
-        {/* 2. EDITORIAL BIO: DARK VOID + PORTRAIT + PIXEL STAIRCASE */}
+        {/* 2. EDITORIAL BIO: DARK VOID + DEVELOPING PORTRAIT */}
         <EditorialAboutSection />
 
-        {/* 3. LIVE PLATFORM TELEMETRY DECK */}
-        <div className="max-w-[1500px] mx-auto px-4 md:px-8 py-8">
-          <PlatformUpdatesModule />
-        </div>
-
-        {/* 4. SELECTED WORKS: DIGITAL ARCHIVE & PAPER CANVASES */}
+        {/* 3. SELECTED WORKS: PINNED 320vh DIGITAL ARCHIVE STAGE */}
         <EditorialProjectsSection
           projects={projectsData}
           onOpenCaseStudy={setSelectedProject}
         />
 
-        {/* 5. SYSTEMS TOPOLOGY GRAPH (Interactive Infrastructure Diagram) */}
+        {/* 4. SYSTEMS TOPOLOGY GRAPH (Interactive Infrastructure Architecture) */}
         <div className="max-w-[1500px] mx-auto px-4 md:px-8">
           <SystemsTopology />
         </div>
 
-        {/* 6. PROFESSIONAL ENGINEERING TIMELINE */}
+        {/* 5. PROFESSIONAL ENGINEERING TIMELINE */}
         <div className="max-w-[1500px] mx-auto px-4 md:px-8">
           <ExperienceTimelineModule />
         </div>
 
-        {/* 7. EXPERIMENTAL DISCOVERY LAB (Playable 2D Developer Room) */}
+        {/* 6. ACADEMIC STANDING & SCIENTIFIC MERIT */}
+        <div className="max-w-[1500px] mx-auto px-4 md:px-8">
+          <EducationMetadataSection />
+        </div>
+
+        {/* 7. EXPERIMENTAL DISCOVERY LAB (Expandable 2D Developer Room) */}
         <div className="max-w-[1500px] mx-auto px-4 md:px-8">
           <RetroPixelGameRoom
             projects={projectsData}
@@ -164,22 +161,9 @@ export default function Home() {
           />
         </div>
 
-        {/* 8. ACADEMIC FOUNDATION & HONORS */}
-        <div className="max-w-[1500px] mx-auto px-4 md:px-8 py-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
-            <AboutEducationModule />
-            <KeyMilestonesModule />
-          </div>
-        </div>
-
-        {/* 9. CODING PROFILES & ALGORITHMIC TELEMETRY */}
+        {/* 8. DIRECT TRANSMISSION CHANNEL / CONTACT & CV DOWNLOAD */}
         <div className="max-w-[1500px] mx-auto px-4 md:px-8">
-          <CodingProfilesBento />
-        </div>
-
-        {/* 10. ENCRYPTED TRANSMISSION & CV DOWNLOAD */}
-        <div className="max-w-[1500px] mx-auto px-4 md:px-8">
-          <ContactResumePanel />
+          <TechnicalContactSection />
         </div>
       </main>
 

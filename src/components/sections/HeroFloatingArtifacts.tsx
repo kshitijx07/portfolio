@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Heart, MousePointer2, Cloud, Terminal, Cpu, Box, Sparkles } from "lucide-react";
+import { Heart, MousePointer2, Cloud, Cpu } from "lucide-react";
 
 export default function HeroFloatingArtifacts() {
   return (
@@ -19,7 +19,7 @@ export default function HeroFloatingArtifacts() {
           repeat: Infinity,
           ease: "easeInOut",
         }}
-        className="absolute top-[32%] left-[42%] md:left-[44%] -translate-x-1/2 z-0 hidden sm:block"
+        className="absolute top-[34%] left-[42%] md:left-[44%] -translate-x-1/2 z-0 hidden sm:block"
       >
         <div className="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-[#FF2E7E] to-[#FF0055] rounded-3xl p-3 shadow-[0_0_35px_rgba(255,46,126,0.6)] flex items-center justify-center rotate-[-12deg] border-2 border-white/40">
           <Heart size={36} className="text-white fill-white animate-pulse" />
@@ -41,7 +41,7 @@ export default function HeroFloatingArtifacts() {
         className="absolute top-[52%] right-[8%] md:right-[12%] z-20 hidden md:block"
       >
         <div className="p-3 bg-[#FAF9F6] border-2 border-black rounded-2xl shadow-[6px_6px_0px_rgba(0,0,0,0.8)] rotate-[12deg] text-[#050505] flex items-center gap-2">
-          <div className="w-9 h-9 bg-[var(--accent-acid)] rounded-full border border-black flex items-center justify-center font-bold text-sm">
+          <div className="w-9 h-9 bg-[var(--accent-acid)] rounded-full border border-black flex items-center justify-center font-bold text-sm font-mono">
             KK
           </div>
           <div className="font-mono text-[10px] leading-tight font-bold">

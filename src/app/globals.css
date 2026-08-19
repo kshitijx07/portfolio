@@ -1,174 +1,116 @@
 @import "tailwindcss";
 
-@variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
-
 @theme inline {
-  --color-acid-lime: #B7FF00;
-  --color-acid-glow: rgba(183, 255, 0, 0.25);
-  --color-cyber-blue: #00D2FF;
+  --color-void: #050505;
+  --color-surface: #0D0D0D;
+  --color-surface-hover: #171717;
+  --color-paper: #FAF9F6;
   --color-electric-blue: #203DFF;
-  --color-electric-blue-deep: #07145C;
-  --color-electric-blue-glow: #6F82FF;
-  --color-void-black: #050505;
-  --color-surface-dark: #0D0D0D;
-  --color-surface-card: #141414;
-  --color-paper-light: #FAF9F6;
-  --color-paper-card: #FFFFFF;
-  
-  --font-display: var(--font-jakarta), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-serif: var(--font-newsreader), Georgia, serif;
-  --font-sans: var(--font-jakarta), system-ui, sans-serif;
-  --font-mono: var(--font-mono), "JetBrains Mono", "IBM Plex Mono", monospace;
-  --font-script: "Caveat", "Brush Script MT", "Segoe Script", cursive;
+  --color-electric-deep: #07145C;
+  --color-acid-lime: #B7FF00;
+  --color-accent-pink: #FF0055;
+  --color-accent-cyan: #00D2FF;
+
+  --font-serif: var(--font-newsreader), serif;
+  --font-sans: var(--font-jakarta), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-mono), monospace;
+  --font-display: var(--font-jakarta), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 :root {
   --bg-primary: #050505;
   --bg-surface: #0D0D0D;
-  --bg-card: rgba(16, 16, 16, 0.75);
-  --bg-card-solid: #141414;
-  --bg-secondary: #181818;
-  
-  --bg-electric-blue: #07145C;
-  --bg-electric-blue-deep: #091967;
-  --color-electric-blue: #203DFF;
-  --color-electric-blue-glow: #6F82FF;
-  
-  --text-primary: #FFFFFF;
-  --text-secondary: #A0A09A;
-  --text-muted: #60605C;
-  
-  --border-color: rgba(255, 255, 255, 0.09);
-  --grid-line: rgba(255, 255, 255, 0.07);
-  --grid-crosshair: rgba(183, 255, 0, 0.4);
-  
+  --bg-surface-hover: #171717;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-active: #B7FF00;
+  --text-primary: #F5F5F0;
+  --text-secondary: #858585;
+  --text-muted: #555555;
   --accent-acid: #B7FF00;
-  --accent-acid-bright: #D4FF00;
-  --accent-acid-bg: rgba(183, 255, 0, 0.12);
-  --accent-blue: #00D2FF;
-  
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-specular: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.02) 100%);
-  --glass-glow: rgba(183, 255, 0, 0.15);
+  --bg-electric-blue: #07145C;
+  --bg-electric-deep: #091967;
 }
 
-/* Experimental Future Dark Void Mode (HAOQI.DESIGN inspired) */
-[data-theme="dark"] {
-  --bg-primary: #050505;
-  --bg-surface: #0D0D0D;
-  --bg-card: rgba(16, 16, 16, 0.75);
-  --bg-card-solid: #141414;
-  --bg-secondary: #181818;
-  
-  --text-primary: #FFFFFF;
-  --text-secondary: #A0A09A;
-  --text-muted: #60605C;
-  
-  --border-color: rgba(255, 255, 255, 0.09);
-  --grid-line: rgba(255, 255, 255, 0.07);
-  --grid-crosshair: rgba(183, 255, 0, 0.4);
-  
+[data-theme="light"] {
+  --bg-primary: #FAF9F6;
+  --bg-surface: #FFFFFF;
+  --bg-surface-hover: #F0EFEA;
+  --border-color: rgba(0, 0, 0, 0.08);
+  --border-active: #050505;
+  --text-primary: #050505;
+  --text-secondary: #6E6C68;
+  --text-muted: #9E9C96;
   --accent-acid: #B7FF00;
-  --accent-acid-bright: #D4FF00;
-  --accent-acid-bg: rgba(183, 255, 0, 0.12);
-  --accent-blue: #00D2FF;
-  
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-specular: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.02) 100%);
-  --glass-glow: rgba(183, 255, 0, 0.15);
+  --bg-electric-blue: #E8EEFF;
+  --bg-electric-deep: #D0DDFF;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto;
 }
 
 body {
-  background-color: var(--bg-primary) !important;
-  color: var(--text-primary) !important;
-  font-family: var(--font-sans), sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
   overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.35s cubic-bezier(0.22, 1, 0.36, 1), color 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  selection-background-color: var(--accent-acid);
+  selection-color: #050505;
 }
 
-/* Typography Classes */
-.font-display {
-  font-family: var(--font-display);
-  letter-spacing: -0.035em;
+::selection {
+  background-color: var(--accent-acid);
+  color: #050505;
 }
 
-.font-technical {
-  font-family: var(--font-mono);
-  letter-spacing: 0.02em;
-}
-
-/* ==========================================================================
-   TECHNICAL HUD & EDITORIAL GRID UTILITIES
-   ========================================================================== */
-
-/* 1px Structural Grid Overlay Lines */
-.hud-grid-border {
-  border-color: var(--grid-line);
-}
-
-/* Crosshair '+' Intersection Mark */
-.hud-crosshair {
-  position: relative;
-}
-
-.hud-crosshair::before {
-  content: "+";
-  position: absolute;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  line-height: 1;
-  color: var(--grid-crosshair);
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  z-index: 20;
-}
-
-/* Bitmap Dot Matrix Grid Texture */
+/* Generative Dotted Pattern */
 .hud-dot-grid {
-  background-image: radial-gradient(var(--grid-line) 1px, transparent 1px);
-  background-size: 20px 20px;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
-/* Technical HUD Tag / Badge */
+[data-theme="light"] .hud-dot-grid {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+}
+
+/* Technical HUD Components */
 .hud-tag {
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 10px;
+  font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 0.2rem 0.55rem;
+  padding: 2px 6px;
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 4px;
   border: 1px solid var(--border-color);
-  background: var(--bg-card);
-  color: var(--text-primary);
-  font-weight: 600;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .hud-tag-acid {
-  background: var(--accent-acid);
-  color: #050505;
   border-color: var(--accent-acid);
-  font-weight: 700;
+  color: var(--accent-acid);
+  background: rgba(183, 255, 0, 0.06);
 }
 
-/* Technical HUD Button */
 .hud-btn {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.05em;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  padding: 0.45rem 1rem;
-  border: 1px solid var(--border-color);
-  background: var(--bg-card);
-  color: var(--text-primary);
+  padding: 8px 16px;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-surface);
+  color: var(--text-primary);
   transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
   cursor: pointer;
 }
@@ -176,98 +118,34 @@ body {
 .hud-btn:hover {
   border-color: var(--accent-acid);
   color: var(--accent-acid);
-  background: var(--bg-secondary);
+  background: var(--bg-surface-hover);
 }
 
-/* Selective Frosted Glass Panel */
-.glass-panel {
-  background: var(--bg-card);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--border-color);
-  position: relative;
-}
-
-.glass-specular-edge::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: var(--glass-specular);
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* Pixel Art Square Indicator */
-.pixel-sq {
-  width: 6px;
-  height: 6px;
-  background-color: var(--accent-acid);
-  display: inline-block;
-}
-
-/* Custom Scrollbar for Terminals & Modals */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 5px;
-}
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: var(--border-color);
-  border-radius: 2px;
-}
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+.hud-btn.hud-tag-acid {
   background: var(--accent-acid);
-}
-/* Lenis Smooth Scroll Setup */
-html.lenis, html.lenis body {
-  height: auto;
+  color: #050505;
+  border-color: var(--accent-acid);
 }
 
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
+.hud-btn.hud-tag-acid:hover {
+  background: #C6FF00;
+  color: #050505;
+  box-shadow: 0 0 20px rgba(183, 255, 0, 0.35);
 }
 
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
-
-.lenis.lenis-smooth iframe {
-  pointer-events: none;
-}
-
-/* Custom Ethereal Scrollbar */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 7px;
+  width: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-primary);
+  background: #050505;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--border-color);
-  border-radius: 9999px;
-  border: 2px solid var(--bg-primary);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-terracotta);
-}
-
-/* Accessibility: Prefers Reduced Motion */
-@media (prefers-reduced-motion: reduce) {
-  *, ::before, ::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
+  background: var(--accent-acid);
 }

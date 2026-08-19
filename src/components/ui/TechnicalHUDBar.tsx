@@ -1,79 +1,65 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { ShieldCheck } from "lucide-react";
 
 export default function TechnicalHUDBar() {
-  const [time, setTime] = useState("");
-  const [coords, setCoords] = useState({ x: 120, y: 45 });
+  const [coords, setCoords] = useState({ x: 741, y: 384 });
+  const [timeString, setTimeString] = useState("12:22:00");
 
   useEffect(() => {
     // Live IST Clock
     const updateTime = () => {
       const now = new Date();
-      const timeStr = now.toLocaleTimeString("en-US", {
+      const istOptions: Intl.DateTimeFormatOptions = {
         timeZone: "Asia/Kolkata",
         hour: "2-digit",
         minute: "2-digit",
+        second: "2-digit",
         hour12: false,
-      });
-      setTime(timeStr);
+      };
+      setTimeString(new Intl.DateTimeFormat([], istOptions).format(now));
     };
     updateTime();
-    const interval = setInterval(updateTime, 1000);
+    const timer = setInterval(updateTime, 1000);
 
-    // Live Cursor Tracker
+    // Live Mouse Coordinates
     const handleMouseMove = (e: MouseEvent) => {
-      setCoords({
-        x: Math.round(e.clientX),
-        y: Math.round(e.clientY),
-      });
+      setCoords({ x: Math.round(e.clientX), y: Math.round(e.clientY) });
     };
-    window.addEventListener("mousemove", handleMouseMove);
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
 
     return () => {
-      clearInterval(interval);
+      clearInterval(timer);
       window.removeEventListener("mousemove", handleMouseMove);
     };
   }, []);
 
-  const formatCoord = (num: number) => String(num).padStart(4, "0");
-
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-40 bg-[var(--bg-primary)]/85 backdrop-blur-md border-t border-[var(--border-color)] py-2.5 px-4 md:px-8 font-mono text-[11px] text-[var(--text-secondary)] select-none">
-      <div className="max-w-[1500px] mx-auto flex items-center justify-between">
-        {/* Left: Time & Location Telemetry */}
+    <footer className="fixed bottom-0 left-0 right-0 z-40 bg-[var(--bg-primary)]/80 backdrop-blur-md border-t border-[var(--border-color)] py-2 pointer-events-none select-none">
+      <div className="max-w-[1500px] mx-auto px-4 md:px-8 flex items-center justify-between font-mono text-[10px] text-[var(--text-secondary)]">
+        {/* Left: Real Local Coordinates & Time */}
         <div className="flex items-center gap-3">
-          <span className="w-2 h-2 rounded-full bg-[var(--accent-acid)] animate-ping opacity-75" />
-          <span className="tabular-nums">
-            GMT+5:30 IN {time || "11:53"} 31°C
-          </span>
-          <span className="hidden md:inline text-[var(--text-muted)]">
-            // PUNE 18.5204° N, 73.8567° E
+          <span className="text-[var(--text-primary)] font-bold">GMT+05:30</span>
+          <span>// IN / PUNE</span>
+          <span className="text-[var(--accent-acid)] hidden sm:inline-block font-bold">[{timeString} IST]</span>
+        </div>
+
+        {/* Center: Live Cursor Coordinates */}
+        <div className="hidden md:flex items-center gap-2 text-[var(--text-muted)]">
+          <span>CURSOR_COORD</span>
+          <span className="text-[var(--text-primary)] font-bold">
+            [{String(coords.x).padStart(4, "0")} X {String(coords.y).padStart(4, "0")} Y]
           </span>
         </div>
 
-        {/* Center: Live Cursor Coordinate Tracker */}
-        <div className="hidden sm:flex items-center gap-2 tabular-nums text-[var(--text-primary)] font-bold">
-          <span className="text-[var(--accent-acid)]">✦</span>
-          <span>{formatCoord(coords.x)} X {formatCoord(coords.y)} Y</span>
-        </div>
-
-        {/* Right: Wireframe Globe & Status Indicator */}
-        <div className="flex items-center gap-3">
-          <span className="hidden sm:inline text-[10px] text-[var(--text-muted)]">
-            BUILD // 2026.08
-          </span>
-          <div className="flex items-center gap-1.5 px-2 py-0.5 border border-[var(--border-color)] bg-[var(--bg-card)] text-[var(--text-primary)] text-[10px] font-bold">
-            <span className="w-1.5 h-1.5 bg-[var(--accent-acid)]" />
-            <span>SYS // ONLINE</span>
-          </div>
-
-          {/* Wireframe Rotating Globe Glyphs */}
-          <span className="text-[var(--text-primary)] font-mono text-sm leading-none animate-spin-slow">
-            🌐
-          </span>
+        {/* Right: Minimal Status Indicator */}
+        <div className="flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-[var(--accent-acid)] animate-pulse shadow-[0_0_8px_rgba(183,255,0,0.8)]" />
+          <span className="font-bold text-[var(--text-primary)] tracking-wider">SYS // ONLINE</span>
         </div>
       </div>
-    </div>
+    </footer>
   );
 }

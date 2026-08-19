@@ -38,16 +38,6 @@ export default function ContactResumePanel() {
   return (
     <section id="contact" className="py-16 md:py-24 border-t border-[var(--border-color)]">
       <div className="w-full border border-[var(--border-color)] bg-[var(--bg-surface)] p-6 md:p-10 space-y-8" data-cursor="Contact">
-        {/* Large Editorial Statement */}
-        <div className="pb-6 border-b border-[var(--border-color)]">
-          <span className="font-mono text-xs text-[var(--accent-acid)] font-bold tracking-wider block mb-2">
-            06 // DIRECT TRANSMISSION
-          </span>
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-display font-extrabold text-[var(--text-primary)] uppercase tracking-tight">
-            LET&apos;S BUILD SOMETHING USEFUL.
-          </h2>
-        </div>
-
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           {/* Left: Direct Transmission Form */}
           <div className="space-y-4">
