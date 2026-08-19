@@ -4,19 +4,13 @@ import React, { useRef, useState, useEffect } from "react";
 import {
   ArrowUpRight,
   ExternalLink,
-  Shield,
-  Zap,
-  Activity,
   Layers,
   Check,
   Copy,
   ChevronDown,
   ChevronUp,
-  Cpu,
-  Server,
-  Cloud,
-  Database,
   Terminal,
+  Activity,
 } from "lucide-react";
 import { FiGithub } from "react-icons/fi";
 import { globalRectSampler } from "@/lib/DomTargetRectSampler";
@@ -44,10 +38,7 @@ export interface ProjectCardProps {
   bullets?: string[];
   metrics?: ProjectMetric[];
   cliCommand?: string;
-  architectureHighlights?: {
-    title: string;
-    detail: string;
-  }[];
+  defaultExpanded?: boolean;
 }
 
 export default function ProjectCardSync({
@@ -67,10 +58,10 @@ export default function ProjectCardSync({
   bullets = [],
   metrics = [],
   cliCommand,
-  architectureHighlights = [],
+  defaultExpanded = false,
 }: ProjectCardProps) {
   const [hovered, setHovered] = useState(false);
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(defaultExpanded);
   const [copiedCli, setCopiedCli] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -96,38 +87,35 @@ export default function ProjectCardSync({
       ref={cardRef}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className={`group relative w-full rounded-sm border border-white/10 ${bgColor} p-6 sm:p-8 md:p-9 flex flex-col justify-between overflow-hidden transition-all duration-300 hover:border-[${accentColor}] select-none shadow-2xl space-y-6`}
+      className={`group relative break-inside-avoid inline-block w-full rounded-sm border border-white/10 ${bgColor} p-5 sm:p-6 flex flex-col justify-between overflow-hidden transition-all duration-300 select-none shadow-xl space-y-4`}
       style={{
         borderColor: hovered ? accentColor : "rgba(255, 255, 255, 0.1)",
       }}
     >
-      {/* ── 1. Top HUD Header & Links ──────────────────────────────── */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 z-10 border-b border-white/10 pb-5">
-        <div className="flex flex-wrap items-center gap-2.5">
+      {/* ── 1. Compact Top Header Bar ───────────────────────────────── */}
+      <div className="flex items-center justify-between gap-2 z-10 border-b border-white/10 pb-3">
+        <div className="flex items-center gap-2 truncate">
           <span
-            className="px-2.5 py-0.5 font-mono text-[10px] font-bold text-black uppercase tracking-wider rounded-xs"
+            className="px-2 py-0.5 font-mono text-[9px] font-bold text-black uppercase tracking-wider rounded-xs shrink-0"
             style={{ backgroundColor: accentColor }}
           >
             {tag}
           </span>
-          <span className="font-mono text-[10px] text-white/40 uppercase tracking-widest hidden sm:inline">
-            // {category}
+          <span className="font-mono text-[9px] text-white/40 uppercase tracking-wider truncate hidden sm:inline">
+            // {year}
           </span>
         </div>
 
-        <div className="flex items-center gap-3 font-mono text-xs text-white/60">
-          <span className="text-white/40">{year}</span>
-
+        <div className="flex items-center gap-2 font-mono text-xs text-white/60 shrink-0">
           {githubUrl && (
             <a
               href={githubUrl}
               target="_blank"
               rel="noreferrer"
-              className="p-1.5 bg-white/5 hover:bg-white/15 text-white hover:text-[#B4F342] rounded-xs transition-colors flex items-center gap-1.5 text-[11px]"
-              title="View source repository"
+              className="p-1 bg-white/5 hover:bg-white/15 text-white hover:text-[#B4F342] rounded-xs transition-colors"
+              title="View GitHub repository"
             >
-              <FiGithub size={13} />
-              <span className="hidden sm:inline font-bold">SOURCE</span>
+              <FiGithub size={12} />
             </a>
           )}
 
@@ -136,145 +124,127 @@ export default function ProjectCardSync({
               href={demoUrl}
               target="_blank"
               rel="noreferrer"
-              className="p-1.5 bg-[#B4F342]/10 border border-[#B4F342]/30 text-[#B4F342] hover:bg-[#B4F342] hover:text-black rounded-xs transition-colors flex items-center gap-1.5 text-[11px] font-bold"
-              title="Open live deployment"
+              className="px-2 py-0.5 bg-[#B4F342]/10 border border-[#B4F342]/30 text-[#B4F342] hover:bg-[#B4F342] hover:text-black rounded-xs transition-colors flex items-center gap-1 text-[10px] font-bold"
+              title="Open Live Deployment"
             >
               <span>LIVE</span>
-              <ArrowUpRight size={13} />
+              <ArrowUpRight size={11} />
             </a>
           )}
         </div>
       </div>
 
-      {/* ── 2. Middle Visual Feature & Banner ───────────────────────── */}
-      <div className="space-y-4 z-10">
-        {bannerText ? (
-          <div className="p-4 bg-black/60 border border-white/10 rounded-sm flex items-center justify-between font-mono text-sm sm:text-base text-white group-hover:text-[#B4F342] transition-colors">
-            <div className="flex items-center gap-2 truncate">
-              <Terminal size={16} className="text-[#4DEEEA] shrink-0" />
-              <span className="truncate">{bannerText}</span>
-            </div>
-            {cliCommand && (
-              <button
-                onClick={handleCopyCli}
-                className="px-2.5 py-1 bg-white/10 hover:bg-white/20 text-white rounded-xs text-xs flex items-center gap-1 shrink-0 ml-2"
-                title="Copy CLI command"
-              >
-                {copiedCli ? (
-                  <>
-                    <Check size={12} className="text-[#B4F342]" />
-                    <span className="text-[10px]">COPIED</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy size={12} />
-                    <span className="text-[10px]">COPY</span>
-                  </>
-                )}
-              </button>
-            )}
+      {/* ── 2. Compact Visual Banner / CLI Trigger ─────────────────── */}
+      {bannerText && (
+        <div className="p-2.5 bg-black/70 border border-white/10 rounded-sm flex items-center justify-between font-mono text-xs text-white group-hover:text-[#B4F342] transition-colors z-10">
+          <div className="flex items-center gap-1.5 truncate">
+            <Terminal size={13} className="text-[#4DEEEA] shrink-0" />
+            <span className="truncate text-[11px]">{bannerText}</span>
           </div>
-        ) : (
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 bg-[#FF4500] px-4 py-2 rounded-full text-black font-black text-lg tracking-tight shadow-md">
-              <span>{title.slice(0, 8)}</span>
-              <span className="bg-white text-black px-2 py-0.2 text-xs rounded-full uppercase">
-                PROD
-              </span>
-            </div>
-          </div>
-        )}
-
-        <div className="space-y-1">
-          <h3 className="text-2xl sm:text-3xl font-extrabold text-white group-hover:text-[#B4F342] transition-colors tracking-tight">
-            {title}
-          </h3>
-          {subtitle && (
-            <p className="font-mono text-xs text-[#4DEEEA] font-semibold">
-              {subtitle}
-            </p>
+          {cliCommand && (
+            <button
+              onClick={handleCopyCli}
+              className="px-2 py-0.5 bg-white/10 hover:bg-white/20 text-white rounded-xs text-[9px] flex items-center gap-1 shrink-0 ml-2 cursor-pointer"
+              title="Copy CLI command"
+            >
+              {copiedCli ? (
+                <>
+                  <Check size={10} className="text-[#B4F342]" />
+                  <span>COPIED</span>
+                </>
+              ) : (
+                <>
+                  <Copy size={10} />
+                  <span>COPY</span>
+                </>
+              )}
+            </button>
           )}
         </div>
+      )}
 
-        <p className="text-xs sm:text-sm text-[#8A8F98] leading-relaxed font-mono">
+      {/* ── 3. Title & Description ──────────────────────────────────── */}
+      <div className="space-y-1.5 z-10">
+        <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-[#B4F342] transition-colors tracking-tight">
+          {title}
+        </h3>
+        {subtitle && (
+          <p className="font-mono text-[11px] text-[#4DEEEA] font-semibold">
+            {subtitle}
+          </p>
+        )}
+        <p className="text-xs text-[#8A8F98] leading-relaxed font-mono pt-1">
           {description}
         </p>
       </div>
 
-      {/* ── 3. Production Architecture Metrics Bar ───────────────────── */}
+      {/* ── 4. Key Metrics Grid (Compact Chips) ────────────────────── */}
       {metrics.length > 0 && (
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 z-10 font-mono">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 z-10 font-mono">
           {metrics.map((m, idx) => (
             <div
               key={idx}
-              className="p-3 bg-white/5 border border-white/10 rounded-xs space-y-1"
+              className="p-2 bg-white/5 border border-white/10 rounded-xs space-y-0.5"
             >
-              <div className="text-[10px] text-white/40 uppercase truncate">
+              <div className="text-[9px] text-white/40 uppercase truncate">
                 {m.label}
               </div>
-              <div className="text-xs sm:text-sm font-bold text-[#B4F342] truncate">
+              <div className="text-xs font-bold text-[#B4F342] truncate">
                 {m.value}
               </div>
               {m.sub && (
-                <div className="text-[9px] text-white/50 truncate">{m.sub}</div>
+                <div className="text-[8px] text-white/50 truncate">{m.sub}</div>
               )}
             </div>
           ))}
         </div>
       )}
 
-      {/* ── 4. Architectural Bullet Points & Highlights ─────────────── */}
+      {/* ── 5. Architectural Bullets ────────────────────────────────── */}
       {bullets.length > 0 && (
-        <div className="space-y-2.5 z-10">
-          <div className="font-mono text-[11px] text-white/40 uppercase tracking-wider flex items-center gap-1.5">
-            <Layers size={13} className="text-[#4DEEEA]" />
-            <span>Key Engineering Highlights</span>
-          </div>
-          <ul className="space-y-2 text-xs text-zinc-300 leading-relaxed font-mono">
-            {bullets.slice(0, expanded ? bullets.length : 3).map((b, i) => (
-              <li key={i} className="flex items-start gap-2">
-                <span className="text-[#B4F342] mt-0.5 shrink-0">▹</span>
-                <span>{b}</span>
+        <div className="space-y-2 z-10 font-mono">
+          <ul className="space-y-1.5 text-xs text-zinc-300 leading-relaxed">
+            {bullets.slice(0, expanded ? bullets.length : 2).map((b, i) => (
+              <li key={i} className="flex items-start gap-1.5 text-[11px]">
+                <span className="text-[#B4F342] mt-0.5 shrink-0 text-[10px]">
+                  ▹
+                </span>
+                <span className="leading-snug">{b}</span>
               </li>
             ))}
           </ul>
 
-          {bullets.length > 3 && (
+          {bullets.length > 2 && (
             <button
               onClick={() => setExpanded(!expanded)}
-              className="pt-1 font-mono text-[11px] text-[#4DEEEA] hover:underline flex items-center gap-1 cursor-pointer"
+              className="pt-0.5 font-mono text-[10px] text-[#4DEEEA] hover:underline flex items-center gap-1 cursor-pointer"
             >
               <span>
                 {expanded
-                  ? "Collapse Architecture Details"
-                  : `Expand Full Specification (+${bullets.length - 3} bullets)`}
+                  ? "Collapse Details"
+                  : `+${bullets.length - 2} Architecture Bullets`}
               </span>
-              {expanded ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
+              {expanded ? <ChevronUp size={11} /> : <ChevronDown size={11} />}
             </button>
           )}
         </div>
       )}
 
-      {/* ── 5. Technologies Pill Directory ──────────────────────────── */}
-      <div className="flex flex-wrap items-center justify-between border-t border-white/10 pt-4 gap-2 z-10 font-mono text-[11px]">
-        <div className="flex flex-wrap gap-1.5 text-white/70">
-          {technologies.map((t) => (
-            <span
-              key={t}
-              className="bg-white/5 border border-white/10 px-2 py-0.5 rounded-xs text-[10px] hover:border-[#B4F342] transition-colors"
-            >
-              {t}
-            </span>
-          ))}
-        </div>
-        <span className="text-white/30 text-[10px]">
-          AWS // DEVOPS // 2026
-        </span>
+      {/* ── 6. Tech Stack Pill Directory ────────────────────────────── */}
+      <div className="flex flex-wrap gap-1.5 border-t border-white/10 pt-3 z-10 font-mono">
+        {technologies.map((t) => (
+          <span
+            key={t}
+            className="bg-white/5 border border-white/10 px-2 py-0.5 rounded-xs text-[9px] text-white/70 hover:border-[#B4F342] transition-colors"
+          >
+            {t}
+          </span>
+        ))}
       </div>
 
-      {/* ── 6. Dynamic Hover Frame for Shader DOM Alignment ─────────── */}
+      {/* ── 7. Dynamic Hover Frame for Shader DOM Alignment ─────────── */}
       <div
-        className={`pointer-events-none absolute inset-0 border-2 border-[${accentColor}] transition-opacity duration-300 ${
+        className={`pointer-events-none absolute inset-0 border-2 transition-opacity duration-300 ${
           hovered ? "opacity-100" : "opacity-0"
         }`}
         style={{
