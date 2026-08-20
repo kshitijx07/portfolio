@@ -1,22 +1,25 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #09090b;
+  --color-background: #00104A;
   --color-foreground: #f4f4f5;
   --color-muted: #71717a;
   --color-muted-foreground: #a1a1aa;
   --color-border: #27272a;
-  --color-cyan-glow: #06b6d4;
+  --color-spidey-red: #ED3C3F;
+  --color-spidey-black: #252324;
+  --color-spidey-blue: #00104A;
+  --color-spidey-electric: #4361EE;
 
   --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: var(--font-mono), monospace;
 }
 
 :root {
-  --background: #09090b;
+  --background: #00104A;
   --foreground: #f4f4f5;
-  --accent: #06b6d4;
-  --border: #27272a;
+  --accent: #ED3C3F;
+  --border: #252324;
 }
 
 * {
@@ -43,14 +46,14 @@ body {
 }
 
 ::selection {
-  background-color: #06b6d4;
-  color: #09090b;
+  background-color: #ED3C3F;
+  color: #ffffff;
 }
 
-/* Subtle scannable line grid */
+/* Subtle spider web / scannable line grid */
 .bg-grid-pattern {
   background-size: 32px 32px;
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    linear-gradient(to right, rgba(237, 60, 63, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(237, 60, 63, 0.05) 1px, transparent 1px);
 }

@@ -47,7 +47,7 @@ export default function HeroHUD() {
           ease: [0.16, 1, 0.3, 1],
         }}
         href="#projects"
-        className="absolute right-8 sm:right-12 bottom-24 sm:bottom-28 pointer-events-auto hidden md:flex items-center justify-center min-w-[50px] min-h-[50px] rounded-xl bg-blue-600/90 shadow-xl shadow-blue-500/40 hover:scale-110 hover:rotate-0 transition-transform cursor-pointer"
+        className="absolute right-8 sm:right-12 bottom-24 sm:bottom-28 pointer-events-auto hidden md:flex items-center justify-center min-w-[50px] min-h-[50px] rounded-xl bg-[#ED3C3F] shadow-xl shadow-[#ED3C3F]/40 hover:scale-110 hover:rotate-0 transition-transform cursor-pointer"
         title="Explore flagship projects"
       >
         <ArrowUpRight className="w-6 h-6 text-white" />
@@ -64,13 +64,13 @@ export default function HeroHUD() {
         }}
         className="flex justify-between items-center border-t border-white/10 pt-4 text-xs sm:text-sm font-medium"
       >
-        <div className="text-zinc-400">UTC+5:30 // {timeStr}</div>
-        <div ref={coordsRef} className="font-bold text-[#4DEEEA] tracking-widest">
+        <div className="text-zinc-400">SPIDER-SENSE // {timeStr}</div>
+        <div ref={coordsRef} className="font-bold text-[#ED3C3F] tracking-widest">
           0124 X 0063 Y
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-[#B4F342] text-xs font-bold hidden sm:inline">LIVE GRID</span>
-          <Globe className="w-4 h-4 text-[#B4F342] animate-spin" />
+          <span className="text-[#ED3C3F] text-xs font-bold hidden sm:inline">SPIDEY MESH</span>
+          <Globe className="w-4 h-4 text-[#ED3C3F] animate-spin" />
         </div>
       </motion.div>
     </div>

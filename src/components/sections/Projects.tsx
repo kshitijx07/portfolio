@@ -5,18 +5,11 @@ import ProjectCardSync, {
   ProjectMetric,
 } from "@/components/dom/ProjectCardSync";
 import {
-  Layers,
-  Cloud,
-  Cpu,
-  Server,
-  Database,
-  Terminal,
   Activity,
   Filter,
   CheckCircle2,
   ShieldCheck,
 } from "lucide-react";
-import { ScrambleText } from "@/components/ui/scramble-text";
 
 type ProjectCategory =
   | "ALL"
@@ -66,8 +59,8 @@ const PROJECTS_REGISTRY: ProjectData[] = [
       "MongoDB Atlas",
       "HPA",
     ],
-    bgColor: "bg-[#0A0A0A]",
-    accentColor: "#B4F342",
+    bgColor: "bg-[#252324]",
+    accentColor: "#ED3C3F",
     githubUrl: "https://github.com/kshitijx07/Hostelhub",
     demoUrl: "https://hostelhub-ruby.vercel.app",
     metrics: [
@@ -104,8 +97,8 @@ const PROJECTS_REGISTRY: ProjectData[] = [
       "Docker",
       "GitHub Actions",
     ],
-    bgColor: "bg-[#0D0D0D]",
-    accentColor: "#4DEEEA",
+    bgColor: "bg-[#252324]",
+    accentColor: "#3B82F6",
     githubUrl: "https://github.com/kshitijx07",
     metrics: [
       { label: "Quota Pool", value: "15 → 60 RPM", sub: "4-Key Expansion" },
@@ -139,8 +132,8 @@ const PROJECTS_REGISTRY: ProjectData[] = [
       "MobileNet TFLite",
       "Python",
     ],
-    bgColor: "bg-[#0A0A0A]",
-    accentColor: "#FF3E1D",
+    bgColor: "bg-[#252324]",
+    accentColor: "#ED3C3F",
     githubUrl: "https://github.com/kshitijx07/serverless-ai-xray",
     metrics: [
       { label: "Inference", value: "<1.00s", sub: "MobileNet TFLite" },
@@ -172,8 +165,8 @@ const PROJECTS_REGISTRY: ProjectData[] = [
       "Docker",
       "Postman",
     ],
-    bgColor: "bg-[#0D0D0D]",
-    accentColor: "#4DEEEA",
+    bgColor: "bg-[#252324]",
+    accentColor: "#3B82F6",
     githubUrl: "https://github.com/kshitijx07",
     metrics: [
       { label: "Sprint", value: "6 Weeks", sub: "Req to Prod" },
@@ -212,10 +205,10 @@ export default function Projects() {
     >
       <div className="relative z-10 max-w-7xl mx-auto space-y-8">
         {/* ── 1. Section Header & Telemetry Status ────────────────── */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6 bg-[#050505]/85 backdrop-blur-md p-5 sm:p-6 rounded-sm">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6 bg-[#252324]/85 backdrop-blur-md p-5 sm:p-6 rounded-sm shadow-xl">
           <div className="space-y-1">
-            <div className="flex items-center gap-2 text-[#4DEEEA] font-mono text-xs uppercase tracking-wider font-semibold">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#4DEEEA] animate-pulse" />
+            <div className="flex items-center gap-2 text-[#ED3C3F] font-mono text-xs uppercase tracking-wider font-semibold">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#ED3C3F] animate-pulse" />
               <span>03 // FLAGSHIP PRODUCTION WORKLOADS</span>
             </div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight text-white">
@@ -226,11 +219,11 @@ export default function Projects() {
           {/* System Telemetry Readout */}
           <div className="flex flex-wrap items-center gap-2.5 font-mono text-xs text-white/60">
             <div className="flex items-center gap-1.5 bg-black/60 border border-white/10 px-2.5 py-1 rounded-sm text-[11px]">
-              <Activity size={12} className="text-[#B4F342]" />
-              <span>2 CLUSTERS RUNNING</span>
+              <Activity size={12} className="text-[#ED3C3F]" />
+              <span>2 CLUSTERS ACTIVE</span>
             </div>
             <div className="flex items-center gap-1.5 bg-black/60 border border-white/10 px-2.5 py-1 rounded-sm text-[11px]">
-              <ShieldCheck size={12} className="text-[#4DEEEA]" />
+              <ShieldCheck size={12} className="text-[#3B82F6]" />
               <span>OAC SECURED</span>
             </div>
           </div>
@@ -239,7 +232,7 @@ export default function Projects() {
         {/* ── 2. Category Filter Navigation Tabs ──────────────────── */}
         <div className="flex flex-wrap items-center gap-2.5 font-mono text-sm">
           <span className="text-white/60 mr-2 flex items-center gap-1.5 text-xs font-bold">
-            <Filter size={14} className="text-[#4DEEEA]" />
+            <Filter size={14} className="text-[#ED3C3F]" />
             <span>FILTER:</span>
           </span>
           {categories.map((cat) => (
@@ -248,8 +241,8 @@ export default function Projects() {
               onClick={() => setActiveFilter(cat.value)}
               className={`min-h-[44px] px-5 py-2.5 rounded-xs transition-all border font-mono font-bold uppercase text-xs cursor-pointer shadow-sm ${
                 activeFilter === cat.value
-                  ? "bg-[#B4F342] text-black border-[#B4F342] shadow-[0_0_15px_rgba(180,243,66,0.3)]"
-                  : "bg-black/60 text-white/80 border-white/15 hover:border-white/40 hover:text-white hover:bg-white/10"
+                  ? "bg-[#ED3C3F] text-white border-[#ED3C3F] shadow-[0_0_18px_rgba(237,60,63,0.4)]"
+                  : "bg-[#252324]/80 text-white/80 border-white/15 hover:border-[#ED3C3F]/50 hover:text-white hover:bg-white/10"
               }`}
             >
               {cat.label}
@@ -283,16 +276,16 @@ export default function Projects() {
         </div>
 
         {/* ── 4. Architectural Summary Footer ─────────────────────── */}
-        <div className="p-4 bg-black/40 border border-white/10 rounded-sm font-mono text-xs text-white/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div className="p-4 bg-[#252324]/60 border border-white/10 rounded-sm font-mono text-xs text-white/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-lg">
           <div className="flex items-center gap-2">
-            <CheckCircle2 size={13} className="text-[#B4F342]" />
+            <CheckCircle2 size={13} className="text-[#ED3C3F]" />
             <span>All systems verified against production AWS workloads.</span>
           </div>
           <a
             href="https://github.com/kshitijx07"
             target="_blank"
             rel="noreferrer"
-            className="text-[#4DEEEA] hover:underline font-bold text-xs"
+            className="text-[#ED3C3F] hover:underline font-bold text-xs"
           >
             Explore all repositories on GitHub &rarr;
           </a>

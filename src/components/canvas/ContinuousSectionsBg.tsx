@@ -73,25 +73,26 @@ const ContinuousMatrixShader = {
       float dotBrightness = 0.06 + waveIntensity * 0.85 + pointerGlow * 0.85;
       dotBrightness += (hash(cellId) - 0.5) * 0.025;
 
-      // Section-Adaptive Dynamic Colors
-      vec3 colorCyan = vec3(0.302, 0.933, 0.918);   // #4DEEEA (Cyan)
-      vec3 colorLime = vec3(0.706, 0.953, 0.259);   // #B4F342 (Neon Lime)
-      vec3 colorCoral = vec3(1.0, 0.243, 0.114);    // #FF3E1D (Coral)
+      // Section-Adaptive Spider-Man Dynamic Colors
+      vec3 colorSpideyRed = vec3(0.929, 0.235, 0.247);     // #ED3C3F (Spider-Man Crimson)
+      vec3 colorSpideyBlue = vec3(0.231, 0.510, 0.965);    // #3B82F6 (Electric Spidey Blue)
+      vec3 colorWebWhite = vec3(0.97, 0.98, 0.99);         // Web Silver White
 
       // Smooth color morph across the 4 sections
-      vec3 sectionColor = mix(colorLime, colorCyan, clamp(uScrollProgress * 1.5, 0.0, 1.0));
+      vec3 sectionColor = mix(colorSpideyRed, colorSpideyBlue, clamp(uScrollProgress * 1.4, 0.0, 1.0));
       if (uScrollProgress > 0.6) {
-        sectionColor = mix(sectionColor, colorCoral, (uScrollProgress - 0.6) * 2.5);
+        sectionColor = mix(sectionColor, colorSpideyRed, (uScrollProgress - 0.6) * 2.5);
       }
 
-      vec3 finalDotColor = mix(sectionColor, colorLime, waveIntensity * 0.7 + pointerGlow * 0.4);
+      // Spider-Sense web pulse connection
+      vec3 finalDotColor = mix(sectionColor, colorWebWhite, waveIntensity * 0.5 + pointerGlow * 0.6);
       vec3 finalColor = finalDotColor * dotMask * dotBrightness;
 
       // Atmospheric Vignette
       float vignette = 1.0 - length(screenUv - 0.5) * 0.65;
-      finalColor *= max(0.2, vignette);
+      finalColor *= max(0.25, vignette);
 
-      gl_FragColor = vec4(finalColor, dotMask * max(0.1, dotBrightness));
+      gl_FragColor = vec4(finalColor, dotMask * max(0.12, dotBrightness));
     }
   `,
 };

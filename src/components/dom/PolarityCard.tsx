@@ -59,10 +59,10 @@ export default function PolarityCard({
           rotateY,
           transformStyle: "preserve-3d",
         }}
-        className="group relative w-72 h-[390px] sm:w-80 sm:h-[430px] rounded-2xl border border-white/15 bg-[#0a0a0a] p-2.5 overflow-hidden select-none shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] hover:border-white/30 transition-colors duration-500 cursor-pointer"
+        className="group relative w-72 h-[390px] sm:w-80 sm:h-[430px] rounded-2xl border border-white/15 bg-[#252324] p-2.5 overflow-hidden select-none shadow-[0_25px_60px_-15px_rgba(0,0,0,0.95)] hover:border-[#ED3C3F]/60 transition-colors duration-500 cursor-pointer"
       >
         {/* ── Minimalist Portrait Image Container ──────────────── */}
-        <div className="relative w-full h-full overflow-hidden rounded-xl bg-[#050505] border border-white/10">
+        <div className="relative w-full h-full overflow-hidden rounded-xl bg-[#161516] border border-white/10">
           <motion.img
             src={src}
             alt={alt}
@@ -73,11 +73,11 @@ export default function PolarityCard({
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           />
 
-          {/* Smooth holographic subtle glare highlight */}
+          {/* Smooth Spider-Sense crimson & white holographic glare highlight */}
           <motion.div
-            className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-35 transition-opacity duration-500 mix-blend-overlay"
+            className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-40 transition-opacity duration-500 mix-blend-overlay"
             style={{
-              background: `radial-gradient(circle at ${glareX.get()}% ${glareY.get()}%, rgba(255, 255, 255, 0.8), rgba(77, 238, 234, 0.2) 45%, transparent 70%)`,
+              background: `radial-gradient(circle at ${glareX.get()}% ${glareY.get()}%, rgba(255, 255, 255, 0.85), rgba(237, 60, 63, 0.35) 45%, transparent 70%)`,
             }}
           />
 

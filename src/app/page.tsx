@@ -112,7 +112,7 @@ export default function PortfolioPage() {
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               href="#projects"
-              className="min-h-[46px] px-6 py-3 bg-[#4DEEEA] text-black font-mono text-xs font-black uppercase tracking-wider hover:bg-[#B4F342] transition-colors rounded-xs flex items-center gap-2 shadow-lg cursor-pointer"
+              className="min-h-[46px] px-6 py-3 bg-[#ED3C3F] text-white font-mono text-xs font-black uppercase tracking-wider hover:bg-[#ED3C3F]/90 transition-colors rounded-xs flex items-center gap-2 shadow-xl shadow-[#ED3C3F]/30 cursor-pointer"
             >
               <span>Explore Projects</span>
               <ArrowUpRight size={15} />
@@ -122,7 +122,7 @@ export default function PortfolioPage() {
               whileTap={{ scale: 0.97 }}
               href="/Kshitij_Kumbhar_Resume.pdf"
               download="Kshitij_Kumbhar_Resume.pdf"
-              className="min-h-[46px] px-6 py-3 bg-white/10 border border-white/20 text-white font-mono text-xs font-black uppercase tracking-wider hover:bg-white/20 transition-colors rounded-xs flex items-center gap-2 shadow-lg cursor-pointer"
+              className="min-h-[46px] px-6 py-3 bg-[#252324] border border-white/20 text-white font-mono text-xs font-black uppercase tracking-wider hover:border-[#ED3C3F] transition-colors rounded-xs flex items-center gap-2 shadow-lg cursor-pointer"
             >
               <span>Download CV (PDF)</span>
               <Download size={15} />
@@ -131,7 +131,7 @@ export default function PortfolioPage() {
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               href="#contact"
-              className="min-h-[46px] px-6 py-3 bg-transparent border border-white/20 text-white/80 font-mono text-xs font-black uppercase tracking-wider hover:border-[#4DEEEA] hover:text-[#4DEEEA] transition-colors rounded-xs cursor-pointer"
+              className="min-h-[46px] px-6 py-3 bg-transparent border border-white/20 text-white/80 font-mono text-xs font-black uppercase tracking-wider hover:border-[#ED3C3F] hover:text-[#ED3C3F] transition-colors rounded-xs cursor-pointer"
             >
               Contact
             </motion.a>
@@ -151,8 +151,8 @@ export default function PortfolioPage() {
 
           {/* Right Column: Exact Resume Summary & Verification */}
           <div className="lg:col-span-8 space-y-6">
-            <div className="flex items-center gap-2 text-[#4DEEEA] font-mono text-xs uppercase tracking-wider font-semibold">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#4DEEEA]" />
+            <div className="flex items-center gap-2 text-[#ED3C3F] font-mono text-xs uppercase tracking-wider font-semibold">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#ED3C3F]" />
               <span>01 // PROFESSIONAL SUMMARY</span>
             </div>
 
@@ -175,35 +175,35 @@ export default function PortfolioPage() {
                 href="https://leetcode.com/u/kshitij72/"
                 target="_blank"
                 rel="noreferrer"
-                className="p-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-sm block transition-colors group min-h-[52px]"
+                className="p-3 bg-[#252324]/80 hover:bg-[#252324] border border-white/10 hover:border-[#ED3C3F]/60 rounded-sm block transition-colors group min-h-[52px]"
               >
                 <span className="block text-white/60 text-xs font-bold uppercase tracking-wider">LEETCODE</span>
-                <span className="text-[#4DEEEA] group-hover:underline font-bold text-sm">@kshitij72</span>
+                <span className="text-[#ED3C3F] group-hover:underline font-bold text-sm">@kshitij72</span>
               </a>
 
               <a
                 href="https://codeforces.com/profile/kshitijx07"
                 target="_blank"
                 rel="noreferrer"
-                className="p-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-sm block transition-colors group min-h-[52px]"
+                className="p-3 bg-[#252324]/80 hover:bg-[#252324] border border-white/10 hover:border-[#ED3C3F]/60 rounded-sm block transition-colors group min-h-[52px]"
               >
                 <span className="block text-white/60 text-xs font-bold uppercase tracking-wider">CODEFORCES</span>
-                <span className="text-[#4DEEEA] group-hover:underline font-bold text-sm">@kshitijx07</span>
+                <span className="text-[#ED3C3F] group-hover:underline font-bold text-sm">@kshitijx07</span>
               </a>
 
               <a
                 href="https://github.com/kshitijx07"
                 target="_blank"
                 rel="noreferrer"
-                className="p-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-sm block transition-colors group min-h-[52px]"
+                className="p-3 bg-[#252324]/80 hover:bg-[#252324] border border-white/10 hover:border-[#ED3C3F]/60 rounded-sm block transition-colors group min-h-[52px]"
               >
                 <span className="block text-white/60 text-xs font-bold uppercase tracking-wider">GITHUB</span>
-                <span className="text-[#4DEEEA] group-hover:underline font-bold text-sm">@kshitijx07</span>
+                <span className="text-[#ED3C3F] group-hover:underline font-bold text-sm">@kshitijx07</span>
               </a>
 
-              <div className="p-3 bg-[#B4F342]/10 border border-[#B4F342]/30 rounded-sm block min-h-[52px]">
+              <div className="p-3 bg-[#ED3C3F]/10 border border-[#ED3C3F]/30 rounded-sm block min-h-[52px]">
                 <span className="block text-white/60 text-xs font-bold uppercase tracking-wider">STATUS</span>
-                <span className="text-[#B4F342] font-bold text-sm">OPEN TO ROLES</span>
+                <span className="text-[#ED3C3F] font-bold text-sm">OPEN TO ROLES</span>
               </div>
             </div>
           </div>
@@ -220,10 +220,10 @@ export default function PortfolioPage() {
         {/* ── SECTION 3: PROFESSIONAL EXPERIENCE ────────────────── */}
         <section id="experience" className="relative z-10 min-h-screen bg-[#080808]/75 px-6 sm:px-10 md:px-14 py-24 border-t border-white/10 overflow-hidden [content-visibility:auto] [contain-intrinsic-size:1px_900px]">
           <div className="relative z-10 max-w-7xl mx-auto space-y-12">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6 bg-[#080808]/85 backdrop-blur-md p-6 rounded-sm">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6 bg-[#252324]/85 backdrop-blur-md p-6 rounded-sm shadow-xl">
               <div>
-                <div className="flex items-center gap-2 text-[#4DEEEA] font-mono text-xs uppercase tracking-wider font-semibold mb-2">
-                  <span className="w-2 h-2 rounded-full bg-[#4DEEEA] animate-pulse" />
+                <div className="flex items-center gap-2 text-[#ED3C3F] font-mono text-xs uppercase tracking-wider font-semibold mb-2">
+                  <span className="w-2 h-2 rounded-full bg-[#ED3C3F] animate-pulse" />
                   <span>02 // WORK EXPERIENCE</span>
                 </div>
                 <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-tight text-white">
@@ -235,15 +235,15 @@ export default function PortfolioPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
               {/* Experience 1: Colgate-Palmolive */}
-              <div className="border border-white/15 bg-[#0D0D0D]/95 p-8 sm:p-10 flex flex-col justify-between space-y-8 hover:border-[#B4F342] transition-colors rounded-sm shadow-2xl">
+              <div className="border border-white/15 bg-[#252324]/95 p-8 sm:p-10 flex flex-col justify-between space-y-8 hover:border-[#ED3C3F]/70 transition-colors rounded-sm shadow-2xl">
                 <div className="space-y-5">
                   <div className="flex justify-between items-start gap-3">
                     <div>
-                      <span className="bg-[#B4F342] text-black font-mono text-xs font-black px-3 py-1 uppercase tracking-wider rounded-xs shadow-sm">
+                      <span className="bg-[#ED3C3F] text-white font-mono text-xs font-black px-3 py-1 uppercase tracking-wider rounded-xs shadow-md">
                         ENTERPRISE HYBRID
                       </span>
                       <h3 className="text-2xl sm:text-3xl font-black text-white mt-3">Colgate-Palmolive</h3>
-                      <p className="font-mono text-sm sm:text-base text-[#4DEEEA] font-bold mt-1">DevOps Intern</p>
+                      <p className="font-mono text-sm sm:text-base text-[#ED3C3F] font-bold mt-1">DevOps Intern</p>
                     </div>
                     <span className="font-mono text-xs sm:text-sm text-white/60 font-semibold shrink-0">Jul 2026 – Present</span>
                   </div>
@@ -254,15 +254,15 @@ export default function PortfolioPage() {
 
                   <ul className="space-y-3.5 text-sm sm:text-base text-zinc-300 leading-relaxed pt-2">
                     <li className="flex items-start gap-2.5">
-                      <span className="text-[#B4F342] mt-1 shrink-0 font-bold">▹</span>
+                      <span className="text-[#ED3C3F] mt-1 shrink-0 font-bold">▹</span>
                       <span>Support application deployment and infrastructure automation workflows within a DevOps team, contributing to CI/CD pipelines built with Jenkins, Git, and GitHub.</span>
                     </li>
                     <li className="flex items-start gap-2.5">
-                      <span className="text-[#B4F342] mt-1 shrink-0 font-bold">▹</span>
+                      <span className="text-[#ED3C3F] mt-1 shrink-0 font-bold">▹</span>
                       <span>Assist with AWS cloud infrastructure management and containerized application deployment using Docker across Linux-based staging and production environments.</span>
                     </li>
                     <li className="flex items-start gap-2.5">
-                      <span className="text-[#B4F342] mt-1 shrink-0 font-bold">▹</span>
+                      <span className="text-[#ED3C3F] mt-1 shrink-0 font-bold">▹</span>
                       <span>Collaborate with cross-functional engineering teams on deployment automation, contributing to Infrastructure as Code with Terraform and to monitoring initiatives.</span>
                     </li>
                   </ul>
@@ -270,7 +270,7 @@ export default function PortfolioPage() {
 
                 <div className="flex flex-wrap gap-2 pt-6 border-t border-white/10">
                   {["AWS", "Terraform", "Docker", "Jenkins", "Git", "GitHub Actions", "Linux CLI"].map((tech) => (
-                    <Badge key={tech} variant="outline" className="text-xs font-mono font-semibold text-white/90 border-white/20 px-3 py-1">
+                    <Badge key={tech} variant="outline" className="text-xs font-mono font-semibold text-white/90 border-white/20 hover:border-[#ED3C3F]/50 px-3 py-1">
                       {tech}
                     </Badge>
                   ))}
@@ -278,15 +278,15 @@ export default function PortfolioPage() {
               </div>
 
               {/* Experience 2: Campus Credential */}
-              <div className="border border-white/15 bg-[#0D0D0D]/95 p-8 sm:p-10 flex flex-col justify-between space-y-8 hover:border-[#4DEEEA] transition-colors rounded-sm shadow-2xl">
+              <div className="border border-white/15 bg-[#252324]/95 p-8 sm:p-10 flex flex-col justify-between space-y-8 hover:border-[#3B82F6]/70 transition-colors rounded-sm shadow-2xl">
                 <div className="space-y-5">
                   <div className="flex justify-between items-start gap-3">
                     <div>
-                      <span className="bg-[#4DEEEA] text-black font-mono text-xs font-black px-3 py-1 uppercase tracking-wider rounded-xs shadow-sm">
+                      <span className="bg-[#3B82F6] text-white font-mono text-xs font-black px-3 py-1 uppercase tracking-wider rounded-xs shadow-md">
                         REMOTE INTERNSHIP
                       </span>
                       <h3 className="text-2xl sm:text-3xl font-black text-white mt-3">Campus Credential</h3>
-                      <p className="font-mono text-sm sm:text-base text-[#4DEEEA] font-bold mt-1">Full Stack Developer Intern</p>
+                      <p className="font-mono text-sm sm:text-base text-[#3B82F6] font-bold mt-1">Full Stack Developer Intern</p>
                     </div>
                     <span className="font-mono text-xs sm:text-sm text-white/60 font-semibold shrink-0">Jun 2025 – Aug 2025</span>
                   </div>
@@ -297,15 +297,15 @@ export default function PortfolioPage() {
 
                   <ul className="space-y-3.5 text-sm sm:text-base text-zinc-300 leading-relaxed pt-2">
                     <li className="flex items-start gap-2.5">
-                      <span className="text-[#4DEEEA] mt-1 shrink-0 font-bold">▹</span>
+                      <span className="text-[#3B82F6] mt-1 shrink-0 font-bold">▹</span>
                       <span>Owned end-to-end delivery of the Grocito platform, from requirements gathering and system design through production deployment, within a six-week sprint.</span>
                     </li>
                     <li className="flex items-start gap-2.5">
-                      <span className="text-[#4DEEEA] mt-1 shrink-0 font-bold">▹</span>
+                      <span className="text-[#3B82F6] mt-1 shrink-0 font-bold">▹</span>
                       <span>Led backend architecture decisions using Spring Boot and MySQL, establishing a modular MVC structure that supported parallel development across three portals.</span>
                     </li>
                     <li className="flex items-start gap-2.5">
-                      <span className="text-[#4DEEEA] mt-1 shrink-0 font-bold">▹</span>
+                      <span className="text-[#3B82F6] mt-1 shrink-0 font-bold">▹</span>
                       <span>Facilitated daily standups and sprint reviews within an agile team of three, coordinating feature delivery and code reviews to maintain on-schedule releases.</span>
                     </li>
                   </ul>
@@ -313,7 +313,7 @@ export default function PortfolioPage() {
 
                 <div className="flex flex-wrap gap-2 pt-6 border-t border-white/10">
                   {["Spring Boot", "MySQL", "React.js", "REST APIs", "Agile", "MVC Architecture"].map((tech) => (
-                    <Badge key={tech} variant="outline" className="text-xs font-mono font-semibold text-white/90 border-white/20 px-3 py-1">
+                    <Badge key={tech} variant="outline" className="text-xs font-mono font-semibold text-white/90 border-white/20 hover:border-[#3B82F6]/50 px-3 py-1">
                       {tech}
                     </Badge>
                   ))}
@@ -329,10 +329,10 @@ export default function PortfolioPage() {
         {/* ── SECTION 5: TECHNICAL SKILLS MATRIX ────────────────── */}
         <section id="skills" className="relative z-10 min-h-screen bg-[#080808]/75 px-6 sm:px-10 md:px-14 py-24 border-t border-white/10 overflow-hidden [content-visibility:auto] [contain-intrinsic-size:1px_900px]">
           <div className="relative z-10 max-w-7xl mx-auto space-y-12">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6 bg-[#080808]/85 backdrop-blur-md p-6 rounded-sm">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6 bg-[#252324]/85 backdrop-blur-md p-6 rounded-sm shadow-xl">
               <div>
-                <div className="flex items-center gap-2 text-[#4DEEEA] font-mono text-xs uppercase tracking-wider font-semibold mb-2">
-                  <span className="w-2 h-2 rounded-full bg-[#4DEEEA] animate-pulse" />
+                <div className="flex items-center gap-2 text-[#ED3C3F] font-mono text-xs uppercase tracking-wider font-semibold mb-2">
+                  <span className="w-2 h-2 rounded-full bg-[#ED3C3F] animate-pulse" />
                   <span>04 // TECHNICAL COMPETENCIES</span>
                 </div>
                 <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-tight text-white">
@@ -344,8 +344,8 @@ export default function PortfolioPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
               {/* 1. DevOps & Cloud Infrastructure */}
-              <div className="border border-white/15 bg-[#0D0D0D]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#4DEEEA] transition-colors shadow-xl">
-                <div className="flex items-center gap-2.5 font-mono text-base font-bold text-[#4DEEEA]">
+              <div className="border border-white/15 bg-[#252324]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#ED3C3F]/70 transition-colors shadow-xl">
+                <div className="flex items-center gap-2.5 font-mono text-base font-bold text-[#ED3C3F]">
                   <Cloud size={20} />
                   <span>DevOps & Cloud Infrastructure</span>
                 </div>
@@ -359,7 +359,7 @@ export default function PortfolioPage() {
                     "GitHub Actions",
                     "CI/CD Pipelines",
                   ].map((skill) => (
-                    <span key={skill} className="bg-white/5 border border-white/15 px-3 py-1.5 font-mono text-xs font-medium text-white/90 rounded-xs hover:border-[#4DEEEA] transition-colors">
+                    <span key={skill} className="bg-white/5 border border-white/15 px-3 py-1.5 font-mono text-xs font-medium text-white/90 rounded-xs hover:border-[#ED3C3F] transition-colors">
                       {skill}
                     </span>
                   ))}
@@ -367,14 +367,14 @@ export default function PortfolioPage() {
               </div>
 
               {/* 2. Databases & Vector Stores */}
-              <div className="border border-white/15 bg-[#0D0D0D]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#B4F342] transition-colors shadow-xl">
-                <div className="flex items-center gap-2.5 font-mono text-base font-bold text-[#B4F342]">
+              <div className="border border-white/15 bg-[#252324]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#3B82F6]/70 transition-colors shadow-xl">
+                <div className="flex items-center gap-2.5 font-mono text-base font-bold text-[#3B82F6]">
                   <Database size={20} />
                   <span>Databases & Vector Stores</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {["Pinecone (Vector Store)", "MongoDB Atlas", "MySQL"].map((skill) => (
-                    <span key={skill} className="bg-white/5 border border-white/15 px-3 py-1.5 font-mono text-xs font-medium text-white/90 rounded-xs hover:border-[#B4F342] transition-colors">
+                    <span key={skill} className="bg-white/5 border border-white/15 px-3 py-1.5 font-mono text-xs font-medium text-white/90 rounded-xs hover:border-[#3B82F6] transition-colors">
                       {skill}
                     </span>
                   ))}
@@ -382,14 +382,14 @@ export default function PortfolioPage() {
               </div>
 
               {/* 3. Backend Development */}
-              <div className="border border-white/15 bg-[#0D0D0D]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#4DEEEA] transition-colors shadow-xl">
-                <div className="flex items-center gap-2.5 font-mono text-base font-bold text-[#4DEEEA]">
+              <div className="border border-white/15 bg-[#252324]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#ED3C3F]/70 transition-colors shadow-xl">
+                <div className="flex items-center gap-2.5 font-mono text-base font-bold text-[#ED3C3F]">
                   <Server size={20} />
                   <span>Backend Development</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {["Node.js", "Express.js", "Spring Boot", "RESTful APIs"].map((skill) => (
-                    <span key={skill} className="bg-white/5 border border-white/15 px-3 py-1.5 font-mono text-xs font-medium text-white/90 rounded-xs hover:border-[#4DEEEA] transition-colors">
+                    <span key={skill} className="bg-white/5 border border-white/15 px-3 py-1.5 font-mono text-xs font-medium text-white/90 rounded-xs hover:border-[#ED3C3F] transition-colors">
                       {skill}
                     </span>
                   ))}
@@ -397,8 +397,8 @@ export default function PortfolioPage() {
               </div>
 
               {/* 4. AI & Multi-Agent Systems */}
-              <div className="border border-white/15 bg-[#0D0D0D]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#FF3E1D] transition-colors shadow-xl">
-                <div className="flex items-center gap-2.5 font-mono text-base font-bold text-[#FF3E1D]">
+              <div className="border border-white/15 bg-[#252324]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#ED3C3F]/70 transition-colors shadow-xl">
+                <div className="flex items-center gap-2.5 font-mono text-base font-bold text-[#ED3C3F]">
                   <Cpu size={20} />
                   <span>AI & Multi-Agent Systems</span>
                 </div>
@@ -410,7 +410,7 @@ export default function PortfolioPage() {
                     "LangChain",
                     "Vector Embeddings",
                   ].map((skill) => (
-                    <span key={skill} className="bg-white/5 border border-white/15 px-3 py-1.5 font-mono text-xs font-medium text-white/90 rounded-xs hover:border-[#FF3E1D] transition-colors">
+                    <span key={skill} className="bg-white/5 border border-white/15 px-3 py-1.5 font-mono text-xs font-medium text-white/90 rounded-xs hover:border-[#ED3C3F] transition-colors">
                       {skill}
                     </span>
                   ))}
@@ -418,14 +418,14 @@ export default function PortfolioPage() {
               </div>
 
               {/* 5. Frontend Development */}
-              <div className="border border-white/15 bg-[#0D0D0D]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#4DEEEA] transition-colors shadow-xl">
-                <div className="flex items-center gap-2.5 font-mono text-base font-bold text-[#4DEEEA]">
+              <div className="border border-white/15 bg-[#252324]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#3B82F6]/70 transition-colors shadow-xl">
+                <div className="flex items-center gap-2.5 font-mono text-base font-bold text-[#3B82F6]">
                   <Code2 size={20} />
                   <span>Frontend Development</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {["React.js", "Vite", "Tailwind CSS", "HTML", "CSS", "JavaScript", "TypeScript"].map((skill) => (
-                    <span key={skill} className="bg-white/5 border border-white/15 px-3 py-1.5 font-mono text-xs font-medium text-white/90 rounded-xs hover:border-[#4DEEEA] transition-colors">
+                    <span key={skill} className="bg-white/5 border border-white/15 px-3 py-1.5 font-mono text-xs font-medium text-white/90 rounded-xs hover:border-[#3B82F6] transition-colors">
                       {skill}
                     </span>
                   ))}
@@ -433,8 +433,8 @@ export default function PortfolioPage() {
               </div>
 
               {/* 6. Core Computer Science Concepts */}
-              <div className="border border-white/15 bg-[#0D0D0D]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#B4F342] transition-colors shadow-xl">
-                <div className="flex items-center gap-2.5 font-mono text-base font-bold text-[#B4F342]">
+              <div className="border border-white/15 bg-[#252324]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#ED3C3F]/70 transition-colors shadow-xl">
+                <div className="flex items-center gap-2.5 font-mono text-base font-bold text-[#ED3C3F]">
                   <Terminal size={20} />
                   <span>Core CS Concepts & Tools</span>
                 </div>
@@ -450,7 +450,7 @@ export default function PortfolioPage() {
                     "DockerHub",
                     "Postman",
                   ].map((skill) => (
-                    <span key={skill} className="bg-white/5 border border-white/15 px-3 py-1.5 font-mono text-xs font-medium text-white/90 rounded-xs hover:border-[#B4F342] transition-colors">
+                    <span key={skill} className="bg-white/5 border border-white/15 px-3 py-1.5 font-mono text-xs font-medium text-white/90 rounded-xs hover:border-[#ED3C3F] transition-colors">
                       {skill}
                     </span>
                   ))}
@@ -463,10 +463,10 @@ export default function PortfolioPage() {
         {/* ── SECTION 6: EDUCATION & ACADEMIC STANDING ───────────── */}
         <section id="education" className="relative z-10 min-h-screen bg-[#050505]/75 px-6 sm:px-10 md:px-14 py-24 border-t border-white/10 overflow-hidden [content-visibility:auto] [contain-intrinsic-size:1px_800px]">
           <div className="relative z-10 max-w-7xl mx-auto space-y-12">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6 bg-[#050505]/85 backdrop-blur-md p-6 rounded-sm">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6 bg-[#252324]/85 backdrop-blur-md p-6 rounded-sm shadow-xl">
               <div>
-                <div className="flex items-center gap-2 text-[#4DEEEA] font-mono text-xs uppercase tracking-wider font-semibold mb-2">
-                  <span className="w-2 h-2 rounded-full bg-[#4DEEEA] animate-pulse" />
+                <div className="flex items-center gap-2 text-[#ED3C3F] font-mono text-xs uppercase tracking-wider font-semibold mb-2">
+                  <span className="w-2 h-2 rounded-full bg-[#ED3C3F] animate-pulse" />
                   <span>05 // ACADEMIC PROFILE</span>
                 </div>
                 <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-tight text-white">
@@ -478,10 +478,10 @@ export default function PortfolioPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
               {/* 1. B.Tech Computer Engineering */}
-              <div className="border border-white/15 bg-[#0D0D0D]/95 p-8 sm:p-10 space-y-6 rounded-sm hover:border-[#4DEEEA] transition-colors flex flex-col justify-between shadow-2xl">
+              <div className="border border-white/15 bg-[#252324]/95 p-8 sm:p-10 space-y-6 rounded-sm hover:border-[#ED3C3F]/70 transition-colors flex flex-col justify-between shadow-2xl">
                 <div className="space-y-4">
                   <div className="flex justify-between items-start">
-                    <span className="bg-[#4DEEEA] text-black font-mono text-xs font-black px-3 py-1 uppercase rounded-xs shadow-sm">
+                    <span className="bg-[#ED3C3F] text-white font-mono text-xs font-black px-3 py-1 uppercase rounded-xs shadow-md">
                       UNDERGRADUATE
                     </span>
                     <span className="font-mono text-xs sm:text-sm text-white/60 font-bold">2023 – 2027</span>
@@ -494,12 +494,12 @@ export default function PortfolioPage() {
 
                 <div className="pt-5 border-t border-white/10 font-mono text-sm sm:text-base">
                   <span className="text-white/60">CGPA: </span>
-                  <span className="text-[#4DEEEA] font-black text-lg">8.48 / 10</span>
+                  <span className="text-[#ED3C3F] font-black text-lg">8.48 / 10</span>
                 </div>
               </div>
 
               {/* 2. HSC */}
-              <div className="border border-white/15 bg-[#0D0D0D]/95 p-8 sm:p-10 space-y-6 rounded-sm hover:border-[#B4F342] transition-colors flex flex-col justify-between shadow-2xl">
+              <div className="border border-white/15 bg-[#252324]/95 p-8 sm:p-10 space-y-6 rounded-sm hover:border-[#ED3C3F]/70 transition-colors flex flex-col justify-between shadow-2xl">
                 <div className="space-y-4">
                   <div className="flex justify-between items-start">
                     <span className="bg-white/15 text-white font-mono text-xs font-black px-3 py-1 uppercase rounded-xs border border-white/20">
@@ -515,12 +515,12 @@ export default function PortfolioPage() {
 
                 <div className="pt-5 border-t border-white/10 font-mono text-sm sm:text-base">
                   <span className="text-white/60">Percentage: </span>
-                  <span className="text-[#B4F342] font-black text-lg">84.17%</span>
+                  <span className="text-[#ED3C3F] font-black text-lg">84.17%</span>
                 </div>
               </div>
 
               {/* 3. SSC */}
-              <div className="border border-white/15 bg-[#0D0D0D]/95 p-8 sm:p-10 space-y-6 rounded-sm hover:border-[#B4F342] transition-colors flex flex-col justify-between shadow-2xl">
+              <div className="border border-white/15 bg-[#252324]/95 p-8 sm:p-10 space-y-6 rounded-sm hover:border-[#ED3C3F]/70 transition-colors flex flex-col justify-between shadow-2xl">
                 <div className="space-y-4">
                   <div className="flex justify-between items-start">
                     <span className="bg-white/15 text-white font-mono text-xs font-black px-3 py-1 uppercase rounded-xs border border-white/20">
@@ -536,7 +536,7 @@ export default function PortfolioPage() {
 
                 <div className="pt-5 border-t border-white/10 font-mono text-sm sm:text-base">
                   <span className="text-white/60">Percentage: </span>
-                  <span className="text-[#B4F342] font-black text-lg">97.00%</span>
+                  <span className="text-[#ED3C3F] font-black text-lg">97.00%</span>
                 </div>
               </div>
             </div>

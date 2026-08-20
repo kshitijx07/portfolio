@@ -24,28 +24,28 @@ function FloatingStickers() {
 
   return (
     <group ref={groupRef}>
-      {/* 1. Yellow Star Sticker */}
+      {/* 1. Spider-Man Crimson Badge */}
       <mesh position={[-2.4, 1.6, -0.8]} scale={0.75}>
         <planeGeometry args={[1, 1]} />
-        <meshBasicMaterial color="#FFDF00" transparent opacity={0.85} />
+        <meshBasicMaterial color="#ED3C3F" transparent opacity={0.85} />
       </mesh>
 
-      {/* 2. Neon Smiley Face Sticker */}
+      {/* 2. Electric Spidey Blue Disc */}
       <mesh position={[2.5, -1.8, -0.9]} scale={0.8}>
         <circleGeometry args={[0.5, 32]} />
-        <meshBasicMaterial color="#FFA500" transparent opacity={0.85} />
+        <meshBasicMaterial color="#3B82F6" transparent opacity={0.85} />
       </mesh>
 
-      {/* 3. Neon Green Tag */}
+      {/* 3. Glossy Carbon Tag */}
       <mesh position={[2.8, 1.2, -0.7]} rotation={[0, 0, 0.15]} scale={0.7}>
         <planeGeometry args={[1.4, 0.7]} />
-        <meshBasicMaterial color="#B4F342" transparent opacity={0.8} />
+        <meshBasicMaterial color="#252324" transparent opacity={0.9} />
       </mesh>
 
-      {/* 4. Retro Pixel Cursor Icon */}
+      {/* 4. Spider-Web Silver Reticle */}
       <mesh position={[-2.6, -1.4, -0.6]} rotation={[0, 0, -0.2]} scale={0.6}>
         <planeGeometry args={[0.8, 0.8]} />
-        <meshBasicMaterial color="#4DEEEA" transparent opacity={0.8} />
+        <meshBasicMaterial color="#ED3C3F" transparent opacity={0.75} />
       </mesh>
     </group>
   );
