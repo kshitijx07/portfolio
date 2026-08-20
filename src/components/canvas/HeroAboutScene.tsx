@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useMemo, useEffect } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { getScrollSnapshot, pointerUv, pointerState, subscribeScroll } from "@/lib/bus";
 
@@ -120,6 +120,7 @@ function buildWebGeometry(cfg: WebLayerConfig) {
 // ─────────────────────────────────────────────────────────────────────────────
 function LayeredSpiderWebBackground() {
   const webGroupRef = useRef<THREE.Group>(null!);
+  const pulseMeshesRef = useRef<THREE.Mesh[]>([]);
 
   const layerConfigs: WebLayerConfig[] = useMemo(
     () => [
@@ -142,6 +143,7 @@ function LayeredSpiderWebBackground() {
     };
   }, [layerConfigs]);
 
+  // Dew drops on outer front ring
   const dewGeometry = useMemo(() => {
     const dewPositions: number[] = [];
     const frontZ = frontLayerData.cfg.z;
@@ -154,257 +156,301 @@ function LayeredSpiderWebBackground() {
     return geo;
   }, [frontLayerData]);
 
-  useFrame((state) => {
+  // Pulse State
+  const pulses = useMemo(() => {
+    return Array.from({ length: 6 }).map((_, i) => ({
+      active: false,
+      t: 0,
+      spokeIndex: 0,
+      speed: 1.4 + (i % 3) * 0.3,
+    }));
+  }, []);
+
+  const pulseCooldown = useRef(0);
+  const prevPointer = useRef({ x: 0, y: 0 });
+
+  useFrame((state, delta) => {
     if (!webGroupRef.current) return;
-    const t = state.clock.getElapsedTime();
     const snap = getScrollSnapshot();
-    const scrollP = Math.min(1.0, snap.scrollTop / (snap.viewportHeight || 900));
+    const scrollY = snap.scrollTop;
+    const windowH = typeof window !== "undefined" ? window.innerHeight : 900;
+    const scrollProgress = THREE.MathUtils.clamp(scrollY / (windowH * 0.9), 0, 1);
 
-    // Web sway linked to scroll velocity and mouse
-    const targetRotX = (pointerUv.y - 0.5) * 0.12 - scrollP * 0.2;
-    const targetRotY = (pointerUv.x - 0.5) * 0.18 + Math.sin(t * 0.5) * 0.04;
+    pulseCooldown.current -= delta;
 
-    webGroupRef.current.rotation.x = THREE.MathUtils.lerp(webGroupRef.current.rotation.x, targetRotX, 0.06);
-    webGroupRef.current.rotation.y = THREE.MathUtils.lerp(webGroupRef.current.rotation.y, targetRotY, 0.06);
-    webGroupRef.current.position.y = THREE.MathUtils.lerp(webGroupRef.current.position.y, scrollP * 1.5, 0.08);
+    const px = pointerUv?.x ?? 0;
+    const py = pointerUv?.y ?? 0;
+
+    // Detect movement to launch Spidey-Sense pulse
+    const moveDelta = Math.hypot(px - prevPointer.current.x, py - prevPointer.current.y);
+    if (moveDelta > 0.008 && pulseCooldown.current <= 0) {
+      const angle = Math.atan2(-py, px);
+      const spokeCount = frontLayerData.cfg.spokes;
+      const idx =
+        Math.round((((angle + Math.PI * 2) % (Math.PI * 2)) / (Math.PI * 2)) * spokeCount) %
+        spokeCount;
+
+      const availablePulse = pulses.find((p) => !p.active);
+      if (availablePulse) {
+        availablePulse.active = true;
+        availablePulse.t = 0;
+        availablePulse.spokeIndex = idx;
+      }
+      pulseCooldown.current = 0.32;
+    }
+    prevPointer.current = { x: px, y: py };
+
+    // Parallax rotation & smooth scroll drift
+    webGroupRef.current.rotation.y += (px * 0.25 - webGroupRef.current.rotation.y) * Math.min(1, delta * 3.5);
+    webGroupRef.current.rotation.x += (-py * 0.18 - webGroupRef.current.rotation.x) * Math.min(1, delta * 3.5);
+    webGroupRef.current.position.y = (scrollProgress - 0.5) * 1.5;
+
+    // Update pulses along spokes
+    const spokePoints = frontLayerData.spokePoints;
+    const frontZ = frontLayerData.cfg.z;
+
+    pulses.forEach((p, idx) => {
+      const mesh = pulseMeshesRef.current[idx];
+      if (!mesh) return;
+
+      if (!p.active) {
+        mesh.visible = false;
+        return;
+      }
+
+      mesh.visible = true;
+      p.t += delta * p.speed;
+
+      const pts = spokePoints[p.spokeIndex];
+      const travel = Math.min(p.t, 1);
+      const segCount = pts.length - 1;
+      const segF = travel * segCount;
+      const segI = Math.min(Math.floor(segF), segCount - 1);
+      const localT = segF - segI;
+      const a = pts[segI];
+      const b = pts[segI + 1];
+      const pos = a.clone().lerp(b, localT);
+
+      mesh.position.set(pos.x, pos.y, pos.z + frontZ);
+      const mat = mesh.material as THREE.MeshBasicMaterial;
+      mat.opacity = travel < 0.08 ? travel / 0.08 : (1 - travel) * 0.92;
+
+      if (p.t >= 1) {
+        p.active = false;
+        mesh.visible = false;
+      }
+    });
   });
 
   return (
-    <group ref={webGroupRef} position={[0, 0, -0.5]}>
-      {layerGeometries.map(({ geo, cfg }, i) => (
-        <lineSegments key={i} geometry={geo} position={[0, 0, cfg.z]}>
+    <group ref={webGroupRef}>
+      {layerGeometries.map((layer, idx) => (
+        <lineSegments key={idx} geometry={layer.geo} position={[0, 0, layer.cfg.z]}>
           <lineBasicMaterial
-            color={cfg.color}
+            color={layer.cfg.color}
             transparent
-            opacity={cfg.opacity}
+            opacity={layer.cfg.opacity}
             blending={THREE.AdditiveBlending}
             depthWrite={false}
           />
         </lineSegments>
       ))}
 
+      {/* Dew drop nodes */}
       <points geometry={dewGeometry}>
         <pointsMaterial
           color={0xed3c3f}
-          size={0.07}
+          size={0.055}
           transparent
           opacity={0.85}
           blending={THREE.AdditiveBlending}
+          depthWrite={false}
         />
       </points>
+
+      {/* Spidey-Sense Pulses */}
+      {pulses.map((_, idx) => (
+        <mesh
+          key={idx}
+          ref={(el) => {
+            if (el) pulseMeshesRef.current[idx] = el;
+          }}
+          visible={false}
+        >
+          <sphereGeometry args={[0.06, 12, 12]} />
+          <meshBasicMaterial
+            color={0xed3c3f}
+            transparent
+            opacity={0}
+            blending={THREE.AdditiveBlending}
+            depthWrite={false}
+          />
+        </mesh>
+      ))}
     </group>
   );
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 4. MATHEMATICAL PENDULUM WEB-SWING & 3D SKYLINE ENGINE
+// 4. PROCEDURAL 8-LEG KINEMATIC STEPPING & CRAWLING
 // ─────────────────────────────────────────────────────────────────────────────
-function PendulumWebSwingRig() {
-  const { camera } = useThree();
-  const webMeshRef = useRef<THREE.Mesh>(null!);
-  const cityGroupRef = useRef<THREE.Group>(null!);
-
-  const L = 12.0; // Web line length
-  const theta0 = Math.PI / 3.2; // Release angle (60 degrees)
-
-  // Skyscraper backdrop boxes
-  const buildingBoxes = useMemo(() => {
-    const boxes: { pos: [number, number, number]; size: [number, number, number]; color: number }[] = [];
-    for (let i = 0; i < 36; i++) {
-      const x = ((i % 6) - 2.5) * 14 + (Math.sin(i * 3.7) * 4);
-      const y = -14 + (Math.sin(i * 1.3) * 6);
-      const z = -25 - (i * 2.2);
-      const w = 4 + (Math.sin(i * 2.1) + 1) * 2;
-      const h = 26 + (Math.cos(i * 1.7) + 1) * 12;
-      const d = 4 + (Math.sin(i * 0.9) + 1) * 2;
-      const color = i % 3 === 0 ? 0x00104a : i % 2 === 0 ? 0x121626 : 0x1a2238;
-      boxes.push({ pos: [x, y, z], size: [w, h, d], color });
-    }
-    return boxes;
-  }, []);
-
-  // Procedural dynamic elastic web strand
-  const webCurve = useMemo(() => {
-    return new THREE.QuadraticBezierCurve3(
-      new THREE.Vector3(0, 16, -12), // Sky anchor high on a skyscraper
-      new THREE.Vector3(0, 6, -6),   // Dynamic sag control point
-      new THREE.Vector3(0, 0, 0)     // Shooter attachment point
-    );
-  }, []);
-
-  useFrame((state) => {
-    const snap = getScrollSnapshot();
-    const vh = snap.viewportHeight || 900;
-    // Scroll progress p mapped across Hero to About transition (0.0 to 1.0)
-    const p = Math.max(0, Math.min(1.0, snap.scrollTop / (vh * 1.3)));
-
-    // 1. Angular displacement: θ(p) = θ₀ * cos(π * p)
-    const theta = theta0 * Math.cos(Math.PI * p);
-
-    // 2. Parametric pendulum camera coordinates:
-    //    x(p) = L * sin(θ(p)), y(p) = -L * cos(θ(p)) + y0, z(p) = z_start - Δz * p
-    const targetCamX = L * Math.sin(theta) * 0.45 + (pointerUv.x - 0.5) * 0.8;
-    const targetCamY = -L * Math.cos(theta) * 0.35 + 3.8 + (pointerUv.y - 0.5) * 0.5;
-    const targetCamZ = 5.0 - p * 8.0;
-
-    camera.position.x = THREE.MathUtils.lerp(camera.position.x, targetCamX, 0.08);
-    camera.position.y = THREE.MathUtils.lerp(camera.position.y, targetCamY, 0.08);
-    camera.position.z = THREE.MathUtils.lerp(camera.position.z, targetCamZ, 0.08);
-
-    // Dynamic banking roll: camera.rotation.z = -theta * 0.4
-    camera.rotation.z = THREE.MathUtils.lerp(camera.rotation.z, -theta * 0.28, 0.08);
-
-    // 3. Elastic Web Tube Update
-    if (webMeshRef.current) {
-      const tensionSag = (Math.sin(p * Math.PI) + 0.1) * 3.5;
-      webCurve.v1.set(targetCamX * 0.4, 8.0 - tensionSag, -8.0);
-      webCurve.v2.set(targetCamX + 0.4, targetCamY - 0.3, targetCamZ - 1.2);
-
-      webMeshRef.current.geometry.dispose();
-      webMeshRef.current.geometry = new THREE.TubeGeometry(webCurve, 24, 0.025, 6, false);
-    }
-
-    // 4. Skyline Parallax & Vertical Wave
-    if (cityGroupRef.current) {
-      cityGroupRef.current.children.forEach((mesh, idx) => {
-        mesh.position.y += Math.sin(p * Math.PI) * (idx % 3 === 0 ? 0.04 : 0.015);
-      });
-    }
-  });
-
-  return (
-    <>
-      {/* Dynamic 3D City Skyline Parallax */}
-      <group ref={cityGroupRef}>
-        {buildingBoxes.map((b, i) => (
-          <mesh key={i} position={b.pos}>
-            <boxGeometry args={b.size} />
-            <meshStandardMaterial
-              color={b.color}
-              roughness={0.3}
-              metalness={0.2}
-              wireframe={i % 4 === 0}
-            />
-          </mesh>
-        ))}
-      </group>
-
-      {/* Dynamic Elastic Web Tube */}
-      <mesh ref={webMeshRef}>
-        <tubeGeometry args={[webCurve, 24, 0.025, 6, false]} />
-        <meshBasicMaterial
-          color={0xedeae2}
-          wireframe
-          transparent
-          opacity={0.45}
-          blending={THREE.AdditiveBlending}
-        />
-      </mesh>
-    </>
-  );
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// 5. 3D PROCEDURAL WALKING & SWINGING SPIDER MODEL
-// ─────────────────────────────────────────────────────────────────────────────
-interface WalkingSpiderModelProps {
-  crawlProgress: number;
-  isWalking: boolean;
-}
-
 function buildAnimatedLegCurve(
   side: number,
-  hipAngle: number,
+  hipAngleDeg: number,
   index: number,
   stepPhase: number,
   isWalking: boolean
 ) {
-  const hipX = side * (0.28 + index * 0.03);
-  const hipY = 0.35 - index * 0.28;
-  const hipZ = 0.0;
+  const hipRad = THREE.MathUtils.degToRad(hipAngleDeg);
 
-  const kneeReach = 0.85 + index * 0.05;
-  const kneeSpread = hipAngle + (side === 1 ? 0.25 : -0.25);
-  const lift = isWalking ? Math.max(0, Math.sin(stepPhase)) * 0.35 : Math.sin(stepPhase) * 0.08;
-  const swing = isWalking ? Math.cos(stepPhase) * 0.4 : 0;
+  const stepLift = isWalking ? Math.max(0, Math.sin(stepPhase)) * 0.35 : Math.sin(stepPhase * 0.5) * 0.06;
+  const stepForward = isWalking ? Math.cos(stepPhase) * 0.4 : Math.cos(stepPhase * 0.5) * 0.08;
 
-  const kneeX = hipX + Math.sin(kneeSpread) * kneeReach * side;
-  const kneeY = hipY + Math.cos(kneeSpread) * kneeReach * 0.8 + swing * 0.3;
-  const kneeZ = 0.35 + lift;
+  const hip = new THREE.Vector3(
+    side * 0.5,
+    hipAngleDeg > 0 ? 0.25 : -0.15,
+    0.05 * index
+  );
 
-  const footX = kneeX + side * (0.45 + index * 0.06);
-  const footY = kneeY + Math.cos(kneeSpread) * 0.5 + swing * 0.5;
-  const footZ = -0.15;
+  const dir1 = new THREE.Vector3(
+    side * Math.cos(hipRad),
+    Math.sin(hipRad) + stepForward * 0.2,
+    stepLift * 0.5
+  );
+  const knee = hip.clone().add(dir1.multiplyScalar(1.55 - index * 0.06));
 
-  const hip = new THREE.Vector3(hipX, hipY, hipZ);
-  const knee = new THREE.Vector3(kneeX, kneeY, kneeZ);
-  const foot = new THREE.Vector3(footX, footY, footZ);
+  const footAngleRad = THREE.MathUtils.degToRad(hipAngleDeg * 0.3 - 30);
+  const dir2 = new THREE.Vector3(
+    side * Math.cos(footAngleRad),
+    Math.sin(footAngleRad) + stepForward * 0.4,
+    -0.2 + stepLift * 0.2
+  );
+  const foot = knee.clone().add(dir2.multiplyScalar(1.25 - index * 0.05));
 
-  return new THREE.CatmullRomCurve3([hip, knee, foot]);
+  return new THREE.CatmullRomCurve3([hip, knee, foot], false, "catmullrom", 0.3);
 }
 
-function WalkingSpiderModel({ crawlProgress, isWalking }: WalkingSpiderModelProps) {
+// ─────────────────────────────────────────────────────────────────────────────
+// 5. 3D WALKING SPIDER (Seamless Left-to-Right Entrance & Clean Scroll Out)
+// ─────────────────────────────────────────────────────────────────────────────
+function WalkingSpiderModel({
+  crawlProgress,
+  isWalking,
+}: {
+  crawlProgress: number;
+  isWalking: boolean;
+}) {
   const groupRef = useRef<THREE.Group>(null!);
   const legMeshesRef = useRef<THREE.Mesh[]>([]);
 
-  const cephalothoraxGeo = useMemo(() => new THREE.SphereGeometry(0.32, 24, 24), []);
-  const abdomenGeo = useMemo(() => new THREE.SphereGeometry(0.52, 24, 24), []);
+  const outlineMat = useMemo(
+    () =>
+      new THREE.ShaderMaterial({
+        vertexShader: outlineVertex,
+        fragmentShader: outlineFragment,
+        uniforms: {
+          uOffset: { value: 0.06 },
+          uColor: { value: new THREE.Color(0x2f57ad) },
+          uOpacity: { value: 1.0 },
+        },
+        side: THREE.BackSide,
+        transparent: true,
+      }),
+    []
+  );
 
-  const bodyMat = useMemo(() => {
-    return new THREE.ShaderMaterial({
-      vertexShader: bodyVertex,
-      fragmentShader: bodyFragment,
-      uniforms: {
-        uBaseColor: { value: new THREE.Color(0x0a1638) },
-        uRimColor: { value: new THREE.Color(0x3b82f6) },
-        uSheenColor: { value: new THREE.Color(0xed3c3f) },
-        uOpacity: { value: 1.0 },
-        uTime: { value: 0 },
-      },
-      transparent: true,
-    });
+  const glowMat1 = useMemo(
+    () =>
+      new THREE.ShaderMaterial({
+        vertexShader: outlineVertex,
+        fragmentShader: outlineFragment,
+        uniforms: {
+          uOffset: { value: 0.12 },
+          uColor: { value: new THREE.Color(0x3f7dff) },
+          uOpacity: { value: 0.18 },
+        },
+        side: THREE.FrontSide,
+        transparent: true,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      }),
+    []
+  );
+
+  const bodyMat = useMemo(
+    () =>
+      new THREE.ShaderMaterial({
+        vertexShader: bodyVertex,
+        fragmentShader: bodyFragment,
+        uniforms: {
+          uBaseColor: { value: new THREE.Color(0x101d47) },
+          uRimColor: { value: new THREE.Color(0x2f6fff) },
+          uSheenColor: { value: new THREE.Color(0xcfe4ff) },
+          uOpacity: { value: 1.0 },
+          uTime: { value: 0 },
+        },
+        transparent: true,
+      }),
+    []
+  );
+
+  const cephalothoraxGeo = useMemo(() => {
+    const geo = new THREE.SphereGeometry(0.72, 24, 20);
+    geo.scale(1.0, 0.78, 0.82);
+    geo.translate(0.4, 0, 0.1);
+    return geo;
   }, []);
 
-  const outlineMat = useMemo(() => {
-    return new THREE.ShaderMaterial({
-      vertexShader: outlineVertex,
-      fragmentShader: outlineFragment,
-      uniforms: {
-        uOffset: { value: 0.04 },
-        uColor: { value: new THREE.Color(0x3b82f6) },
-        uOpacity: { value: 0.5 },
-      },
-      side: THREE.BackSide,
-      transparent: true,
-    });
+  const abdomenGeo = useMemo(() => {
+    const geo = new THREE.SphereGeometry(0.85, 24, 20);
+    geo.scale(1.45, 1.05, 1.05);
+    geo.translate(-0.85, 0, 0.05);
+    return geo;
   }, []);
 
-  const hipAngles = [0.45, 0.15, -0.15, -0.45];
+  const hipAngles = useMemo(() => [65, 30, -10, -48], []);
 
   useFrame((state) => {
     if (!groupRef.current) return;
     const t = state.clock.getElapsedTime();
     bodyMat.uniforms.uTime.value = t;
 
-    const snap = getScrollSnapshot();
-    const windowH = snap.viewportHeight || 900;
-    const exitProgress = Math.max(0, Math.min(1.0, (snap.scrollTop - windowH * 0.65) / (windowH * 0.65)));
+    const scrollY = getScrollSnapshot().scrollTop;
+    const windowH = typeof window !== "undefined" ? window.innerHeight : 900;
 
-    // Walking entrance from left (x: -5.2) to hero focal point (x: 2.2)
-    const enterX = THREE.MathUtils.lerp(-5.2, 2.2, crawlProgress);
-    const enterY = THREE.MathUtils.lerp(-1.8, 0.4, crawlProgress);
-    const enterZ = THREE.MathUtils.lerp(-1.0, 1.2, crawlProgress);
+    // Smooth scroll out-animation past section 1 (Hero)
+    const exitProgress = THREE.MathUtils.clamp(
+      scrollY / (windowH * 0.75),
+      0,
+      1
+    );
 
-    // Scroll exit: Spider climbs upward and swings forward into depth
-    const currentX = enterX + exitProgress * 0.8;
-    const currentY = enterY + exitProgress * 4.2;
-    const currentZ = enterZ - exitProgress * 4.5;
+    // Completely hide when scrolled past hero to prevent any card overlap
+    if (scrollY > windowH * 0.85) {
+      if (groupRef.current.visible) groupRef.current.visible = false;
+      return;
+    }
+    groupRef.current.visible = true;
 
-    groupRef.current.position.set(currentX, currentY, currentZ);
+    // Crawls across from x: -5.2 to x: 2.2 during entrance
+    const entranceX = -5.2 + crawlProgress * 7.4;
+    
+    // On scroll exit: spider crawls gracefully up & scales away
+    const targetX = entranceX + exitProgress * 2.0;
+    const targetY = 0.3 + Math.sin(t * 1.5) * 0.08 + exitProgress * 3.5;
+    const targetZ = -0.3 - exitProgress * 4.0;
+    const targetScale = Math.max(0.001, 0.42 * (1.0 - exitProgress * 0.95));
 
+    groupRef.current.position.x = targetX;
+    groupRef.current.position.y = targetY;
+    groupRef.current.position.z = targetZ;
+    groupRef.current.scale.set(targetScale, targetScale, targetScale);
+
+    // Fade materials
     const opacity = 1.0 - exitProgress;
     bodyMat.uniforms.uOpacity.value = opacity;
     outlineMat.uniforms.uOpacity.value = opacity;
+    glowMat1.uniforms.uOpacity.value = opacity * 0.18;
 
     const crawlSway = isWalking ? Math.sin(crawlProgress * 28.0) * 0.12 : Math.sin(t * 1.2) * 0.04;
     groupRef.current.rotation.z = Math.PI * 0.5 + crawlSway + exitProgress * 0.4;
@@ -437,10 +483,12 @@ function WalkingSpiderModel({ crawlProgress, isWalking }: WalkingSpiderModelProp
   return (
     <group ref={groupRef} scale={0.42}>
       <mesh geometry={cephalothoraxGeo} material={outlineMat} />
+      <mesh geometry={cephalothoraxGeo} material={glowMat1} />
       <mesh geometry={cephalothoraxGeo} material={bodyMat} />
 
-      <mesh geometry={abdomenGeo} position={[0, -0.7, 0]} material={outlineMat} />
-      <mesh geometry={abdomenGeo} position={[0, -0.7, 0]} material={bodyMat} />
+      <mesh geometry={abdomenGeo} material={outlineMat} />
+      <mesh geometry={abdomenGeo} material={glowMat1} />
+      <mesh geometry={abdomenGeo} material={bodyMat} />
 
       {Array.from({ length: 8 }).map((_, idx) => (
         <mesh
@@ -480,7 +528,6 @@ function HeroSceneOrchestrator() {
   return (
     <>
       <LayeredSpiderWebBackground />
-      <PendulumWebSwingRig />
       <WalkingSpiderModel
         crawlProgress={crawlProgress}
         isWalking={isWalking}
@@ -496,11 +543,11 @@ export default function HeroAboutScene() {
     const unsub = subscribeScroll((snap) => {
       if (!containerRef.current) return;
       const windowH = typeof window !== "undefined" ? window.innerHeight : 900;
-      if (snap.scrollTop > windowH * 1.6) {
+      if (snap.scrollTop > windowH * 1.5) {
         containerRef.current.style.opacity = "0";
         containerRef.current.style.visibility = "hidden";
-      } else if (snap.scrollTop > windowH * 0.9) {
-        const opacity = 1.0 - (snap.scrollTop - windowH * 0.9) / (windowH * 0.7);
+      } else if (snap.scrollTop > windowH * 0.8) {
+        const opacity = 1.0 - (snap.scrollTop - windowH * 0.8) / (windowH * 0.7);
         containerRef.current.style.opacity = Math.max(0, Math.min(1, opacity)).toString();
         containerRef.current.style.visibility = "visible";
       } else {
@@ -523,11 +570,9 @@ export default function HeroAboutScene() {
           alpha: true,
           powerPreference: "high-performance",
         }}
-        camera={{ position: [0, 3.8, 5.0], fov: 45 }}
+        camera={{ position: [0, 0, 5.0], fov: 42 }}
       >
-        <ambientLight intensity={0.7} />
-        <directionalLight position={[10, 20, 15]} intensity={1.2} color={0xed3c3f} />
-        <directionalLight position={[-10, -10, -10]} intensity={0.8} color={0x3b82f6} />
+        <ambientLight intensity={0.65} />
         <HeroSceneOrchestrator />
       </Canvas>
     </div>

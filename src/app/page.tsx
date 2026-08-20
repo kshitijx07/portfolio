@@ -181,7 +181,7 @@ export default function PortfolioPage() {
         id="about"
         className="relative z-10 flex min-h-screen w-full items-center bg-[#050505]/90 backdrop-blur-md px-8 py-24 md:px-14 border-t border-white/10 [content-visibility:auto] [contain-intrinsic-size:1px_800px]"
       >
-        <div className="grid w-full grid-cols-1 lg:grid-cols-12 gap-12 items-start max-w-7xl mx-auto">
+        <div className="about-content-wrapper grid w-full grid-cols-1 lg:grid-cols-12 gap-12 items-start max-w-7xl mx-auto">
           {/* Left Column: Sticky 3D Portrait Card (No Overlap) */}
           <div className="about-portrait-card lg:col-span-4 lg:sticky lg:top-28 flex flex-col items-center lg:items-start space-y-4 will-change-transform">
             <PolarityCard src="/me.webp" alt="Kshitij Kumbhar" />
@@ -262,7 +262,7 @@ export default function PortfolioPage() {
         >
           <div className="relative z-10 max-w-7xl mx-auto space-y-10">
             {/* Header Banner with Clean Spatial Margins (No Overlap) */}
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6 bg-[#252324]/90 backdrop-blur-md p-6 rounded-sm shadow-xl">
+            <div className="section-header-reveal flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6 bg-[#252324]/90 backdrop-blur-md p-6 rounded-sm shadow-xl">
               <div>
                 <div className="flex items-center gap-2 text-[#ED3C3F] font-mono text-xs uppercase tracking-wider font-semibold mb-2">
                   <span className="w-2 h-2 rounded-full bg-[#ED3C3F] animate-pulse" />
@@ -376,7 +376,7 @@ export default function PortfolioPage() {
         >
           <div className="relative z-10 max-w-7xl mx-auto space-y-10">
             {/* Header Banner (No Overlap) */}
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6 bg-[#252324]/90 backdrop-blur-md p-6 rounded-sm shadow-xl">
+            <div className="section-header-reveal flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6 bg-[#252324]/90 backdrop-blur-md p-6 rounded-sm shadow-xl">
               <div>
                 <div className="flex items-center gap-2 text-[#ED3C3F] font-mono text-xs uppercase tracking-wider font-semibold mb-2">
                   <span className="w-2 h-2 rounded-full bg-[#ED3C3F] animate-pulse" />
@@ -514,7 +514,7 @@ export default function PortfolioPage() {
         >
           <div className="relative z-10 max-w-7xl mx-auto space-y-10">
             {/* Header Banner (No Overlap) */}
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6 bg-[#252324]/90 backdrop-blur-md p-6 rounded-sm shadow-xl">
+            <div className="section-header-reveal flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6 bg-[#252324]/90 backdrop-blur-md p-6 rounded-sm shadow-xl">
               <div>
                 <div className="flex items-center gap-2 text-[#ED3C3F] font-mono text-xs uppercase tracking-wider font-semibold mb-2">
                   <span className="w-2 h-2 rounded-full bg-[#ED3C3F] animate-pulse" />

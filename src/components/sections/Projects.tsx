@@ -99,71 +99,69 @@ const PROJECTS_REGISTRY: ProjectData[] = [
     ],
     bgColor: "bg-[#252324]",
     accentColor: "#3B82F6",
-    githubUrl: "https://github.com/kshitijx07",
+    githubUrl: "https://github.com/kshitijx07/dsa-swarm-ai",
     metrics: [
-      { label: "Quota Pool", value: "15 → 60 RPM", sub: "4-Key Expansion" },
-      { label: "Vector Latency", value: "<120ms", sub: "Pinecone 768-dim" },
-      { label: "Security", value: "UID 10001", sub: "Non-Root Worker" },
+      { label: "Agents", value: "4 Agents", sub: "LangGraph Swarm" },
+      { label: "Latency", value: "<180ms", sub: "Pinecone + Flash" },
+      { label: "Protocol", value: "MCP Standard", sub: "Cursor + Claude" },
     ],
     bullets: [
-      "Autonomous Supervisor routing with sub-second retrieval across complex Data Structure & Algorithm queries.",
-      "Provisioned cloud-native AWS EKS infrastructure via Terraform (IaC) with unprivileged Docker containers (UID 10001) behind ALB and CloudFront.",
-      "Engineered 4-key API rotation pool and exponential backoff for Gemini 2.5 Flash LLM endpoints, multiplying throughput from 15 RPM to 60 RPM.",
-      "Optimized RAG vector search with custom 768-dim Gemini embeddings and Pinecone cosine similarity (topK=6).",
+      "Architected 4-node LangGraph multi-agent swarm coordinating Code Generator, Complexity Analyzer, and Unit Tester.",
+      "Built Model Context Protocol (MCP) server integration allowing IDEs to execute live algorithmic agent workflows.",
+      "Provisioned infrastructure with Terraform on AWS EKS with Kubernetes secrets and automated GitHub Actions CI/CD.",
+      "Indexed 500+ LeetCode DSA patterns into Pinecone with 768-dim embeddings for sub-180ms semantic retrieval.",
     ],
   },
   {
-    id: "project-xray",
+    id: "project-serverless-resizer",
     category: "SERVERLESS & IAC",
-    subCategory: "EVENT-DRIVEN INFERENCE & TERRAFORM",
-    tag: "LAMBDA + TERRAFORM",
-    year: "2026",
-    title: "Serverless AI X-Ray",
-    subtitle: "Medical Imaging Diagnostic Pipeline",
+    subCategory: "EVENT-DRIVEN CLOUD INFRASTRUCTURE",
+    tag: "TERRAFORM + AWS LAMBDA",
+    year: "2025",
+    title: "Serverless Image Resizer",
+    subtitle: "Event-Driven Thumbnail Pipeline",
     description:
-      "Serverless medical imaging platform on AWS using MobileNet TFLite to classify chest X-rays in under 1 second at zero idle cost.",
+      "Automated image processing pipeline built on AWS Lambda, S3 Event Notifications, and Terraform.",
     technologies: [
       "AWS Lambda",
-      "Terraform",
-      "GitHub Actions",
-      "API Gateway",
+      "Terraform (IaC)",
       "Amazon S3",
-      "DynamoDB",
-      "MobileNet TFLite",
-      "Python",
+      "Sharp (Node.js)",
+      "AWS IAM",
+      "CloudWatch",
     ],
     bgColor: "bg-[#252324]",
     accentColor: "#ED3C3F",
-    githubUrl: "https://github.com/kshitijx07/serverless-ai-xray",
+    githubUrl: "https://github.com/kshitijx07",
     metrics: [
-      { label: "Inference", value: "<1.00s", sub: "MobileNet TFLite" },
-      { label: "Upload Limit", value: "5x (50MB)", sub: "S3 Presigned URL" },
-      { label: "Idle Cost", value: "$0.00", sub: "100% Serverless" },
+      { label: "Execution", value: "<800ms", sub: "Per Image" },
+      { label: "Cost", value: "$0.00 / Idle", sub: "100% Serverless" },
+      { label: "Infra", value: "100% IaC", sub: "Terraform Managed" },
     ],
     bullets: [
-      "Deployed secure 3-Lambda backend behind API Gateway with CORS enforcement and per-second request throttling.",
-      "Streamlined uploads with S3 presigned URL direct flow increasing upload limits 5x (10 MB to 50 MB) bypassing API Gateway caps.",
-      "Automated infrastructure with modular Terraform and GitHub Actions streaming DynamoDB confidence scores in real-time.",
+      "Built automated thumbnail generation triggered by S3 ObjectCreated events, processing uploads in under 800ms.",
+      "Packaged Sharp Node.js binary in a Lambda Layer with strict IAM least-privilege roles.",
+      "Maintained 100% Infrastructure as Code via Terraform for reproducible multi-region deployments.",
+      "Monitored execution logs and invocation metrics via AWS CloudWatch dashboards and alarms.",
     ],
   },
   {
     id: "project-grocito",
     category: "FULL STACK ARCHITECTURE",
-    subCategory: "MULTI-PORTAL ENTERPRISE PLATFORM",
-    tag: "SPRING BOOT + REACT",
+    subCategory: "SPRING BOOT & REACT DELIVERY",
+    tag: "SPRING BOOT + MYSQL",
     year: "2025",
-    title: "Grocito Enterprise Platform",
-    subtitle: "Campus Credential Full-Stack Production Sprint",
+    title: "Grocito Platform",
+    subtitle: "Three-Tier Grocery Commerce Ecosystem",
     description:
-      "Modular MVC architecture platform supporting parallel operations across three distinct user and administrator portals.",
+      "End-to-end full-stack commerce platform with dedicated Admin, Vendor, and Customer portals.",
     technologies: [
       "Spring Boot",
       "MySQL",
       "React.js",
       "REST APIs",
+      "Tailwind CSS",
       "MVC Architecture",
-      "Docker",
-      "Postman",
     ],
     bgColor: "bg-[#252324]",
     accentColor: "#3B82F6",
@@ -203,9 +201,9 @@ export default function Projects() {
       id="projects"
       className="relative z-10 min-h-screen bg-[#050505]/80 px-6 sm:px-10 md:px-14 py-20 border-t border-white/10 overflow-hidden [content-visibility:auto] [contain-intrinsic-size:1px_1100px]"
     >
-      <div className="relative z-10 max-w-7xl mx-auto space-y-8">
+      <div className="relative z-10 max-w-7xl mx-auto space-y-10">
         {/* ── 1. Section Header & Telemetry Status ────────────────── */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6 bg-[#252324]/85 backdrop-blur-md p-5 sm:p-6 rounded-sm shadow-xl">
+        <div className="section-header-reveal flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6 bg-[#252324]/85 backdrop-blur-md p-5 sm:p-6 rounded-sm shadow-xl">
           <div className="space-y-1">
             <div className="flex items-center gap-2 text-[#ED3C3F] font-mono text-xs uppercase tracking-wider font-semibold">
               <span className="w-1.5 h-1.5 rounded-full bg-[#ED3C3F] animate-pulse" />
@@ -250,28 +248,32 @@ export default function Projects() {
           ))}
         </div>
 
-        {/* ── 3. Balanced 2x2 Grid Covering the Viewport ──────────── */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
-          {filteredProjects.map((project) => (
-            <ProjectCardSync
+        {/* ── 3. Balanced 2x2 Grid with Staggered Parallax & Reveal ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 pt-2">
+          {filteredProjects.map((project, idx) => (
+            <div
               key={project.id}
-              id={project.id}
-              tag={project.tag}
-              category={project.subCategory}
-              year={project.year}
-              title={project.title}
-              subtitle={project.subtitle}
-              description={project.description}
-              technologies={project.technologies}
-              bannerText={project.bannerText}
-              bgColor={project.bgColor}
-              accentColor={project.accentColor}
-              githubUrl={project.githubUrl}
-              demoUrl={project.demoUrl}
-              cliCommand={project.cliCommand}
-              metrics={project.metrics}
-              bullets={project.bullets}
-            />
+              className={`scroll-reveal-card velocity-skew-target project-card-col-${idx % 2} will-change-transform`}
+            >
+              <ProjectCardSync
+                id={project.id}
+                tag={project.tag}
+                category={project.subCategory}
+                year={project.year}
+                title={project.title}
+                subtitle={project.subtitle}
+                description={project.description}
+                technologies={project.technologies}
+                bannerText={project.bannerText}
+                bgColor={project.bgColor}
+                accentColor={project.accentColor}
+                githubUrl={project.githubUrl}
+                demoUrl={project.demoUrl}
+                cliCommand={project.cliCommand}
+                metrics={project.metrics}
+                bullets={project.bullets}
+              />
+            </div>
           ))}
         </div>
 

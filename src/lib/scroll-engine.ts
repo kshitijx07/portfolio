@@ -1,11 +1,11 @@
 /**
  * ══════════════════════════════════════════════════════════════════════════════
- * 🕷️ ADVANCED SCROLL ORCHESTRATION & PARALLAX ENGINE (lib/scroll-engine.ts)
+ * 🕷️ ADVANCED SCROLL ORCHESTRATION & DYNAMIC IN/OUT ENGINE (lib/scroll-engine.ts)
  * ──────────────────────────────────────────────────────────────────────────────
  * Production-grade, high-performance scroll architecture combining:
  * 1. Lenis Smooth Momentum Scrolling + GSAP ScrollTrigger Ticker Bridge.
- * 2. Mathematical Pendulum Web-Swing Integration & Bounded Depth Parallax.
- * 3. 3-Stage Dynamic Dive Transitions Across All Page Sections.
+ * 2. Seamless Dynamic In/Out Section Transition Cascades.
+ * 3. Multi-Layer Spatial Parallax & Perspective Depth without Layout Overlap.
  * 4. Velocity-Sensitive Elastic Distortion & Inertial Return Physics.
  * 5. Scroll-Triggered Blur-to-Focus Card Stagger Reveal Matrix.
  * 6. Single-Frame Telemetry Dispatches to HUD & WebGL Canvas Layers.
@@ -31,39 +31,11 @@ if (typeof window !== "undefined") {
 // 1. SCROLL ENGINE CONFIGURATION & INTERFACES
 // ─────────────────────────────────────────────────────────────────────────────
 
-export interface ParallaxLayerConfig {
-  target: string | HTMLElement;
-  speed: number;
-  direction?: "vertical" | "horizontal" | "both";
-  clamp?: [number, number];
-  scaleWithScroll?: boolean;
-  opacityFade?: boolean;
-  scrub?: number | boolean;
-}
-
-export interface ScrollRevealConfig {
-  selector: string;
-  stagger?: number;
-  yOffset?: number;
-  blurAmount?: number;
-  duration?: number;
-  threshold?: string;
-  scaleFrom?: number;
-}
-
-export interface VelocityDistortionConfig {
-  targetSelector: string;
-  maxSkewDeg?: number;
-  sensitivity?: number;
-  damping?: number;
-}
-
 export interface SectionTelemetry {
   id: string;
   index: number;
   progress: number;
   isActive: boolean;
-  rect: { top: number; bottom: number; height: number };
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -75,12 +47,8 @@ export class ScrollEngineController {
   private ctx: gsap.Context | null = null;
   private isDestroyed = false;
   private unsubs: (() => void)[] = [];
-  private activeSectionIndex = 0;
-  private velocitySmoothed = 0;
-  private lastScrollY = 0;
-  private lastTime = 0;
 
-  // Registered section identifiers
+  // Registered section identifiers for active section tracking
   private readonly sectionIds = [
     "home",
     "about",
@@ -123,7 +91,7 @@ export class ScrollEngineController {
   }
 
   /**
-   * Initialize all master scroll choreography: Parallax, Reveals, Velocity Skew & Pinning.
+   * Initialize all master scroll choreography: Parallax, Reveals, In/Out transitions & Velocity Skew.
    */
   public initMasterChoreography(scope?: HTMLElement | null): () => void {
     if (typeof window === "undefined") return () => {};
@@ -132,10 +100,11 @@ export class ScrollEngineController {
     const isLowEnd = isLowPowerDevice();
 
     this.ctx = gsap.context(() => {
-      // ── STAGE 1: HERO VIEWPORT DIVE & WEB TENSION ───────────────────
+      // ── A. HERO VIEWPORT DYNAMIC IN/OUT PARALLAX ────────────────────
       gsap.to(".hero-parallax-content", {
-        yPercent: isReduced ? 0 : -22,
-        opacity: 0.85,
+        yPercent: isReduced ? 0 : -24,
+        opacity: 0.75,
+        scale: isReduced ? 1 : 0.98,
         ease: "none",
         scrollTrigger: {
           trigger: "#home",
@@ -146,23 +115,44 @@ export class ScrollEngineController {
         },
       });
 
-      // ── STAGE 2: ABOUT SECTION PARALLAX & PORTRAIT HOVER GLIDE ──────
+      // ── B. ABOUT SECTION DYNAMIC IN/OUT TRANSITION ──────────────────
+      gsap.fromTo(
+        "#about .about-content-wrapper",
+        {
+          opacity: isReduced ? 1 : 0.88,
+          y: isReduced ? 0 : 30,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          ease: "none",
+          scrollTrigger: {
+            trigger: "#about",
+            start: "top 85%",
+            end: "top 30%",
+            scrub: 0.5,
+            invalidateOnRefresh: true,
+          },
+        }
+      );
+
+      // About Portrait Card Smooth Parallax Glide (Bounded to avoid collisions)
       gsap.to(".about-portrait-card", {
         y: isReduced ? 0 : -35,
         ease: "none",
         scrollTrigger: {
           trigger: "#about",
-          start: "top 80%",
-          end: "bottom 20%",
+          start: "top 75%",
+          end: "bottom 25%",
           scrub: 0.8,
           invalidateOnRefresh: true,
         },
       });
 
-      // ── STAGE 3: EXPERIENCE SECTION MULTI-LAYER DEPTH (Non-Overlapping) ───
+      // ── C. EXPERIENCE SECTION MULTI-LAYER SPATIAL DEPTH ────────────
       // Left Card: Enterprise Hybrid (Colgate-Palmolive)
       gsap.to(".exp-card-left", {
-        y: isReduced ? 0 : -30,
+        y: isReduced ? 0 : -25,
         ease: "none",
         scrollTrigger: {
           trigger: "#experience",
@@ -175,7 +165,7 @@ export class ScrollEngineController {
 
       // Right Card: Remote Sprint Delivery (Campus Credential)
       gsap.to(".exp-card-right", {
-        y: isReduced ? 0 : -60,
+        y: isReduced ? 0 : -50,
         ease: "none",
         scrollTrigger: {
           trigger: "#experience",
@@ -186,10 +176,37 @@ export class ScrollEngineController {
         },
       });
 
-      // ── STAGE 4: TECHNICAL SKILLS MATRIX ALTERNATING STAGGER ─────────
+      // ── D. PROJECTS SECTION STAGGERED PARALLAX DEPTH ───────────────
+      if (!isReduced) {
+        gsap.to(".project-card-col-0", {
+          y: -20,
+          ease: "none",
+          scrollTrigger: {
+            trigger: "#projects",
+            start: "top 80%",
+            end: "bottom 20%",
+            scrub: 0.7,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        gsap.to(".project-card-col-1", {
+          y: -45,
+          ease: "none",
+          scrollTrigger: {
+            trigger: "#projects",
+            start: "top 80%",
+            end: "bottom 20%",
+            scrub: 0.7,
+            invalidateOnRefresh: true,
+          },
+        });
+      }
+
+      // ── E. TECHNICAL SKILLS MATRIX ALTERNATING STAGGER ─────────────
       if (!isReduced) {
         gsap.to(".skill-card-odd", {
-          y: -25,
+          y: -20,
           ease: "none",
           scrollTrigger: {
             trigger: "#skills",
@@ -201,7 +218,7 @@ export class ScrollEngineController {
         });
 
         gsap.to(".skill-card-even", {
-          y: -50,
+          y: -42,
           ease: "none",
           scrollTrigger: {
             trigger: "#skills",
@@ -213,10 +230,10 @@ export class ScrollEngineController {
         });
       }
 
-      // ── STAGE 5: EDUCATION SECTION 3-TIER CASCADE PARALLAX ────────────
+      // ── F. EDUCATION SECTION 3-TIER CASCADE PARALLAX ────────────────
       if (!isReduced) {
         gsap.to(".edu-card-1", {
-          y: -20,
+          y: -18,
           ease: "none",
           scrollTrigger: {
             trigger: "#education",
@@ -228,7 +245,7 @@ export class ScrollEngineController {
         });
 
         gsap.to(".edu-card-2", {
-          y: -45,
+          y: -36,
           ease: "none",
           scrollTrigger: {
             trigger: "#education",
@@ -240,7 +257,7 @@ export class ScrollEngineController {
         });
 
         gsap.to(".edu-card-3", {
-          y: -70,
+          y: -54,
           ease: "none",
           scrollTrigger: {
             trigger: "#education",
@@ -252,35 +269,60 @@ export class ScrollEngineController {
         });
       }
 
-      // ── STAGE 6: SCROLL-TRIGGERED REVEALS (Blur-to-Focus & Slide Up) ─
+      // ── G. SCROLL-TRIGGERED REVEALS (Progressive Blur-to-Focus) ─────
       const revealCards = gsap.utils.toArray<HTMLElement>(".scroll-reveal-card");
       revealCards.forEach((card, index) => {
         gsap.fromTo(
           card,
           {
             opacity: 0,
-            y: isReduced ? 0 : 45,
-            filter: isReduced || isLowEnd ? "none" : "blur(8px)",
-            scale: isReduced ? 1 : 0.97,
+            y: isReduced ? 0 : 40,
+            filter: isReduced || isLowEnd ? "none" : "blur(6px)",
+            scale: isReduced ? 1 : 0.975,
           },
           {
             opacity: 1,
             y: 0,
             filter: "blur(0px)",
             scale: 1,
-            duration: isLowEnd ? 0.6 : 0.85,
-            delay: (index % 3) * 0.08,
+            duration: isLowEnd ? 0.55 : 0.75,
+            delay: (index % 3) * 0.06,
             ease: "power3.out",
             scrollTrigger: {
               trigger: card,
-              start: "top 88%",
+              start: "top 90%",
               toggleActions: "play none none reverse",
             },
           }
         );
       });
 
-      // ── STAGE 7: SCROLL VELOCITY SKEW EFFECT ──────────────────────────
+      // ── H. SECTION HEADERS SUBTLE IN-TRANSITION ─────────────────────
+      const sectionHeaders = gsap.utils.toArray<HTMLElement>(".section-header-reveal");
+      sectionHeaders.forEach((header) => {
+        gsap.fromTo(
+          header,
+          {
+            opacity: 0,
+            y: isReduced ? 0 : 25,
+            filter: isReduced || isLowEnd ? "none" : "blur(4px)",
+          },
+          {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            duration: 0.65,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: header,
+              start: "top 92%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      });
+
+      // ── I. SCROLL VELOCITY SKEW EFFECT (Modern Elasticity) ──────────
       if (!isReduced && !isLowEnd) {
         this.initVelocitySkewChoreography();
       }
@@ -298,15 +340,15 @@ export class ScrollEngineController {
   private initVelocitySkewChoreography(): void {
     let proxy = { skew: 0 };
     const skewSetter = gsap.quickSetter(".velocity-skew-target", "skewY", "deg");
-    const clamp = gsap.utils.clamp(-2.5, 2.5);
+    const clamp = gsap.utils.clamp(-2.0, 2.0);
 
     const unsub = subscribeScroll((state: ScrollSnapshot) => {
       const v = state.velocity;
-      const targetSkew = clamp(v * -0.0035);
+      const targetSkew = clamp(v * -0.0028);
 
       gsap.to(proxy, {
         skew: targetSkew,
-        duration: 0.25,
+        duration: 0.22,
         ease: "power2.out",
         overwrite: "auto",
         onUpdate: () => {
@@ -315,7 +357,7 @@ export class ScrollEngineController {
         onComplete: () => {
           gsap.to(proxy, {
             skew: 0,
-            duration: 0.4,
+            duration: 0.35,
             ease: "elastic.out(1, 0.4)",
             onUpdate: () => skewSetter(proxy.skew),
           });
