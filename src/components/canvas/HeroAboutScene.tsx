@@ -1,11 +1,9 @@
 "use client";
 
 import React, { useRef, useMemo, useEffect } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { useFBO } from "@react-three/drei";
+import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { getScrollSnapshot, pointerUv, pointerState, subscribeScroll } from "@/lib/bus";
-import { GlassMaterialShader } from "./GlassMaterial";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // 1. 3D SPIDER SHADERS (All-Blue & Holographic Rim Sheen)
@@ -27,6 +25,7 @@ const bodyFragment = /* glsl */ `
   uniform vec3 uBaseColor;
   uniform vec3 uRimColor;
   uniform vec3 uSheenColor;
+  uniform float uOpacity;
   uniform float uTime;
   varying vec3 vNormal;
   varying vec3 vViewPosition;
@@ -46,7 +45,7 @@ const bodyFragment = /* glsl */ `
     color += uRimColor * fresnel * 0.95;
     color += uSheenColor * spec * 1.2;
 
-    gl_FragColor = vec4(color, 1.0);
+    gl_FragColor = vec4(color, uOpacity);
   }
 `;
 
@@ -172,7 +171,10 @@ function LayeredSpiderWebBackground() {
 
   useFrame((state, delta) => {
     if (!webGroupRef.current) return;
-    const t = state.clock.getElapsedTime();
+    const snap = getScrollSnapshot();
+    const scrollY = snap.scrollTop;
+    const windowH = typeof window !== "undefined" ? window.innerHeight : 900;
+    const scrollProgress = THREE.MathUtils.clamp(scrollY / (windowH * 0.9), 0, 1);
 
     pulseCooldown.current -= delta;
 
@@ -198,9 +200,10 @@ function LayeredSpiderWebBackground() {
     }
     prevPointer.current = { x: px, y: py };
 
-    // Parallax rotation of the web
+    // Parallax rotation & smooth scroll drift
     webGroupRef.current.rotation.y += (px * 0.25 - webGroupRef.current.rotation.y) * Math.min(1, delta * 3.5);
     webGroupRef.current.rotation.x += (-py * 0.18 - webGroupRef.current.rotation.x) * Math.min(1, delta * 3.5);
+    webGroupRef.current.position.y = (scrollProgress - 0.5) * 1.5;
 
     // Update pulses along spokes
     const spokePoints = frontLayerData.spokePoints;
@@ -328,7 +331,7 @@ function buildAnimatedLegCurve(
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 5. 3D WALKING SPIDER CHARACTER COMPONENT
+// 5. 3D WALKING SPIDER (Seamless Left-to-Right Entrance & Clean Scroll Out)
 // ─────────────────────────────────────────────────────────────────────────────
 function WalkingSpiderModel({
   crawlProgress,
@@ -351,6 +354,7 @@ function WalkingSpiderModel({
           uOpacity: { value: 1.0 },
         },
         side: THREE.BackSide,
+        transparent: true,
       }),
     []
   );
@@ -382,8 +386,10 @@ function WalkingSpiderModel({
           uBaseColor: { value: new THREE.Color(0x101d47) },
           uRimColor: { value: new THREE.Color(0x2f6fff) },
           uSheenColor: { value: new THREE.Color(0xcfe4ff) },
+          uOpacity: { value: 1.0 },
           uTime: { value: 0 },
         },
+        transparent: true,
       }),
     []
   );
@@ -409,29 +415,58 @@ function WalkingSpiderModel({
     const t = state.clock.getElapsedTime();
     bodyMat.uniforms.uTime.value = t;
 
-    // Crawls across from x: -5.0 to x: 2.2 during entrance
-    const entranceX = -5.0 + crawlProgress * 7.2;
-    const targetX = entranceX;
-    const targetY = 0.3 + Math.sin(t * 1.5) * 0.08;
+    const scrollY = getScrollSnapshot().scrollTop;
+    const windowH = typeof window !== "undefined" ? window.innerHeight : 900;
+
+    // Smooth scroll out-animation past section 1 (Hero)
+    const exitProgress = THREE.MathUtils.clamp(
+      scrollY / (windowH * 0.75),
+      0,
+      1
+    );
+
+    // Completely hide when scrolled past hero to prevent any card overlap
+    if (scrollY > windowH * 0.85) {
+      if (groupRef.current.visible) groupRef.current.visible = false;
+      return;
+    }
+    groupRef.current.visible = true;
+
+    // Crawls across from x: -5.2 to x: 2.2 during entrance
+    const entranceX = -5.2 + crawlProgress * 7.4;
+    
+    // On scroll exit: spider crawls gracefully up & scales away
+    const targetX = entranceX + exitProgress * 2.0;
+    const targetY = 0.3 + Math.sin(t * 1.5) * 0.08 + exitProgress * 3.5;
+    const targetZ = -0.3 - exitProgress * 4.0;
+    const targetScale = Math.max(0.001, 0.42 * (1.0 - exitProgress * 0.95));
 
     groupRef.current.position.x = targetX;
     groupRef.current.position.y = targetY;
-    groupRef.current.position.z = -0.3;
+    groupRef.current.position.z = targetZ;
+    groupRef.current.scale.set(targetScale, targetScale, targetScale);
+
+    // Fade materials
+    const opacity = 1.0 - exitProgress;
+    bodyMat.uniforms.uOpacity.value = opacity;
+    outlineMat.uniforms.uOpacity.value = opacity;
+    glowMat1.uniforms.uOpacity.value = opacity * 0.18;
 
     const crawlSway = isWalking ? Math.sin(crawlProgress * 28.0) * 0.12 : Math.sin(t * 1.2) * 0.04;
-    groupRef.current.rotation.z = Math.PI * 0.5 + crawlSway;
+    groupRef.current.rotation.z = Math.PI * 0.5 + crawlSway + exitProgress * 0.4;
     groupRef.current.rotation.x = isWalking ? 0.15 : -pointerUv.y * 0.15;
     groupRef.current.rotation.y = isWalking ? 0.1 : (pointerUv.x - 0.5) * 0.25;
 
     let legMeshIndex = 0;
-    const crawlStepSpeed = crawlProgress * 32.0;
+    const crawlStepSpeed = crawlProgress * 32.0 + exitProgress * 15.0;
+    const activeWalk = isWalking || exitProgress > 0.05;
 
     [-1, 1].forEach((side, sideIdx) => {
       hipAngles.forEach((angle, index) => {
         const phaseOffset = (sideIdx * Math.PI + index * (Math.PI * 0.5)) % (Math.PI * 2);
-        const stepPhase = isWalking ? crawlStepSpeed + phaseOffset : t * 2.0 + phaseOffset;
+        const stepPhase = activeWalk ? crawlStepSpeed + phaseOffset : t * 2.0 + phaseOffset;
 
-        const curve = buildAnimatedLegCurve(side, angle, index, stepPhase, isWalking);
+        const curve = buildAnimatedLegCurve(side, angle, index, stepPhase, activeWalk);
         const radius = 0.13 - index * 0.01;
         const newGeo = new THREE.TubeGeometry(curve, 20, radius, 8, false);
 
@@ -469,125 +504,12 @@ function WalkingSpiderModel({
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 6. 3D REFRACTIVE OPTICAL GLASS WAVE COMPONENT
-// ─────────────────────────────────────────────────────────────────────────────
-function HelloModelInteractive({ waveProgress }: { waveProgress: number }) {
-  const meshRef = useRef<THREE.Mesh>(null!);
-  const fbo = useFBO();
-  const { size, gl, scene, camera } = useThree();
-  const currentAngle = useRef(Math.atan2(9, 4) + Math.PI);
-
-  const curve = useMemo(() => {
-    const points = [
-      new THREE.Vector3(-3.2, 1.4, 0.0),
-      new THREE.Vector3(-2.8, -1.0, 0.2),
-      new THREE.Vector3(-2.2, 0.8, -0.1),
-      new THREE.Vector3(-1.6, -0.4, 0.3),
-      new THREE.Vector3(-1.0, 0.9, -0.2),
-      new THREE.Vector3(-0.4, -0.8, 0.2),
-      new THREE.Vector3(0.2, 1.8, -0.1),
-      new THREE.Vector3(0.8, -1.0, 0.3),
-      new THREE.Vector3(1.4, 1.8, -0.2),
-      new THREE.Vector3(2.0, -0.9, 0.2),
-      new THREE.Vector3(2.8, 0.5, 0.0),
-      new THREE.Vector3(3.4, -0.2, 0.1),
-    ];
-    return new THREE.CatmullRomCurve3(points);
-  }, []);
-
-  const uniforms = useMemo(
-    () => THREE.UniformsUtils.clone(GlassMaterialShader.uniforms),
-    []
-  );
-
-  useFrame((state, delta) => {
-    if (!meshRef.current) return;
-
-    const scrollY = getScrollSnapshot().scrollTop;
-    const windowH = typeof window !== "undefined" ? window.innerHeight : 900;
-
-    if (scrollY > windowH * 1.7) {
-      if (meshRef.current.visible) {
-        meshRef.current.visible = false;
-      }
-      return;
-    }
-
-    meshRef.current.visible = true;
-
-    const scrollProgress = THREE.MathUtils.clamp(scrollY / windowH, 0, 1);
-    const fadeOutProgress = THREE.MathUtils.clamp(
-      (scrollY - windowH * 1.0) / (windowH * 0.6),
-      0,
-      1
-    );
-
-    const baseZ = -0.8 * (1.0 - waveProgress);
-    const entranceScale = 0.88 + 0.12 * waveProgress;
-
-    meshRef.current.position.y = -0.2 + scrollProgress * 1.5 - fadeOutProgress * 2.5;
-    meshRef.current.position.z = baseZ - scrollProgress * 3.5 - fadeOutProgress * 6.0;
-    meshRef.current.rotation.x = (1.0 - waveProgress) * 0.15 + scrollProgress * 0.4;
-    meshRef.current.rotation.y = (1.0 - waveProgress) * 0.1;
-
-    const scale = Math.max(0.001, entranceScale * (1.0 - fadeOutProgress * 0.95) * waveProgress);
-    meshRef.current.scale.set(scale, scale, scale);
-
-    // Two-pass FBO scene render
-    meshRef.current.visible = false;
-    gl.setRenderTarget(fbo);
-    gl.render(scene, camera);
-    gl.setRenderTarget(null);
-    meshRef.current.visible = true;
-
-    let targetAngle = 1.15;
-    if (pointerState.inside) {
-      targetAngle = Math.atan2(pointerUv.y - 0.5, pointerUv.x - 0.5);
-    } else if (waveProgress < 1.0) {
-      targetAngle = 1.15 + (1.0 - waveProgress) * Math.PI;
-    }
-
-    const shortest = Math.atan2(
-      Math.sin(targetAngle - currentAngle.current),
-      Math.cos(targetAngle - currentAngle.current)
-    );
-    currentAngle.current += shortest * (1.0 - Math.exp(-6.0 * delta));
-
-    const radius = Math.min(size.width, size.height) * 0.42;
-    const lightX = size.width * 0.5 + radius * Math.cos(currentAngle.current);
-    const lightY = size.height * 0.5 + radius * Math.sin(currentAngle.current);
-
-    uniforms.tScene.value = fbo.texture;
-    uniforms.uResolution.value.set(size.width, size.height);
-    uniforms.uLightPos.value.set(lightX, lightY);
-    uniforms.uTime.value = state.clock.getElapsedTime();
-    uniforms.uDispersion.value = 0.02 + 0.025 * waveProgress;
-  });
-
-  return (
-    <mesh ref={meshRef} position={[0, -0.2, 0]}>
-      <tubeGeometry args={[curve, 260, 0.28, 32, false]} />
-      <shaderMaterial
-        args={[GlassMaterialShader]}
-        uniforms={uniforms}
-        transparent
-        depthWrite={false}
-        side={THREE.FrontSide}
-      />
-    </mesh>
-  );
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// 7. MASTER HERO SCENE ORCHESTRATOR
+// 6. MASTER HERO SCENE ORCHESTRATOR
 // ─────────────────────────────────────────────────────────────────────────────
 function HeroSceneOrchestrator() {
   const mountTime = useRef<number | null>(null);
-  const [timeline, setTimeline] = React.useState({
-    crawlProgress: 0,
-    waveProgress: 0,
-    isWalking: true,
-  });
+  const [crawlProgress, setCrawlProgress] = React.useState(0);
+  const [isWalking, setIsWalking] = React.useState(true);
 
   useFrame((state) => {
     if (mountTime.current === null) {
@@ -599,25 +521,17 @@ function HeroSceneOrchestrator() {
     const crawlRaw = Math.min(1.0, elapsed / 1.4);
     const crawlEase = 1.0 - Math.pow(1.0 - crawlRaw, 2.5);
 
-    // Wave weaves in smoothly (0.5s to 1.8s)
-    const waveRaw = Math.max(0.0, Math.min(1.0, (elapsed - 0.5) / 1.2));
-    const waveEase = 1.0 - Math.pow(1.0 - waveRaw, 3.0);
-
-    setTimeline({
-      crawlProgress: crawlEase,
-      waveProgress: waveEase,
-      isWalking: crawlRaw < 1.0,
-    });
+    setCrawlProgress(crawlEase);
+    setIsWalking(crawlRaw < 1.0);
   });
 
   return (
     <>
       <LayeredSpiderWebBackground />
       <WalkingSpiderModel
-        crawlProgress={timeline.crawlProgress}
-        isWalking={timeline.isWalking}
+        crawlProgress={crawlProgress}
+        isWalking={isWalking}
       />
-      <HelloModelInteractive waveProgress={timeline.waveProgress} />
     </>
   );
 }
@@ -629,11 +543,11 @@ export default function HeroAboutScene() {
     const unsub = subscribeScroll((snap) => {
       if (!containerRef.current) return;
       const windowH = typeof window !== "undefined" ? window.innerHeight : 900;
-      if (snap.scrollTop > windowH * 1.7) {
+      if (snap.scrollTop > windowH * 1.5) {
         containerRef.current.style.opacity = "0";
         containerRef.current.style.visibility = "hidden";
-      } else if (snap.scrollTop > windowH * 1.0) {
-        const opacity = 1.0 - (snap.scrollTop - windowH * 1.0) / (windowH * 0.7);
+      } else if (snap.scrollTop > windowH * 0.8) {
+        const opacity = 1.0 - (snap.scrollTop - windowH * 0.8) / (windowH * 0.7);
         containerRef.current.style.opacity = Math.max(0, Math.min(1, opacity)).toString();
         containerRef.current.style.visibility = "visible";
       } else {
