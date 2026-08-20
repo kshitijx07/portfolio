@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import {
   Cloud,
@@ -24,32 +24,17 @@ import Projects from "@/components/sections/Projects";
 import ContactClosingSection from "@/components/dom/ContactClosingSection";
 import { Badge } from "@/components/ui/badge";
 import { getScrollEngine } from "@/lib/scroll-engine";
-import { subscribeScroll, ScrollSnapshot } from "@/lib/bus";
 
 export default function PortfolioPage() {
   const mainContainerRef = useRef<HTMLDivElement>(null);
-  const progressBarRef = useRef<HTMLDivElement>(null);
-  const progressNodeRef = useRef<HTMLDivElement>(null);
 
-  // ── ADVANCED SCROLL & PARALLAX ORCHESTRATION ──────────────────────────────
+  // ── ADVANCED HIGH-IMPACT SCROLL & PARALLAX ORCHESTRATION ───────────────────
   useEffect(() => {
     const engine = getScrollEngine();
     const cleanup = engine.initMasterChoreography(mainContainerRef.current);
 
-    // Scroll-Linked Top Laser Progress Bar & Tracking Node
-    const unsubScroll = subscribeScroll((snap: ScrollSnapshot) => {
-      if (progressBarRef.current) {
-        progressBarRef.current.style.transform = `scaleX(${snap.progress})`;
-      }
-      if (progressNodeRef.current) {
-        const pct = Math.min(Math.max(snap.progress * 100, 0), 100);
-        progressNodeRef.current.style.left = `${pct}%`;
-      }
-    });
-
     return () => {
       cleanup();
-      unsubScroll();
     };
   }, []);
 
@@ -58,19 +43,6 @@ export default function PortfolioPage() {
       ref={mainContainerRef}
       className="relative w-full bg-[#00104A] text-white selection:bg-[#ED3C3F] selection:text-white overflow-x-hidden"
     >
-      {/* ── 1. Scroll-Linked Viewport Top Laser Rail & Energy Node ── */}
-      <div className="fixed top-0 left-0 right-0 h-[3px] z-50 pointer-events-none bg-white/10">
-        <div
-          ref={progressBarRef}
-          className="h-full w-full bg-gradient-to-r from-[#ED3C3F] via-[#FF5A3C] to-[#3B82F6] origin-left scale-x-0 shadow-[0_0_14px_rgba(237,60,63,0.95)] will-change-transform"
-        />
-        <div
-          ref={progressNodeRef}
-          className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-white shadow-[0_0_10px_#ED3C3F] pointer-events-none will-change-transform"
-          style={{ left: "0%" }}
-        />
-      </div>
-
       {/* ── Fixed 3D Canvas Scene for Hero (3D Spider & Web) ───── */}
       <HeroAboutScene />
 
