@@ -4,10 +4,10 @@ import * as THREE from "three";
  * ══════════════════════════════════════════════════════════════════════════════
  * GLASS MATERIAL SHADER (components/canvas/GlassMaterial.ts)
  * ──────────────────────────────────────────────────────────────────────────────
- * Spider-Man Dual-Chromatic Optical Shader implementing:
- * 1. Two-pass FBO background texture sampling with chromatic RGB dispersion.
- * 2. Spidey Crimson (#ED3C3F) & Deep Spidey Blue (#00104A) dual-chroma refraction.
- * 3. Laser Rim Specular Follower with Spider-Sense gleam.
+ * Luminous Spider-Man Crystal Glass Shader:
+ * - Crystal clear refraction with zero dark/black muddy shadows.
+ * - Luminous royal/electric Spidey blue body with glowing Crimson Red (#ED3C3F) Fresnel rims.
+ * - Dynamic laser specular sweep and chromatic dispersion.
  * ══════════════════════════════════════════════════════════════════════════════
  */
 
@@ -18,11 +18,11 @@ export const GlassMaterialShader = {
     uLightPos: { value: new THREE.Vector2(4.0, 9.0) },
     uTintColor: { value: new THREE.Color("#ED3C3F") },
     uSecondaryColor: { value: new THREE.Color("#3B82F6") },
-    uDark: { value: 1.0 },
-    uThickness: { value: 1.8 },
-    uDispersion: { value: 0.045 },
-    uFresnelPower: { value: 2.8 },
-    uRimIntensity: { value: 2.4 },
+    uDark: { value: 0.0 },
+    uThickness: { value: 1.0 },
+    uDispersion: { value: 0.04 },
+    uFresnelPower: { value: 2.2 },
+    uRimIntensity: { value: 2.6 },
     uTime: { value: 0.0 },
   },
   vertexShader: `
@@ -46,8 +46,6 @@ export const GlassMaterialShader = {
     uniform vec2 uLightPos;
     uniform vec3 uTintColor;
     uniform vec3 uSecondaryColor;
-    uniform float uDark;
-    uniform float uThickness;
     uniform float uDispersion;
     uniform float uFresnelPower;
     uniform float uRimIntensity;
@@ -58,13 +56,6 @@ export const GlassMaterialShader = {
     varying vec4 vScreenPos;
     varying vec2 vUv;
 
-    // Hard Light blend for dark mode contrast preservation
-    vec3 hardLight(vec3 base, vec3 blend) {
-      vec3 low = 2.0 * base * blend;
-      vec3 high = 1.0 - 2.0 * (1.0 - base) * (1.0 - blend);
-      return mix(low, high, step(vec3(0.5), blend));
-    }
-
     void main() {
       vec2 screenUv = (vScreenPos.xy / vScreenPos.w) * 0.5 + 0.5;
       vec3 viewDir = normalize(vViewPosition);
@@ -74,37 +65,37 @@ export const GlassMaterialShader = {
       float NdotV = max(dot(viewDir, normal), 0.0);
       float fresnel = pow(1.0 - NdotV, uFresnelPower);
 
-      // Multi-wavelength chromatic dispersion offset
+      // Multi-wavelength chromatic dispersion refraction
       vec2 offset = normal.xy * uDispersion;
-      float r = texture2D(tScene, screenUv + offset * 1.15).r;
-      float g = texture2D(tScene, screenUv + offset * 1.00).g;
-      float b = texture2D(tScene, screenUv + offset * 0.85).b;
+      float r = texture2D(tScene, screenUv + offset * 1.2).r;
+      float g = texture2D(tScene, screenUv + offset * 1.0).g;
+      float b = texture2D(tScene, screenUv + offset * 0.8).b;
       vec3 refColor = vec3(r, g, b);
 
-      // Dual-chromatic Spider-Man color blend (Crimson Red + Electric Blue)
-      vec3 spideyChroma = mix(uSecondaryColor, uTintColor, fresnel * 0.85 + 0.15);
+      // Luminous Crystal Body: Vibrant Electric Blue + Ambient Translucency (No dark/black shadow)
+      vec3 crystalBase = mix(vec3(0.12, 0.28, 0.75), uSecondaryColor, 0.65);
+      
+      // Spider-Man Crimson Fresnel Edge
+      vec3 edgeColor = uTintColor; // #ED3C3F
 
-      // Beer-Lambert Transmittance Absorption
-      vec3 transmittance = pow(clamp(spideyChroma, 0.001, 1.0), vec3(max(uThickness, 0.01)));
-      vec3 lightColor = mix(refColor, refColor * transmittance, 0.75);
+      // Radiant blend preserving high brightness
+      vec3 glassColor = refColor * 0.65 + crystalBase * 0.55;
+      glassColor = mix(glassColor, edgeColor, fresnel * 0.85);
 
-      // Art-Directed Hard Light Blend
-      vec3 darkColor = mix(refColor, hardLight(clamp(refColor, 0.0, 1.0), spideyChroma), 0.70);
-
-      // Blend between light and dark models
-      vec3 base = mix(lightColor, darkColor, clamp(uDark, 0.0, 1.0));
-
-      // Rim Specular Highlight Tracking
+      // Laser Rim Specular Tracking
       float lightDist = length(gl_FragCoord.xy - uLightPos);
-      float rim = smoothstep(240.0, 0.0, lightDist) * fresnel * uRimIntensity;
+      float rim = smoothstep(360.0, 0.0, lightDist) * fresnel * uRimIntensity;
 
-      // Spider-Sense Specular Gleam
-      vec3 lightDir = normalize(vec3(uLightPos - gl_FragCoord.xy, 100.0));
+      // Specular Core Highlight
+      vec3 lightDir = normalize(vec3(uLightPos - gl_FragCoord.xy, 140.0));
       vec3 halfVector = normalize(lightDir + viewDir);
-      float spec = pow(max(dot(normal, halfVector), 0.0), 32.0) * 0.5;
+      float spec = pow(max(dot(normal, halfVector), 0.0), 32.0) * 0.95;
+      float broadSpec = pow(max(dot(normal, halfVector), 0.0), 8.0) * 0.3;
 
-      vec3 finalColor = base + vec3(rim * 1.1, rim * 0.3, rim * 0.35) + vec3(spec);
-      gl_FragColor = vec4(finalColor, 1.0);
+      // Combine with vibrant highlights and silver gleam
+      vec3 finalColor = glassColor + vec3(rim * 1.2, rim * 0.4, rim * 0.45) + vec3(spec + broadSpec);
+
+      gl_FragColor = vec4(finalColor, 0.95);
     }
   `,
 };

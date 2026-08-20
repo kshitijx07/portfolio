@@ -116,12 +116,13 @@ function HelloModelInteractive() {
 
   return (
     <mesh ref={meshRef} position={[0, -0.2, 0]}>
-      <tubeGeometry args={[curve, 220, 0.28, 24, false]} />
+      <tubeGeometry args={[curve, 260, 0.28, 32, false]} />
       <shaderMaterial
         args={[GlassMaterialShader]}
         uniforms={uniforms}
         transparent
         depthWrite={false}
+        side={THREE.FrontSide}
       />
     </mesh>
   );
