@@ -1,246 +1,321 @@
 "use client";
 
-import React, { useRef, useMemo } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
-import { pointerUv, pointerState, getScrollSnapshot } from "@/lib/bus";
+import { pointerUv, pointerState, subscribeScroll } from "@/lib/bus";
 import ViewportLazyScene from "./ViewportLazyScene";
 import DomSyncProjectGrid from "./DomSyncProjectGrid";
 
-// ─────────────────────────────────────────────────────────────────────────────
-// 1. PROCEDURAL 3D SPIDER-WEB MESH GEOMETRY GENERATOR
-// ─────────────────────────────────────────────────────────────────────────────
-function create3DSpiderWebGeometry(radius = 2.4, spokes = 12, rings = 6) {
-  const points: THREE.Vector3[] = [];
+/**
+ * ══════════════════════════════════════════════════════════════════════════════
+ * 🕷️ SPIDER-MAN CONTINUOUS 3D WEB SYSTEM (ContinuousSectionsBg.tsx)
+ * ──────────────────────────────────────────────────────────────────────────────
+ * High-performance 3D multi-layered procedural spider-web with:
+ * 1. Radial spokes & catenary sagging concentric web rings.
+ * 2. Multi-depth parallax layers in Spider-Man palette (#ED3C3F, #EDEAE2, #3B82F6).
+ * 3. Signature Spidey-Sense kinetic pulses launching along web strands on cursor movement.
+ * 4. Glowing dew-drop intersection nodes with organic shimmer.
+ * 5. Native requestAnimationFrame loop with zero garbage collection overhead.
+ * ══════════════════════════════════════════════════════════════════════════════
+ */
 
-  // Radial Spokes radiating from center
+// ── 1. Procedural 3D Web Geometry: Radial Spokes + Catenary Sagging Rings ──
+function buildWeb(
+  radius: number,
+  spokes: number,
+  rings: number,
+  sagAmount: number
+) {
+  const spokePoints: THREE.Vector3[][] = [];
+  const segments: THREE.Vector3[] = [];
+
   for (let i = 0; i < spokes; i++) {
     const angle = (i / spokes) * Math.PI * 2;
-    const x = Math.cos(angle) * radius;
-    const y = Math.sin(angle) * radius;
-    // Slight organic depth bow
-    const z = Math.sin(angle * 2.0) * 0.12;
-    points.push(new THREE.Vector3(0, 0, 0), new THREE.Vector3(x, y, z));
+    const dir = new THREE.Vector3(Math.cos(angle), Math.sin(angle), 0);
+    const pts = [new THREE.Vector3(0, 0, 0)];
+
+    for (let r = 1; r <= rings; r++) {
+      const t = r / rings;
+      const rr = t * radius;
+      const z = Math.sin(angle * 2.0 + r) * 0.08 * t;
+      pts.push(new THREE.Vector3(dir.x * rr, dir.y * rr, z));
+    }
+    spokePoints.push(pts);
+
+    for (let r = 0; r < pts.length - 1; r++) {
+      segments.push(pts[r], pts[r + 1]);
+    }
   }
 
-  // Concentric Polygonal Web Spiral Rings
+  // Concentric sagging rings connecting spokes
   for (let r = 1; r <= rings; r++) {
-    const ringRadius = (r / rings) * radius;
-    const ringSag = (1.0 - r / rings) * 0.08;
-
+    const sag = (1 - r / rings) * sagAmount;
     for (let i = 0; i < spokes; i++) {
-      const angle1 = (i / spokes) * Math.PI * 2;
-      const angle2 = (((i + 1) % spokes) / spokes) * Math.PI * 2;
-
-      // Sagged catenary curve on web segment
-      const x1 = Math.cos(angle1) * ringRadius;
-      const y1 = Math.sin(angle1) * ringRadius;
-      const z1 = Math.sin(angle1 * 2.0) * 0.08 - ringSag;
-
-      const x2 = Math.cos(angle2) * ringRadius;
-      const y2 = Math.sin(angle2) * ringRadius;
-      const z2 = Math.sin(angle2 * 2.0) * 0.08 - ringSag;
-
-      points.push(new THREE.Vector3(x1, y1, z1), new THREE.Vector3(x2, y2, z2));
+      const a = spokePoints[i][r];
+      const b = spokePoints[(i + 1) % spokes][r];
+      const mid = a.clone().lerp(b, 0.5);
+      mid.z -= sag;
+      // Two segments to approximate natural catenary sag
+      segments.push(a, mid, mid, b);
     }
   }
 
-  return new THREE.BufferGeometry().setFromPoints(points);
+  return { segments, spokePoints };
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// 2. ICONIC 3D SPIDER-MAN SUIT EMBLEM GEOMETRY GENERATOR
-// ─────────────────────────────────────────────────────────────────────────────
-function create3DSpiderManEmblemGeometry() {
-  const points: THREE.Vector3[] = [];
+function SpiderWebCanvas() {
+  const mountRef = useRef<HTMLDivElement>(null);
 
-  // Thorax & Abdomen (Head to pointed tail)
-  points.push(new THREE.Vector3(0, 0.75, 0), new THREE.Vector3(0.22, 0.25, 0.05));
-  points.push(new THREE.Vector3(0.22, 0.25, 0.05), new THREE.Vector3(0.12, -0.15, 0.05));
-  points.push(new THREE.Vector3(0.12, -0.15, 0.05), new THREE.Vector3(0, -0.9, 0));
-  points.push(new THREE.Vector3(0, -0.9, 0), new THREE.Vector3(-0.12, -0.15, 0.05));
-  points.push(new THREE.Vector3(-0.12, -0.15, 0.05), new THREE.Vector3(-0.22, 0.25, 0.05));
-  points.push(new THREE.Vector3(-0.22, 0.25, 0.05), new THREE.Vector3(0, 0.75, 0));
-  // Central Cross Spine
-  points.push(new THREE.Vector3(-0.22, 0.25, 0.05), new THREE.Vector3(0.22, 0.25, 0.05));
-  points.push(new THREE.Vector3(-0.12, -0.15, 0.05), new THREE.Vector3(0.12, -0.15, 0.05));
+  useEffect(() => {
+    const mount = mountRef.current;
+    if (!mount) return;
 
-  // 8 Jointed Arachnid Legs (Spider-Man Suit Pattern)
-  const spiderLegs = [
-    // Top-Right Leg 1 (reaches up high)
-    [new THREE.Vector3(0.18, 0.45, 0.02), new THREE.Vector3(0.75, 0.95, 0.1), new THREE.Vector3(1.2, 1.45, 0.18)],
-    // Top-Left Leg 1
-    [new THREE.Vector3(-0.18, 0.45, 0.02), new THREE.Vector3(-0.75, 0.95, 0.1), new THREE.Vector3(-1.2, 1.45, 0.18)],
-    // Upper-Mid Right Leg 2 (sweeps outward)
-    [new THREE.Vector3(0.22, 0.25, 0.02), new THREE.Vector3(1.0, 0.55, 0.1), new THREE.Vector3(1.55, 0.4, 0.15)],
-    // Upper-Mid Left Leg 2
-    [new THREE.Vector3(-0.22, 0.25, 0.02), new THREE.Vector3(-1.0, 0.55, 0.1), new THREE.Vector3(-1.55, 0.4, 0.15)],
-    // Lower-Mid Right Leg 3 (sweeps downward)
-    [new THREE.Vector3(0.18, -0.05, 0.02), new THREE.Vector3(0.95, -0.45, 0.1), new THREE.Vector3(1.4, -1.1, 0.15)],
-    // Lower-Mid Left Leg 3
-    [new THREE.Vector3(-0.18, -0.05, 0.02), new THREE.Vector3(-0.95, -0.45, 0.1), new THREE.Vector3(-1.4, -1.1, 0.15)],
-    // Bottom-Right Leg 4 (reaches far down)
-    [new THREE.Vector3(0.1, -0.35, 0.02), new THREE.Vector3(0.65, -1.15, 0.1), new THREE.Vector3(1.05, -1.85, 0.2)],
-    // Bottom-Left Leg 4
-    [new THREE.Vector3(-0.1, -0.35, 0.02), new THREE.Vector3(-0.65, -1.15, 0.1), new THREE.Vector3(-1.05, -1.85, 0.2)],
-  ];
+    let width = mount.clientWidth || window.innerWidth;
+    let height = mount.clientHeight || window.innerHeight;
 
-  spiderLegs.forEach((leg) => {
-    points.push(leg[0], leg[1]);
-    points.push(leg[1], leg[2]);
-  });
+    // ── 2. Scene / Camera / Renderer ─────────────────────────────────────────
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x08080b, 0.04);
 
-  return new THREE.BufferGeometry().setFromPoints(points);
-}
+    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
+    camera.position.set(0, 0, 8.5);
 
-// ─────────────────────────────────────────────────────────────────────────────
-// 3. 3D INTERACTIVE SPIDER-MAN SCENE
-// ─────────────────────────────────────────────────────────────────────────────
-function Spider3DWorld() {
-  const sceneGroup = useRef<THREE.Group>(null!);
-  const websGroup = useRef<THREE.Group>(null!);
-  const spidersGroup = useRef<THREE.Group>(null!);
+    const renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      alpha: true,
+      powerPreference: "high-performance",
+    });
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+    renderer.setClearColor(0x000000, 0);
+    mount.appendChild(renderer.domElement);
 
-  const webGeometry = useMemo(() => create3DSpiderWebGeometry(2.6, 12, 6), []);
-  const emblemGeometry = useMemo(() => create3DSpiderManEmblemGeometry(), []);
+    // ── 3. Multi-Layer Depth Web Constellation ──────────────────────────────
+    const layerConfigs = [
+      { radius: 5.6, spokes: 14, rings: 7, sag: 0.22, z: -2.8, opacity: 0.18, color: 0xedeae2 },
+      { radius: 4.0, spokes: 12, rings: 6, sag: 0.16, z: -0.8, opacity: 0.35, color: 0xed3c3f },
+      { radius: 2.6, spokes: 10, rings: 5, sag: 0.11, z: 1.1, opacity: 0.65, color: 0xedeae2 },
+    ];
 
-  // 3D Spider Webs placed throughout the section depths
-  const webPlacements = useMemo(() => [
-    { pos: [-3.2, 1.8, -1.2], scale: 1.1, rotZ: 0.2, color: "#ED3C3F", opacity: 0.45 },
-    { pos: [3.3, 0.8, -1.5], scale: 1.25, rotZ: -0.4, color: "#3B82F6", opacity: 0.4 },
-    { pos: [-2.8, -1.4, -1.0], scale: 0.95, rotZ: 0.6, color: "#FFFFFF", opacity: 0.35 },
-    { pos: [3.1, -2.4, -1.3], scale: 1.15, rotZ: -0.25, color: "#ED3C3F", opacity: 0.42 },
-    { pos: [0.0, -3.8, -1.6], scale: 1.35, rotZ: 0.15, color: "#3B82F6", opacity: 0.38 },
-  ], []);
+    const webGroup = new THREE.Group();
+    const layerMeshes: THREE.LineSegments[] = [];
 
-  // 3D Spider Emblems
-  const emblemPlacements = useMemo(() => [
-    { pos: [-2.6, 1.4, -0.6], scale: 0.55, color: "#ED3C3F", rotSpeed: 0.2 },
-    { pos: [2.8, 0.4, -0.7], scale: 0.6, color: "#3B82F6", rotSpeed: -0.25 },
-    { pos: [-2.4, -1.8, -0.6], scale: 0.52, color: "#ED3C3F", rotSpeed: 0.22 },
-    { pos: [2.7, -2.8, -0.8], scale: 0.58, color: "#3B82F6", rotSpeed: -0.18 },
-  ], []);
+    layerConfigs.forEach((cfg, idx) => {
+      const { segments, spokePoints } = buildWeb(cfg.radius, cfg.spokes, cfg.rings, cfg.sag);
+      const geo = new THREE.BufferGeometry().setFromPoints(segments);
+      const mat = new THREE.LineBasicMaterial({
+        color: cfg.color,
+        transparent: true,
+        opacity: cfg.opacity,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      });
+      const lines = new THREE.LineSegments(geo, mat);
+      lines.position.z = cfg.z;
+      lines.userData = { cfg, spokePoints, baseOpacity: cfg.opacity, idx };
+      webGroup.add(lines);
+      layerMeshes.push(lines);
+    });
 
-  // 3D Web Slinger Connecting Strands
-  const webLinePoints = useMemo(() => {
-    const pts: THREE.Vector3[] = [];
-    // Dynamic web sling strands connecting emblems & corner anchors
-    pts.push(new THREE.Vector3(-4.5, 3.5, -2.0), new THREE.Vector3(-2.6, 1.4, -0.6));
-    pts.push(new THREE.Vector3(-2.6, 1.4, -0.6), new THREE.Vector3(0, 0.8, -1.2));
-    pts.push(new THREE.Vector3(0, 0.8, -1.2), new THREE.Vector3(2.8, 0.4, -0.7));
-    pts.push(new THREE.Vector3(2.8, 0.4, -0.7), new THREE.Vector3(4.5, 2.5, -2.0));
+    scene.add(webGroup);
 
-    pts.push(new THREE.Vector3(-2.6, 1.4, -0.6), new THREE.Vector3(-2.4, -1.8, -0.6));
-    pts.push(new THREE.Vector3(-2.4, -1.8, -0.6), new THREE.Vector3(0, -2.2, -1.4));
-    pts.push(new THREE.Vector3(0, -2.2, -1.4), new THREE.Vector3(2.7, -2.8, -0.8));
-    pts.push(new THREE.Vector3(2.8, 0.4, -0.7), new THREE.Vector3(2.7, -2.8, -0.8));
-    pts.push(new THREE.Vector3(2.7, -2.8, -0.8), new THREE.Vector3(4.2, -4.0, -2.0));
-    pts.push(new THREE.Vector3(-2.4, -1.8, -0.6), new THREE.Vector3(-4.2, -4.0, -2.0));
+    // ── 4. Glowing Dew-Drop Nodes at Outer Ring Intersections ───────────────
+    const frontLayer = layerMeshes[layerMeshes.length - 1];
+    const dewPositions: number[] = [];
+    frontLayer.userData.spokePoints.forEach((pts: THREE.Vector3[]) => {
+      const p = pts[pts.length - 1];
+      dewPositions.push(p.x, p.y, p.z + frontLayer.position.z);
+    });
 
-    return new THREE.BufferGeometry().setFromPoints(pts);
-  }, []);
+    const dewGeo = new THREE.BufferGeometry();
+    dewGeo.setAttribute("position", new THREE.Float32BufferAttribute(dewPositions, 3));
+    const dewMat = new THREE.PointsMaterial({
+      color: 0xed3c3f,
+      size: 0.065,
+      transparent: true,
+      opacity: 0.9,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    const dewPoints = new THREE.Points(dewGeo, dewMat);
+    scene.add(dewPoints);
 
-  useFrame((state, delta) => {
-    const t = state.clock.getElapsedTime();
-    const snap = getScrollSnapshot();
+    // ── 5. Signature Spidey-Sense Kinetic Pulses along Web Strands ──────────
+    const PULSE_COUNT = 8;
+    const pulseGeo = new THREE.SphereGeometry(0.06, 12, 12);
+    const pulseMat = new THREE.MeshBasicMaterial({
+      color: 0xed3c3f,
+      transparent: true,
+      opacity: 0,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
 
-    if (sceneGroup.current) {
-      // Smooth continuous scroll vertical parallax translation
-      sceneGroup.current.position.y = (snap.progress - 0.5) * 3.2;
-    }
+    const pulses: {
+      mesh: THREE.Mesh;
+      active: boolean;
+      t: number;
+      spokeIndex: number;
+      speed: number;
+    }[] = [];
 
-    // Spider-Sense interactive cursor response & tilt
-    if (websGroup.current) {
-      websGroup.current.children.forEach((child, i) => {
-        child.rotation.z += delta * 0.08 * (i % 2 === 0 ? 1 : -1);
-        child.rotation.x = Math.sin(t * 0.6 + i) * 0.1;
-        child.rotation.y = Math.cos(t * 0.5 + i) * 0.1;
+    for (let i = 0; i < PULSE_COUNT; i++) {
+      const mesh = new THREE.Mesh(pulseGeo, pulseMat.clone());
+      mesh.visible = false;
+      scene.add(mesh);
+      pulses.push({
+        mesh,
+        active: false,
+        t: 0,
+        spokeIndex: 0,
+        speed: 1.5 + Math.random() * 0.7,
       });
     }
 
-    if (spidersGroup.current) {
-      spidersGroup.current.children.forEach((child, i) => {
-        const item = emblemPlacements[i];
-        if (!item) return;
+    let pulseCooldown = 0;
 
-        child.rotation.z = Math.sin(t * 0.9 + i * 1.5) * 0.15;
-        child.rotation.y = Math.sin(t * 0.8 + i) * 0.35;
-        child.position.y = item.pos[1] + Math.sin(t * 1.2 + i * 1.3) * 0.12;
+    function launchPulse(spokeIndex: number) {
+      const p = pulses.find((p) => !p.active);
+      if (!p) return;
+      p.active = true;
+      p.t = 0;
+      p.spokeIndex = spokeIndex;
+      p.mesh.visible = true;
+    }
 
-        if (pointerState.inside) {
-          const targetX = (pointerUv.x - 0.5) * 0.9;
-          const targetY = (pointerUv.y - 0.5) * 0.6;
-          child.position.x += (item.pos[0] + targetX * 0.4 - child.position.x) * delta * 2.5;
-          child.position.y += (item.pos[1] + targetY * 0.4 - child.position.y) * delta * 2.5;
+    // ── 6. Pointer Tracking & Kinetic Sense ─────────────────────────────────
+    const pointer = { x: 0, y: 0 };
+    const pointerTarget = { x: 0, y: 0 };
+
+    const checkPointerPulse = () => {
+      if (!pointerState.inside) return;
+      const nx = (pointerUv.x - 0.5) * 2;
+      const ny = (pointerUv.y - 0.5) * -2;
+      pointerTarget.x = nx;
+      pointerTarget.y = ny;
+
+      if (pulseCooldown <= 0) {
+        const angle = Math.atan2(ny, nx);
+        const spokeCount = frontLayer.userData.cfg.spokes;
+        const idx =
+          Math.round(
+            (((angle + Math.PI * 2) % (Math.PI * 2)) / (Math.PI * 2)) * spokeCount
+          ) % spokeCount;
+        launchPulse(idx);
+        pulseCooldown = 0.32;
+      }
+    };
+
+    // ── 7. Scroll Parallax Listener ─────────────────────────────────────────
+    let scrollProgress = 0;
+    const unsubScroll = subscribeScroll((snap) => {
+      scrollProgress = snap.progress;
+    });
+
+    // ── 8. Resize Observer ──────────────────────────────────────────────────
+    function onResize() {
+      if (!mount) return;
+      width = mount.clientWidth;
+      height = mount.clientHeight;
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height);
+    }
+    const resizeObserver = new ResizeObserver(onResize);
+    resizeObserver.observe(mount);
+
+    // ── 9. Optimized 60 FPS Render Loop ─────────────────────────────────────
+    const clock = new THREE.Clock();
+    let rafId: number;
+
+    function animate() {
+      rafId = requestAnimationFrame(animate);
+      const dt = Math.min(clock.getDelta(), 0.05);
+      const elapsed = clock.getElapsedTime();
+
+      pulseCooldown -= dt;
+      checkPointerPulse();
+
+      // Critically damped pointer lerp
+      pointer.x += (pointerTarget.x - pointer.x) * Math.min(1, dt * 3.5);
+      pointer.y += (pointerTarget.y - pointer.y) * Math.min(1, dt * 3.5);
+
+      // Parallax rotation & subtle vertical translation with scroll
+      webGroup.rotation.y = pointer.x * 0.28;
+      webGroup.rotation.x = -pointer.y * 0.2;
+      webGroup.position.y = (scrollProgress - 0.5) * 2.2;
+
+      // Organic idle layer sway for deep spatial dimensionality
+      layerMeshes.forEach((mesh, i) => {
+        mesh.rotation.z = Math.sin(elapsed * 0.35 + i * 1.7) * 0.035;
+      });
+
+      dewPoints.position.y = webGroup.position.y;
+      dewPoints.rotation.x = webGroup.rotation.x;
+      dewPoints.rotation.y = webGroup.rotation.y;
+      dewPoints.rotation.z = Math.sin(elapsed * 0.3) * 0.025;
+      dewMat.opacity = 0.7 + Math.sin(elapsed * 1.8) * 0.25;
+
+      // Advance pulses along the web strands
+      const spokePoints = frontLayer.userData.spokePoints;
+      const layerZ = frontLayer.position.z;
+
+      pulses.forEach((p) => {
+        if (!p.active) return;
+        p.t += dt * p.speed;
+        const pts = spokePoints[p.spokeIndex];
+        const travel = Math.min(p.t, 1);
+        const segCount = pts.length - 1;
+        const segF = travel * segCount;
+        const segI = Math.min(Math.floor(segF), segCount - 1);
+        const localT = segF - segI;
+        const a = pts[segI];
+        const b = pts[segI + 1];
+        const pos = a.clone().lerp(b, localT);
+
+        p.mesh.position.set(
+          pos.x + webGroup.position.x,
+          pos.y + webGroup.position.y,
+          pos.z + layerZ
+        );
+        (p.mesh.material as THREE.MeshBasicMaterial).opacity =
+          travel < 0.08 ? travel / 0.08 : (1 - travel) * 0.95;
+
+        if (p.t >= 1) {
+          p.active = false;
+          p.mesh.visible = false;
         }
       });
+
+      renderer.render(scene, camera);
     }
-  });
+    animate();
 
-  return (
-    <group ref={sceneGroup}>
-      {/* 1. 3D Interconnected Web-Sling Strands */}
-      <lineSegments geometry={webLinePoints}>
-        <lineBasicMaterial color="#ED3C3F" transparent opacity={0.3} linewidth={1} />
-      </lineSegments>
+    // ── Cleanup ─────────────────────────────────────────────────────────────
+    return () => {
+      cancelAnimationFrame(rafId);
+      resizeObserver.disconnect();
+      unsubScroll();
+      layerMeshes.forEach((m) => {
+        m.geometry.dispose();
+        (m.material as THREE.Material).dispose();
+      });
+      dewGeo.dispose();
+      dewMat.dispose();
+      pulseGeo.dispose();
+      pulses.forEach((p) => (p.mesh.material as THREE.Material).dispose());
+      renderer.dispose();
+      if (mount && mount.contains(renderer.domElement)) {
+        mount.removeChild(renderer.domElement);
+      }
+    };
+  }, []);
 
-      {/* 2. 3D Floating Spider Webs */}
-      <group ref={websGroup}>
-        {webPlacements.map((w, idx) => (
-          <group
-            key={idx}
-            position={w.pos as [number, number, number]}
-            scale={w.scale}
-            rotation={[0.1, 0.15, w.rotZ]}
-          >
-            <lineSegments geometry={webGeometry}>
-              <lineBasicMaterial
-                color={w.color}
-                transparent
-                opacity={w.opacity}
-                linewidth={1.2}
-              />
-            </lineSegments>
-            {/* Center Web Node */}
-            <mesh>
-              <sphereGeometry args={[0.04, 12, 12]} />
-              <meshBasicMaterial color="#FFFFFF" transparent opacity={0.8} />
-            </mesh>
-          </group>
-        ))}
-      </group>
-
-      {/* 3. 3D Iconic Spider-Man Suit Emblems */}
-      <group ref={spidersGroup}>
-        {emblemPlacements.map((s, idx) => (
-          <group
-            key={idx}
-            position={s.pos as [number, number, number]}
-            scale={s.scale}
-          >
-            <lineSegments geometry={emblemGeometry}>
-              <lineBasicMaterial
-                color={s.color}
-                transparent
-                opacity={0.85}
-                linewidth={1.8}
-              />
-            </lineSegments>
-
-            {/* Glowing Spider-Sense Diamond Core */}
-            <mesh position={[0, 0.05, 0.06]}>
-              <octahedronGeometry args={[0.12, 0]} />
-              <meshBasicMaterial color="#FFFFFF" transparent opacity={0.9} />
-            </mesh>
-          </group>
-        ))}
-      </group>
-    </group>
-  );
+  return <div ref={mountRef} className="absolute inset-0 w-full h-full pointer-events-none" />;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 4. EXPORTED CONTINUOUS VERTICAL SPIDER-MAN 3D CANVAS
+// 10. EXPORTED CONTINUOUS VERTICAL SPIDER-MAN 3D BACKGROUND
 // ─────────────────────────────────────────────────────────────────────────────
 export default function ContinuousSectionsBg() {
   return (
@@ -248,15 +323,23 @@ export default function ContinuousSectionsBg() {
       className="absolute inset-0 z-0 pointer-events-none"
       rootMargin="500px 0px"
     >
-      <div className="sticky top-0 h-screen w-full pointer-events-none opacity-85">
-        <Canvas
-          camera={{ position: [0, 0, 5.0], fov: 42 }}
-          dpr={[1, 1.5]}
-          gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
-        >
-          <DomSyncProjectGrid />
-          <Spider3DWorld />
-        </Canvas>
+      <div className="sticky top-0 h-screen w-full pointer-events-none opacity-90 overflow-hidden">
+        {/* Ambient spider-sense crimson glow off-center for depth */}
+        <div
+          className="absolute inset-0 pointer-events-none z-0"
+          style={{
+            background:
+              "radial-gradient(750px 500px at 65% 32%, rgba(237, 60, 63, 0.12), transparent 70%)",
+          }}
+        />
+        {/* Fine atmospheric vignette */}
+        <div
+          className="absolute inset-0 pointer-events-none z-0"
+          style={{
+            boxShadow: "inset 0 0 200px 70px rgba(0, 0, 0, 0.7)",
+          }}
+        />
+        <SpiderWebCanvas />
       </div>
     </ViewportLazyScene>
   );
