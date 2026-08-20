@@ -11,7 +11,7 @@ function HelloModelInteractive() {
   const meshRef = useRef<THREE.Mesh>(null!);
   const fbo = useFBO();
   const { size, gl, scene, camera } = useThree();
-  const currentAngle = useRef(Math.atan2(9, 4) + Math.PI * 2.0);
+  const currentAngle = useRef(Math.atan2(9, 4) + Math.PI);
   const mountTime = useRef<number | null>(null);
 
   const curve = useMemo(() => {
@@ -45,10 +45,9 @@ function HelloModelInteractive() {
     }
     const elapsed = state.clock.getElapsedTime() - mountTime.current;
 
-    // ── 1. MOTION GRAPHICS IN-ANIMATION (0.0s – 1.4s) ───────────
-    const entranceRaw = Math.min(1.0, elapsed / 1.35);
-    // Cubic bezier ease-out curve
-    const entranceEase = 1.0 - Math.pow(1.0 - entranceRaw, 3.5);
+    // ── 1. MOTION GRAPHICS IN-ANIMATION ─────────────────────────
+    const entranceRaw = Math.min(1.0, elapsed / 1.2);
+    const entranceEase = 1.0 - Math.pow(1.0 - entranceRaw, 3);
 
     const scrollY = getScrollSnapshot().scrollTop;
     const windowH = typeof window !== "undefined" ? window.innerHeight : 900;
@@ -71,13 +70,13 @@ function HelloModelInteractive() {
     );
 
     // Initial entrance push + dynamic scroll scale & depth push
-    const baseZ = -3.5 * (1.0 - entranceEase);
-    const entranceScale = 0.75 + 0.25 * entranceEase;
+    const baseZ = -0.8 * (1.0 - entranceEase);
+    const entranceScale = 0.92 + 0.08 * entranceEase;
 
     meshRef.current.position.y = -0.2 + scrollProgress * 1.5 - fadeOutProgress * 2.5;
     meshRef.current.position.z = baseZ - scrollProgress * 3.5 - fadeOutProgress * 6.0;
-    meshRef.current.rotation.x = (1.0 - entranceEase) * 0.3 + scrollProgress * 0.4;
-    meshRef.current.rotation.y = (1.0 - entranceEase) * 0.2;
+    meshRef.current.rotation.x = (1.0 - entranceEase) * 0.15 + scrollProgress * 0.4;
+    meshRef.current.rotation.y = (1.0 - entranceEase) * 0.1;
 
     const scale = Math.max(0.001, entranceScale * (1.0 - fadeOutProgress * 0.95));
     meshRef.current.scale.set(scale, scale, scale);
@@ -94,8 +93,8 @@ function HelloModelInteractive() {
     if (pointerState.inside) {
       targetAngle = Math.atan2(pointerUv.y - 0.5, pointerUv.x - 0.5);
     } else if (entranceRaw < 1.0) {
-      // 360° orbital light sweep during entrance sequence
-      targetAngle = 1.15 + (1.0 - entranceEase) * Math.PI * 2.0;
+      // Smooth orbital light sweep during entrance sequence
+      targetAngle = 1.15 + (1.0 - entranceEase) * Math.PI;
     }
 
     const shortest = Math.atan2(
@@ -112,7 +111,7 @@ function HelloModelInteractive() {
     uniforms.uResolution.value.set(size.width, size.height);
     uniforms.uLightPos.value.set(lightX, lightY);
     uniforms.uTime.value = state.clock.getElapsedTime();
-    uniforms.uDispersion.value = 0.01 + 0.035 * entranceEase;
+    uniforms.uDispersion.value = 0.02 + 0.025 * entranceEase;
   });
 
   return (

@@ -36,7 +36,7 @@ export default function PortfolioPage() {
       <HeroHUD />
 
       {/* ── Main Content Curtain Layer ── */}
-      <main className="relative z-10 w-full bg-[#00104A] border-b border-white/10 shadow-[0_50px_100px_rgba(0,0,0,0.95)] rounded-b-[2rem] overflow-hidden">
+      <main className="relative z-10 w-full bg-transparent overflow-hidden">
         {/* ═══════════════════════════════════════════════════════════
             SECTION 1: HERO VIEWPORT
         ═══════════════════════════════════════════════════════════ */}
