@@ -1,7 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   Cloud,
   Server,
@@ -15,7 +17,6 @@ import {
 
 // WebGL Scenes & Shaders
 import HeroAboutScene from "@/components/canvas/HeroAboutScene";
-import ContactGlassScene from "@/components/canvas/ContactGlassScene";
 import ContinuousSectionsBg from "@/components/canvas/ContinuousSectionsBg";
 
 // DOM & HUD Components
@@ -23,13 +24,126 @@ import HeroHUD from "@/components/dom/HeroHUD";
 import PolarityCard from "@/components/dom/PolarityCard";
 import Projects from "@/components/sections/Projects";
 import ContactClosingSection from "@/components/dom/ContactClosingSection";
-import { ScrambleText } from "@/components/ui/scramble-text";
 import { Badge } from "@/components/ui/badge";
 
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
 export default function PortfolioPage() {
+  const mainContainerRef = useRef<HTMLDivElement>(null);
+
+  // ── GSAP SCROLLTRIGGER PARALLAX CHOREOGRAPHY ──────────────────────────────
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // 1. Hero Content Depth Float
+      gsap.to(".hero-parallax-content", {
+        yPercent: -22,
+        opacity: 0.85,
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#home",
+          start: "top top",
+          end: "bottom top",
+          scrub: 0.6,
+        },
+      });
+
+      // 2. About Section Portrait Card Parallax
+      gsap.to(".about-portrait-card", {
+        yPercent: -14,
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#about",
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 0.8,
+        },
+      });
+
+      // 3. Experience Cards Multi-Layer Spatial Parallax
+      gsap.to(".exp-card-left", {
+        yPercent: -8,
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#experience",
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 0.8,
+        },
+      });
+      gsap.to(".exp-card-right", {
+        yPercent: -18,
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#experience",
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 0.8,
+        },
+      });
+
+      // 4. Skills Matrix Alternating Staggered Parallax
+      gsap.to(".skill-card-odd", {
+        yPercent: -6,
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#skills",
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 0.7,
+        },
+      });
+      gsap.to(".skill-card-even", {
+        yPercent: -14,
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#skills",
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 0.7,
+        },
+      });
+
+      // 5. Education Cards Parallax
+      gsap.to(".edu-card-1", {
+        yPercent: -6,
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#education",
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 0.8,
+        },
+      });
+      gsap.to(".edu-card-2", {
+        yPercent: -12,
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#education",
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 0.8,
+        },
+      });
+      gsap.to(".edu-card-3", {
+        yPercent: -18,
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#education",
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 0.8,
+        },
+      });
+    }, mainContainerRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <div className="relative w-full bg-[#00104A] text-white selection:bg-[#B4F342] selection:text-black">
-      {/* ── Fixed 3D Canvas Scene for Hero & About Morph ───────── */}
+    <div ref={mainContainerRef} className="relative w-full bg-[#00104A] text-white selection:bg-[#ED3C3F] selection:text-white">
+      {/* ── Fixed 3D Canvas Scene for Hero (3D Spider & Web) ───── */}
       <HeroAboutScene />
 
       {/* ── Fixed HUD Overlay (Coordinates, Nav, Weather, Grid) ── */}
@@ -39,7 +153,7 @@ export default function PortfolioPage() {
           SECTION 1: HERO VIEWPORT
       ═══════════════════════════════════════════════════════════ */}
       <section id="home" className="relative z-10 flex h-screen w-full flex-col justify-end p-8 md:p-14 pb-20">
-        <div className="max-w-4xl space-y-4">
+        <div className="hero-parallax-content max-w-4xl space-y-4 will-change-transform">
           <h1 className="text-5xl sm:text-7xl md:text-8xl font-black uppercase tracking-tight leading-[0.98] text-white">
             <span className="block overflow-hidden pb-1">
               <motion.span
@@ -66,7 +180,7 @@ export default function PortfolioPage() {
                   ease: [0.16, 1, 0.3, 1],
                 }}
               >
-                Craft & Taste
+                Craft &amp; Taste
               </motion.span>
             </span>
             <span className="block overflow-hidden pb-1">
@@ -144,9 +258,9 @@ export default function PortfolioPage() {
       ═══════════════════════════════════════════════════════════ */}
       <section id="about" className="relative z-10 flex min-h-screen w-full items-center bg-[#050505]/90 backdrop-blur-md px-8 py-24 md:px-14 border-t border-white/10 [content-visibility:auto] [contain-intrinsic-size:1px_800px]">
         <div className="grid w-full grid-cols-1 lg:grid-cols-12 gap-12 items-center max-w-7xl mx-auto">
-          {/* Left Column: Minimalist 3D Portrait Card */}
-          <div className="lg:col-span-4 flex flex-col items-center lg:items-start space-y-4">
-            <PolarityCard src="/profile.webp" alt="Kshitij Kumbhar" />
+          {/* Left Column: Minimalist 3D Portrait Card with Parallax */}
+          <div className="about-portrait-card lg:col-span-4 flex flex-col items-center lg:items-start space-y-4 will-change-transform">
+            <PolarityCard src="/me.webp" alt="Kshitij Kumbhar" />
           </div>
 
           {/* Right Column: Exact Resume Summary & Verification */}
@@ -234,8 +348,8 @@ export default function PortfolioPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
-              {/* Experience 1: Colgate-Palmolive */}
-              <div className="border border-white/15 bg-[#252324]/95 p-8 sm:p-10 flex flex-col justify-between space-y-8 hover:border-[#ED3C3F]/70 transition-colors rounded-sm shadow-2xl">
+              {/* Experience 1: Colgate-Palmolive (Parallax Layer Left) */}
+              <div className="exp-card-left border border-white/15 bg-[#252324]/95 p-8 sm:p-10 flex flex-col justify-between space-y-8 hover:border-[#ED3C3F]/70 transition-colors rounded-sm shadow-2xl will-change-transform">
                 <div className="space-y-5">
                   <div className="flex justify-between items-start gap-3">
                     <div>
@@ -277,8 +391,8 @@ export default function PortfolioPage() {
                 </div>
               </div>
 
-              {/* Experience 2: Campus Credential */}
-              <div className="border border-white/15 bg-[#252324]/95 p-8 sm:p-10 flex flex-col justify-between space-y-8 hover:border-[#3B82F6]/70 transition-colors rounded-sm shadow-2xl">
+              {/* Experience 2: Campus Credential (Parallax Layer Right) */}
+              <div className="exp-card-right border border-white/15 bg-[#252324]/95 p-8 sm:p-10 flex flex-col justify-between space-y-8 hover:border-[#3B82F6]/70 transition-colors rounded-sm shadow-2xl will-change-transform">
                 <div className="space-y-5">
                   <div className="flex justify-between items-start gap-3">
                     <div>
@@ -343,11 +457,11 @@ export default function PortfolioPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-              {/* 1. DevOps & Cloud Infrastructure */}
-              <div className="border border-white/15 bg-[#252324]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#ED3C3F]/70 transition-colors shadow-xl">
+              {/* 1. DevOps & Cloud Infrastructure (Odd Parallax) */}
+              <div className="skill-card-odd border border-white/15 bg-[#252324]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#ED3C3F]/70 transition-colors shadow-xl will-change-transform">
                 <div className="flex items-center gap-2.5 font-mono text-base font-bold text-[#ED3C3F]">
                   <Cloud size={20} />
-                  <span>DevOps & Cloud Infrastructure</span>
+                  <span>DevOps &amp; Cloud Infrastructure</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {[
@@ -366,11 +480,11 @@ export default function PortfolioPage() {
                 </div>
               </div>
 
-              {/* 2. Databases & Vector Stores */}
-              <div className="border border-white/15 bg-[#252324]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#3B82F6]/70 transition-colors shadow-xl">
+              {/* 2. Databases & Vector Stores (Even Parallax) */}
+              <div className="skill-card-even border border-white/15 bg-[#252324]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#3B82F6]/70 transition-colors shadow-xl will-change-transform">
                 <div className="flex items-center gap-2.5 font-mono text-base font-bold text-[#3B82F6]">
                   <Database size={20} />
-                  <span>Databases & Vector Stores</span>
+                  <span>Databases &amp; Vector Stores</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {["Pinecone (Vector Store)", "MongoDB Atlas", "MySQL"].map((skill) => (
@@ -381,8 +495,8 @@ export default function PortfolioPage() {
                 </div>
               </div>
 
-              {/* 3. Backend Development */}
-              <div className="border border-white/15 bg-[#252324]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#ED3C3F]/70 transition-colors shadow-xl">
+              {/* 3. Backend Development (Odd Parallax) */}
+              <div className="skill-card-odd border border-white/15 bg-[#252324]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#ED3C3F]/70 transition-colors shadow-xl will-change-transform">
                 <div className="flex items-center gap-2.5 font-mono text-base font-bold text-[#ED3C3F]">
                   <Server size={20} />
                   <span>Backend Development</span>
@@ -396,11 +510,11 @@ export default function PortfolioPage() {
                 </div>
               </div>
 
-              {/* 4. AI & Multi-Agent Systems */}
-              <div className="border border-white/15 bg-[#252324]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#ED3C3F]/70 transition-colors shadow-xl">
+              {/* 4. AI & Multi-Agent Systems (Even Parallax) */}
+              <div className="skill-card-even border border-white/15 bg-[#252324]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#ED3C3F]/70 transition-colors shadow-xl will-change-transform">
                 <div className="flex items-center gap-2.5 font-mono text-base font-bold text-[#ED3C3F]">
                   <Cpu size={20} />
-                  <span>AI & Multi-Agent Systems</span>
+                  <span>AI &amp; Multi-Agent Systems</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {[
@@ -417,8 +531,8 @@ export default function PortfolioPage() {
                 </div>
               </div>
 
-              {/* 5. Frontend Development */}
-              <div className="border border-white/15 bg-[#252324]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#3B82F6]/70 transition-colors shadow-xl">
+              {/* 5. Frontend Development (Odd Parallax) */}
+              <div className="skill-card-odd border border-white/15 bg-[#252324]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#3B82F6]/70 transition-colors shadow-xl will-change-transform">
                 <div className="flex items-center gap-2.5 font-mono text-base font-bold text-[#3B82F6]">
                   <Code2 size={20} />
                   <span>Frontend Development</span>
@@ -432,11 +546,11 @@ export default function PortfolioPage() {
                 </div>
               </div>
 
-              {/* 6. Core Computer Science Concepts */}
-              <div className="border border-white/15 bg-[#252324]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#ED3C3F]/70 transition-colors shadow-xl">
+              {/* 6. Core Computer Science Concepts (Even Parallax) */}
+              <div className="skill-card-even border border-white/15 bg-[#252324]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#ED3C3F]/70 transition-colors shadow-xl will-change-transform">
                 <div className="flex items-center gap-2.5 font-mono text-base font-bold text-[#ED3C3F]">
                   <Terminal size={20} />
-                  <span>Core CS Concepts & Tools</span>
+                  <span>Core CS Concepts &amp; Tools</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {[
@@ -477,8 +591,8 @@ export default function PortfolioPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-              {/* 1. B.Tech Computer Engineering */}
-              <div className="border border-white/15 bg-[#252324]/95 p-8 sm:p-10 space-y-6 rounded-sm hover:border-[#ED3C3F]/70 transition-colors flex flex-col justify-between shadow-2xl">
+              {/* 1. B.Tech Computer Engineering (Parallax Card 1) */}
+              <div className="edu-card-1 border border-white/15 bg-[#252324]/95 p-8 sm:p-10 space-y-6 rounded-sm hover:border-[#ED3C3F]/70 transition-colors flex flex-col justify-between shadow-2xl will-change-transform">
                 <div className="space-y-4">
                   <div className="flex justify-between items-start">
                     <span className="bg-[#ED3C3F] text-white font-mono text-xs font-black px-3 py-1 uppercase rounded-xs shadow-md">
@@ -498,8 +612,8 @@ export default function PortfolioPage() {
                 </div>
               </div>
 
-              {/* 2. HSC */}
-              <div className="border border-white/15 bg-[#252324]/95 p-8 sm:p-10 space-y-6 rounded-sm hover:border-[#ED3C3F]/70 transition-colors flex flex-col justify-between shadow-2xl">
+              {/* 2. HSC (Parallax Card 2) */}
+              <div className="edu-card-2 border border-white/15 bg-[#252324]/95 p-8 sm:p-10 space-y-6 rounded-sm hover:border-[#ED3C3F]/70 transition-colors flex flex-col justify-between shadow-2xl will-change-transform">
                 <div className="space-y-4">
                   <div className="flex justify-between items-start">
                     <span className="bg-white/15 text-white font-mono text-xs font-black px-3 py-1 uppercase rounded-xs border border-white/20">
@@ -519,8 +633,8 @@ export default function PortfolioPage() {
                 </div>
               </div>
 
-              {/* 3. SSC */}
-              <div className="border border-white/15 bg-[#252324]/95 p-8 sm:p-10 space-y-6 rounded-sm hover:border-[#ED3C3F]/70 transition-colors flex flex-col justify-between shadow-2xl">
+              {/* 3. SSC (Parallax Card 3) */}
+              <div className="edu-card-3 border border-white/15 bg-[#252324]/95 p-8 sm:p-10 space-y-6 rounded-sm hover:border-[#ED3C3F]/70 transition-colors flex flex-col justify-between shadow-2xl will-change-transform">
                 <div className="space-y-4">
                   <div className="flex justify-between items-start">
                     <span className="bg-white/15 text-white font-mono text-xs font-black px-3 py-1 uppercase rounded-xs border border-white/20">

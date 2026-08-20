@@ -2,7 +2,8 @@
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import Lenis from "lenis";
-import { addEffect } from "@react-three/fiber";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   bindLenisScrollBus,
   subscribeScroll,
@@ -11,6 +12,10 @@ import {
   prefersReducedMotion,
 } from "@/lib/bus";
 import { ChevronUp } from "lucide-react";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 interface SectionAnchor {
   id: string;
@@ -44,47 +49,42 @@ export default function ScrollShell({ children }: ScrollShellProps) {
     }
   }, []);
 
-  // ── 2. LENIS SMOOTH SCROLL & ADAPTIVE FRAME BRIDGE ─────────────
+  // ── 2. LENIS SMOOTH SCROLL & GSAP SCROLLTRIGGER ENGINE ────────
   useEffect(() => {
     const isReduced = prefersReducedMotion();
     const isLowEnd = isLowPowerDevice();
 
-    // Instantiate Lenis with device-adaptive smoothing
+    // Instantiate Lenis with modern momentum damping
     const lenis = new Lenis({
       autoRaf: false,
-      duration: isReduced ? 0.01 : isLowEnd ? 0.85 : 1.15,
+      duration: isReduced ? 0.01 : isLowEnd ? 0.9 : 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: "vertical",
       gestureOrientation: "vertical",
       smoothWheel: !isReduced,
-      wheelMultiplier: isLowEnd ? 1.1 : 1.0,
+      wheelMultiplier: isLowEnd ? 1.05 : 1.0,
       touchMultiplier: 1.5,
       infinite: false,
     });
     lenisRef.current = lenis;
 
-    // Reset scroll position in Lenis immediately
+    // Reset scroll position immediately
     lenis.scrollTo(0, { immediate: true });
 
-    // Bind Lenis to global single-source telemetry bus
-    bindLenisScrollBus(lenis);
-
-    // Single-Frame Bridge: R3F drives Lenis RAF via addEffect
-    let r3fActive = false;
-    const unsubscribeEffect = addEffect((time: number) => {
-      r3fActive = true;
-      lenis.raf(time);
+    // Synchronize Lenis with GSAP ScrollTrigger
+    lenis.on("scroll", (e) => {
+      ScrollTrigger.update();
     });
 
-    // Fallback RAF loop if Three.js canvas is not mounted
-    let fallbackRafId: number | null = null;
-    const fallbackRaf = (time: number) => {
-      if (!r3fActive && lenisRef.current) {
-        lenisRef.current.raf(time);
-      }
-      fallbackRafId = requestAnimationFrame(fallbackRaf);
+    // Drive Lenis directly via GSAP ticker for 100% frame-perfect sync
+    const tickerCallback = (time: number) => {
+      lenis.raf(time * 1000);
     };
-    fallbackRafId = requestAnimationFrame(fallbackRaf);
+    gsap.ticker.add(tickerCallback);
+    gsap.ticker.lagSmoothing(0);
+
+    // Bind Lenis to global single-source telemetry bus for Three.js WebGL & HUD
+    bindLenisScrollBus(lenis);
 
     // Page Visibility API optimization (suspend during tab switch)
     const handleVisibilityChange = () => {
@@ -129,8 +129,7 @@ export default function ScrollShell({ children }: ScrollShellProps) {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
-      unsubscribeEffect();
-      if (fallbackRafId) cancelAnimationFrame(fallbackRafId);
+      gsap.ticker.remove(tickerCallback);
       bindLenisScrollBus(null);
       lenis.destroy();
       lenisRef.current = null;
@@ -172,7 +171,7 @@ export default function ScrollShell({ children }: ScrollShellProps) {
       >
         <button
           onClick={scrollToTop}
-          className="p-3.5 bg-black/85 hover:bg-[#B4F342] text-white hover:text-black border border-white/20 hover:border-[#B4F342] rounded-xs transition-all shadow-2xl flex items-center justify-center group backdrop-blur-md cursor-pointer min-h-[44px] min-w-[44px]"
+          className="p-3.5 bg-black/85 hover:bg-[#ED3C3F] text-white hover:text-white border border-white/20 hover:border-[#ED3C3F] rounded-xs transition-all shadow-2xl flex items-center justify-center group backdrop-blur-md cursor-pointer min-h-[44px] min-w-[44px]"
           title="Smooth scroll to top (Home key)"
         >
           <ChevronUp className="w-5 h-5 transition-transform group-hover:-translate-y-0.5" />
