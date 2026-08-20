@@ -35,12 +35,10 @@ export default function PortfolioPage() {
       {/* ── Fixed HUD Overlay (Coordinates, Nav, Weather, Grid) ── */}
       <HeroHUD />
 
-      {/* ── Main Content Curtain Layer ── */}
-      <main className="relative z-10 w-full bg-transparent overflow-hidden">
-        {/* ═══════════════════════════════════════════════════════════
-            SECTION 1: HERO VIEWPORT
-        ═══════════════════════════════════════════════════════════ */}
-        <section id="home" className="relative z-10 flex h-screen w-full flex-col justify-end p-8 md:p-14 pb-20">
+      {/* ═══════════════════════════════════════════════════════════
+          SECTION 1: HERO VIEWPORT
+      ═══════════════════════════════════════════════════════════ */}
+      <section id="home" className="relative z-10 flex h-screen w-full flex-col justify-end p-8 md:p-14 pb-20">
         <div className="max-w-4xl space-y-4">
           <h1 className="text-5xl sm:text-7xl md:text-8xl font-black uppercase tracking-tight leading-[0.98] text-white">
             <span className="block overflow-hidden pb-1">
@@ -545,19 +543,11 @@ export default function PortfolioPage() {
           </div>
         </section>
       </div>
-      </main>
 
       {/* ═══════════════════════════════════════════════════════════
-          SECTION 7: CURTAIN REVEAL CONTACT FOOTER VIEWPORT
+          SECTION 7: FINAL CONTACT & CLOSING VIEWPORT
       ═══════════════════════════════════════════════════════════ */}
-      <div
-        className="relative min-h-screen w-full"
-        style={{ clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)" }}
-      >
-        <div className="fixed bottom-0 left-0 w-full min-h-screen">
-          <ContactClosingSection />
-        </div>
-      </div>
+      <ContactClosingSection />
     </div>
   );
 }
