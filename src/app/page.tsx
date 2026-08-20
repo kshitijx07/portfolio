@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Cloud,
@@ -29,16 +29,21 @@ import { subscribeScroll, ScrollSnapshot } from "@/lib/bus";
 export default function PortfolioPage() {
   const mainContainerRef = useRef<HTMLDivElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
+  const progressNodeRef = useRef<HTMLDivElement>(null);
 
   // ── ADVANCED SCROLL & PARALLAX ORCHESTRATION ──────────────────────────────
   useEffect(() => {
     const engine = getScrollEngine();
     const cleanup = engine.initMasterChoreography(mainContainerRef.current);
 
-    // Scroll-Linked Top Laser Progress Bar
+    // Scroll-Linked Top Laser Progress Bar & Tracking Node
     const unsubScroll = subscribeScroll((snap: ScrollSnapshot) => {
       if (progressBarRef.current) {
         progressBarRef.current.style.transform = `scaleX(${snap.progress})`;
+      }
+      if (progressNodeRef.current) {
+        const pct = Math.min(Math.max(snap.progress * 100, 0), 100);
+        progressNodeRef.current.style.left = `${pct}%`;
       }
     });
 
@@ -51,13 +56,18 @@ export default function PortfolioPage() {
   return (
     <div
       ref={mainContainerRef}
-      className="relative w-full bg-[#00104A] text-white selection:bg-[#ED3C3F] selection:text-white"
+      className="relative w-full bg-[#00104A] text-white selection:bg-[#ED3C3F] selection:text-white overflow-x-hidden"
     >
-      {/* ── 1. Scroll-Linked Viewport Top Laser Rail ─────────────── */}
+      {/* ── 1. Scroll-Linked Viewport Top Laser Rail & Energy Node ── */}
       <div className="fixed top-0 left-0 right-0 h-[3px] z-50 pointer-events-none bg-white/10">
         <div
           ref={progressBarRef}
           className="h-full w-full bg-gradient-to-r from-[#ED3C3F] via-[#FF5A3C] to-[#3B82F6] origin-left scale-x-0 shadow-[0_0_14px_rgba(237,60,63,0.95)] will-change-transform"
+        />
+        <div
+          ref={progressNodeRef}
+          className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-white shadow-[0_0_10px_#ED3C3F] pointer-events-none will-change-transform"
+          style={{ left: "0%" }}
         />
       </div>
 
@@ -175,19 +185,19 @@ export default function PortfolioPage() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════
-          SECTION 2: ABOUT / BIO & RESUME SUMMARY (Enhanced Parallax)
+          SECTION 2: ABOUT / BIO & RESUME SUMMARY
       ═══════════════════════════════════════════════════════════ */}
       <section
         id="about"
         className="relative z-10 flex min-h-screen w-full items-center bg-[#050505]/90 backdrop-blur-md px-8 py-24 md:px-14 border-t border-white/10 [content-visibility:auto] [contain-intrinsic-size:1px_800px]"
       >
-        <div className="about-content-wrapper grid w-full grid-cols-1 lg:grid-cols-12 gap-12 items-start max-w-7xl mx-auto">
-          {/* Left Column: Deep 3D Portrait Card Parallax Float */}
+        <div className="grid w-full grid-cols-1 lg:grid-cols-12 gap-12 items-start max-w-7xl mx-auto">
+          {/* Left Column: Sticky 3D Portrait Card (No Overlap) */}
           <div className="about-portrait-card lg:col-span-4 lg:sticky lg:top-28 flex flex-col items-center lg:items-start space-y-4 will-change-transform">
             <PolarityCard src="/me.webp" alt="Kshitij Kumbhar" />
           </div>
 
-          {/* Right Column: Exact Resume Summary with Bio Counter-Drift */}
+          {/* Right Column: Exact Resume Summary & Verification */}
           <div className="lg:col-span-8 space-y-6">
             <div className="flex items-center gap-2 text-[#ED3C3F] font-mono text-xs uppercase tracking-wider font-semibold">
               <span className="w-1.5 h-1.5 rounded-full bg-[#ED3C3F]" />
@@ -198,7 +208,7 @@ export default function PortfolioPage() {
               I explore how to shape <span className="font-semibold text-white">cloud infrastructure</span> and <span className="font-semibold text-white">microservices</span> with craft and taste, building the next generation of scalable architectures.
             </h2>
 
-            <div className="about-bio-text space-y-5 text-base sm:text-lg text-zinc-300 leading-relaxed font-sans will-change-transform">
+            <div className="space-y-5 text-base sm:text-lg text-zinc-300 leading-relaxed font-sans">
               <p>
                 Computer Engineering student and DevOps Intern with hands-on experience designing CI/CD pipelines, containerized microservices, and cloud infrastructure on AWS. Delivered fully automated deployment workflows using Jenkins, Docker, and Kubernetes across two production-style projects, removing manual release effort entirely.
               </p>
@@ -255,14 +265,15 @@ export default function PortfolioPage() {
         {/* Single Vertically Continuous 3D Canvas Background */}
         <ContinuousSectionsBg />
 
-        {/* ── SECTION 3: PROFESSIONAL EXPERIENCE (Enhanced 3D Parallax) ── */}
+        {/* ── SECTION 3: PROFESSIONAL EXPERIENCE (Clean Layout + Kinetic Beam) ── */}
         <section
           id="experience"
           className="relative z-10 min-h-screen bg-[#080808]/75 px-6 sm:px-10 md:px-14 py-24 border-t border-white/10 overflow-hidden [content-visibility:auto] [contain-intrinsic-size:1px_900px]"
         >
           <div className="relative z-10 max-w-7xl mx-auto space-y-10">
-            {/* Header Banner with Clean Spatial Margins (No Overlap) */}
-            <div className="section-header-reveal flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6 bg-[#252324]/90 backdrop-blur-md p-6 rounded-sm shadow-xl">
+            {/* Header Banner with Animated Kinetic Beam (No Overlap) */}
+            <div className="section-header-banner relative flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6 bg-[#252324]/90 backdrop-blur-md p-6 rounded-sm shadow-xl overflow-hidden">
+              <div className="section-header-beam absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#ED3C3F] via-[#3B82F6] to-transparent origin-left" />
               <div>
                 <div className="flex items-center gap-2 text-[#ED3C3F] font-mono text-xs uppercase tracking-wider font-semibold mb-2">
                   <span className="w-2 h-2 rounded-full bg-[#ED3C3F] animate-pulse" />
@@ -366,17 +377,18 @@ export default function PortfolioPage() {
           </div>
         </section>
 
-        {/* ── SECTION 4: FEATURED CLOUD & AI PROJECTS (2x2 Gallery Parallax) ── */}
+        {/* ── SECTION 4: FEATURED CLOUD & AI PROJECTS ───────────── */}
         <Projects />
 
-        {/* ── SECTION 5: TECHNICAL SKILLS (3-Column Waterfall Parallax) ── */}
+        {/* ── SECTION 5: TECHNICAL SKILLS MATRIX (Kinetic Header + Parallax Grid) ── */}
         <section
           id="skills"
           className="relative z-10 min-h-screen bg-[#080808]/75 px-6 sm:px-10 md:px-14 py-24 border-t border-white/10 overflow-hidden [content-visibility:auto] [contain-intrinsic-size:1px_900px]"
         >
           <div className="relative z-10 max-w-7xl mx-auto space-y-10">
             {/* Header Banner (No Overlap) */}
-            <div className="section-header-reveal flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6 bg-[#252324]/90 backdrop-blur-md p-6 rounded-sm shadow-xl">
+            <div className="section-header-banner relative flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6 bg-[#252324]/90 backdrop-blur-md p-6 rounded-sm shadow-xl overflow-hidden">
+              <div className="section-header-beam absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#ED3C3F] via-[#3B82F6] to-transparent origin-left" />
               <div>
                 <div className="flex items-center gap-2 text-[#ED3C3F] font-mono text-xs uppercase tracking-wider font-semibold mb-2">
                   <span className="w-2 h-2 rounded-full bg-[#ED3C3F] animate-pulse" />
@@ -390,8 +402,8 @@ export default function PortfolioPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 pt-2">
-              {/* 1. DevOps & Cloud Infrastructure (Column 0 Parallax) */}
-              <div className="scroll-reveal-card velocity-skew-target skill-card-col-0 border border-white/15 bg-[#252324]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#ED3C3F]/70 transition-colors shadow-xl will-change-transform">
+              {/* 1. DevOps & Cloud Infrastructure (Odd Parallax) */}
+              <div className="scroll-reveal-card velocity-skew-target skill-card-odd border border-white/15 bg-[#252324]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#ED3C3F]/70 transition-colors shadow-xl will-change-transform">
                 <div className="flex items-center gap-2.5 font-mono text-base font-bold text-[#ED3C3F]">
                   <Cloud size={20} />
                   <span>DevOps &amp; Cloud Infrastructure</span>
@@ -413,8 +425,8 @@ export default function PortfolioPage() {
                 </div>
               </div>
 
-              {/* 2. Databases & Vector Stores (Column 1 Parallax) */}
-              <div className="scroll-reveal-card velocity-skew-target skill-card-col-1 border border-white/15 bg-[#252324]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#3B82F6]/70 transition-colors shadow-xl will-change-transform">
+              {/* 2. Databases & Vector Stores (Even Parallax) */}
+              <div className="scroll-reveal-card velocity-skew-target skill-card-even border border-white/15 bg-[#252324]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#3B82F6]/70 transition-colors shadow-xl will-change-transform">
                 <div className="flex items-center gap-2.5 font-mono text-base font-bold text-[#3B82F6]">
                   <Database size={20} />
                   <span>Databases &amp; Vector Stores</span>
@@ -428,8 +440,8 @@ export default function PortfolioPage() {
                 </div>
               </div>
 
-              {/* 3. Backend Development (Column 2 Parallax) */}
-              <div className="scroll-reveal-card velocity-skew-target skill-card-col-2 border border-white/15 bg-[#252324]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#ED3C3F]/70 transition-colors shadow-xl will-change-transform">
+              {/* 3. Backend Development (Odd Parallax) */}
+              <div className="scroll-reveal-card velocity-skew-target skill-card-odd border border-white/15 bg-[#252324]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#ED3C3F]/70 transition-colors shadow-xl will-change-transform">
                 <div className="flex items-center gap-2.5 font-mono text-base font-bold text-[#ED3C3F]">
                   <Server size={20} />
                   <span>Backend Development</span>
@@ -443,8 +455,8 @@ export default function PortfolioPage() {
                 </div>
               </div>
 
-              {/* 4. AI & Multi-Agent Systems (Column 0 Parallax) */}
-              <div className="scroll-reveal-card velocity-skew-target skill-card-col-0 border border-white/15 bg-[#252324]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#ED3C3F]/70 transition-colors shadow-xl will-change-transform">
+              {/* 4. AI & Multi-Agent Systems (Even Parallax) */}
+              <div className="scroll-reveal-card velocity-skew-target skill-card-even border border-white/15 bg-[#252324]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#ED3C3F]/70 transition-colors shadow-xl will-change-transform">
                 <div className="flex items-center gap-2.5 font-mono text-base font-bold text-[#ED3C3F]">
                   <Cpu size={20} />
                   <span>AI &amp; Multi-Agent Systems</span>
@@ -464,8 +476,8 @@ export default function PortfolioPage() {
                 </div>
               </div>
 
-              {/* 5. Frontend Development (Column 1 Parallax) */}
-              <div className="scroll-reveal-card velocity-skew-target skill-card-col-1 border border-white/15 bg-[#252324]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#3B82F6]/70 transition-colors shadow-xl will-change-transform">
+              {/* 5. Frontend Development (Odd Parallax) */}
+              <div className="scroll-reveal-card velocity-skew-target skill-card-odd border border-white/15 bg-[#252324]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#3B82F6]/70 transition-colors shadow-xl will-change-transform">
                 <div className="flex items-center gap-2.5 font-mono text-base font-bold text-[#3B82F6]">
                   <Code2 size={20} />
                   <span>Frontend Development</span>
@@ -479,8 +491,8 @@ export default function PortfolioPage() {
                 </div>
               </div>
 
-              {/* 6. Core Computer Science Concepts (Column 2 Parallax) */}
-              <div className="scroll-reveal-card velocity-skew-target skill-card-col-2 border border-white/15 bg-[#252324]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#ED3C3F]/70 transition-colors shadow-xl will-change-transform">
+              {/* 6. Core Computer Science Concepts (Even Parallax) */}
+              <div className="scroll-reveal-card velocity-skew-target skill-card-even border border-white/15 bg-[#252324]/95 p-7 sm:p-8 space-y-5 rounded-sm hover:border-[#ED3C3F]/70 transition-colors shadow-xl will-change-transform">
                 <div className="flex items-center gap-2.5 font-mono text-base font-bold text-[#ED3C3F]">
                   <Terminal size={20} />
                   <span>Core CS Concepts &amp; Tools</span>
@@ -514,7 +526,8 @@ export default function PortfolioPage() {
         >
           <div className="relative z-10 max-w-7xl mx-auto space-y-10">
             {/* Header Banner (No Overlap) */}
-            <div className="section-header-reveal flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6 bg-[#252324]/90 backdrop-blur-md p-6 rounded-sm shadow-xl">
+            <div className="section-header-banner relative flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6 bg-[#252324]/90 backdrop-blur-md p-6 rounded-sm shadow-xl overflow-hidden">
+              <div className="section-header-beam absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#ED3C3F] via-[#3B82F6] to-transparent origin-left" />
               <div>
                 <div className="flex items-center gap-2 text-[#ED3C3F] font-mono text-xs uppercase tracking-wider font-semibold mb-2">
                   <span className="w-2 h-2 rounded-full bg-[#ED3C3F] animate-pulse" />
