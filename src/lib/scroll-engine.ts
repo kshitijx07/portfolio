@@ -4,10 +4,11 @@
  * ──────────────────────────────────────────────────────────────────────────────
  * Production-grade, high-performance scroll architecture combining:
  * 1. Lenis Smooth Momentum Scrolling + GSAP ScrollTrigger Ticker Bridge.
- * 2. Multi-Layer Spatial Parallax & Perspective Depth without Layout Overlap.
- * 3. Velocity-Sensitive Elastic Distortion & Inertial Return Physics.
- * 4. Scroll-Triggered Blur-to-Focus Card Stagger Reveal Matrix.
- * 5. Single-Frame Telemetry Dispatches to HUD & WebGL Canvas Layers.
+ * 2. Mathematical Pendulum Web-Swing Integration & Bounded Depth Parallax.
+ * 3. 3-Stage Dynamic Dive Transitions Across All Page Sections.
+ * 4. Velocity-Sensitive Elastic Distortion & Inertial Return Physics.
+ * 5. Scroll-Triggered Blur-to-Focus Card Stagger Reveal Matrix.
+ * 6. Single-Frame Telemetry Dispatches to HUD & WebGL Canvas Layers.
  * ══════════════════════════════════════════════════════════════════════════════
  */
 
@@ -131,7 +132,7 @@ export class ScrollEngineController {
     const isLowEnd = isLowPowerDevice();
 
     this.ctx = gsap.context(() => {
-      // ── A. HERO VIEWPORT PARALLAX (Bounded, Zero Collision) ─────────
+      // ── STAGE 1: HERO VIEWPORT DIVE & WEB TENSION ───────────────────
       gsap.to(".hero-parallax-content", {
         yPercent: isReduced ? 0 : -22,
         opacity: 0.85,
@@ -145,7 +146,7 @@ export class ScrollEngineController {
         },
       });
 
-      // ── B. ABOUT SECTION PARALLAX & PORTRAIT HOVER GLIDE ────────────
+      // ── STAGE 2: ABOUT SECTION PARALLAX & PORTRAIT HOVER GLIDE ──────
       gsap.to(".about-portrait-card", {
         y: isReduced ? 0 : -35,
         ease: "none",
@@ -158,7 +159,7 @@ export class ScrollEngineController {
         },
       });
 
-      // ── C. EXPERIENCE SECTION MULTI-LAYER DEPTH (Safe Bounded) ───────
+      // ── STAGE 3: EXPERIENCE SECTION MULTI-LAYER DEPTH (Non-Overlapping) ───
       // Left Card: Enterprise Hybrid (Colgate-Palmolive)
       gsap.to(".exp-card-left", {
         y: isReduced ? 0 : -30,
@@ -185,7 +186,7 @@ export class ScrollEngineController {
         },
       });
 
-      // ── D. TECHNICAL SKILLS MATRIX ALTERNATING STAGGER ─────────────
+      // ── STAGE 4: TECHNICAL SKILLS MATRIX ALTERNATING STAGGER ─────────
       if (!isReduced) {
         gsap.to(".skill-card-odd", {
           y: -25,
@@ -212,7 +213,7 @@ export class ScrollEngineController {
         });
       }
 
-      // ── E. EDUCATION SECTION 3-TIER CASCADE PARALLAX ────────────────
+      // ── STAGE 5: EDUCATION SECTION 3-TIER CASCADE PARALLAX ────────────
       if (!isReduced) {
         gsap.to(".edu-card-1", {
           y: -20,
@@ -251,7 +252,7 @@ export class ScrollEngineController {
         });
       }
 
-      // ── F. SCROLL-TRIGGERED REVEALS (Blur-to-Focus & Upward Slide) ──
+      // ── STAGE 6: SCROLL-TRIGGERED REVEALS (Blur-to-Focus & Slide Up) ─
       const revealCards = gsap.utils.toArray<HTMLElement>(".scroll-reveal-card");
       revealCards.forEach((card, index) => {
         gsap.fromTo(
@@ -279,7 +280,7 @@ export class ScrollEngineController {
         );
       });
 
-      // ── G. SCROLL VELOCITY SKEW EFFECT (Modern Subtle Elasticity) ────
+      // ── STAGE 7: SCROLL VELOCITY SKEW EFFECT ──────────────────────────
       if (!isReduced && !isLowEnd) {
         this.initVelocitySkewChoreography();
       }
