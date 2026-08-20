@@ -67,7 +67,229 @@ const outlineFragment = /* glsl */ `
 `;
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 2. PROCEDURAL 8-LEG KINEMATIC STEPPING & CRAWLING
+// 2. PROCEDURAL 3D SPIDER-WEB GENERATOR (Catenary Sagging Rings)
+// ─────────────────────────────────────────────────────────────────────────────
+interface WebLayerConfig {
+  radius: number;
+  spokes: number;
+  rings: number;
+  sag: number;
+  z: number;
+  opacity: number;
+  color: number;
+}
+
+function buildWebGeometry(cfg: WebLayerConfig) {
+  const { radius, spokes, rings, sag: sagAmount } = cfg;
+  const spokePoints: THREE.Vector3[][] = [];
+  const segments: THREE.Vector3[] = [];
+
+  for (let i = 0; i < spokes; i++) {
+    const angle = (i / spokes) * Math.PI * 2;
+    const dir = new THREE.Vector3(Math.cos(angle), Math.sin(angle), 0);
+    const pts: THREE.Vector3[] = [new THREE.Vector3(0, 0, 0)];
+
+    for (let r = 1; r <= rings; r++) {
+      const t = r / rings;
+      const rr = t * radius;
+      const z = Math.sin(angle * 2.0 + r) * 0.06 * t;
+      pts.push(new THREE.Vector3(dir.x * rr, dir.y * rr, z));
+    }
+    spokePoints.push(pts);
+
+    for (let r = 0; r < pts.length - 1; r++) {
+      segments.push(pts[r], pts[r + 1]);
+    }
+  }
+
+  for (let r = 1; r <= rings; r++) {
+    const sag = (1 - r / rings) * sagAmount;
+    for (let i = 0; i < spokes; i++) {
+      const a = spokePoints[i][r];
+      const b = spokePoints[(i + 1) % spokes][r];
+      const mid = a.clone().lerp(b, 0.5);
+      mid.z -= sag;
+      segments.push(a, mid, mid, b);
+    }
+  }
+
+  return { segments, spokePoints };
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 3. LAYERED 3D SPIDER-WEB WITH KINETIC SPIDEY-SENSE PULSES
+// ─────────────────────────────────────────────────────────────────────────────
+function LayeredSpiderWebBackground() {
+  const webGroupRef = useRef<THREE.Group>(null!);
+  const pulseMeshesRef = useRef<THREE.Mesh[]>([]);
+
+  const layerConfigs: WebLayerConfig[] = useMemo(
+    () => [
+      { radius: 5.4, spokes: 14, rings: 7, sag: 0.22, z: -2.2, opacity: 0.18, color: 0xedeae2 },
+      { radius: 3.8, spokes: 12, rings: 6, sag: 0.16, z: -0.8, opacity: 0.35, color: 0xed3c3f },
+      { radius: 2.4, spokes: 10, rings: 5, sag: 0.11, z: 1.0, opacity: 0.65, color: 0xedeae2 },
+    ],
+    []
+  );
+
+  const { layerGeometries, frontLayerData } = useMemo(() => {
+    const geometries = layerConfigs.map((cfg) => {
+      const { segments, spokePoints } = buildWebGeometry(cfg);
+      const geo = new THREE.BufferGeometry().setFromPoints(segments);
+      return { geo, spokePoints, cfg };
+    });
+    return {
+      layerGeometries: geometries,
+      frontLayerData: geometries[geometries.length - 1],
+    };
+  }, [layerConfigs]);
+
+  // Dew drops on outer front ring
+  const dewGeometry = useMemo(() => {
+    const dewPositions: number[] = [];
+    const frontZ = frontLayerData.cfg.z;
+    frontLayerData.spokePoints.forEach((pts) => {
+      const p = pts[pts.length - 1];
+      dewPositions.push(p.x, p.y, p.z + frontZ);
+    });
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute("position", new THREE.Float32BufferAttribute(dewPositions, 3));
+    return geo;
+  }, [frontLayerData]);
+
+  // Pulse State
+  const pulses = useMemo(() => {
+    return Array.from({ length: 6 }).map((_, i) => ({
+      active: false,
+      t: 0,
+      spokeIndex: 0,
+      speed: 1.4 + (i % 3) * 0.3,
+    }));
+  }, []);
+
+  const pulseCooldown = useRef(0);
+  const prevPointer = useRef({ x: 0, y: 0 });
+
+  useFrame((state, delta) => {
+    if (!webGroupRef.current) return;
+    const t = state.clock.getElapsedTime();
+
+    pulseCooldown.current -= delta;
+
+    const px = pointerUv?.x ?? 0;
+    const py = pointerUv?.y ?? 0;
+
+    // Detect movement to launch Spidey-Sense pulse
+    const moveDelta = Math.hypot(px - prevPointer.current.x, py - prevPointer.current.y);
+    if (moveDelta > 0.008 && pulseCooldown.current <= 0) {
+      const angle = Math.atan2(-py, px);
+      const spokeCount = frontLayerData.cfg.spokes;
+      const idx =
+        Math.round((((angle + Math.PI * 2) % (Math.PI * 2)) / (Math.PI * 2)) * spokeCount) %
+        spokeCount;
+
+      const availablePulse = pulses.find((p) => !p.active);
+      if (availablePulse) {
+        availablePulse.active = true;
+        availablePulse.t = 0;
+        availablePulse.spokeIndex = idx;
+      }
+      pulseCooldown.current = 0.32;
+    }
+    prevPointer.current = { x: px, y: py };
+
+    // Parallax rotation of the web
+    webGroupRef.current.rotation.y += (px * 0.25 - webGroupRef.current.rotation.y) * Math.min(1, delta * 3.5);
+    webGroupRef.current.rotation.x += (-py * 0.18 - webGroupRef.current.rotation.x) * Math.min(1, delta * 3.5);
+
+    // Update pulses along spokes
+    const spokePoints = frontLayerData.spokePoints;
+    const frontZ = frontLayerData.cfg.z;
+
+    pulses.forEach((p, idx) => {
+      const mesh = pulseMeshesRef.current[idx];
+      if (!mesh) return;
+
+      if (!p.active) {
+        mesh.visible = false;
+        return;
+      }
+
+      mesh.visible = true;
+      p.t += delta * p.speed;
+
+      const pts = spokePoints[p.spokeIndex];
+      const travel = Math.min(p.t, 1);
+      const segCount = pts.length - 1;
+      const segF = travel * segCount;
+      const segI = Math.min(Math.floor(segF), segCount - 1);
+      const localT = segF - segI;
+      const a = pts[segI];
+      const b = pts[segI + 1];
+      const pos = a.clone().lerp(b, localT);
+
+      mesh.position.set(pos.x, pos.y, pos.z + frontZ);
+      const mat = mesh.material as THREE.MeshBasicMaterial;
+      mat.opacity = travel < 0.08 ? travel / 0.08 : (1 - travel) * 0.92;
+
+      if (p.t >= 1) {
+        p.active = false;
+        mesh.visible = false;
+      }
+    });
+  });
+
+  return (
+    <group ref={webGroupRef}>
+      {layerGeometries.map((layer, idx) => (
+        <lineSegments key={idx} geometry={layer.geo} position={[0, 0, layer.cfg.z]}>
+          <lineBasicMaterial
+            color={layer.cfg.color}
+            transparent
+            opacity={layer.cfg.opacity}
+            blending={THREE.AdditiveBlending}
+            depthWrite={false}
+          />
+        </lineSegments>
+      ))}
+
+      {/* Dew drop nodes */}
+      <points geometry={dewGeometry}>
+        <pointsMaterial
+          color={0xed3c3f}
+          size={0.055}
+          transparent
+          opacity={0.85}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+        />
+      </points>
+
+      {/* Spidey-Sense Pulses */}
+      {pulses.map((_, idx) => (
+        <mesh
+          key={idx}
+          ref={(el) => {
+            if (el) pulseMeshesRef.current[idx] = el;
+          }}
+          visible={false}
+        >
+          <sphereGeometry args={[0.06, 12, 12]} />
+          <meshBasicMaterial
+            color={0xed3c3f}
+            transparent
+            opacity={0}
+            blending={THREE.AdditiveBlending}
+            depthWrite={false}
+          />
+        </mesh>
+      ))}
+    </group>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 4. PROCEDURAL 8-LEG KINEMATIC STEPPING & CRAWLING
 // ─────────────────────────────────────────────────────────────────────────────
 function buildAnimatedLegCurve(
   side: number,
@@ -77,8 +299,7 @@ function buildAnimatedLegCurve(
   isWalking: boolean
 ) {
   const hipRad = THREE.MathUtils.degToRad(hipAngleDeg);
-  
-  // Leg crawling step offsets
+
   const stepLift = isWalking ? Math.max(0, Math.sin(stepPhase)) * 0.35 : Math.sin(stepPhase * 0.5) * 0.06;
   const stepForward = isWalking ? Math.cos(stepPhase) * 0.4 : Math.cos(stepPhase * 0.5) * 0.08;
 
@@ -107,7 +328,7 @@ function buildAnimatedLegCurve(
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 3. 3D WALKING SPIDER CHARACTER COMPONENT
+// 5. 3D WALKING SPIDER CHARACTER COMPONENT
 // ─────────────────────────────────────────────────────────────────────────────
 function WalkingSpiderModel({
   crawlProgress,
@@ -167,7 +388,6 @@ function WalkingSpiderModel({
     []
   );
 
-  // Cephalothorax and Abdomen Geometries
   const cephalothoraxGeo = useMemo(() => {
     const geo = new THREE.SphereGeometry(0.72, 24, 20);
     geo.scale(1.0, 0.78, 0.82);
@@ -182,52 +402,32 @@ function WalkingSpiderModel({
     return geo;
   }, []);
 
-  // 8 Leg Hip Angles
   const hipAngles = useMemo(() => [65, 30, -10, -48], []);
 
-  // Pulse along legs
-  const pulseMat = useMemo(
-    () =>
-      new THREE.MeshBasicMaterial({
-        color: 0xeaf3ff,
-        transparent: true,
-        opacity: 0.95,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false,
-      }),
-    []
-  );
-
-  const pulseMeshesRef = useRef<THREE.Mesh[]>([]);
-
-  useFrame((state, delta) => {
+  useFrame((state) => {
     if (!groupRef.current) return;
     const t = state.clock.getElapsedTime();
     bodyMat.uniforms.uTime.value = t;
 
-    // ── Spider Walk Left to Right Position ────────────────────────────────
-    // Crawls from x: -5.0 across to x: 2.2 during entrance, then stays anchored in right quadrant
+    // Crawls across from x: -5.0 to x: 2.2 during entrance
     const entranceX = -5.0 + crawlProgress * 7.2;
     const targetX = entranceX;
     const targetY = 0.3 + Math.sin(t * 1.5) * 0.08;
 
     groupRef.current.position.x = targetX;
     groupRef.current.position.y = targetY;
-    groupRef.current.position.z = -0.4;
+    groupRef.current.position.z = -0.3;
 
-    // Spider body tilt and crawling sway
     const crawlSway = isWalking ? Math.sin(crawlProgress * 28.0) * 0.12 : Math.sin(t * 1.2) * 0.04;
     groupRef.current.rotation.z = Math.PI * 0.5 + crawlSway;
     groupRef.current.rotation.x = isWalking ? 0.15 : -pointerUv.y * 0.15;
     groupRef.current.rotation.y = isWalking ? 0.1 : (pointerUv.x - 0.5) * 0.25;
 
-    // ── Dynamic 8-Leg Step Regeneration ──────────────────────────────────
     let legMeshIndex = 0;
     const crawlStepSpeed = crawlProgress * 32.0;
 
     [-1, 1].forEach((side, sideIdx) => {
       hipAngles.forEach((angle, index) => {
-        // Alternating gait between left & right sides and diagonal pairs
         const phaseOffset = (sideIdx * Math.PI + index * (Math.PI * 0.5)) % (Math.PI * 2);
         const stepPhase = isWalking ? crawlStepSpeed + phaseOffset : t * 2.0 + phaseOffset;
 
@@ -247,17 +447,14 @@ function WalkingSpiderModel({
 
   return (
     <group ref={groupRef} scale={0.42}>
-      {/* Cephalothorax */}
       <mesh geometry={cephalothoraxGeo} material={outlineMat} />
       <mesh geometry={cephalothoraxGeo} material={glowMat1} />
       <mesh geometry={cephalothoraxGeo} material={bodyMat} />
 
-      {/* Abdomen */}
       <mesh geometry={abdomenGeo} material={outlineMat} />
       <mesh geometry={abdomenGeo} material={glowMat1} />
       <mesh geometry={abdomenGeo} material={bodyMat} />
 
-      {/* 8 Legs Container */}
       {Array.from({ length: 8 }).map((_, idx) => (
         <mesh
           key={idx}
@@ -272,7 +469,7 @@ function WalkingSpiderModel({
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 4. 3D REFRACTIVE OPTICAL GLASS WAVE COMPONENT
+// 6. 3D REFRACTIVE OPTICAL GLASS WAVE COMPONENT
 // ─────────────────────────────────────────────────────────────────────────────
 function HelloModelInteractive({ waveProgress }: { waveProgress: number }) {
   const meshRef = useRef<THREE.Mesh>(null!);
@@ -325,7 +522,6 @@ function HelloModelInteractive({ waveProgress }: { waveProgress: number }) {
       1
     );
 
-    // Initial entrance push + dynamic scroll scale & depth push
     const baseZ = -0.8 * (1.0 - waveProgress);
     const entranceScale = 0.88 + 0.12 * waveProgress;
 
@@ -344,7 +540,6 @@ function HelloModelInteractive({ waveProgress }: { waveProgress: number }) {
     gl.setRenderTarget(null);
     meshRef.current.visible = true;
 
-    // Specular highlight rim sweep choreography
     let targetAngle = 1.15;
     if (pointerState.inside) {
       targetAngle = Math.atan2(pointerUv.y - 0.5, pointerUv.x - 0.5);
@@ -384,7 +579,7 @@ function HelloModelInteractive({ waveProgress }: { waveProgress: number }) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 5. MASTER HERO SCENE ORCHESTRATION (Spider Crawls L-to-R -> Wave Weaves In)
+// 7. MASTER HERO SCENE ORCHESTRATOR
 // ─────────────────────────────────────────────────────────────────────────────
 function HeroSceneOrchestrator() {
   const mountTime = useRef<number | null>(null);
@@ -400,11 +595,11 @@ function HeroSceneOrchestrator() {
     }
     const elapsed = state.clock.getElapsedTime() - mountTime.current;
 
-    // ── Phase 1 (0.0s – 1.4s): Spider walks across from left to right ───
+    // Spider crawls across from left to right (0.0s to 1.4s)
     const crawlRaw = Math.min(1.0, elapsed / 1.4);
     const crawlEase = 1.0 - Math.pow(1.0 - crawlRaw, 2.5);
 
-    // ── Phase 2 (0.6s – 1.8s): 3D Wave weaves in smoothly ────────────────
+    // Wave weaves in smoothly (0.5s to 1.8s)
     const waveRaw = Math.max(0.0, Math.min(1.0, (elapsed - 0.5) / 1.2));
     const waveEase = 1.0 - Math.pow(1.0 - waveRaw, 3.0);
 
@@ -417,6 +612,7 @@ function HeroSceneOrchestrator() {
 
   return (
     <>
+      <LayeredSpiderWebBackground />
       <WalkingSpiderModel
         crawlProgress={timeline.crawlProgress}
         isWalking={timeline.isWalking}
@@ -460,7 +656,7 @@ export default function HeroAboutScene() {
           alpha: true,
           powerPreference: "high-performance",
         }}
-        camera={{ position: [0, 0, 4.8], fov: 42 }}
+        camera={{ position: [0, 0, 5.0], fov: 42 }}
       >
         <ambientLight intensity={0.65} />
         <HeroSceneOrchestrator />
