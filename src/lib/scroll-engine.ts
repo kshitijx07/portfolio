@@ -4,11 +4,11 @@
  * ──────────────────────────────────────────────────────────────────────────────
  * Production-grade, high-performance scroll architecture combining:
  * 1. Lenis Smooth Momentum Scrolling + GSAP ScrollTrigger Ticker Bridge.
- * 2. Seamless Dynamic In/Out Section Transition Cascades.
- * 3. Multi-Layer Spatial Parallax & Perspective Depth without Layout Overlap.
- * 4. Velocity-Sensitive Elastic Distortion & Inertial Return Physics.
- * 5. Scroll-Triggered Blur-to-Focus Card Stagger Reveal Matrix.
- * 6. Single-Frame Telemetry Dispatches to HUD & WebGL Canvas Layers.
+ * 2. Deep Enhanced Multi-Layer Parallax Across Sections 2 to 5.
+ * 3. 3-Column Waterfall Parallax for Technical Skills Matrix.
+ * 4. Staggered Dual-Column Exhibition Parallax for Production Workloads.
+ * 5. Velocity-Sensitive Elastic Distortion & Inertial Return Physics.
+ * 6. Scroll-Triggered Blur-to-Focus Card Stagger Reveal Matrix.
  * ══════════════════════════════════════════════════════════════════════════════
  */
 
@@ -27,37 +27,11 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// 1. SCROLL ENGINE CONFIGURATION & INTERFACES
-// ─────────────────────────────────────────────────────────────────────────────
-
-export interface SectionTelemetry {
-  id: string;
-  index: number;
-  progress: number;
-  isActive: boolean;
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// 2. KINETIC SCROLL ENGINE CONTROLLER CLASS
-// ─────────────────────────────────────────────────────────────────────────────
-
 export class ScrollEngineController {
   private lenis: Lenis | null = null;
   private ctx: gsap.Context | null = null;
   private isDestroyed = false;
   private unsubs: (() => void)[] = [];
-
-  // Registered section identifiers for active section tracking
-  private readonly sectionIds = [
-    "home",
-    "about",
-    "experience",
-    "projects",
-    "skills",
-    "education",
-    "contact",
-  ];
 
   constructor(lenis?: Lenis | null) {
     if (lenis) this.setLenis(lenis);
@@ -91,7 +65,7 @@ export class ScrollEngineController {
   }
 
   /**
-   * Initialize all master scroll choreography: Parallax, Reveals, In/Out transitions & Velocity Skew.
+   * Initialize all master scroll choreography: Enhanced Parallax in 2–5, Reveals & Velocity Skew.
    */
   public initMasterChoreography(scope?: HTMLElement | null): () => void {
     if (typeof window === "undefined") return () => {};
@@ -100,9 +74,9 @@ export class ScrollEngineController {
     const isLowEnd = isLowPowerDevice();
 
     this.ctx = gsap.context(() => {
-      // ── A. HERO VIEWPORT DYNAMIC IN/OUT PARALLAX ────────────────────
+      // ── SECTION 1: HERO VIEWPORT PARALLAX ───────────────────────────
       gsap.to(".hero-parallax-content", {
-        yPercent: isReduced ? 0 : -24,
+        yPercent: isReduced ? 0 : -25,
         opacity: 0.75,
         scale: isReduced ? 1 : 0.98,
         ease: "none",
@@ -115,7 +89,7 @@ export class ScrollEngineController {
         },
       });
 
-      // ── B. ABOUT SECTION DYNAMIC IN/OUT TRANSITION ──────────────────
+      // ── SECTION 2: ABOUT / BIO ENHANCED PARALLAX ────────────────────
       gsap.fromTo(
         "#about .about-content-wrapper",
         {
@@ -136,9 +110,10 @@ export class ScrollEngineController {
         }
       );
 
-      // About Portrait Card Smooth Parallax Glide (Bounded to avoid collisions)
+      // Deep 3D Portrait Card Parallax Float with Subtle Perspective
       gsap.to(".about-portrait-card", {
-        y: isReduced ? 0 : -35,
+        y: isReduced ? 0 : -55,
+        rotateZ: isReduced ? 0 : 1.2,
         ease: "none",
         scrollTrigger: {
           trigger: "#about",
@@ -149,10 +124,24 @@ export class ScrollEngineController {
         },
       });
 
-      // ── C. EXPERIENCE SECTION MULTI-LAYER SPATIAL DEPTH ────────────
+      // Right-side Summary & Bio subtle counter-drift
+      gsap.to(".about-bio-text", {
+        y: isReduced ? 0 : -20,
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#about",
+          start: "top 75%",
+          end: "bottom 25%",
+          scrub: 0.8,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      // ── SECTION 3: PRODUCTION EXPERIENCE ENHANCED 3D DEPTH ──────────
       // Left Card: Enterprise Hybrid (Colgate-Palmolive)
       gsap.to(".exp-card-left", {
-        y: isReduced ? 0 : -25,
+        y: isReduced ? 0 : -45,
+        rotateY: isReduced ? 0 : 1.5,
         ease: "none",
         scrollTrigger: {
           trigger: "#experience",
@@ -165,7 +154,8 @@ export class ScrollEngineController {
 
       // Right Card: Remote Sprint Delivery (Campus Credential)
       gsap.to(".exp-card-right", {
-        y: isReduced ? 0 : -50,
+        y: isReduced ? 0 : -95,
+        rotateY: isReduced ? 0 : -1.5,
         ease: "none",
         scrollTrigger: {
           trigger: "#experience",
@@ -176,37 +166,38 @@ export class ScrollEngineController {
         },
       });
 
-      // ── D. PROJECTS SECTION STAGGERED PARALLAX DEPTH ───────────────
+      // ── SECTION 4: FEATURED PROJECTS 2X2 GALLERY PARALLAX ───────────
       if (!isReduced) {
         gsap.to(".project-card-col-0", {
-          y: -20,
+          y: -40,
           ease: "none",
           scrollTrigger: {
             trigger: "#projects",
             start: "top 80%",
             end: "bottom 20%",
-            scrub: 0.7,
+            scrub: 0.75,
             invalidateOnRefresh: true,
           },
         });
 
         gsap.to(".project-card-col-1", {
-          y: -45,
+          y: -95,
           ease: "none",
           scrollTrigger: {
             trigger: "#projects",
             start: "top 80%",
             end: "bottom 20%",
-            scrub: 0.7,
+            scrub: 0.75,
             invalidateOnRefresh: true,
           },
         });
       }
 
-      // ── E. TECHNICAL SKILLS MATRIX ALTERNATING STAGGER ─────────────
+      // ── SECTION 5: TECHNICAL SKILLS 3-COLUMN WATERFALL PARALLAX ─────
       if (!isReduced) {
-        gsap.to(".skill-card-odd", {
-          y: -20,
+        // Column 1 (DevOps & Backend)
+        gsap.to(".skill-card-col-0", {
+          y: -35,
           ease: "none",
           scrollTrigger: {
             trigger: "#skills",
@@ -217,8 +208,22 @@ export class ScrollEngineController {
           },
         });
 
-        gsap.to(".skill-card-even", {
-          y: -42,
+        // Column 2 (Databases & AI Swarms)
+        gsap.to(".skill-card-col-1", {
+          y: -75,
+          ease: "none",
+          scrollTrigger: {
+            trigger: "#skills",
+            start: "top 80%",
+            end: "bottom 20%",
+            scrub: 0.7,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        // Column 3 (Frontend & Core CS)
+        gsap.to(".skill-card-col-2", {
+          y: -115,
           ease: "none",
           scrollTrigger: {
             trigger: "#skills",
@@ -230,10 +235,10 @@ export class ScrollEngineController {
         });
       }
 
-      // ── F. EDUCATION SECTION 3-TIER CASCADE PARALLAX ────────────────
+      // ── SECTION 6: EDUCATION 3-TIER CASCADE PARALLAX ────────────────
       if (!isReduced) {
         gsap.to(".edu-card-1", {
-          y: -18,
+          y: -22,
           ease: "none",
           scrollTrigger: {
             trigger: "#education",
@@ -245,7 +250,7 @@ export class ScrollEngineController {
         });
 
         gsap.to(".edu-card-2", {
-          y: -36,
+          y: -50,
           ease: "none",
           scrollTrigger: {
             trigger: "#education",
@@ -257,7 +262,7 @@ export class ScrollEngineController {
         });
 
         gsap.to(".edu-card-3", {
-          y: -54,
+          y: -78,
           ease: "none",
           scrollTrigger: {
             trigger: "#education",
@@ -269,7 +274,7 @@ export class ScrollEngineController {
         });
       }
 
-      // ── G. SCROLL-TRIGGERED REVEALS (Progressive Blur-to-Focus) ─────
+      // ── SCROLL-TRIGGERED REVEALS (Progressive Blur-to-Focus) ─────────
       const revealCards = gsap.utils.toArray<HTMLElement>(".scroll-reveal-card");
       revealCards.forEach((card, index) => {
         gsap.fromTo(
@@ -297,7 +302,7 @@ export class ScrollEngineController {
         );
       });
 
-      // ── H. SECTION HEADERS SUBTLE IN-TRANSITION ─────────────────────
+      // ── SECTION HEADERS IN-TRANSITION ───────────────────────────────
       const sectionHeaders = gsap.utils.toArray<HTMLElement>(".section-header-reveal");
       sectionHeaders.forEach((header) => {
         gsap.fromTo(
@@ -322,7 +327,7 @@ export class ScrollEngineController {
         );
       });
 
-      // ── I. SCROLL VELOCITY SKEW EFFECT (Modern Elasticity) ──────────
+      // ── SCROLL VELOCITY SKEW EFFECT ─────────────────────────────────
       if (!isReduced && !isLowEnd) {
         this.initVelocitySkewChoreography();
       }
@@ -410,10 +415,6 @@ export class ScrollEngineController {
     ScrollTrigger.getAll().forEach((st) => st.kill());
   }
 }
-
-// ─────────────────────────────────────────────────────────────────────────────
-// 3. SINGLETON ENGINE INSTANCE & REACT HOOKS
-// ─────────────────────────────────────────────────────────────────────────────
 
 let globalScrollEngine: ScrollEngineController | null = null;
 
