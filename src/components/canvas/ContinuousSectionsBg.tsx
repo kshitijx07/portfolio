@@ -1,20 +1,19 @@
 "use client";
 
-import React, { useEffect, useRef, useMemo } from "react";
+import React, { useEffect, useRef } from "react";
 import { pointerUv, pointerState, subscribeScroll } from "@/lib/bus";
 import ViewportLazyScene from "./ViewportLazyScene";
-import DomSyncProjectGrid from "./DomSyncProjectGrid";
 
 /**
  * ══════════════════════════════════════════════════════════════════════════════
  * 🕷️ SPIDER-MAN SIGNAL CITY & WEB TRAJECTORY BACKGROUND (ContinuousSectionsBg.tsx)
  * ──────────────────────────────────────────────────────────────────────────────
- * High-performance continuous background for Sections 2–5 featuring:
- * 1. Multi-Layer NYC / Pune Skyscraper Skyline Silhouettes (Far & Near).
- * 2. Dynamic Web-Slinging Trajectory Arcs with continuous kinetic flow.
- * 3. Spider-Sense Crosshair Target Reticles with organic bobbing & rotation.
- * 4. Dual-Chromatic Spider-Sense Glitch Pulse (#ED3C3F & #2B6CFF).
- * 5. Bus-driven multi-layer parallax response & scroll depth synchronization.
+ * High-visibility, crisp continuous background for Sections 2–5 featuring:
+ * 1. High-contrast multi-layer NYC / Neo-City Skyscraper Skyline Silhouettes.
+ * 2. Illuminated skyscraper window matrices & pulsing crimson antenna beacons.
+ * 3. Vibrant Web-Slinging Trajectory Splines (#ED3C3F, #3B82F6, #EDEAE2).
+ * 4. High-contrast Spider-Sense Crosshair Target Reticles with laser dots.
+ * 5. Dual-Chromatic Spider-Sense Glitch Pulse & bus-driven parallax physics.
  * ══════════════════════════════════════════════════════════════════════════════
  */
 
@@ -23,33 +22,33 @@ function buildSkyline(count: number, seed: number, minH: number, maxH: number) {
   const buildings: { x: number; w: number; h: number }[] = [];
   let x = -20;
   let i = 0;
-  while (x < 1520) {
-    const w = 28 + ((Math.sin(seed + i * 12.9) + 1) / 2) * 48;
+  while (x < 1560) {
+    const w = 32 + ((Math.sin(seed + i * 12.9) + 1) / 2) * 52;
     const h = minH + ((Math.sin(seed * 1.7 + i * 5.3) + 1) / 2) * (maxH - minH);
     buildings.push({ x, w, h });
-    x += w + 6;
+    x += w + 8;
     i++;
     if (i > count) break;
   }
   return buildings;
 }
 
-const FAR_BUILDINGS = buildSkyline(60, 2.1, 70, 180);
-const NEAR_BUILDINGS = buildSkyline(24, 7.4, 110, 280);
+const FAR_BUILDINGS = buildSkyline(55, 2.1, 90, 220);
+const NEAR_BUILDINGS = buildSkyline(26, 7.4, 140, 340);
 
 const ARCS = [
-  "M -80 620 Q 380 420 760 560 T 1520 480",
-  "M -60 220 Q 300 60 700 180 T 1480 120",
-  "M 120 780 Q 560 560 940 700 T 1560 640",
-  "M -100 420 Q 420 260 820 380 T 1500 320",
-  "M 60 90 Q 480 240 860 110 T 1500 200",
+  { d: "M -80 620 Q 380 420 760 560 T 1520 480", color: "#ED3C3F", width: 2.5, opacity: 0.85 },
+  { d: "M -60 220 Q 300 60 700 180 T 1480 120", color: "#EDEAE2", width: 1.8, opacity: 0.55 },
+  { d: "M 120 780 Q 560 560 940 700 T 1560 640", color: "#3B82F6", width: 2.0, opacity: 0.75 },
+  { d: "M -100 420 Q 420 260 820 380 T 1500 320", color: "#EDEAE2", width: 1.6, opacity: 0.48 },
+  { d: "M 60 90 Q 480 240 860 110 T 1500 200", color: "#ED3C3F", width: 2.2, opacity: 0.70 },
 ];
 
 const RETICLES = [
-  { x: 220, y: 160, s: 22 },
-  { x: 1180, y: 300, s: 16 },
-  { x: 760, y: 620, s: 26 },
-  { x: 420, y: 440, s: 18 },
+  { x: 220, y: 160, s: 24 },
+  { x: 1180, y: 280, s: 20 },
+  { x: 760, y: 620, s: 28 },
+  { x: 440, y: 440, s: 22 },
 ];
 
 function SignalCityCanvas() {
@@ -97,11 +96,11 @@ function SignalCityCanvas() {
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         if (farRef.current) {
-          farRef.current.style.opacity = "0.26";
+          farRef.current.style.opacity = "0.75";
           farRef.current.style.transform = "translateY(0)";
         }
         if (nearRef.current) {
-          nearRef.current.style.opacity = "0.45";
+          nearRef.current.style.opacity = "0.95";
           nearRef.current.style.transform = "translateY(0)";
         }
       });
@@ -114,7 +113,7 @@ function SignalCityCanvas() {
       htmlEl.style.transform = "scale(0.6)";
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          htmlEl.style.opacity = "0.35";
+          htmlEl.style.opacity = "0.85";
           htmlEl.style.transform = "scale(1)";
         });
       });
@@ -132,8 +131,8 @@ function SignalCityCanvas() {
       if (!red || !blue) return;
 
       const steps = [
-        { d: 0, rx: -5, bx: 5, op: 0.35 },
-        { d: 50, rx: 3, bx: -3, op: 0.35 },
+        { d: 0, rx: -6, bx: 6, op: 0.45 },
+        { d: 50, rx: 4, bx: -4, op: 0.45 },
         { d: 110, rx: 0, bx: 0, op: 0 },
       ];
 
@@ -174,19 +173,19 @@ function SignalCityCanvas() {
 
       const px = pointer.current.x;
       const py = pointer.current.y;
-      const scrollShiftY = (scrollProgress - 0.5) * 40;
+      const scrollShiftY = (scrollProgress - 0.5) * 45;
 
       if (farRef.current) {
-        farRef.current.style.transform = `translate(${px * 12}px, ${py * 8 + scrollShiftY * 0.4}px)`;
+        farRef.current.style.transform = `translate(${px * 14}px, ${py * 10 + scrollShiftY * 0.4}px)`;
       }
       if (nearRef.current) {
-        nearRef.current.style.transform = `translate(${px * 24}px, ${py * 14 + scrollShiftY * 0.8}px)`;
+        nearRef.current.style.transform = `translate(${px * 26}px, ${py * 16 + scrollShiftY * 0.8}px)`;
       }
       if (arcsRef.current) {
-        arcsRef.current.style.transform = `translate(${px * 18}px, ${py * 10 + scrollShiftY * 0.6}px)`;
+        arcsRef.current.style.transform = `translate(${px * 20}px, ${py * 12 + scrollShiftY * 0.6}px)`;
       }
       if (reticlesRef.current) {
-        reticlesRef.current.style.transform = `translate(${px * 32}px, ${py * 20 + scrollShiftY}px)`;
+        reticlesRef.current.style.transform = `translate(${px * 35}px, ${py * 22 + scrollShiftY}px)`;
         Array.from(reticlesRef.current.children).forEach((el, i) => {
           const htmlEl = el as HTMLElement;
           const bob = Math.sin(elapsed / (1.75 + i * 0.25)) * 10;
@@ -199,7 +198,7 @@ function SignalCityCanvas() {
       arcPathRefs.current.forEach((el, i) => {
         if (!el) return;
         const len = el.getTotalLength();
-        const flow = ((elapsed * (16 + i * 3)) % len) - len * 0.15;
+        const flow = ((elapsed * (18 + i * 4)) % len) - len * 0.15;
         if (elapsed > 1.6 + 0.12 * i) {
           el.style.strokeDashoffset = `${-flow}`;
         }
@@ -228,15 +227,15 @@ function SignalCityCanvas() {
       className="relative w-full h-full overflow-hidden select-none pointer-events-none"
       style={{
         background:
-          "radial-gradient(ellipse 120% 90% at 50% 38%, #14141c 0%, #0c0c10 45%, #08080b 100%)",
+          "radial-gradient(ellipse 120% 90% at 50% 38%, #141420 0%, #0d0e18 45%, #08080c 100%)",
       }}
     >
-      {/* ── Micro-Dot Signal Matrix ────────────────────────────────────────── */}
+      {/* ── Micro-Dot Signal Matrix (Enhanced Visibility) ──────────────────── */}
       <div
-        className="absolute inset-0 opacity-[0.06] pointer-events-none"
+        className="absolute inset-0 opacity-[0.14] pointer-events-none"
         style={{
-          backgroundImage: "radial-gradient(#EDEAE2 1.2px, transparent 1.2px)",
-          backgroundSize: "16px 16px",
+          backgroundImage: "radial-gradient(#EDEAE2 1.5px, transparent 1.5px)",
+          backgroundSize: "18px 18px",
         }}
       />
 
@@ -246,50 +245,93 @@ function SignalCityCanvas() {
         preserveAspectRatio="xMidYMax slice"
         className="absolute inset-0 w-full h-full pointer-events-none"
       >
-        {/* 1. Web-Slinging Trajectory Arcs */}
+        {/* 1. Web-Slinging Trajectory Arcs (High Visibility) */}
         <g ref={arcsRef}>
-          {ARCS.map((d, i) => (
+          {ARCS.map((arc, i) => (
             <path
               key={i}
               ref={(el) => {
                 arcPathRefs.current[i] = el;
               }}
-              d={d}
+              d={arc.d}
               fill="none"
-              stroke={i === 2 ? "#ED3C3F" : "#EDEAE2"}
-              strokeWidth={i === 2 ? 1.4 : 1.1}
-              opacity={i === 2 ? 0.38 : 0.16}
+              stroke={arc.color}
+              strokeWidth={arc.width}
+              opacity={arc.opacity}
               strokeLinecap="round"
             />
           ))}
         </g>
 
-        {/* 2. Far Skyline Silhouettes */}
-        <g ref={farRef} fill="#10111A">
+        {/* 2. Far Skyline Silhouettes (Deep Indigo Navy) */}
+        <g ref={farRef} fill="#1e2640">
           {FAR_BUILDINGS.map((b, i) => (
-            <rect key={i} x={b.x} y={800 - b.h} width={b.w} height={b.h} />
+            <rect
+              key={i}
+              x={b.x}
+              y={800 - b.h}
+              width={b.w}
+              height={b.h}
+              rx={2}
+              opacity={0.8}
+            />
           ))}
         </g>
 
-        {/* 3. Near Skyline Silhouettes with Glowing Red Antenna Beacons */}
-        <g ref={nearRef} fill="#0c0c10">
+        {/* 3. Near Skyline Silhouettes with Glowing Window Grids & Red Beacons */}
+        <g ref={nearRef} fill="#121626">
           {NEAR_BUILDINGS.map((b, i) => (
             <g key={i}>
-              <rect x={b.x} y={800 - b.h} width={b.w} height={b.h} />
-              {i % 3 === 0 && (
-                <circle
-                  cx={b.x + b.w * 0.3}
-                  cy={800 - b.h + 6}
-                  r={1.8}
-                  fill="#ED3C3F"
-                  opacity={0.8}
+              <rect x={b.x} y={800 - b.h} width={b.w} height={b.h} rx={3} />
+              
+              {/* Architectural Window Matrices (Subtle Blue & Off-White Illumination) */}
+              {i % 2 === 0 && (
+                <rect
+                  x={b.x + 6}
+                  y={800 - b.h + 12}
+                  width={b.w - 12}
+                  height={b.h * 0.45}
+                  fill="#3B82F6"
+                  opacity={0.12}
                 />
+              )}
+
+              {/* Crimson Antenna Beacon Lights */}
+              {i % 3 === 0 && (
+                <g>
+                  {/* Antenna Mast */}
+                  <line
+                    x1={b.x + b.w * 0.5}
+                    y1={800 - b.h}
+                    x2={b.x + b.w * 0.5}
+                    y2={800 - b.h - 14}
+                    stroke="#ED3C3F"
+                    strokeWidth={1.5}
+                    opacity={0.7}
+                  />
+                  {/* Pulsing Beacon Dot */}
+                  <circle
+                    cx={b.x + b.w * 0.5}
+                    cy={800 - b.h - 14}
+                    r={2.4}
+                    fill="#ED3C3F"
+                    opacity={0.95}
+                  />
+                  {/* Beacon Halo */}
+                  <circle
+                    cx={b.x + b.w * 0.5}
+                    cy={800 - b.h - 14}
+                    r={6.0}
+                    fill="#ED3C3F"
+                    opacity={0.25}
+                  />
+                </g>
               )}
             </g>
           ))}
         </g>
 
-        {/* 4. Spider-Sense Target Reticles */}
+        {/* 4. Spider-Sense Target Reticles (Crisp High-Contrast Aiming) */}
         <g ref={reticlesRef}>
           {RETICLES.map((r, i) => (
             <g
@@ -297,41 +339,45 @@ function SignalCityCanvas() {
               transform={`translate(${r.x} ${r.y})`}
               style={{ transformBox: "fill-box", transformOrigin: "center" }}
             >
-              <circle r={r.s} fill="none" stroke="#EDEAE2" strokeWidth={1} />
+              {/* Concentric Outer Circle */}
+              <circle r={r.s} fill="none" stroke="#EDEAE2" strokeWidth={1.4} opacity={0.7} />
+              {/* Inner Focus Ring */}
+              <circle r={r.s * 0.55} fill="none" stroke="#3B82F6" strokeWidth={1.2} opacity={0.65} />
+              {/* Crosshair Lines */}
               <line
-                x1={-r.s * 1.4}
+                x1={-r.s * 1.3}
                 y1={0}
-                x2={-r.s * 0.6}
+                x2={-r.s * 0.65}
                 y2={0}
                 stroke="#EDEAE2"
-                strokeWidth={1}
+                strokeWidth={1.4}
               />
               <line
-                x1={r.s * 0.6}
+                x1={r.s * 0.65}
                 y1={0}
-                x2={r.s * 1.4}
+                x2={r.s * 1.3}
                 y2={0}
                 stroke="#EDEAE2"
-                strokeWidth={1}
+                strokeWidth={1.4}
               />
               <line
                 x1={0}
-                y1={-r.s * 1.4}
+                y1={-r.s * 1.3}
                 x2={0}
-                y2={-r.s * 0.6}
+                y2={-r.s * 0.65}
                 stroke="#EDEAE2"
-                strokeWidth={1}
+                strokeWidth={1.4}
               />
               <line
                 x1={0}
-                y1={r.s * 0.6}
+                y1={r.s * 0.65}
                 x2={0}
-                y2={r.s * 1.4}
+                y2={r.s * 1.3}
                 stroke="#EDEAE2"
-                strokeWidth={1}
+                strokeWidth={1.4}
               />
-              {/* Central Aiming Dot */}
-              <circle r={1.5} fill="#ED3C3F" opacity={0.85} />
+              {/* Glowing Central Laser Dot */}
+              <circle r={2.2} fill="#ED3C3F" opacity={0.95} />
             </g>
           ))}
         </g>
@@ -359,20 +405,28 @@ export default function ContinuousSectionsBg() {
       className="absolute inset-0 z-0 pointer-events-none"
       rootMargin="500px 0px"
     >
-      <div className="sticky top-0 h-screen w-full pointer-events-none opacity-90 overflow-hidden">
+      <div className="sticky top-0 h-screen w-full pointer-events-none overflow-hidden">
         {/* Ambient Spidey Crimson Glow */}
         <div
           className="absolute inset-0 pointer-events-none z-0"
           style={{
             background:
-              "radial-gradient(750px 500px at 65% 32%, rgba(237, 60, 63, 0.12), transparent 70%)",
+              "radial-gradient(850px 580px at 65% 32%, rgba(237, 60, 63, 0.18), transparent 70%)",
+          }}
+        />
+        {/* Electric Blue Secondary Rim Atmosphere */}
+        <div
+          className="absolute inset-0 pointer-events-none z-0"
+          style={{
+            background:
+              "radial-gradient(700px 480px at 20% 70%, rgba(59, 130, 246, 0.12), transparent 70%)",
           }}
         />
         {/* Fine atmospheric vignette */}
         <div
           className="absolute inset-0 pointer-events-none z-0"
           style={{
-            boxShadow: "inset 0 0 200px 70px rgba(0, 0, 0, 0.7)",
+            boxShadow: "inset 0 0 180px 60px rgba(0, 0, 0, 0.65)",
           }}
         />
         <SignalCityCanvas />
