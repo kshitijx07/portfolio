@@ -10,7 +10,7 @@ export interface PolarityCardProps {
 
 /**
  * Minimalist Interactive 3D Portrait Card.
- * Clean, modern presentation with smooth spring tilt physics and holographic glare.
+ * Clean, modern presentation with smooth spring tilt physics, ultra-fast loading, and holographic glare.
  */
 export default function PolarityCard({
   src = "/profile.webp",
@@ -66,7 +66,9 @@ export default function PolarityCard({
           <motion.img
             src={src}
             alt={alt}
-            className="w-full h-full object-cover transition-transform duration-700 ease-out"
+            loading="eager"
+            decoding="async"
+            className="w-full h-full object-cover object-top transition-transform duration-700 ease-out"
             animate={{
               scale: hovered ? 1.04 : 1.0,
             }}
