@@ -11,7 +11,8 @@ function HelloModelInteractive() {
   const meshRef = useRef<THREE.Mesh>(null!);
   const fbo = useFBO();
   const { size, gl, scene, camera } = useThree();
-  const currentAngle = useRef(Math.atan2(9, 4));
+  const currentAngle = useRef(Math.atan2(9, 4) + Math.PI * 2.0);
+  const mountTime = useRef<number | null>(null);
 
   const curve = useMemo(() => {
     const points = [
@@ -39,10 +40,20 @@ function HelloModelInteractive() {
   useFrame((state, delta) => {
     if (!meshRef.current) return;
 
+    if (mountTime.current === null) {
+      mountTime.current = state.clock.getElapsedTime();
+    }
+    const elapsed = state.clock.getElapsedTime() - mountTime.current;
+
+    // ── 1. MOTION GRAPHICS IN-ANIMATION (0.0s – 1.4s) ───────────
+    const entranceRaw = Math.min(1.0, elapsed / 1.35);
+    // Cubic bezier ease-out curve
+    const entranceEase = 1.0 - Math.pow(1.0 - entranceRaw, 3.5);
+
     const scrollY = getScrollSnapshot().scrollTop;
     const windowH = typeof window !== "undefined" ? window.innerHeight : 900;
 
-    // ── HIDE AFTER LANDING & ABOUT: Complete exit past section 2 ──
+    // ── 2. HIDE AFTER LANDING & ABOUT: Complete exit past section 2 ──
     if (scrollY > windowH * 1.7) {
       if (meshRef.current.visible) {
         meshRef.current.visible = false;
@@ -59,11 +70,16 @@ function HelloModelInteractive() {
       1
     );
 
-    // Dynamic scale, depth push, and smooth fade-out parallax as user leaves landing
+    // Initial entrance push + dynamic scroll scale & depth push
+    const baseZ = -3.5 * (1.0 - entranceEase);
+    const entranceScale = 0.75 + 0.25 * entranceEase;
+
     meshRef.current.position.y = -0.2 + scrollProgress * 1.5 - fadeOutProgress * 2.5;
-    meshRef.current.position.z = -scrollProgress * 3.5 - fadeOutProgress * 6.0;
-    meshRef.current.rotation.x = scrollProgress * 0.4;
-    const scale = Math.max(0.001, 1.0 - fadeOutProgress * 0.95);
+    meshRef.current.position.z = baseZ - scrollProgress * 3.5 - fadeOutProgress * 6.0;
+    meshRef.current.rotation.x = (1.0 - entranceEase) * 0.3 + scrollProgress * 0.4;
+    meshRef.current.rotation.y = (1.0 - entranceEase) * 0.2;
+
+    const scale = Math.max(0.001, entranceScale * (1.0 - fadeOutProgress * 0.95));
     meshRef.current.scale.set(scale, scale, scale);
 
     // Two-pass FBO scene render
@@ -73,10 +89,14 @@ function HelloModelInteractive() {
     gl.setRenderTarget(null);
     meshRef.current.visible = true;
 
-    // Specular highlight rim follower
-    const targetAngle = pointerState.inside
-      ? Math.atan2(pointerUv.y - 0.5, pointerUv.x - 0.5)
-      : 1.15;
+    // ── 3. Specular highlight rim sweep choreography ────────────
+    let targetAngle = 1.15;
+    if (pointerState.inside) {
+      targetAngle = Math.atan2(pointerUv.y - 0.5, pointerUv.x - 0.5);
+    } else if (entranceRaw < 1.0) {
+      // 360° orbital light sweep during entrance sequence
+      targetAngle = 1.15 + (1.0 - entranceEase) * Math.PI * 2.0;
+    }
 
     const shortest = Math.atan2(
       Math.sin(targetAngle - currentAngle.current),
@@ -92,6 +112,7 @@ function HelloModelInteractive() {
     uniforms.uResolution.value.set(size.width, size.height);
     uniforms.uLightPos.value.set(lightX, lightY);
     uniforms.uTime.value = state.clock.getElapsedTime();
+    uniforms.uDispersion.value = 0.01 + 0.035 * entranceEase;
   });
 
   return (

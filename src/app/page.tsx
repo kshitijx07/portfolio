@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import {
   Cloud,
   Server,
@@ -40,40 +41,101 @@ export default function PortfolioPage() {
       <section id="home" className="relative z-10 flex h-screen w-full flex-col justify-end p-8 md:p-14 pb-20">
         <div className="max-w-4xl space-y-4">
           <h1 className="text-5xl sm:text-7xl md:text-8xl font-black uppercase tracking-tight leading-[0.98] text-white">
-            I Bring
-            <br />
-            Craft & Taste
-            <br />
-            To Digital Work
+            <span className="block overflow-hidden pb-1">
+              <motion.span
+                className="block"
+                initial={{ y: "115%", opacity: 0 }}
+                animate={{ y: "0%", opacity: 1 }}
+                transition={{
+                  duration: 0.9,
+                  delay: 0.25,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+              >
+                I Bring
+              </motion.span>
+            </span>
+            <span className="block overflow-hidden pb-1">
+              <motion.span
+                className="block"
+                initial={{ y: "115%", opacity: 0 }}
+                animate={{ y: "0%", opacity: 1 }}
+                transition={{
+                  duration: 0.9,
+                  delay: 0.4,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+              >
+                Craft & Taste
+              </motion.span>
+            </span>
+            <span className="block overflow-hidden pb-1">
+              <motion.span
+                className="block"
+                initial={{ y: "115%", opacity: 0 }}
+                animate={{ y: "0%", opacity: 1 }}
+                transition={{
+                  duration: 0.9,
+                  delay: 0.55,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+              >
+                To Digital Work
+              </motion.span>
+            </span>
           </h1>
 
-          <p className="text-sm sm:text-base text-zinc-300 max-w-xl font-mono leading-relaxed pt-2">
+          <motion.p
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.85,
+              delay: 0.75,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            className="text-sm sm:text-base text-zinc-300 max-w-xl font-mono leading-relaxed pt-2"
+          >
             Building automated, containerized, cloud-native systems — from CI/CD pipelines to Kubernetes-orchestrated microservices on AWS.
-          </p>
+          </motion.p>
 
-          <div className="flex flex-wrap items-center gap-3 pt-4 pointer-events-auto">
-            <a
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.8,
+              delay: 0.95,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            className="flex flex-wrap items-center gap-3 pt-4 pointer-events-auto"
+          >
+            <motion.a
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
               href="#projects"
               className="min-h-[46px] px-6 py-3 bg-[#4DEEEA] text-black font-mono text-xs font-black uppercase tracking-wider hover:bg-[#B4F342] transition-colors rounded-xs flex items-center gap-2 shadow-lg cursor-pointer"
             >
               <span>Explore Projects</span>
               <ArrowUpRight size={15} />
-            </a>
-            <a
+            </motion.a>
+            <motion.a
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
               href="/Kshitij_Kumbhar_Resume.pdf"
               download="Kshitij_Kumbhar_Resume.pdf"
               className="min-h-[46px] px-6 py-3 bg-white/10 border border-white/20 text-white font-mono text-xs font-black uppercase tracking-wider hover:bg-white/20 transition-colors rounded-xs flex items-center gap-2 shadow-lg cursor-pointer"
             >
               <span>Download CV (PDF)</span>
               <Download size={15} />
-            </a>
-            <a
+            </motion.a>
+            <motion.a
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
               href="#contact"
               className="min-h-[46px] px-6 py-3 bg-transparent border border-white/20 text-white/80 font-mono text-xs font-black uppercase tracking-wider hover:border-[#4DEEEA] hover:text-[#4DEEEA] transition-colors rounded-xs cursor-pointer"
             >
               Contact
-            </a>
-          </div>
+            </motion.a>
+          </motion.div>
         </div>
       </section>
 
